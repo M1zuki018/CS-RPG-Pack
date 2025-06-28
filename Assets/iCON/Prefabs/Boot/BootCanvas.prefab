@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7442587998543459419}
   - component: {fileID: 2351677958897128117}
   - component: {fileID: 8852424956311446772}
+  - component: {fileID: 5537596777536444105}
   m_Layer: 5
   m_Name: Button_Start
   m_TagString: Untagged
@@ -121,6 +122,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5537596777536444105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112743121696847470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 013fbe116df16694eb7df73b2e177c24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneSelector: {fileID: 7176750326087537222}
 --- !u!1 &1977917747782162261
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,8 +222,9 @@ GameObject:
   - component: {fileID: 7036450280481751722}
   - component: {fileID: 4624312288486186699}
   - component: {fileID: 5166928140058366666}
+  - component: {fileID: 7176750326087537222}
   m_Layer: 5
-  m_Name: SceneList
+  m_Name: DropDown_SceneList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -324,16 +339,28 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Option A
+    - m_Text: Title
       m_Image: {fileID: 0}
-    - m_Text: Option B
+    - m_Text: InGame
       m_Image: {fileID: 0}
-    - m_Text: Option C
+    - m_Text: Battle
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
   m_AlphaFadeSpeed: 0.15
+--- !u!114 &7176750326087537222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037243694691661841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ff6f9b0390a2341a4e872e570af80a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2049140280149067828
 GameObject:
   m_ObjectHideFlags: 0
@@ -817,7 +844,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Option A
+  m_Text: Title
 --- !u!1 &4465643835997885660
 GameObject:
   m_ObjectHideFlags: 0
