@@ -3,7 +3,7 @@ using UnityEditor.UI;
 using UnityEngine;
 
 /// <summary>
-/// CustomImageコンポーネントのInspectorを書き換えるEditor拡張
+/// CustomImageコンポーネントのInspectorの拡張
 /// </summary>
 [CustomEditor(typeof(CustomImage))]
 public class CustomImageEditor : ImageEditor
@@ -23,7 +23,7 @@ public class CustomImageEditor : ImageEditor
         // カスタムフィールドを表示
         EditorGUILayout.PropertyField(_assetNameProp, new GUIContent("Asset Name"));
         
-        // 元のImageのプロパティを表示
+        // 元のプロパティを表示
         base.OnInspectorGUI();
         
         serializedObject.ApplyModifiedProperties();

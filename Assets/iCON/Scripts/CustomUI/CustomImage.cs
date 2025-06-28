@@ -25,6 +25,8 @@ public class CustomImage : Image
 
     protected override void Awake()
     {
+        base.Awake();
+        
         if (_assetName != null)
         {
             // TODO: アセットを読み込む処理
