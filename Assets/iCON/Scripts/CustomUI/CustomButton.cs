@@ -15,6 +15,8 @@ public class CustomButton : Button
     protected override void Awake()
     {
         base.Awake();
+        
+        _text = GetComponentInChildren<Text>();
 
         if (_assetName != null)
         {
