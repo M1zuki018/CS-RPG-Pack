@@ -1,0 +1,9 @@
+namespace iCON.Constants
+{
+    /// <summary>
+    /// xxxに関連する定数
+    /// </summary>
+    public static class {ClassName}Constants
+    {
+    }
+}
