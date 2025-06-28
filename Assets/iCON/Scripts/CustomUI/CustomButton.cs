@@ -18,13 +18,13 @@ public class CustomButton : Button
         
         _text = GetComponentInChildren<Text>();
 
-        if (_assetName != null)
+        if (_assetName != string.Empty)
         {
             // TODO: Assetまわりを整えたら修正
             SetSprite(AssetDatabase.LoadAssetAtPath<Sprite>(_assetName));
         }
 
-        if (_wordingKey != null)
+        if (_wordingKey != string.Empty)
         {
             // TODO: Wordingをつくったら修正
             SetText("Wording Test");
