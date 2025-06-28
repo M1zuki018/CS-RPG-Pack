@@ -82,7 +82,7 @@ public class MasterDataManager : ViewBase
             var characterTask = sheetsDataService.LoadCharacterStatusData();
             var storyTask = sheetsDataService.LoadStoryData();
             
-            await Task.WhenAll(characterTask, storyTask);
+            await UniTask.WhenAll(characterTask, storyTask);
             
             CharacterStatusList = await characterTask;
             StoryDataList = await storyTask;

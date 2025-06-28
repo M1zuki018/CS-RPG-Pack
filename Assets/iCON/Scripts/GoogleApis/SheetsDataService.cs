@@ -8,6 +8,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4.Data;
+using iCON.Constants;
 using iCON.Utility;
 using Newtonsoft.Json;
 
@@ -17,7 +18,6 @@ using Newtonsoft.Json;
 public class SheetsDataService : ViewBase
 {
     [Header("設定")]
-    [SerializeField] private string _serviceAccountKeyFileName = "service-account-key.json";
     [SerializeField] private string spreadsheetIdArray = "spreadsheet-id";
     
     private SheetsService _sheetsService;
@@ -54,7 +54,7 @@ public class SheetsDataService : ViewBase
     /// <summary>
     /// スプレッドシートアクセステスト
     /// </summary>
-    private async Task TestSpreadsheetAccess()
+    private async UniTask TestSpreadsheetAccess()
     {
         try
         {
@@ -79,9 +79,9 @@ public class SheetsDataService : ViewBase
         }
     }
     
-    private async Task InitializeGoogleSheetsService()
+    private async UniTask InitializeGoogleSheetsService()
     {
-        string keyFilePath = Path.Combine(Application.streamingAssetsPath, _serviceAccountKeyFileName);
+        string keyFilePath = Path.Combine(Application.streamingAssetsPath, APIConstants.SERVICE_ACCOUNT_KEY_FILE_NAME);
         
         if (!File.Exists(keyFilePath))
         {
@@ -105,7 +105,7 @@ public class SheetsDataService : ViewBase
     /// <summary>
     /// キャラクターステータスデータを取得
     /// </summary>
-    public async Task<List<CharacterStatus>> LoadCharacterStatusData(string sheetName = "CharacterStatus")
+    public async UniTask<List<CharacterStatus>> LoadCharacterStatusData(string sheetName = "CharacterStatus")
     {
         if (!isInitialized)
         {
@@ -156,7 +156,7 @@ public class SheetsDataService : ViewBase
     /// <summary>
     /// スプレッドシートの全シート名を取得（デバッグ用）
     /// </summary>
-    public async Task<List<string>> GetAllSheetNames()
+    public async UniTask<List<string>> GetAllSheetNames()
     {
         if (!isInitialized)
         {
@@ -188,7 +188,7 @@ public class SheetsDataService : ViewBase
     /// <summary>
     /// ストーリーデータを取得
     /// </summary>
-    public async Task<List<StoryData>> LoadStoryData(string sheetName = "StoryData")
+    public async UniTask<List<StoryData>> LoadStoryData(string sheetName = "StoryData")
     {
         if (!isInitialized)
         {
@@ -238,7 +238,7 @@ public class SheetsDataService : ViewBase
     /// <summary>
     /// 汎用的なデータ取得メソッド
     /// </summary>
-    public async Task<List<List<object>>> GetSheetData(string sheetName, string range = "A1:Z")
+    public async UniTask<List<List<object>>> GetSheetData(string sheetName, string range = "A1:Z")
     {
         if (!isInitialized)
         {
