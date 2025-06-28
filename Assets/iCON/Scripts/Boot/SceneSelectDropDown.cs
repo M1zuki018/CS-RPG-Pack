@@ -1,3 +1,4 @@
+using iCON.Constants;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,15 +10,13 @@ namespace iCON.Boot
     [RequireComponent(typeof(Dropdown))]
     public class SceneSelectDropDown : MonoBehaviour
     {
-        private int _selectedSceneIndex = 0;
+        private int _selectedSceneIndex = SceneConstants.SYSTEM_SCENE_COUNT;
         private Dropdown _dropdown;
         
         /// <summary>
         /// 選択中の開始シーンのIndex
         /// </summary>
         public int SelectedSceneIndex => _selectedSceneIndex;
-        
-        private const int SYSTEM_SCENE_COUNT = 2; 
 
         private void Awake()
         {
@@ -31,7 +30,7 @@ namespace iCON.Boot
         private void ChangeSelectedSceneIndex(int index)
         {
             // NOTE: シーンの番号と合わせるために開発シーンの個数分Indexを追加する
-            _selectedSceneIndex = index + SYSTEM_SCENE_COUNT;
+            _selectedSceneIndex = index + SceneConstants.SYSTEM_SCENE_COUNT;
         }
     }
 }
