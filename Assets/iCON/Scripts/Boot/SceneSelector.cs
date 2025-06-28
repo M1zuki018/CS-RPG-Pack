@@ -8,7 +8,7 @@ namespace iCON.Boot
     /// Scene選択用のドロップダウンを管理
     /// </summary>
     [RequireComponent(typeof(Dropdown))]
-    public class SceneSelectDropDown : MonoBehaviour
+    public class SceneSelector : MonoBehaviour
     {
         private int _selectedSceneIndex = SceneConstants.SYSTEM_SCENE_COUNT;
         private Dropdown _dropdown;
