@@ -9,11 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Bootstrap.unity
     guid: 31114d906f5916043910cccd114de645
   - enabled: 1
-    path: Assets/Scenes/Title.unity
-    guid: 4495336634ce6064391665e324f287b7
-  - enabled: 1
     path: Assets/Scenes/Load.unity
     guid: fd7a39428b8253944bc8010016641208
+  - enabled: 1
+    path: Assets/Scenes/Title.unity
+    guid: 4495336634ce6064391665e324f287b7
   - enabled: 1
     path: Assets/Scenes/InGame.unity
     guid: 9496f1f7452fdb1469f326b717248d57
