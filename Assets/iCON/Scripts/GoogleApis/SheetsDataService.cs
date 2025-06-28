@@ -39,17 +39,15 @@ public class SheetsDataService : ViewBase
         try
         {
             await InitializeGoogleSheetsService();
-            LogUtility.Info("Google Sheets API初期化完了", LogCategory.Network, this);
+            LogUtility.Info("Google Sheets API初期化完了", LogCategory.Network);
             
-            // デバッグ：設定値を確認
             Debug.Log($"設定されたスプレッドシートID: {spreadsheetIdArray}");
             
-            // デバッグ：スプレッドシートにアクセスできるかテスト
             await TestSpreadsheetAccess();
         }
         catch (Exception e)
         {
-            Debug.LogError($"Google Sheets API初期化エラー: {e.Message}");
+            LogUtility.Fatal($"Google Sheets API初期化エラー: {e.Message}", LogCategory.Network);
         }
     }
     
