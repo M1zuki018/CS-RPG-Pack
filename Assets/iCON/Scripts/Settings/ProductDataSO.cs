@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// プロダクトのデータをまとめて管理するスクリプタブルオブジェクト
 /// </summary>
-[CreateAssetMenu(fileName = "GameData", menuName = "Scriptable Objects/ProductDataSO")]
+[CreateAssetMenu(fileName = "ProductData", menuName = "Scriptable Objects/ProductDataSO")]
 public class ProductDataSO : ScriptableObject
 {
     [Header("アプリケーション情報")]
