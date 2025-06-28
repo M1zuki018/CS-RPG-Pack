@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Google.Apis.Auth.OAuth2;
@@ -10,22 +9,23 @@ using Google.Apis.Services;
 using Google.Apis.Sheets.v4.Data;
 using iCON.Constants;
 using iCON.Utility;
-using Newtonsoft.Json;
 
 /// <summary>
 /// Googleスプレッドシートとの通信を行うクラス
 /// </summary>
 public class SheetsDataService : ViewBase
 {
-    [Header("設定")]
-    [SerializeField] private string spreadsheetIdArray = "spreadsheet-id";
-    
+    [Header("設定")] 
+    [SerializeField] private SpreadsheetConfig[] _spreadsheetConfigs;
     private SheetsService _sheetsService;
+    private Dictionary<string, string> _spreadsheetIdMap = new Dictionary<string, string>();
     private bool isInitialized = false;
     
+    //----------------------------------------------------------//
     /// <summary>
     /// OnAwake
     /// </summary>
+    //----------------------------------------------------------//
     public override async UniTask OnAwake()
     {
         await InitializeAsync();
@@ -38,10 +38,12 @@ public class SheetsDataService : ViewBase
     {
         try
         {
+            // スプレッドシートへアクセスできるようにする
             await InitializeGoogleSheetsService();
+            
             LogUtility.Info("Google Sheets API初期化完了", LogCategory.Network);
             
-            Debug.Log($"設定されたスプレッドシートID: {spreadsheetIdArray}");
+            RegisterSpreadsheetConfigs();
             
             await TestSpreadsheetAccess();
         }
@@ -52,265 +54,250 @@ public class SheetsDataService : ViewBase
     }
     
     /// <summary>
-    /// スプレッドシートアクセステスト
+    /// 指定されたスプレッドシートIDを取得
     /// </summary>
-    private async UniTask TestSpreadsheetAccess()
+    public string GetSpreadsheetId(string name)
     {
-        try
+        if (_spreadsheetIdMap.TryGetValue(name, out var spreadsheetId))
         {
-            Debug.Log("スプレッドシートアクセステスト開始...");
-            var request = _sheetsService.Spreadsheets.Get(spreadsheetIdArray);
-            var spreadsheet = await request.ExecuteAsync();
-            
-            Debug.Log($"スプレッドシート名: {spreadsheet.Properties.Title}");
-            Debug.Log($"シート数: {spreadsheet.Sheets.Count}");
-            
-            foreach (var sheet in spreadsheet.Sheets)
-            {
-                Debug.Log($"- シート名: '{sheet.Properties.Title}'");
-            }
+            return spreadsheetId;
         }
-        catch (Exception e)
-        {
-            Debug.LogError($"スプレッドシートアクセステストエラー: {e.Message}");
-            Debug.LogError("原因の可能性:");
-            Debug.LogError("1. スプレッドシートIDが間違っている");
-            Debug.LogError("2. サービスアカウントに共有権限が付与されていない");
-        }
+        
+        Debug.LogError($"スプレッドシート '{name}' が見つかりません。利用可能な名前: {string.Join(", ", _spreadsheetIdMap.Keys)}");
+        return null;
     }
     
+    /// <summary>
+    /// 利用可能なスプレッドシート名一覧を取得
+    /// </summary>
+    public string[] GetAvailableSpreadsheetNames()
+    {
+        var names = new string[_spreadsheetIdMap.Count];
+        _spreadsheetIdMap.Keys.CopyTo(names, 0);
+        return names;
+    }
+    
+    /// <summary>
+    /// Google Sheets APIサービスの初期化
+    /// </summary>
     private async UniTask InitializeGoogleSheetsService()
     {
+        // StreamingAssetsフォルダ内のサービスアカウントキーファイルのパスを構築
+        // NOTE: サービスアカウントキーファイルは必ず「Assets/StreamingAssets」の下におく
         string keyFilePath = Path.Combine(Application.streamingAssetsPath, APIConstants.SERVICE_ACCOUNT_KEY_FILE_NAME);
         
+        // サービスアカウントキーファイルの存在確認
         if (!File.Exists(keyFilePath))
         {
             throw new FileNotFoundException($"サービスアカウントキーファイルが見つかりません: {keyFilePath}");
         }
         
+        // サービスアカウントキーファイルを非同期で読み込み
         string jsonContent = await File.ReadAllTextAsync(keyFilePath);
         
-        GoogleCredential credential = GoogleCredential.FromJson(jsonContent)
-            .CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
+        // JSONからGoogleCredentialオブジェクトを作成
+        GoogleCredential credential = GoogleCredential.FromJson(jsonContent);
         
+        // 認証スコープを読み取り専用に設定
+        credential = credential.CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
+        
+        // Google Sheets APIサービスを初期化
         _sheetsService = new SheetsService(new BaseClientService.Initializer()
         {
+            // 認証情報を設定
             HttpClientInitializer = credential,
-            ApplicationName = "Unity Game Master Data Loader"
+            ApplicationName = APIConstants.APPLICATION_NAME
         });
         
+        // 初期化完了フラグを設定
         isInitialized = true;
     }
     
     /// <summary>
-    /// キャラクターステータスデータを取得
+    /// スプレッドシート設定を辞書に登録
     /// </summary>
-    public async UniTask<List<CharacterStatus>> LoadCharacterStatusData(string sheetName = "CharacterStatus")
+    private void RegisterSpreadsheetConfigs()
     {
-        if (!isInitialized)
-        {
-            Debug.LogError("Google Sheets APIが初期化されていません");
-            return new List<CharacterStatus>();
-        }
+        _spreadsheetIdMap.Clear();
         
-        try
+        foreach (var config in _spreadsheetConfigs)
         {
-            string range = $"{sheetName}!A2:F"; // ヘッダー行をスキップ
-            SpreadsheetsResource.ValuesResource.GetRequest request = 
-                _sheetsService.Spreadsheets.Values.Get(spreadsheetIdArray, range);
-            
-            ValueRange response = await request.ExecuteAsync();
-            
-            List<CharacterStatus> characterList = new List<CharacterStatus>();
-            
-            if (response.Values != null)
+            if (string.IsNullOrEmpty(config.Name))
             {
-                foreach (var row in response.Values)
-                {
-                    if (row.Count >= 6)
-                    {
-                        CharacterStatus character = new CharacterStatus
-                        {
-                            id = int.Parse(row[0].ToString()),
-                            name = row[1].ToString(),
-                            hp = int.Parse(row[2].ToString()),
-                            attack = int.Parse(row[3].ToString()),
-                            defense = int.Parse(row[4].ToString()),
-                            description = row[5].ToString()
-                        };
-                        characterList.Add(character);
-                    }
-                }
+                Debug.LogWarning($"スプレッドシート名が設定されていません: {config.SpreadsheetId}");
+                continue;
             }
             
-            Debug.Log($"キャラクターデータを{characterList.Count}件読み込みました");
-            return characterList;
+            if (string.IsNullOrEmpty(config.SpreadsheetId))
+            {
+                Debug.LogWarning($"スプレッドシートID が設定されていません: {config.Name}");
+                continue;
+            }
+            
+            if (_spreadsheetIdMap.ContainsKey(config.Name))
+            {
+                Debug.LogWarning($"重複するスプレッドシート名: {config.Name}");
+                continue;
+            }
+            
+            _spreadsheetIdMap[config.Name] = config.SpreadsheetId;
+            Debug.Log($"スプレッドシート登録: {config.Name} -> {config.SpreadsheetId}");
         }
-        catch (Exception e)
+        
+        Debug.Log($"アクティブなスプレッドシート数: {_spreadsheetIdMap.Count}");
+    }
+    
+    /// <summary>
+    /// スプレッドシートアクセステスト
+    /// </summary>
+    private async UniTask TestSpreadsheetAccess()
+    {
+        var successCount = 0;
+        var failureCount = 0;
+        
+        foreach (var kvp in _spreadsheetIdMap)
         {
-            Debug.LogError($"キャラクターデータ読み込みエラー: {e.Message}");
-            return new List<CharacterStatus>();
+            var name = kvp.Key;
+            var spreadsheetId = kvp.Value;
+            
+            try
+            {
+                Debug.Log($"\n[{name}] アクセステスト開始...");
+                await TestSingleSpreadsheetAccess(name, spreadsheetId);
+                successCount++;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[{name}] アクセステストエラー: {e.Message}");
+                failureCount++;
+            }
+        }
+        
+        Debug.Log($"\n=== アクセステスト完了 ===");
+        Debug.Log($"成功: {successCount}, 失敗: {failureCount}");
+        
+        if (failureCount > 0)
+        {
+            Debug.LogWarning("失敗したスプレッドシートがあります。権限設定を確認してください。");
         }
     }
     
     /// <summary>
-    /// スプレッドシートの全シート名を取得（デバッグ用）
+    /// 単一スプレッドシートのアクセステスト
     /// </summary>
-    public async UniTask<List<string>> GetAllSheetNames()
+    private async UniTask TestSingleSpreadsheetAccess(string name, string spreadsheetId)
     {
-        if (!isInitialized)
-        {
-            Debug.LogError("Google Sheets APIが初期化されていません");
-            return new List<string>();
-        }
+        var request = _sheetsService.Spreadsheets.Get(spreadsheetId);
+        var spreadsheet = await request.ExecuteAsync();
         
-        try
+        Debug.Log($"[{name}] スプレッドシート名: {spreadsheet.Properties.Title}");
+        Debug.Log($"[{name}] シート数: {spreadsheet.Sheets.Count}");
+        
+        foreach (var sheet in spreadsheet.Sheets)
         {
-            var request = _sheetsService.Spreadsheets.Get(spreadsheetIdArray);
-            var spreadsheet = await request.ExecuteAsync();
-            
-            List<string> sheetNames = new List<string>();
-            foreach (var sheet in spreadsheet.Sheets)
-            {
-                sheetNames.Add(sheet.Properties.Title);
-                Debug.Log($"見つかったシート: {sheet.Properties.Title}");
-            }
-            
-            return sheetNames;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"シート名取得エラー: {e.Message}");
-            return new List<string>();
+            Debug.Log($"[{name}] - シート名: '{sheet.Properties.Title}'");
         }
     }
     
     /// <summary>
-    /// ストーリーデータを取得
+    /// 指定されたスプレッドシートからデータを読み取り
     /// </summary>
-    public async UniTask<List<StoryData>> LoadStoryData(string sheetName = "StoryData")
+    public async UniTask<IList<IList<object>>> ReadFromSpreadsheet(string spreadsheetName, string range)
     {
-        if (!isInitialized)
+        var spreadsheetId = GetSpreadsheetId(spreadsheetName);
+        if (string.IsNullOrEmpty(spreadsheetId))
         {
-            Debug.LogError("Google Sheets APIが初期化されていません");
-            return new List<StoryData>();
+            throw new ArgumentException($"スプレッドシート '{spreadsheetName}' が見つかりません");
         }
         
         try
         {
-            string range = $"{sheetName}!A2:E"; // ヘッダー行をスキップ
-            SpreadsheetsResource.ValuesResource.GetRequest request = 
-                _sheetsService.Spreadsheets.Values.Get(spreadsheetIdArray, range);
+            var request = _sheetsService.Spreadsheets.Values.Get(spreadsheetId, range);
+            var response = await request.ExecuteAsync();
             
-            ValueRange response = await request.ExecuteAsync();
-            
-            List<StoryData> storyList = new List<StoryData>();
-            
-            if (response.Values != null)
-            {
-                foreach (var row in response.Values)
-                {
-                    if (row.Count >= 5)
-                    {
-                        StoryData story = new StoryData
-                        {
-                            chapterId = int.Parse(row[0].ToString()),
-                            chapterTitle = row[1].ToString(),
-                            content = row[2].ToString(),
-                            characterName = row[3].ToString(),
-                            backgroundImage = row[4].ToString()
-                        };
-                        storyList.Add(story);
-                    }
-                }
-            }
-            
-            Debug.Log($"ストーリーデータを{storyList.Count}件読み込みました");
-            return storyList;
+            Debug.Log($"[{spreadsheetName}] データ読み取り成功: {response.Values?.Count ?? 0} 行");
+            return response.Values;
         }
         catch (Exception e)
         {
-            Debug.LogError($"ストーリーデータ読み込みエラー: {e.Message}");
-            return new List<StoryData>();
+            Debug.LogError($"[{spreadsheetName}] データ読み取りエラー: {e.Message}");
+            throw;
         }
     }
     
     /// <summary>
-    /// 汎用的なデータ取得メソッド
+    /// 指定されたスプレッドシートにデータを書き込み
     /// </summary>
-    public async UniTask<List<List<object>>> GetSheetData(string sheetName, string range = "A1:Z")
+    public async UniTask WriteToSpreadsheet(string spreadsheetName, string range, IList<IList<object>> values)
     {
-        if (!isInitialized)
+        var spreadsheetId = GetSpreadsheetId(spreadsheetName);
+        if (string.IsNullOrEmpty(spreadsheetId))
         {
-            Debug.LogError("Google Sheets APIが初期化されていません");
-            return new List<List<object>>();
+            throw new ArgumentException($"スプレッドシート '{spreadsheetName}' が見つかりません");
         }
         
         try
         {
-            string fullRange = $"{sheetName}!{range}";
-            SpreadsheetsResource.ValuesResource.GetRequest request = 
-                _sheetsService.Spreadsheets.Values.Get(spreadsheetIdArray, fullRange);
-            
-            ValueRange response = await request.ExecuteAsync();
-            
-            List<List<object>> data = new List<List<object>>();
-            
-            if (response.Values != null)
+            var valueRange = new ValueRange
             {
-                foreach (var row in response.Values)
-                {
-                    data.Add(new List<object>(row));
-                }
-            }
+                Values = values
+            };
             
-            Debug.Log($"{sheetName}から{data.Count}行のデータを取得しました");
-            return data;
+            var request = _sheetsService.Spreadsheets.Values.Update(valueRange, spreadsheetId, range);
+            request.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
+            
+            var response = await request.ExecuteAsync();
+            Debug.Log($"[{spreadsheetName}] データ書き込み成功: {response.UpdatedCells} セル更新");
         }
         catch (Exception e)
         {
-            Debug.LogError($"シートデータ取得エラー ({sheetName}): {e.Message}");
-            return new List<List<object>>();
+            Debug.LogError($"[{spreadsheetName}] データ書き込みエラー: {e.Message}");
+            throw;
         }
     }
     
     /// <summary>
-    /// マスタデータをローカルにキャッシュ保存
+    /// スプレッドシート設定を動的に追加
     /// </summary>
-    public void CacheDataToLocal<T>(List<T> data, string fileName)
+    public void AddSpreadsheetConfig(string name, string spreadsheetId, string description = "")
     {
-        try
+        if (_spreadsheetIdMap.ContainsKey(name))
         {
-            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-            string filePath = Path.Combine(Application.persistentDataPath, fileName);
-            File.WriteAllText(filePath, json);
-            Debug.Log($"データをキャッシュしました: {filePath}");
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"データキャッシュエラー: {e.Message}");
-        }
-    }
-    
-    /// <summary>
-    /// ローカルキャッシュからデータを読み込み
-    /// </summary>
-    public List<T> LoadDataFromCache<T>(string fileName)
-    {
-        try
-        {
-            string filePath = Path.Combine(Application.persistentDataPath, fileName);
-            if (File.Exists(filePath))
-            {
-                string json = File.ReadAllText(filePath);
-                return JsonConvert.DeserializeObject<List<T>>(json);
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"キャッシュ読み込みエラー: {e.Message}");
+            Debug.LogWarning($"スプレッドシート '{name}' は既に存在します");
+            return;
         }
         
-        return new List<T>();
+        _spreadsheetIdMap[name] = spreadsheetId;
+        Debug.Log($"スプレッドシート追加: {name} -> {spreadsheetId}");
+    }
+    
+    /// <summary>
+    /// スプレッドシート設定を削除
+    /// </summary>
+    public void RemoveSpreadsheetConfig(string name)
+    {
+        if (_spreadsheetIdMap.Remove(name))
+        {
+            Debug.Log($"スプレッドシート削除: {name}");
+        }
+        else
+        {
+            Debug.LogWarning($"スプレッドシート '{name}' が見つかりません");
+        }
+    }
+    
+    /// <summary>
+    /// 設定情報を表示
+    /// </summary>
+    [ContextMenu("設定情報を表示")]
+    public void LogConfiguration()
+    {
+        Debug.Log("=== Google Sheets 設定情報 ===");
+        Debug.Log($"登録済みスプレッドシート数: {_spreadsheetIdMap.Count}");
+        
+        foreach (var kvp in _spreadsheetIdMap)
+        {
+            Debug.Log($"- {kvp.Key}: {kvp.Value}");
+        }
     }
 }
