@@ -39,30 +39,30 @@ public class MasterDataManager : ViewBase
     [ContextMenu("Debug Spreadsheet Info")]
     public async void DebugSpreadsheetInfo()
     {
-        Debug.Log("=== スプレッドシート情報確認開始 ===");
-        
-        // 全シート名を取得
-        var sheetNames = await sheetsDataService.GetAllSheetNames();
-        Debug.Log($"利用可能なシート数: {sheetNames.Count}");
-        
-        // 最初のシートのデータを汎用メソッドで取得してみる
-        if (sheetNames.Count > 0)
-        {
-            string firstSheetName = sheetNames[0];
-            Debug.Log($"最初のシート '{firstSheetName}' のデータを取得中...");
-            
-            var data = await sheetsDataService.GetSheetData(firstSheetName, "A1:Z10");
-            Debug.Log($"取得したデータ行数: {data.Count}");
-            
-            // 最初の数行を表示
-            for (int i = 0; i < Mathf.Min(3, data.Count); i++)
-            {
-                string rowData = string.Join(" | ", data[i]);
-                Debug.Log($"行{i + 1}: {rowData}");
-            }
-        }
-        
-        Debug.Log("=== スプレッドシート情報確認終了 ===");
+        // Debug.Log("=== スプレッドシート情報確認開始 ===");
+        //
+        // // 全シート名を取得
+        // var sheetNames = await sheetsDataService.GetAllSheetNames();
+        // Debug.Log($"利用可能なシート数: {sheetNames.Count}");
+        //
+        // // 最初のシートのデータを汎用メソッドで取得してみる
+        // if (sheetNames.Count > 0)
+        // {
+        //     string firstSheetName = sheetNames[0];
+        //     Debug.Log($"最初のシート '{firstSheetName}' のデータを取得中...");
+        //     
+        //     var data = await sheetsDataService.GetSheetData(firstSheetName, "A1:Z10");
+        //     Debug.Log($"取得したデータ行数: {data.Count}");
+        //     
+        //     // 最初の数行を表示
+        //     for (int i = 0; i < Mathf.Min(3, data.Count); i++)
+        //     {
+        //         string rowData = string.Join(" | ", data[i]);
+        //         Debug.Log($"行{i + 1}: {rowData}");
+        //     }
+        // }
+        //
+        // Debug.Log("=== スプレッドシート情報確認終了 ===");
     }
     
     /// <summary>
@@ -70,33 +70,33 @@ public class MasterDataManager : ViewBase
     /// </summary>
     public async Task LoadAllMasterData()
     {
-        Debug.Log("マスタデータ読み込み開始...");
-        
-        // まずキャッシュから読み込みを試行
-        CharacterStatusList = sheetsDataService.LoadDataFromCache<CharacterStatus>("character_status_cache.json");
-        StoryDataList = sheetsDataService.LoadDataFromCache<StoryData>("story_data_cache.json");
-        
-        // オンラインでデータを更新
-        try
-        {
-            var characterTask = sheetsDataService.LoadCharacterStatusData();
-            var storyTask = sheetsDataService.LoadStoryData();
-            
-            await UniTask.WhenAll(characterTask, storyTask);
-            
-            CharacterStatusList = await characterTask;
-            StoryDataList = await storyTask;
-            
-            // 取得したデータをキャッシュに保存
-            sheetsDataService.CacheDataToLocal(CharacterStatusList, "character_status_cache.json");
-            sheetsDataService.CacheDataToLocal(StoryDataList, "story_data_cache.json");
-            
-            Debug.Log("マスタデータ読み込み完了");
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogWarning($"オンラインデータ取得失敗、キャッシュを使用: {e.Message}");
-        }
+        // Debug.Log("マスタデータ読み込み開始...");
+        //
+        // // まずキャッシュから読み込みを試行
+        // CharacterStatusList = sheetsDataService.LoadDataFromCache<CharacterStatus>("character_status_cache.json");
+        // StoryDataList = sheetsDataService.LoadDataFromCache<StoryData>("story_data_cache.json");
+        //
+        // // オンラインでデータを更新
+        // try
+        // {
+        //     var characterTask = sheetsDataService.LoadCharacterStatusData();
+        //     var storyTask = sheetsDataService.LoadStoryData();
+        //     
+        //     await UniTask.WhenAll(characterTask, storyTask);
+        //     
+        //     CharacterStatusList = await characterTask;
+        //     StoryDataList = await storyTask;
+        //     
+        //     // 取得したデータをキャッシュに保存
+        //     sheetsDataService.CacheDataToLocal(CharacterStatusList, "character_status_cache.json");
+        //     sheetsDataService.CacheDataToLocal(StoryDataList, "story_data_cache.json");
+        //     
+        //     Debug.Log("マスタデータ読み込み完了");
+        // }
+        // catch (System.Exception e)
+        // {
+        //     Debug.LogWarning($"オンラインデータ取得失敗、キャッシュを使用: {e.Message}");
+        // }
     }
     
     /// <summary>
