@@ -23,13 +23,11 @@ namespace iCON.System
         /// 遷移状態
         /// </summary>
         private LoadingStateType _loadingState = LoadingStateType.None;
-        public LoadingStateType LoadingState => _loadingState;
         
         /// <summary>
         /// 現在のシーン
         /// </summary>
         private SceneType _currentScene;
-        public SceneType CurrentScene => _currentScene;
         
         /// <summary>
         /// ロード操作をキャンセルするためのトークン
@@ -37,35 +35,37 @@ namespace iCON.System
         private CancellationTokenSource _cts;
         
         /// <summary>
-        /// 初期化済みか
+        /// 遷移状態
         /// </summary>
-        private bool _initialized = false;
+        public LoadingStateType LoadingState => _loadingState;
+        
+        /// <summary>
+        /// 現在のシーン
+        /// </summary>
+        public SceneType CurrentScene => _currentScene;
         
         /// <summary>
         /// ロード中か
         /// </summary>
         public bool IsLoading => _loadingState == LoadingStateType.Loading;
 
+        #region Lifecycle
+        /// <summary>
+        /// Awake
+        /// </summary>
         private void Awake()
         {
-            if (!_initialized)
-            {
-                // 初期化が済んでいなければグローバルサービスとしてサービスロケーターに登録
-                ServiceLocator.Resister(this);
-                _initialized = true;
-            }
-            
+            ServiceLocator.Resister(this);
             _currentScene = GetCurrentSceneType();
         }
 
-        /// <summary>
-        /// 現在のロード操作をキャンセル
-        /// </summary>
-        public void CancelCurrentLoad()
+        private void OnDestroy()
         {
-            _cts?.Cancel();
-            _loadingState = LoadingStateType.None;
+            CancelCurrentOperation();
+            _cts?.Dispose();
+            _cts = null;
         }
+        #endregion
         
         /// <summary>
         /// 画面遷移を行う
@@ -79,8 +79,8 @@ namespace iCON.System
                 return false;
             }
             
-            // 念のため前回のロード操作をキャンセル
-            _cts?.Cancel();
+            // 念のため前回のロード操作をキャンセルしておく
+            CancelCurrentOperation();
             _cts = new CancellationTokenSource();
 
             try
@@ -89,38 +89,46 @@ namespace iCON.System
                 _loadingState = LoadingStateType.Loading;
 
                 // 遷移処理を実行
-                bool success = await ExecuteSceneTransition(data, _cts.Token);
+                bool result = await ExecuteSceneTransition(data, _cts.Token);
 
-                if (success)
+                if (result)
                 {
                     // 遷移成功時は現在のシーン情報とロード状態を更新する
                     _currentScene = data.TargetScene;
                     _loadingState = LoadingStateType.Completed;
                     LogUtility.Info($"シーン遷移が完了しました: {data.TargetScene}", LogCategory.System);
                 }
-                else
-                {
-                    // 遷移失敗時はロード状態を失敗に変更する
-                    _loadingState = LoadingStateType.Failed;
-                    LogUtility.Error($"シーン遷移に失敗しました: {data.TargetScene}", LogCategory.System);
-                }
 
-                return true;
+                return result;
             }
             catch (OperationCanceledException)
             {
-                LogUtility.Info($"シーン遷移がキャンセルされました: {data.TargetScene}");
                 _loadingState = LoadingStateType.None;
                 return false;
             }
             catch (Exception e)
             {
-                LogUtility.Error($"シーン遷移エラー: {e.Message}", LogCategory.System);
+                LogUtility.Error($"シーン遷移で予期しないエラー: {e.Message}", LogCategory.System);
                 _loadingState = LoadingStateType.Failed;
                 return false;
             }
         }
         
+        /// <summary>
+        /// 進行しているロード操作をキャンセルする
+        /// </summary>
+        public void CancelCurrentOperation()
+        {
+            if (_cts != null && !_cts.IsCancellationRequested)
+            {
+                _cts?.Cancel();
+                _loadingState = LoadingStateType.None;
+                LogUtility.Info("シーン遷移をキャンセルしました", LogCategory.System);
+            }
+        }
+
+        #region Private Methods
+
         /// <summary>
         /// シーン遷移の実行
         /// </summary>
@@ -131,30 +139,25 @@ namespace iCON.System
                 // タイムアウト設定
                 var timeoutTask = UniTask.Delay(delayTimeSpan:TimeSpan.FromSeconds(_loadingTimeout), cancellationToken: token);
                 
-                Scene loadingScene = default;
+                // シーンを保存しておく
+                // NOTE: LoadSceneModeをAdditiveにしているため、自分でシーンを破棄する必要がある
                 Scene currentScene = SceneManager.GetActiveScene();
+                Scene loadingScene = default;
                 
-                // ローディングスクリーンの表示
+                // ロードシーンの表示
                 if (data.UseLoadingScreen)
                 {
-                    await SceneManager.LoadSceneAsync(SceneType.Load.ToString(), LoadSceneMode.Additive);
-                    loadingScene = SceneManager.GetSceneByName(SceneType.Load.ToString());
-                    
-                    // カメラを有効にするためにローディングシーンをアクティブに設定
-                    SceneManager.SetActiveScene(loadingScene);
-                    
-                    // 少し待機してローディング画面が確実に表示されるようにする
-                    await UniTask.Delay(100, cancellationToken: token);
+                    loadingScene = await LoadLoadingScreenAsync(token);
                 }
 
                 // アセットのプリロードを行うか確認
                 if (data.PreloadAssets)
                 {
-                    await UniTask.Delay(SceneConstants.PRELOAD_TIME, cancellationToken: token);
+                    await PreloadAssetsAsync(token);
                 }
 
-                // シーンロード
-                var loadTask = LoadSceneInternal(data.TargetScene, token);
+                // 次のシーンをロードする処理
+                var loadTask = LoadTargetSceneAsync(data.TargetScene, token);
                 
                 // ロードが早く終わるかタイムアウトが早いか判定
                 var completedTask = await UniTask.WhenAny(loadTask, timeoutTask);
@@ -164,22 +167,9 @@ namespace iCON.System
                     throw new TimeoutException($"シーン遷移 タイムアウト: {data.TargetScene}");
                 }
                 
-                // 新しいシーンを取得してアクティブに設定
-                Scene newScene = SceneManager.GetSceneByName(data.TargetScene.ToString());
-                SceneManager.SetActiveScene(newScene);
-                
-                // ローディングスクリーンと古いシーンの削除
-                if (data.UseLoadingScreen && loadingScene.IsValid())
-                {
-                    await SceneManager.UnloadSceneAsync(loadingScene);
-                }
-                
-                // 古いメインシーンをアンロード
-                if (currentScene.IsValid() && _currentScene.ToString() != data.TargetScene.ToString())
-                {
-                    await SceneManager.UnloadSceneAsync(currentScene);
-                }
-                
+                // ロード画面を非表示にするなど
+                await SwitchToNewSceneAsync(data, loadingScene, currentScene);
+
                 return true;
             }
             catch (OperationCanceledException)
@@ -194,12 +184,59 @@ namespace iCON.System
         }
 
         /// <summary>
+        /// ロード画面を表示するタスク
+        /// </summary>
+        private async UniTask<Scene> LoadLoadingScreenAsync(CancellationToken token)
+        {
+            await SceneManager.LoadSceneAsync(SceneType.Load.ToString(), LoadSceneMode.Additive);
+            Scene loadingScene = SceneManager.GetSceneByName(SceneType.Load.ToString());
+
+            // カメラを有効にするためにロードシーンをアクティブに設定
+            SceneManager.SetActiveScene(loadingScene);
+
+            // 少し待機してローディング画面が確実に表示されるようにする
+            await UniTask.Delay(100, cancellationToken: token);
+            
+            return loadingScene;
+        }
+        
+        /// <summary>
+        /// アセットのプリロード
+        /// </summary>
+        private async UniTask PreloadAssetsAsync(CancellationToken token)
+        {
+            await UniTask.Delay(SceneConstants.PRELOAD_TIME, cancellationToken: token);
+        }
+        
+        /// <summary>
         /// 内部的なロード処理
         /// </summary>
-        private async UniTask LoadSceneInternal(SceneType targetScene, CancellationToken token)
+        private async UniTask LoadTargetSceneAsync(SceneType targetScene, CancellationToken token)
         {
             await SceneManager.LoadSceneAsync(targetScene.ToString(), LoadSceneMode.Additive);
             token.ThrowIfCancellationRequested();
+        }
+        
+        /// <summary>
+        /// 新しいシーンへの切り替え
+        /// </summary>
+        private async UniTask SwitchToNewSceneAsync(SceneTransitionData data, Scene loadingScene, Scene currentScene)
+        {
+            // 新しいシーンを取得してアクティブに設定
+            Scene newScene = SceneManager.GetSceneByName(data.TargetScene.ToString());
+            SceneManager.SetActiveScene(newScene);
+            
+            if (currentScene.IsValid() && _currentScene.ToString() != data.TargetScene.ToString())
+            {
+                // 古いメインシーンをアンロード
+                await SceneManager.UnloadSceneAsync(currentScene);
+            }
+            
+            if (data.UseLoadingScreen && loadingScene.IsValid())
+            {
+                // ローディングスクリーンと古いシーンの削除
+                await SceneManager.UnloadSceneAsync(loadingScene);
+            }
         }
 
         /// <summary>
@@ -214,5 +251,7 @@ namespace iCON.System
             }
             return SceneType.None;
         }
+
+        #endregion
     }
 }
