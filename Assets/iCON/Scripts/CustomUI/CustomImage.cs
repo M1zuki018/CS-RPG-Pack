@@ -33,4 +33,20 @@ public class CustomImage : Image
             sprite = Resources.Load<Sprite>(_assetName);
         }
     }
+
+    /// <summary>
+    /// 表示
+    /// </summary>
+    public void Show()
+    {
+        color = new Color(color.r, color.g, color.b, 1);
+    }
+    
+    /// <summary>
+    /// 非表示
+    /// </summary>
+    public void Hide()
+    {
+        color = new Color(color.r, color.g, color.b, 0);
+    }
 }
