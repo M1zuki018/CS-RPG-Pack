@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using iCON.System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,7 +22,7 @@ namespace iCON.Boot
 
         private void HandleStart()
         {
-            SceneLoader.Instance.LoadScene(_sceneSelector.SelectedSceneIndex);
+            SceneLoader.Instance.LoadSceneAsync((SceneType)_sceneSelector.SelectedSceneIndex).Forget();
         }
     }
 
