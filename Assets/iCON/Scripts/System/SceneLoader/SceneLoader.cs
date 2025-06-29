@@ -25,24 +25,22 @@ namespace iCON.System
         }
 
         /// <summary>
-        /// ロード画面を挟まずに画面遷移を行う
+        /// 画面遷移を行う
         /// </summary>
-        public async UniTask LoadSceneAsync(SceneType sceneType)
+        public async UniTask LoadSceneAsync(SceneType sceneType, bool useLoadingScreen = false)
         {
-            await SceneManager.LoadSceneAsync((int)sceneType);
-        }
+            if (useLoadingScreen)
+            {
+                await SceneManager.LoadSceneAsync((int)sceneType);
+            }
+            else
+            {
+                // 追加でロードシーンを読み込む
+                SceneManager.LoadScene(SceneType.Load.ToString(), LoadSceneMode.Additive);
 
-        /// <summary>
-        /// ロード画面を挟み、画面遷移を行う
-        /// </summary>
-        public async UniTask LoadSceneAsyncWithLoadScreen(SceneType sceneType)
-        {
-            // 追加でロードシーンを読み込む
-            SceneManager.LoadScene(SceneType.Load.ToString(), LoadSceneMode.Additive);
+                await SceneManager.LoadSceneAsync((int)sceneType);
+            }
             
-            await SceneManager.LoadSceneAsync((int)sceneType);
-            
-            // ロードシーンをアンロード
         }
     }
 }
