@@ -1,0 +1,10 @@
+namespace iCON.Enums
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public enum {ClassName}
+    {
+    }
+}
+
