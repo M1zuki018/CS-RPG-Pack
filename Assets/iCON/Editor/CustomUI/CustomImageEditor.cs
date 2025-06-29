@@ -23,9 +23,9 @@ public class CustomImageEditor : ImageEditor
         // カスタムフィールドを表示
         EditorGUILayout.PropertyField(_assetNameProp, new GUIContent("Asset Name"));
         
+        serializedObject.ApplyModifiedProperties();
+        
         // 元のプロパティを表示
         base.OnInspectorGUI();
-        
-        serializedObject.ApplyModifiedProperties();
     }
 }
