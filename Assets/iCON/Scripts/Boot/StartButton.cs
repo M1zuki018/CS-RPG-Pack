@@ -14,7 +14,7 @@ namespace iCON.Boot
         [SerializeField] private SceneSelector _sceneSelector;
         private Button _button;
 
-        private void Awake()
+        private void Start()
         {
             _button = GetComponent<Button>();
             _button.onClick.AddListener(HandleStart);
@@ -22,7 +22,7 @@ namespace iCON.Boot
 
         private void HandleStart()
         {
-            ServiceLocator.GetGlobal<SceneLoader>().LoadSceneAsync(
+            ServiceLocator.Get<SceneLoader>().LoadSceneAsync(
                 new SceneTransitionData(SceneType.Title, true, true)).Forget();
         }
     }
