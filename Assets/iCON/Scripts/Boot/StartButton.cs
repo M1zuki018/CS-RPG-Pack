@@ -22,7 +22,8 @@ namespace iCON.Boot
 
         private void HandleStart()
         {
-            SceneLoader.Instance.LoadSceneAsync((SceneType)_sceneSelector.SelectedSceneIndex).Forget();
+            ServiceLocator.GetGlobal<SceneLoader>().LoadSceneAsync(
+                new SceneTransitionData(SceneType.Title, true, true)).Forget();
         }
     }
 
