@@ -27,7 +27,7 @@ public class CustomImage : Image
     {
         base.Awake();
         
-        if (_assetName != null)
+        if (_assetName != string.Empty)
         {
             // TODO: アセットを読み込む処理
             sprite = Resources.Load<Sprite>(_assetName);
