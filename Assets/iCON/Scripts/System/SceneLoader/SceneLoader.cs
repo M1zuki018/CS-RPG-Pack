@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,7 +6,6 @@ namespace iCON.System
 {
     /// <summary>
     /// SceneLoader
-    /// TODO: 簡易的な実装
     /// </summary>
     public class SceneLoader : MonoBehaviour
     {
@@ -24,9 +24,25 @@ namespace iCON.System
             }
         }
 
-        public void LoadScene(int index)
+        /// <summary>
+        /// ロード画面を挟まずに画面遷移を行う
+        /// </summary>
+        public async UniTask LoadSceneAsync(SceneType sceneType)
         {
-            SceneManager.LoadScene(index);
+            await SceneManager.LoadSceneAsync((int)sceneType);
+        }
+
+        /// <summary>
+        /// ロード画面を挟み、画面遷移を行う
+        /// </summary>
+        public async UniTask LoadSceneAsyncWithLoadScreen(SceneType sceneType)
+        {
+            // 追加でロードシーンを読み込む
+            SceneManager.LoadScene(SceneType.Load.ToString(), LoadSceneMode.Additive);
+            
+            await SceneManager.LoadSceneAsync((int)sceneType);
+            
+            // ロードシーンをアンロード
         }
     }
 }
