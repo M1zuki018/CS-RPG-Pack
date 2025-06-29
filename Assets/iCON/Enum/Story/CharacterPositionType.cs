@@ -1,9 +1,9 @@
-namespace iCON.UI
+namespace iCON.Enums
 {
     /// <summary>
     /// ストーリー中のキャラクターの立ち位置の列挙型
     /// </summary>
-    public enum StoryCharacterPositionType
+    public enum CharacterPositionType
     {
         /// <summary>
         /// 中央
