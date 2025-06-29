@@ -1,4 +1,5 @@
 using System;
+using iCON.Enums;
 using UnityEngine;
 
 namespace iCON.UI
@@ -14,7 +15,7 @@ namespace iCON.UI
         /// 立ち位置
         /// </summary>
         [SerializeField]
-        private StoryCharacterPositionType _positionType;
+        private CharacterPositionType _positionType;
 
         /// <summary>
         /// CustomImage
@@ -25,7 +26,7 @@ namespace iCON.UI
         /// <summary>
         /// キャラクターの立ち位置を取得
         /// </summary>
-        public StoryCharacterPositionType PositionType => _positionType;
+        public CharacterPositionType PositionType => _positionType;
         
         /// <summary>
         /// 表示用画像コンポーネントを取得

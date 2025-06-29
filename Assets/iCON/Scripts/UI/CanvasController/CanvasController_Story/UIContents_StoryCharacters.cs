@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using iCON.Enums;
 using iCON.Utility;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ namespace iCON.UI
         /// <summary>
         /// キャッシュ用Dictionary
         /// </summary>
-        private Dictionary<StoryCharacterPositionType, CharacterPositionData> _positionCache;
+        private Dictionary<CharacterPositionType, CharacterPositionData> _positionCache;
 
         #region Lifecycle
 
@@ -36,7 +37,7 @@ namespace iCON.UI
         /// <summary>
         /// 表示
         /// </summary>
-        public void Show(StoryCharacterPositionType position)
+        public void Show(CharacterPositionType position)
         {
             GetCharacterPosition(position).Image.Show();
         }
@@ -44,7 +45,7 @@ namespace iCON.UI
         /// <summary>
         /// 非表示
         /// </summary>
-        public void Hide(StoryCharacterPositionType position)
+        public void Hide(CharacterPositionType position)
         {
             GetCharacterPosition(position).Image.Hide();
         }
@@ -63,7 +64,7 @@ namespace iCON.UI
         /// <summary>
         /// キャラクター画像の差し替え
         /// </summary>
-        public bool ChangeSprite(StoryCharacterPositionType position, string fillName)
+        public bool ChangeSprite(CharacterPositionType position, string fillName)
         {
             // データクラスを取得する
             var characterData = GetCharacterPosition(position);
@@ -81,7 +82,7 @@ namespace iCON.UI
         /// <summary>
         /// 指定位置のキャラクターが表示中かどうかを取得
         /// </summary>
-        public bool IsVisible(StoryCharacterPositionType position)
+        public bool IsVisible(CharacterPositionType position)
         {
             var characterData = GetCharacterPosition(position);
             return characterData?.Image?.gameObject.activeInHierarchy ?? false;
@@ -97,7 +98,7 @@ namespace iCON.UI
             if (_characterPositions == null) return;
 
             // NOTE: 検索でパフォーマンスが落ちないようにDictionaryを使う
-            _positionCache = new Dictionary<StoryCharacterPositionType, CharacterPositionData>();
+            _positionCache = new Dictionary<CharacterPositionType, CharacterPositionData>();
             _positionCache = _characterPositions
                 .Where(position => position != null)
                 .ToDictionary(position => position.PositionType, position => position);
@@ -106,7 +107,7 @@ namespace iCON.UI
         /// <summary>
         /// 指定位置のキャラクターデータを取得
         /// </summary>
-        private CharacterPositionData GetCharacterPosition(StoryCharacterPositionType position)
+        private CharacterPositionData GetCharacterPosition(CharacterPositionType position)
         {
             return _positionCache.GetValueOrDefault(position);
         }
