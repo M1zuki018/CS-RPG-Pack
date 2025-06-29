@@ -10,5 +10,6 @@ namespace iCON.System
         Title = 2,
         InGame = 3,
         Battle = 4,
+        None = 99,
     }
 }
