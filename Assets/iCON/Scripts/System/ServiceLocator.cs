@@ -6,6 +6,7 @@ using UnityEngine;
 /// ServiceLocatorパターンの実装
 /// グローバルサービスとローカルサービスを管理する
 /// </summary>
+[DefaultExecutionOrder(-1000)]
 public class ServiceLocator : MonoBehaviour
 {
     private static ServiceLocator _globalInstance; // グローバルサービスのためのインスタンス
