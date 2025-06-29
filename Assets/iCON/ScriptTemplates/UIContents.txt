@@ -1,0 +1,28 @@
+using UnityEngine;
+
+namespace iCON.UI
+{
+    /// <summary>
+    /// UIContents どういうもの？
+    /// </summary>
+    public class {ClassName} : MonoBehaviour
+    {
+        // Field
+
+        #region Lifecycle
+
+        private void Awake()
+        {
+        }
+
+        #endregion
+
+        // Public Methods
+
+        #region Private Methods
+
+        
+
+        #endregion
+    }
+}
