@@ -7,7 +7,7 @@ namespace iCON.System
     /// ストーリーのオーダーデータ
     /// </summary>
     [Serializable]
-    public class StoryOrderData
+    public class OrderData
     {
         /// <summary>属しているパートの管理ID</summary>
         public int PartId { get; set; }
