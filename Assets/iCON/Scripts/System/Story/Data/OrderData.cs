@@ -4,7 +4,7 @@ using iCON.Enums;
 namespace iCON.System
 {
     /// <summary>
-    /// ストーリーのオーダーデータ
+    /// オーダーデータ
     /// </summary>
     [Serializable]
     public class OrderData
