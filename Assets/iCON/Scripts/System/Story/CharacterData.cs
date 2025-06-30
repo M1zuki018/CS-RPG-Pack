@@ -8,7 +8,7 @@ namespace iCON.System
     [CreateAssetMenu(fileName = "CharacterData", menuName = "iCON/Story/Character Data")]
     public class CharacterData : ScriptableObject
     {
-        [SerializeField] private string _id;
+        [SerializeField] private int _id;
         [SerializeField] private string _fullName;
         [SerializeField] private string _displayName;
         [SerializeField] private string _defaultAssetPath;
@@ -16,7 +16,7 @@ namespace iCON.System
         [SerializeField] private float _textSpeed;
 
         /// <summary>キャラクターの管理ID</summary>
-        public string ID => _id;
+        public int ID => _id;
         
         /// <summary>フルネーム</summary>
         public string FullName => _fullName;
