@@ -8,16 +8,16 @@ namespace iCON.System
     public class StoryPosition
     {
         /// <summary>パートの管理ID</summary>
-        public int PartId { get; }
+        public int PartId { get; set; }
         
         /// <summary>チャプターの管理ID</summary>
-        public int ChapterId { get; }
+        public int ChapterId { get; set; }
         
         /// <summary>シーンの管理ID</summary>
-        public int SceneId { get; }
+        public int SceneId { get; set; }
         
         /// <summary>現在のオーダーのインデックス</summary>
-        public int OrderIndex { get; }
+        public int OrderIndex { get; set; }
         
         /// <summary>
         /// コンストラクタ
@@ -36,6 +36,38 @@ namespace iCON.System
         public StoryPosition Clone()
         {
             return new StoryPosition(PartId, ChapterId, SceneId, OrderIndex);
+        }
+        
+        /// <summary>
+        /// 次のオーダーに進んだ新しいPositionを生成
+        /// </summary>
+        public StoryPosition NextOrder()
+        {
+            return new StoryPosition(PartId, ChapterId, SceneId, OrderIndex + 1);
+        }
+        
+        /// <summary>
+        /// 次のシーンに進んだ新しいPositionを生成
+        /// </summary>
+        public StoryPosition NextScene()
+        {
+            return new StoryPosition(PartId, ChapterId, SceneId + 1, 0);
+        }
+        
+        /// <summary>
+        /// 次のチャプターに進んだ新しいPositionを生成
+        /// </summary>
+        public StoryPosition NextChapter()
+        {
+            return new StoryPosition(PartId, ChapterId + 1, 1, 0);
+        }
+        
+        /// <summary>
+        /// 次のパートに進んだ新しいPositionを生成
+        /// </summary>
+        public StoryPosition NextPart()
+        {
+            return new StoryPosition(PartId + 1, 1, 1, 0);
         }
         
         /// <summary>
