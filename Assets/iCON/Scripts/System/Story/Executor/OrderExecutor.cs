@@ -194,7 +194,7 @@ namespace iCON.System
         /// </summary>
         private void HandleCharacterExit(OrderData data)
         {
-            _view.OutCharacter(data.Position);
+            _currentSequence.AddTween(data.Sequence,_view.CharacterExit(data.Position, data.Duration));
         }
 
         /// <summary>

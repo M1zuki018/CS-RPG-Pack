@@ -46,11 +46,11 @@ namespace iCON.UI
         }
         
         /// <summary>
-        /// 非表示
+        /// 退場
         /// </summary>
-        public void Hide(CharacterPositionType position)
+        public Tween Exit(CharacterPositionType position, float duration)
         {
-            GetCharacterPosition(position).Image.Hide();
+            return GetCharacterPosition(position).Image.DOFade(0, duration);
         }
 
         /// <summary>

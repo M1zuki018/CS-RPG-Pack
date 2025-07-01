@@ -48,25 +48,6 @@ namespace iCON.UI
             _background.SetImage(fileName);
         }
 
-        /// <summary>
-        /// キャラクター登場
-        /// </summary>
-        public Tween CharacterEntry(CharacterPositionType position, string fileName, float duration)
-        {
-            return _characters.Entry(position, fileName, duration);
-        }
-
-        public void OutCharacter(CharacterPositionType position)
-        {
-            Debug.Log(position);
-            _characters.Hide(position);
-        }
-
-        public void HideAllCharacters()
-        {
-            _characters.HideAll();
-        }
-
         public void ChangeCharacter(CharacterPositionType position, string fileName)
         {
             _characters.ChangeSprite(position, fileName);
@@ -133,6 +114,24 @@ namespace iCON.UI
         public void FadePanelSetVisible(bool visible)
         {
             _fadePanel.SetVisible(visible);
+        }
+        
+        /// <summary>
+        /// キャラクター登場
+        /// </summary>
+        public Tween CharacterEntry(CharacterPositionType position, string fileName, float duration)
+        {
+            return _characters.Entry(position, fileName, duration);
+        }
+
+        public Tween CharacterExit(CharacterPositionType position, float duration)
+        {
+            return _characters.Exit(position, duration);
+        }
+
+        public void HideAllCharacters()
+        {
+            _characters.HideAll();
         }
     }
    
