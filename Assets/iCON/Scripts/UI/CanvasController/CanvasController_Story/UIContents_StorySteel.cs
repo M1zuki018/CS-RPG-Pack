@@ -77,6 +77,14 @@ namespace iCON.UI
                 LogUtility.Error($"画像設定中にエラーが発生しました: {ex.Message}", LogCategory.UI, _steelImages[_activeImageIndex]);
             }
         }
+
+        /// <summary>
+        /// 非表示にする
+        /// </summary>
+        public void Hide()
+        {
+            SetVisibility(false);
+        }
         
         #region Private Methods
 
