@@ -6,13 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="e98df84d-2589-499c-b455-344a5dd5de9f" name="変更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.iCON/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.iCON/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Bootstrap.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Bootstrap.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/iCON/Prefabs/Canvas/InGameCanvas.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/iCON/Prefabs/Canvas/InGameCanvas.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/iCON/Scripts/CustomUI/CustomImage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/iCON/Scripts/CustomUI/CustomImage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/iCON/Scripts/System/Story/Executor/OrderExecutor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/iCON/Scripts/System/Story/Executor/OrderExecutor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/iCON/Scripts/UI/CanvasController/CanvasController_Story/StoryView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/iCON/Scripts/UI/CanvasController/CanvasController_Story/StoryView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/iCON/Scripts/UI/CanvasController/CanvasController_Story/UIContents_StoryBackground.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/iCON/Scripts/UI/CanvasController/CanvasController_Story/UIContents_StoryBackground.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/iCON/Scripts/UI/CanvasController/CanvasController_Story/UIContents_StorySteel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/iCON/Scripts/UI/CanvasController/CanvasController_Story/UIContents_StorySteel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,20 +54,26 @@
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/Boot/StartButton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/Constants/AddressablesConstants.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/Constants/SceneConstants.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/Constants/StoryConstants.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/CustomUI/CustomButton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/CustomUI/CustomImage.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/CustomUI/CustomText.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/Settings/ProductDataSO.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/System/Story/Data/PartData.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/System/Story/Data/StoryPosition.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/System/Story/Executor/OrderExecutor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/System/Story/StoryManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/UI/CanvasController/CanvasController_Story/CanvasController_Story.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/UI/CanvasController/CanvasController_Story/UIContents_FadePanel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/UI/CanvasController/CanvasController_Title.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/Utility/AddressableLoader.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/Utility/Log/LogCategory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/Utility/Log/LogColorSettings.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/Utility/Log/LogLevel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/iCON/Scripts/Utility/SequenceExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.cysharp.unitask/Runtime/CompilerServices/StateMachineRunner.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.cysharp.unitask/Runtime/UniTaskCompletionSource.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.cysharp.unitask/Runtime/UniTaskExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui/Editor/UGUI/UI/ImageEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui/Runtime/UGUI/UI/Core/Button.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui/Runtime/UGUI/UI/Core/Dropdown.cs" root0="SKIP_HIGHLIGHTING" />
@@ -84,18 +88,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/story/ui&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "feat/story-system",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Unity エディターにアタッチ.Unity エディターにアタッチ">
     <configuration name="ユニットテスト (バッチモード)" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.0.34f1\Editor\Unity.exe" />

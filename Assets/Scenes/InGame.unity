@@ -124,9 +124,9 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4072666668505126507, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
   m_PrefabInstance: {fileID: 5484602867204383047}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &406864493 stripped
+--- !u!114 &406864483 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1427069558950035571, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2481674219279586343, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
   m_PrefabInstance: {fileID: 5484602867204383047}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 406864482}
@@ -566,7 +566,7 @@ PrefabInstance:
     - target: {fileID: 7827713468412770074, guid: 9b2beb314425ade4b9978fdb4517b0a5, type: 3}
       propertyPath: _view
       value: 
-      objectReference: {fileID: 406864493}
+      objectReference: {fileID: 406864483}
     - target: {fileID: 8640943486643494834, guid: 9b2beb314425ade4b9978fdb4517b0a5, type: 3}
       propertyPath: m_Name
       value: StorySystem
