@@ -13,10 +13,20 @@
           private readonly StoryMasterGetter _storyDataLoader = new();
           private SceneData _currentSceneData;
 
-          /// <summary>初期化処理</summary>
-          public async UniTask InitializeAsync(string spreadsheetName, string range)
+          /// <summary>
+          /// 初期化処理
+          /// </summary>
+          public async UniTask InitializeAsync(string spreadsheetName, string headerRange)
           {
-              _currentSceneData = await _storyDataLoader.Setup(spreadsheetName, range);
+              await _storyDataLoader.InitializeAsync(spreadsheetName, headerRange);
+          }
+          
+          /// <summary>
+          /// 指定範囲のデータを読み込んでSceneDataを作成する
+          /// </summary>
+          public async UniTask LoadSceneDataAsync(string spreadsheetName, string range)
+          {
+              _currentSceneData = await _storyDataLoader.LoadSceneDataAsync(spreadsheetName, range);
           }
 
           /// <summary>指定位置のオーダーを取得</summary>

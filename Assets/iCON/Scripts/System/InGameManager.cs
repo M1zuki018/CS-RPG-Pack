@@ -24,7 +24,13 @@ namespace iCON.System
         /// 読み込む範囲
         /// </summary>
         [SerializeField]
-        private string _range = "TestStory!A2:N15";
+        private string _range = "TestStory!A3:N15";
+
+        /// <summary>
+        /// ヘッダーの範囲
+        /// </summary>
+        [SerializeField] 
+        private string _headerRange = "TestStory!A2:N2";
 
         public override async UniTask OnStart()
         {
@@ -38,7 +44,7 @@ namespace iCON.System
         public void PlayStory()
         {
             _storyManager.gameObject.SetActive(true);
-            _storyManager.PlayStory(_spreadsheetName, _range, () => _storyManager.gameObject.SetActive(false)).Forget();
+            _storyManager.PlayStory(_spreadsheetName,_headerRange, _range, () => _storyManager.gameObject.SetActive(false)).Forget();
         }
     }
 }

@@ -94,16 +94,18 @@ namespace iCON.System
         /// <summary>
         /// ストーリー再生を開始する
         /// </summary>
-        public async UniTask PlayStory(string spreadsheetName, string range, Action endAction)
+        public async UniTask PlayStory(string spreadsheetName, string headerRange, string range, Action endAction)
         {
             _orderExecutor.Setup(() =>
             {
                 endAction?.Invoke();
                 _isStoryComplete = true;
             });
-            
+
+            // ヘッダーデータを読み込む
+            await _orderProvider.InitializeAsync(spreadsheetName, headerRange);
             // ストーリーデータを読み込む
-            await _orderProvider.InitializeAsync(spreadsheetName, range);
+            await _orderProvider.LoadSceneDataAsync(spreadsheetName, range);
             
             // ストーリー読了フラグをfalseにして、再生できるようにする
             _isStoryComplete = false;

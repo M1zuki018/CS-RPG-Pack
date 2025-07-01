@@ -185,7 +185,7 @@ namespace iCON.System
             _currentSequence.AddTween(data.Sequence, _view.FadeOut(data.Duration));
 
             // 終了時の処理を実行
-            _currentSequence.OnComplete(() => _endAction?.Invoke());
+            _currentSequence.OnKill(() => _endAction?.Invoke());
             // TODO
         }
 
