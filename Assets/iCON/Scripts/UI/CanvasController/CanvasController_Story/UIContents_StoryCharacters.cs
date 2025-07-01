@@ -37,9 +37,9 @@ namespace iCON.UI
         #endregion
 
         /// <summary>
-        /// 表示
+        /// 登場
         /// </summary>
-        public Tween Show(CharacterPositionType position, string fileName, float duration)
+        public Tween Entry(CharacterPositionType position, string fileName, float duration)
         {
             ChangeSprite(position,fileName);
             return GetCharacterPosition(position).Image.DOFade(1, duration);

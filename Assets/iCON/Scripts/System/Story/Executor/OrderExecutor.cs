@@ -186,7 +186,7 @@ namespace iCON.System
         /// </summary>
         private void HandleCharacterEntry(OrderData data)
         {
-            _currentSequence.AddTween(data.Sequence,_view.InCharacter(data.Position, data.FilePath, data.Duration));
+            _currentSequence.AddTween(data.Sequence,_view.CharacterEntry(data.Position, data.FilePath, data.Duration));
         }
 
         /// <summary>

@@ -48,9 +48,12 @@ namespace iCON.UI
             _background.SetImage(fileName);
         }
 
-        public Tween InCharacter(CharacterPositionType position, string fileName, float duration)
+        /// <summary>
+        /// キャラクター登場
+        /// </summary>
+        public Tween CharacterEntry(CharacterPositionType position, string fileName, float duration)
         {
-            return _characters.Show(position, fileName, duration);
+            return _characters.Entry(position, fileName, duration);
         }
 
         public void OutCharacter(CharacterPositionType position)
