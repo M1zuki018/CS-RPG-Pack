@@ -1,4 +1,3 @@
-using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
@@ -246,6 +245,7 @@ namespace iCON.System
         private void HandleChangeBackground(OrderData data)
         {
             _view.SetBackground(data.FilePath);
+            _currentSequence.AppendInterval(data.Duration);
         }
 
         /// <summary>

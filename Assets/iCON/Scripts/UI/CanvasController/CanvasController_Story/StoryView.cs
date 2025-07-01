@@ -41,15 +41,6 @@ namespace iCON.UI
         private UIContents_FadePanel _fadePanel;
 
         /// <summary>
-        /// 背景を変更する
-        /// </summary>
-        public void SetBackground(string fileName)
-        {
-            Debug.Log(fileName);
-            _background.SetImage(fileName);
-        }
-
-        /// <summary>
         /// 会話テキストを更新する
         /// </summary>
         public Tween SetTalk(string name, string dialog, float duration)
@@ -156,6 +147,15 @@ namespace iCON.UI
         public void HideSteel()
         {
             _steel.FadeOut();
+        }
+        
+        /// <summary>
+        /// 背景を変更する
+        /// </summary>
+        public async UniTask SetBackground(string fileName)
+        {
+            await _background.SetImageAsync(fileName);
+            _background.FadeIn();
         }
     }
    

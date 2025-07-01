@@ -1,3 +1,8 @@
+using System;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using iCON.Constants;
+using iCON.Utility;
 using UnityEngine;
 
 namespace iCON.UI
@@ -35,17 +40,39 @@ namespace iCON.UI
         /// <summary>
         /// ファイル名を元に画像を変更する
         /// </summary>
-        public void SetImage(string fileName)
+        public async UniTask SetImageAsync(string fileName)
         {
-            // 次の画像を準備
-            int nextIndex = NextImageIndex;
-            _bgImages[nextIndex].AssetName = fileName;
-            
-            // オブジェクトをhierarchyの末尾に移動させて、最前面に表示されるようにする
-            _bgImages[nextIndex].transform.SetAsLastSibling();
-            
-            // アクティブインデックスを更新
-            _activeImageIndex = nextIndex;
+            try
+            {
+                // 次の画像を準備
+                int nextIndex = NextImageIndex;
+                await _bgImages[nextIndex].ChangeSpriteAsync(fileName);
+
+                // オブジェクトをhierarchyの末尾に移動させて、最前面に表示されるようにする
+                _bgImages[nextIndex].transform.SetAsLastSibling();
+
+                // アクティブインデックスを更新
+                _activeImageIndex = nextIndex;
+            }
+            catch (Exception ex)
+            {
+                LogUtility.Error($"画像設定中にエラーが発生しました: {ex.Message}", LogCategory.UI, _bgImages[_activeImageIndex]);
+            }
+        }
+        
+        /// <summary>
+        /// フェードイン
+        /// </summary>
+        public void FadeIn()
+        {
+            _bgImages[_activeImageIndex].DOFade(1, StoryConstants.IMAGE_FADE_DURATION)
+                .SetEase(StoryConstants.FADE_EASE)
+                .OnComplete(() =>
+                {
+                    // 前面のオブジェクトが表示されたら、裏面のオブジェクトの透明度をゼロにしておく
+                    int prevIndex = _activeImageIndex == 0 ? _bgImages.Length - 1 : _activeImageIndex - 1;
+                    _bgImages[prevIndex].Hide();
+                });
         }
 
         #region Private Method

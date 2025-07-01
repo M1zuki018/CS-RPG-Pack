@@ -84,7 +84,7 @@ namespace iCON.UI
                 .SetEase(StoryConstants.FADE_EASE)
                 .OnComplete(() =>
                 {
-                    // 前面のスチルが表示されたら、裏面にいったスチルの透明度をゼロにしておく
+                    // 前面のスチルが表示されたら、裏面のスチルの透明度をゼロにしておく
                     int prevIndex = _activeImageIndex == 0 ? _steelImages.Length - 1 : _activeImageIndex - 1;
                     _steelImages[prevIndex].Hide();
                 });
