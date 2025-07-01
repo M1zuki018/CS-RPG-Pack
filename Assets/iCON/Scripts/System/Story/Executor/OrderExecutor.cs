@@ -79,7 +79,7 @@ namespace iCON.System
                 #endregion
 
                 default:
-                    Debug.LogWarning($"Unknown OrderType: {data.OrderType}");
+                    Debug.LogWarning($"未知のオーダータイプです: {data.OrderType}");
                     break;
             }
         }
