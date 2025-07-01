@@ -152,7 +152,8 @@ namespace iCON.System
             
             // 全キャラクター非表示
             _view.HideAllCharacters();
-            
+            // スチル非表示
+            _view.HideSteel();
             // フェードイン
             _currentSequence.AddTween(data.Sequence, _view.FadeIn(data.Duration));
             // TODO
@@ -183,6 +184,9 @@ namespace iCON.System
             
             // フェードアウト
             _currentSequence.AddTween(data.Sequence, _view.FadeOut(data.Duration));
+            
+            // スチル非表示
+            _view.HideSteel();
 
             // 終了時の処理を実行
             _currentSequence.OnKill(() => _endAction?.Invoke());
