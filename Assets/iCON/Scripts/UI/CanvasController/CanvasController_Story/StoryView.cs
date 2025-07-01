@@ -55,6 +55,22 @@ namespace iCON.UI
 
             return tween;
         }
+
+        /// <summary>
+        /// 会話ダイアログをリセット
+        /// </summary>
+        public void ResetTalk()
+        {
+            _dialog.ResetTalk();
+        }
+
+        /// <summary>
+        /// 地の文ダイアログをリセット
+        /// </summary>
+        public void ResetDescription()
+        {
+            _dialog.ResetDescription();
+        }
         
         /// <summary>
         /// 地の文のテキストを更新する

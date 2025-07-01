@@ -154,6 +154,9 @@ namespace iCON.System
             _view.HideAllCharacters();
             // スチル非表示
             _view.HideSteel();
+            //ダイアログをリセット
+            _view.ResetTalk();
+            _view.ResetDescription();
             // フェードイン
             _currentSequence.AddTween(data.Sequence, _view.FadeIn(data.Duration));
             // TODO
@@ -184,10 +187,6 @@ namespace iCON.System
             
             // フェードアウト
             _currentSequence.AddTween(data.Sequence, _view.FadeOut(data.Duration));
-            
-            // スチル非表示
-            _view.HideSteel();
-
             // 終了時の処理を実行
             _currentSequence.OnKill(() => _endAction?.Invoke());
             // TODO

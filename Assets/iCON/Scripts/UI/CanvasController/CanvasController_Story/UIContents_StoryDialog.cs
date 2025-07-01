@@ -68,6 +68,22 @@ namespace iCON.UI
             
             return _talkLayout.SetText(name, dialog, duration);
         }
+
+        /// <summary>
+        /// 地の文ダイアログをリセット
+        /// </summary>
+        public void ResetDescription()
+        {
+            _descriptionLayout.ClearText();
+        }
+        
+        /// <summary>
+        /// 会話ダイアログをリセット
+        /// </summary>
+        public void ResetTalk()
+        {
+            _talkLayout.ClearText();
+        }
         
         /// <summary>
         /// ダイアログを表示する
