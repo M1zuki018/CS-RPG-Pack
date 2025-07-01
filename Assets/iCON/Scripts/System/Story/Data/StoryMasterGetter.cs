@@ -65,7 +65,7 @@ namespace iCON.System
                     DialogText = GetStringValue(row, StoryDataColumn.DialogText),
                     OverrideDisplayName = GetStringValue(row, StoryDataColumn.OverrideDisplayName),
                     FilePath = GetStringValue(row, StoryDataColumn.FilePath),
-                    Position = GetType<CharacterPositionType>(row, StoryDataColumn.Position),
+                    Position = GetType<CharacterPositionType>(row, StoryDataColumn.CharacterPositionType),
                     FacialExpressionType = GetType<FacialExpressionType>(row, StoryDataColumn.FacialExpressionType),
                     OverrideTextSpeed = GetFloatValue(row, StoryDataColumn.OverrideTextSpeed),
                     Duration = GetFloatValue(row, StoryDataColumn.Duration)
