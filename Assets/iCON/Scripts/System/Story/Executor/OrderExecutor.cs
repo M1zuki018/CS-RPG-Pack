@@ -213,6 +213,7 @@ namespace iCON.System
         private void HandleHideSteel(OrderData data)
         {
             _view.HideSteel();
+            _currentSequence.AppendInterval(data.Duration);
         }
 
         /// <summary>

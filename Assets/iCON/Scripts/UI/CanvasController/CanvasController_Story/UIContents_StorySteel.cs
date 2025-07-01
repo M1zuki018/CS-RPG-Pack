@@ -76,9 +76,9 @@ namespace iCON.UI
         }
         
         /// <summary>
-        /// フェードインTweenを開始する
+        /// フェードイン
         /// </summary>
-        public void StartFadeIn()
+        public void FadeIn()
         {
             _steelImages[_activeImageIndex].DOFade(1, StoryConstants.IMAGE_FADE_DURATION)
                 .SetEase(StoryConstants.FADE_EASE)
@@ -88,6 +88,15 @@ namespace iCON.UI
                     int prevIndex = _activeImageIndex == 0 ? _steelImages.Length - 1 : _activeImageIndex - 1;
                     _steelImages[prevIndex].Hide();
                 });
+        }
+
+        /// <summary>
+        /// フェードアウト
+        /// </summary>
+        public void FadeOut()
+        {
+            _steelImages[_activeImageIndex].DOFade(0, StoryConstants.IMAGE_FADE_DURATION)
+                .SetEase(StoryConstants.FADE_EASE);
         }
 
         /// <summary>

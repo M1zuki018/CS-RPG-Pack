@@ -136,7 +136,7 @@ namespace iCON.UI
         }
         
         /// <summary>
-        /// スチルを切り替える
+        /// スチルを表示/切り替える
         /// </summary>
         public async UniTask SetSteel(string fileName)
         {
@@ -147,7 +147,7 @@ namespace iCON.UI
                 _steel.Show();
             }
             
-            _steel.StartFadeIn();
+            _steel.FadeIn();
         }
         
         /// <summary>
@@ -155,7 +155,7 @@ namespace iCON.UI
         /// </summary>
         public void HideSteel()
         {
-            _steel.Hide();
+            _steel.FadeOut();
         }
     }
    
