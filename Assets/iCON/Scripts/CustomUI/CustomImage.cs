@@ -53,8 +53,17 @@ public class CustomImage : Image
     {
         color = new Color(color.r, color.g, color.b, 0);
     }
+
+    /// <summary>
+    /// スプライトを非同期で読み込む
+    /// </summary>
+    public async UniTask ChangeSpriteAsync(string filePath)
+    {
+        _assetName = filePath;
+        await LoadSpriteAsync();
+    }
     
-    // <summary>
+    /// <summary>
     /// スプライトを非同期で読み込む
     /// </summary>
     private async UniTask LoadSpriteAsync()
@@ -76,8 +85,7 @@ public class CustomImage : Image
             _loadHandle = Addressables.LoadAssetAsync<Sprite>(_assetName);
             var loadedSprite = await _loadHandle.ToUniTask();
             
-            // まだこのオブジェクトが有効で、アセット名が変更されていない場合のみ適用
-            if (this != null && _assetName == _loadHandle.DebugName)
+            if (this != null)
             {
                 sprite = loadedSprite;
             }
