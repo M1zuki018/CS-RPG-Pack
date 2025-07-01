@@ -52,8 +52,17 @@ namespace iCON.System
         /// </summary>
         private void NextOrder()
         {
-            var order = _progress.NextOrder();
-            _orderExecutor.Execute(order);
+            if (_orderExecutor.IsExecuting)
+            {
+                // オーダーが実行中であれば演出をスキップする
+                _orderExecutor.Skip();
+            }
+            else
+            {
+                // 次のオーダーの演出を開始する
+                _orderExecutor.Execute(_progress.NextOrder());
+            }
+            
         }
         
         /// <summary>

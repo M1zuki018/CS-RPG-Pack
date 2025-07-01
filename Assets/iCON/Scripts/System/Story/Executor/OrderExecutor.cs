@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using iCON.Enums;
 using iCON.UI;
 using UnityEngine;
@@ -11,8 +12,26 @@ namespace iCON.System
     /// </summary>
     public class OrderExecutor
     {
+        /// <summary>
+        /// Viewを操作するクラス
+        /// </summary>
         private StoryView _view;
-
+        
+        /// <summary>
+        /// オーダーを実行中か
+        /// </summary>
+        private bool _isExecuting;
+        
+        /// <summary>
+        /// 実行中のオーダーのSequence
+        /// </summary>
+        private Sequence _currentSequence;
+        
+        /// <summary>
+        /// オーダーを実行中か
+        /// </summary>
+        public bool IsExecuting => _isExecuting;
+        
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -26,6 +45,8 @@ namespace iCON.System
         /// </summary>
         public void Execute(OrderData data)
         {
+            _isExecuting = true;
+            
             switch (data.OrderType)
             {
                 #region case
@@ -81,6 +102,19 @@ namespace iCON.System
                 default:
                     Debug.LogWarning($"未知のオーダータイプです: {data.OrderType}");
                     break;
+            }
+        }
+
+        /// <summary>
+        /// オーダーの演出をスキップする
+        /// </summary>
+        public void Skip()
+        {
+            if (_currentSequence != null && _isExecuting)
+            {
+                // 演出実行中であれば、シーケンスをキルしてコンプリートの状態にする
+                _currentSequence.Kill(true);
+                _isExecuting = false;
             }
         }
 
