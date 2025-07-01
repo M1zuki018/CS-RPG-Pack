@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
 using UnityEngine;
@@ -48,34 +49,20 @@ namespace iCON.UI
             _background.SetImage(fileName);
         }
 
-        public void ChangeCharacter(CharacterPositionType position, string fileName)
-        {
-            _characters.ChangeSprite(position, fileName);
-        }
-
-        public void SetSteel(string fileName)
-        {
-            Debug.Log(fileName);
-            _steel.SetImage(fileName);
-        }
-
-        public void HideSteel()
-        {
-            Debug.Log("HideSteel");
-            _steel.Hide();
-        }
-
         /// <summary>
         /// 会話テキストを更新する
         /// </summary>
         public Tween SetTalk(string name, string dialog, float duration)
         {
+            var tween = _dialog.SetTalk(name, dialog, duration);
+            
             if (!_dialog.IsVisible)
             {
+                // ダイアログのオブジェクトが非表示だったら表示する
                 _dialog.Show();
             }
-            
-            return _dialog.SetTalk(name, dialog, duration);
+
+            return tween;
         }
         
         /// <summary>
@@ -124,14 +111,51 @@ namespace iCON.UI
             return _characters.Entry(position, fileName, duration);
         }
 
+        /// <summary>
+        /// キャラクター退場
+        /// </summary>
         public Tween CharacterExit(CharacterPositionType position, float duration)
         {
             return _characters.Exit(position, duration);
         }
+        
+        /// <summary>
+        /// キャラクターを切り替える
+        /// </summary>
+        public void ChangeCharacter(CharacterPositionType position, string fileName)
+        {
+            _characters.ChangeSprite(position, fileName);
+        }
 
+        /// <summary>
+        /// 全てのキャラクターを非表示にする
+        /// </summary>
         public void HideAllCharacters()
         {
             _characters.HideAll();
+        }
+        
+        /// <summary>
+        /// スチルを切り替える
+        /// </summary>
+        public async UniTask SetSteel(string fileName)
+        {
+            await _steel.SetImageAsync(fileName);
+    
+            if (!_steel.IsVisible)
+            {
+                _steel.Show();
+            }
+            
+            _steel.StartFadeIn();
+        }
+        
+        /// <summary>
+        /// スチルを非表示にする
+        /// </summary>
+        public void HideSteel()
+        {
+            _steel.Hide();
         }
     }
    

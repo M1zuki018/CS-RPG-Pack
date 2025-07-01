@@ -202,7 +202,9 @@ namespace iCON.System
         /// </summary>
         private void HandleShowSteel(OrderData data)
         {
-            _view.SetSteel(data.FilePath);
+            // 非同期処理を先に実行してからTweenを取得
+            _view.SetSteel(data.FilePath).Forget();
+            _currentSequence.AppendInterval(data.Duration);
         }
 
         /// <summary>

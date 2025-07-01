@@ -10,7 +10,7 @@ namespace iCON.Constants
         /// <summary>
         /// フェード時間
         /// </summary>
-        public const float IMAGE_FADE_DURATION = 0.3f;
+        public const float IMAGE_FADE_DURATION = 0.2f;
 
         /// <summary>
         /// フェード時のイージング
