@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using iCON.Utility;
 using UnityEngine;
 
@@ -52,20 +53,21 @@ namespace iCON.UI
         /// <summary>
         /// ファイル名を元に画像を変更する
         /// </summary>
-        public void SetImage(string fileName)
+        public async UniTask SetImage(string fileName)
         {
             try
             {
                 // 次の画像を準備
                 int nextIndex = NextSteelIndex;
-                _steelImages[nextIndex].AssetName = fileName;
+                await _steelImages[nextIndex].ChangeSpriteAsync(fileName);
 
                 // オブジェクトをhierarchyの末尾に移動させて、最前面に表示されるようにする
                 _steelImages[nextIndex].transform.SetAsLastSibling();
+                _steelImages[nextIndex].Show();
 
                 // アクティブインデックスを更新
                 _activeImageIndex = nextIndex;
-
+                
                 // CanvasGroupが非表示だったら表示する
                 if (!IsVisible)
                 {
@@ -111,11 +113,14 @@ namespace iCON.UI
             _canvasGroup.alpha = isActive ? 1 : 0;
             _canvasGroup.interactable = isActive;
             _canvasGroup.blocksRaycasts = isActive;
-            
-            foreach (var steel in _steelImages)
+
+            if (!isActive)
             {
-                // 各画像も非表示にしておく
-                steel.Hide();
+                foreach (var steel in _steelImages)
+                {
+                    // キャンバスを非表示にする時は各画像も非表示にする
+                    steel.Hide();
+                }
             }
         }
 
