@@ -153,7 +153,7 @@ namespace iCON.System
         /// </summary>
         private void HandleDescriptive(OrderData data)
         {
-            _view.SetDescription(data.DialogText);
+            _currentSequence.AddTween(data.Sequence, _view.SetDescription(data.DialogText, data.Duration));
         }
 
         /// <summary>

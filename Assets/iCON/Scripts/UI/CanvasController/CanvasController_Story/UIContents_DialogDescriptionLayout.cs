@@ -1,3 +1,4 @@
+using DG.Tweening;
 using iCON.Utility;
 using UnityEngine;
 
@@ -42,20 +43,22 @@ namespace iCON.UI
         /// <summary>
         /// 表示テキストを変更する
         /// </summary>
-        public void SetText(string description)
+        public Tween SetText(string description, float duration = 0)
         {
             if (!_isInitialized)
             {
                 // NOTE: 初期化が正しく行われていない場合はコンポーネントがnullになるためreturnしておく
-                return;    
+                return null;    
             }
 
             if (!IsVisible)
             {
                 SetVisibility(true);
             }
-            
-            _description.text = description ?? string.Empty;
+
+            // 一度テキストボックスを空にする
+            _description.text = string.Empty;
+            return _description.DOText(description ?? string.Empty, duration).SetEase(Ease.Linear);
         }
         
         /// <summary>

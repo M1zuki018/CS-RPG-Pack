@@ -76,6 +76,9 @@ namespace iCON.UI
             _steel.Hide();
         }
 
+        /// <summary>
+        /// 会話テキストを更新する
+        /// </summary>
         public Tween SetTalk(string name, string dialog, float duration)
         {
             if (!_dialog.IsVisible)
@@ -86,14 +89,18 @@ namespace iCON.UI
             return _dialog.SetTalk(name, dialog, duration);
         }
         
-        public void SetDescription(string description)
+        /// <summary>
+        /// 地の文のテキストを更新する
+        /// </summary>
+        /// <returns></returns>
+        public Tween SetDescription(string description, float duration)
         {
-            Debug.Log(description);
             if (!_dialog.IsVisible)
             {
                 _dialog.Show();
             }
-            _dialog.SetDescription(description);
+            
+            return _dialog.SetDescription(description, duration);
         }
     }
    

@@ -44,7 +44,7 @@ namespace iCON.UI
         /// <summary>
         /// 地の文ダイアログのテキストを書き換える
         /// </summary>
-        public void SetDescription(string description)
+        public Tween SetDescription(string description, float duration)
         {
             if (_talkLayout.IsVisible)
             {
@@ -52,7 +52,7 @@ namespace iCON.UI
                 _talkLayout.SetVisibility(false);
             }
             
-            _descriptionLayout.SetText(description);
+            return _descriptionLayout.SetText(description, duration);
         }
         
         /// <summary>
