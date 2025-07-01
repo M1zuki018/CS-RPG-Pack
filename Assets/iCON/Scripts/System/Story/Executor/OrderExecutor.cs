@@ -50,10 +50,9 @@ namespace iCON.System
                 // 念のため実行中のシーケンスがあればキルする
                 _currentSequence?.Kill(true);
                 _currentSequence = DOTween.Sequence();
-                Debug.Log("新しいシーケンスを開始");
             }
             
-            // _isExecuting = true;
+            _isExecuting = true;
             
             switch (data.OrderType)
             {
@@ -110,6 +109,11 @@ namespace iCON.System
                 default:
                     Debug.LogWarning($"未知のオーダータイプです: {data.OrderType}");
                     break;
+            }
+            
+            if (data.Sequence == SequenceType.Append)
+            {
+                _currentSequence.OnComplete(() => _isExecuting = false);
             }
         }
 
