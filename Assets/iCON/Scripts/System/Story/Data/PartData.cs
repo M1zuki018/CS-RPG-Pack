@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace iCON.System
 {
     /// <summary>
-    /// パート（編）データ
+    /// パートデータ
     /// </summary>
     [Serializable]
     public class PartData
@@ -15,7 +15,7 @@ namespace iCON.System
         public int PartId { get; set; }
         
         /// <summary>
-        /// このパートに属するチャプターデータ
+        /// このパートに属するチャプターの数
         /// </summary>
         public List<ChapterData> Chapters { get; set; }
     }

@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
 
 namespace iCON.System
 {
     /// <summary>
-    /// チャプター（章）データ
+    /// チャプターデータ
     /// </summary>
     [Serializable]
     public class ChapterData
@@ -15,8 +14,8 @@ namespace iCON.System
         public int ChapterId { get; set; }
         
         /// <summary>
-        /// このチャプターに属するシーンデータ
+        /// このチャプターに属するシーンの数
         /// </summary>
-        public List<SceneData> Scenes { get; set; } = new List<SceneData>();
+        public int SceneCount { get; set; }
     }   
 }
