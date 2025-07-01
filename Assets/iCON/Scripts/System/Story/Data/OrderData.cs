@@ -13,13 +13,13 @@ namespace iCON.System
         public int PartId { get; set; }
         
         /// <summary>属しているチャプターの管理ID</summary>
-        public int ChapterID { get; set; }
+        public int ChapterId { get; set; }
         
         /// <summary>属しているシーンの管理ID</summary>
-        public int SceneID { get; set; }
+        public int SceneId { get; set; }
         
         /// <summary>オーダーの管理ID</summary>
-        public int OrderID { get; set; }
+        public int OrderId { get; set; }
         
         /// <summary>オーダーの種類</summary>
         public OrderType OrderType { get; set; }
@@ -33,22 +33,22 @@ namespace iCON.System
         /// <summary>テキスト</summary>
         public string DialogText { get; set; }
         
-        /// <summary>表示名を上書きする場合の名前</summary>
+        /// <summary>OverrideDisplayName</summary>
         public string OverrideDisplayName { get; set; }
         
-        /// <summary>素材のファイルパス</summary>
+        /// <summary>FilePath</summary>
         public string FilePath { get; set; }
         
-        /// <summary>画面上の立ち位置</summary>
+        /// <summary>Position</summary>
         public CharacterPositionType Position { get; set; }
         
         /// <summary>使用する表情差分</summary>
         public FacialExpressionType FacialExpressionType { get; set; }
         
-        /// <summary>テキスト表示速度を上書きする場合の値</summary>
+        /// <summary>OverrideTextSpeed</summary>
         public float OverrideTextSpeed { get; set; }
         
-        /// <summary>オーダーにかける時間</summary>
+        /// <summary>Duration</summary>
         public float Duration { get; set; }
 
         /// <summary>表示名を取得（オーバーライドがあればそれを、なければSpeakerIdを使用）</summary>
