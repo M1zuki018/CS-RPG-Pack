@@ -96,6 +96,9 @@ namespace iCON.System
         /// </summary>
         public async UniTask PlayStory(string spreadsheetName, string headerRange, string range, Action endAction)
         {
+            // ストーリーの進行位置をリセット
+            _progressTracker.Reset();
+            
             _orderExecutor.Setup(() =>
             {
                 endAction?.Invoke();
