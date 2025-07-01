@@ -13,23 +13,16 @@ namespace iCON.System
     {
         private Dictionary<string, int> _columnIndexMap = new();
         
-        public async UniTask Setup()
+        public async UniTask<SceneData> Setup()
         {
-            var data = await SheetsDataService.Instance.ReadFromSpreadsheetAsync("TestStory", "TestStory!A3:N15");
-            var list = LoadFromSpreadsheet(data);
-
-            foreach (var a in list)
-            {
-                Debug.Log(a.OrderType);
-            }
-            
-            SheetsDataService.Instance.LogTableContentInternal("TestStory", "TestStory!A3:N15", 12);
+            var data = await SheetsDataService.Instance.ReadFromSpreadsheetAsync("TestStory", "TestStory!A2:N15"); // TODO: Sceneの管理データに持たせて変数化したい
+            return LoadFromSpreadsheet(data);
         }
         
         /// <summary>
         /// スプレッドシートから読み込み
         /// </summary>
-        public List<OrderData> LoadFromSpreadsheet(IList<IList<object>> spreadsheetData)
+        private SceneData LoadFromSpreadsheet(IList<IList<object>> spreadsheetData)
         {
             // ヘッダー行から列インデックスマップを作成
             BuildColumnIndexMap(spreadsheetData);
@@ -46,9 +39,11 @@ namespace iCON.System
                 }
             }
             
-            return orderDataList;
+            SceneData sceneData = new SceneData(orderDataList[0].ChapterId, orderDataList[0].SceneId, orderDataList);
+            
+            return sceneData;
         }
-        
+
         /// <summary>
         /// 行データからOrderDataを作成
         /// </summary>
@@ -57,7 +52,7 @@ namespace iCON.System
             try
             {
                 var row = data[rowIndex];
-                
+
                 return new OrderData
                 {
                     PartId = GetIntValue(row, StoryDataColumn.PartId),
@@ -82,16 +77,7 @@ namespace iCON.System
                 return null;
             }
         }
-        
-        /// <summary>
-        /// マスタデータからデータを取得する
-        /// </summary>
-        public async UniTask<OrderData> Get(int partId, int chapterId, int sceneId, int orderId = 0)
-        {
-            
-            return null;
-        }
-        
+
         /// <summary>
         /// ヘッダー行から列インデックスマップを構築（IList<object>対応）
         /// </summary>
