@@ -45,3 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _storyManager: {fileID: 0}
+  _playStoryName: Maki
+  _storyLine:
+  - SceneName: VictorAndFlose
+    SpreadsheetName: TestStory
+    HeaderRange: TestStory!A2:N2
+    Range: TestStory!A3:N14
+  - SceneName: Maki
+    SpreadsheetName: TestStory
+    HeaderRange: TestStory!A2:N2
+    Range: TestStory!A15:N87

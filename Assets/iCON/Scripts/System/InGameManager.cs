@@ -1,3 +1,4 @@
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -15,22 +16,16 @@ namespace iCON.System
         private StoryManager _storyManager;
 
         /// <summary>
-        /// スプレッドシート名
-        /// </summary>
-        [SerializeField] 
-        private string _spreadsheetName = "TestStory";
-
-        /// <summary>
-        /// 読み込む範囲
+        /// 再生したいストーリーの名前
         /// </summary>
         [SerializeField]
-        private string _range = "TestStory!A3:N15";
-
+        private string _playStoryName;
+        
         /// <summary>
-        /// ヘッダーの範囲
+        /// データを読み込む際に必要なデータ
         /// </summary>
-        [SerializeField] 
-        private string _headerRange = "TestStory!A2:N2";
+        [SerializeField]
+        private StoryLine[] _storyLine;
 
         public override async UniTask OnStart()
         {
@@ -44,7 +39,15 @@ namespace iCON.System
         public void PlayStory()
         {
             _storyManager.gameObject.SetActive(true);
-            _storyManager.PlayStory(_spreadsheetName,_headerRange, _range, () => _storyManager.gameObject.SetActive(false)).Forget();
+            
+            // TODO: 仮作成
+            var playLine = _storyLine.FirstOrDefault(line => line.SceneName == _playStoryName);
+            if (playLine != null)
+            {
+                _storyManager.PlayStory(playLine.SpreadsheetName, playLine.HeaderRange, playLine.Range,
+                    () => _storyManager.gameObject.SetActive(false)).Forget();
+            }
+                
         }
     }
 }
