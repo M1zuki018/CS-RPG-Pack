@@ -15,7 +15,7 @@ namespace iCON.Enums
         DialogText = 7,
         OverrideDisplayName = 8,
         FilePath = 9,
-        Position = 10,
+        CharacterPositionType = 10,
         FacialExpressionType = 11,
         OverrideTextSpeed = 12,
         Duration = 13

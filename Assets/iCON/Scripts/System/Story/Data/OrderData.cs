@@ -39,7 +39,7 @@ namespace iCON.System
         /// <summary>FilePath</summary>
         public string FilePath { get; set; }
         
-        /// <summary>Position</summary>
+        /// <summary>CharacterPositionType</summary>
         public CharacterPositionType Position { get; set; }
         
         /// <summary>使用する表情差分</summary>
