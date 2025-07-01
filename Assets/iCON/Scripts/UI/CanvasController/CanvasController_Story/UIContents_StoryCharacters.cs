@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using iCON.Enums;
 using iCON.Utility;
 using UnityEngine;
@@ -38,10 +39,10 @@ namespace iCON.UI
         /// <summary>
         /// 表示
         /// </summary>
-        public void Show(CharacterPositionType position, string fileName)
+        public Tween Show(CharacterPositionType position, string fileName, float duration)
         {
             ChangeSprite(position,fileName);
-            GetCharacterPosition(position).Image.Show();
+            return GetCharacterPosition(position).Image.DOFade(1, duration);
         }
         
         /// <summary>

@@ -48,10 +48,9 @@ namespace iCON.UI
             _background.SetImage(fileName);
         }
 
-        public void InCharacter(CharacterPositionType position, string fileName)
+        public Tween InCharacter(CharacterPositionType position, string fileName, float duration)
         {
-            Debug.Log(fileName);
-            _characters.Show(position, fileName);
+            return _characters.Show(position, fileName, duration);
         }
 
         public void OutCharacter(CharacterPositionType position)
