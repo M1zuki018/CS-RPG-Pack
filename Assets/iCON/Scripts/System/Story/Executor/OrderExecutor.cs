@@ -183,9 +183,9 @@ namespace iCON.System
             
             // フェードアウト
             _currentSequence.AddTween(data.Sequence, _view.FadeOut(data.Duration));
-            
+
             // 終了時の処理を実行
-            _endAction?.Invoke();
+            _currentSequence.OnComplete(() => _endAction?.Invoke());
             // TODO
         }
 

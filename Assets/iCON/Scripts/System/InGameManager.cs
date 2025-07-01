@@ -14,16 +14,19 @@ namespace iCON.System
         [SerializeField, HighlightIfNull]
         private StoryManager _storyManager;
 
-        private void OnEnable()
+        public override async UniTask OnStart()
         {
-            _storyManager.enabled = false;
+            await base.OnStart();
+            
+            // ストーリー再生時以外はゲームオブジェクトを非アクティブにしておく
+            _storyManager.gameObject.SetActive(false);
         }
         
         [MethodButtonInspector]
         public void PlayStory()
         {
-            _storyManager.enabled = true;
-            _storyManager.PlayStory("TestStory", "TestStory!A2:N15", () => Debug.Log("End")).Forget();
+            _storyManager.gameObject.SetActive(true);
+            _storyManager.PlayStory("TestStory", "TestStory!A2:N15", () => _storyManager.gameObject.SetActive(false)).Forget();
         }
     }
 }
