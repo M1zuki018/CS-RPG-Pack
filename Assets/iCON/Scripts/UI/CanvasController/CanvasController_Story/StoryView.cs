@@ -65,7 +65,6 @@ namespace iCON.UI
 
         public void SetSteel(string fileName)
         {
-            Debug.Log(fileName);
             _steel.SetImage(fileName);
         }
 
