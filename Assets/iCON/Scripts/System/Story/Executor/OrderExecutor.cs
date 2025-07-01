@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
@@ -9,7 +10,7 @@ namespace iCON.System
     /// <summary>
     /// ストーリーのオーダーを実行するクラス
     /// </summary>
-    public class OrderExecutor
+    public class OrderExecutor : IDisposable
     {
         /// <summary>
         /// Viewを操作するクラス
@@ -25,6 +26,11 @@ namespace iCON.System
         /// 実行中のオーダーのSequence
         /// </summary>
         private Sequence _currentSequence;
+
+        /// <summary>
+        /// ストーリー終了時に実行するアクション
+        /// </summary>
+        private Action _endAction;
         
         /// <summary>
         /// オーダーを実行中か
@@ -34,9 +40,10 @@ namespace iCON.System
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public OrderExecutor(StoryView view)
+        public OrderExecutor(StoryView view, Action endAction)
         {
             _view = view;
+            _endAction = endAction;
         }
 
         /// <summary>
@@ -169,6 +176,9 @@ namespace iCON.System
             
             // フェードアウト
             _currentSequence.AddTween(data.Sequence, _view.FadeOut(data.Duration));
+            
+            // 終了時の処理を実行
+            _endAction?.Invoke();
             // TODO
         }
 
@@ -262,6 +272,15 @@ namespace iCON.System
         private void HandleCustom(OrderData data)
         {
             // TODO
+        }
+
+        public void Dispose()
+        {
+            if (_endAction != null)
+            {
+                // アクションが登録されていたら破棄する
+                _endAction = null;
+            }
         }
     }
 }

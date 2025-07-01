@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using iCON.UI;
@@ -33,6 +34,11 @@ namespace iCON.System
         private OrderExecutor _orderExecutor;
 
         /// <summary>
+        /// ストーリー終了時のアクション
+        /// </summary>
+        private bool _isStoryComplete;
+
+        /// <summary>
         /// 現在のストーリー位置
         /// </summary>
         private StoryPosition CurrentPosition => _progressTracker.CurrentPosition;
@@ -64,6 +70,14 @@ namespace iCON.System
             }
         }
         
+        /// <summary>
+        /// Destroy
+        /// </summary>
+        private void OnDestroy()
+        {
+            _orderExecutor.Dispose();
+        }
+        
         #endregion
         
         /// <summary>
@@ -73,7 +87,7 @@ namespace iCON.System
         {
             _progressTracker = new StoryProgressTracker();
             _orderProvider = new StoryOrderProvider();
-            _orderExecutor = new OrderExecutor(_view);
+            _orderExecutor = new OrderExecutor(_view, () => _isStoryComplete = true);
 
             await _orderProvider.InitializeAsync();
         }
@@ -102,6 +116,12 @@ namespace iCON.System
         /// </summary>
         private void ExecuteNextOrderSequence()
         {
+            if (_isStoryComplete)
+            {
+                // ストーリーを読了していたらreturn
+                return;
+            }
+            
             // オーダーを取得し、進行位置も更新する
             var orders = GetContinuousOrdersAndAdvance();
             
