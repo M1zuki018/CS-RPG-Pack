@@ -251,9 +251,9 @@ namespace iCON.System
         /// <summary>
         /// Wait - 待機処理
         /// </summary>
-        private async UniTask HandleWait(OrderData data)
+        private void HandleWait(OrderData data)
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(data.Duration));
+            _currentSequence.AppendInterval(data.Duration);
         }
 
         /// <summary>
