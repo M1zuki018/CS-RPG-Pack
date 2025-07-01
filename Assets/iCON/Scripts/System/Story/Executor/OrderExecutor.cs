@@ -45,7 +45,14 @@ namespace iCON.System
         /// </summary>
         public void Execute(OrderData data)
         {
-            _isExecuting = true;
+            if (data.Sequence == SequenceType.Append)
+            {
+                // 念のため実行中のシーケンスがあればキルする
+                _currentSequence?.Kill(true);
+                _currentSequence = DOTween.Sequence();
+            }
+            
+            // _isExecuting = true;
             
             switch (data.OrderType)
             {
@@ -133,7 +140,7 @@ namespace iCON.System
         /// </summary>
         private void HandleTalk(OrderData data)
         {
-            _currentSequence.AddTween(data.Sequence, _currentSequence.Append(_view.SetTalk(data.DisplayName, data.DialogText, data.Duration)));
+            _currentSequence.AddTween(data.Sequence, _view.SetTalk(data.DisplayName, data.DialogText, data.Duration));
         }
 
         /// <summary>

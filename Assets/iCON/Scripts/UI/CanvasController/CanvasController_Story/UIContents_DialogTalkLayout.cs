@@ -95,8 +95,10 @@ namespace iCON.UI
             {
                 SetVisibility(true);
             }
-            
-            return _dialog.DOText(dialog ?? string.Empty, duration).SetEase(Ease.OutBounce);
+
+            // テキストボックスを空にしてから始める
+            _dialog.text = string.Empty;
+            return _dialog.DOText(dialog ?? string.Empty, duration).SetEase(Ease.Linear);
         }
         
         /// <summary>
