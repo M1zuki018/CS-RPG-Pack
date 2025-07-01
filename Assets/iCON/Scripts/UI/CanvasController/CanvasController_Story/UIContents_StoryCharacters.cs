@@ -32,6 +32,9 @@ namespace iCON.UI
         private void Awake()
         {
             InitializePositionCache();
+            
+            // 初期化時は全て非表示にしておく
+            HideAll();
         }
 
         #endregion
