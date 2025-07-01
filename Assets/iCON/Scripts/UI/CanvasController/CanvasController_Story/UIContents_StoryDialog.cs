@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 namespace iCON.UI
@@ -57,7 +58,7 @@ namespace iCON.UI
         /// <summary>
         /// 会話ダイアログのテキストを書き換える
         /// </summary>
-        public void SetTalk(string name, string dialog)
+        public Tween SetTalk(string name, string dialog, float duration = 0)
         {
             if (_descriptionLayout.IsVisible)
             {
@@ -65,7 +66,7 @@ namespace iCON.UI
                 _descriptionLayout.SetVisibility(false);
             }
             
-            _talkLayout.SetText(name, dialog);
+            return _talkLayout.SetText(name, dialog, duration);
         }
         
         /// <summary>

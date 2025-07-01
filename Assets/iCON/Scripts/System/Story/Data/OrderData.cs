@@ -25,7 +25,7 @@ namespace iCON.System
         public OrderType OrderType { get; set; }
         
         /// <summary>前のオーダーとの連結方法</summary>
-        public int Sequence { get; set; }
+        public SequenceType Sequence { get; set; }
         
         /// <summary>話し手のキャラクターの管理ID</summary>
         public string SpeakerId { get; set; }

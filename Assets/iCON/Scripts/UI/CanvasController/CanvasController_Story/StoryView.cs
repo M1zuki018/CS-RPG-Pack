@@ -1,3 +1,4 @@
+using DG.Tweening;
 using iCON.Enums;
 using UnityEngine;
 
@@ -75,14 +76,14 @@ namespace iCON.UI
             _steel.Hide();
         }
 
-        public void SetTalk(string name, string dialog)
+        public Tween SetTalk(string name, string dialog, float duration)
         {
-            Debug.Log(dialog);
             if (!_dialog.IsVisible)
             {
                 _dialog.Show();
             }
-            _dialog.SetTalk(name, dialog);
+            
+            return _dialog.SetTalk(name, dialog, duration);
         }
         
         public void SetDescription(string description)

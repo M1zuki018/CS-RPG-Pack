@@ -1,3 +1,4 @@
+using DG.Tweening;
 using iCON.Utility;
 using UnityEngine;
 
@@ -48,12 +49,12 @@ namespace iCON.UI
         /// <summary>
         /// 表示テキストを変更する
         /// </summary>
-        public void SetText(string name, string dialog)
+        public Tween SetText(string name, string dialog, float duration = 0)
         {
             if (!_isInitialized)
             {
                 // NOTE: 初期化が正しく行われていない場合はコンポーネントがnullになるためreturnしておく
-                return;    
+                return null;    
             }
 
             if (!IsVisible)
@@ -62,7 +63,7 @@ namespace iCON.UI
             }
             
             SetName(name);
-            SetDialog(dialog);
+            return SetDialog(dialog, duration);
         }
         
         /// <summary>
@@ -83,16 +84,19 @@ namespace iCON.UI
         /// <summary>
         /// 会話文のみを設定する
         /// </summary>
-        public void SetDialog(string dialog)
+        public Tween SetDialog(string dialog, float duration = 0)
         {
-            if (!_isInitialized) return;
+            if (!_isInitialized)
+            {
+                return null;
+            }
             
             if (!IsVisible)
             {
                 SetVisibility(true);
             }
             
-            _dialog.text = dialog ?? string.Empty;
+            return _dialog.DOText(dialog ?? string.Empty, duration).SetEase(Ease.OutBounce);
         }
         
         /// <summary>

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using iCON.Enums;
 using UnityEngine;
 
@@ -60,7 +61,7 @@ namespace iCON.System
                     SceneId = GetIntValue(row, StoryDataColumn.SceneId),
                     OrderId = GetIntValue(row, StoryDataColumn.OrderId),
                     OrderType = GetType<OrderType>(row, StoryDataColumn.OrderType),
-                    Sequence = GetIntValue(row, StoryDataColumn.Sequence),
+                    Sequence = GetType<SequenceType>(row, StoryDataColumn.Sequence),
                     SpeakerId = GetStringValue(row, StoryDataColumn.SpeakerId),
                     DialogText = GetStringValue(row, StoryDataColumn.DialogText),
                     OverrideDisplayName = GetStringValue(row, StoryDataColumn.OverrideDisplayName),

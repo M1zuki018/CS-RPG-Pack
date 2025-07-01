@@ -133,7 +133,7 @@ namespace iCON.System
         /// </summary>
         private void HandleTalk(OrderData data)
         {
-            _view.SetTalk(data.DisplayName, data.DialogText);
+            _currentSequence.AddTween(data.Sequence, _currentSequence.Append(_view.SetTalk(data.DisplayName, data.DialogText, data.Duration)));
         }
 
         /// <summary>
