@@ -13,25 +13,51 @@ namespace iCON.System
     public class StoryMasterGetter
     {
         private Dictionary<string, int> _columnIndexMap = new();
+        private bool _isInitialized = false;
         
-        public async UniTask<SceneData> Setup(string spreadsheetName, string range)
+        /// <summary>
+        /// Setup
+        /// ヘッダー行を読み込んでインデックスマップを作成する
+        /// </summary>
+        public async UniTask InitializeAsync(string spreadsheetName, string headerRange)
         {
-            var data = await SheetsDataService.Instance.ReadFromSpreadsheetAsync(spreadsheetName, range);
-            return LoadFromSpreadsheet(data);
+            var headerData = await SheetsDataService.Instance.ReadFromSpreadsheetAsync(spreadsheetName, headerRange);
+            
+            if (headerData == null || headerData.Count == 0)
+            {
+                throw new InvalidOperationException($"ヘッダーデータの読み込みに失敗しました: {spreadsheetName}, {headerRange}");
+            }
+            
+            // ヘッダー行から列インデックスマップを作成
+            BuildColumnIndexMap(headerData);
+            
+            // 初期化完了
+            _isInitialized = true;
+        }
+        
+        /// <summary>
+        /// 指定範囲のデータを読み込んでSceneDataを作成する
+        /// </summary>
+        public async UniTask<SceneData> LoadSceneDataAsync(string spreadsheetName, string dataRange)
+        {
+            if (!_isInitialized)
+            {
+                throw new InvalidOperationException("InitializeAsync を先に呼び出してください");
+            }
+            
+            var data = await SheetsDataService.Instance.ReadFromSpreadsheetAsync(spreadsheetName, dataRange);
+            return LoadFromSpreadsheetData(data);
         }
         
         /// <summary>
         /// スプレッドシートから読み込み
         /// </summary>
-        private SceneData LoadFromSpreadsheet(IList<IList<object>> spreadsheetData)
+        private SceneData LoadFromSpreadsheetData(IList<IList<object>> spreadsheetData)
         {
-            // ヘッダー行から列インデックスマップを作成
-            BuildColumnIndexMap(spreadsheetData);
-            
             var orderDataList = new List<OrderData>();
             
-            // データ行を処理（ヘッダー行をスキップ）
-            for (int row = 1; row < spreadsheetData.Count; row++)
+            // データ行を処理
+            for (int row = 0; row < spreadsheetData.Count; row++)
             {
                 var orderData = CreateOrderData(spreadsheetData, row);
                 if (orderData != null)
