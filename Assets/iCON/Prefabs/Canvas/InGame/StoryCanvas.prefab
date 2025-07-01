@@ -511,12 +511,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_Font: {fileID: 12800000, guid: bef5480e84a91e349803621421fe777d, type: 3}
+    m_FontSize: 55
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
+    m_MinSize: 6
+    m_MaxSize: 72
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -815,7 +815,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: bef5480e84a91e349803621421fe777d, type: 3}
-    m_FontSize: 76
+    m_FontSize: 55
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -916,6 +916,7 @@ GameObject:
   - component: {fileID: 9130835914721195255}
   - component: {fileID: 4297485547815760813}
   - component: {fileID: 9118346743274492970}
+  - component: {fileID: 8529576289407957489}
   m_Layer: 5
   m_Name: StoryCanvas
   m_TagString: Untagged
@@ -1028,6 +1029,19 @@ MonoBehaviour:
   _steel: {fileID: 6922220018848247410}
   _dialog: {fileID: 5987859303044627970}
   _fadePanel: {fileID: 2662856324998147803}
+--- !u!114 &8529576289407957489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7241587270615209574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4a28801ca6ca347be77e2dd12e1b27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _view: {fileID: 9118346743274492970}
 --- !u!1 &7334819405195371951
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,7 +1100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5835262, g: 0.8006889, b: 0.8773585, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
