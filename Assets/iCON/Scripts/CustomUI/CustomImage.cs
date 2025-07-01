@@ -57,7 +57,7 @@ public class CustomImage : Image
     // <summary>
     /// スプライトを非同期で読み込む
     /// </summary>
-    private async UniTaskVoid LoadSpriteAsync()
+    private async UniTask LoadSpriteAsync()
     {
         if (_isLoading || string.IsNullOrEmpty(_assetName))
             return;
