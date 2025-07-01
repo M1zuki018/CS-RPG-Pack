@@ -14,6 +14,18 @@ namespace iCON.System
         [SerializeField, HighlightIfNull]
         private StoryManager _storyManager;
 
+        /// <summary>
+        /// スプレッドシート名
+        /// </summary>
+        [SerializeField] 
+        private string _spreadsheetName = "TestStory";
+
+        /// <summary>
+        /// 読み込む範囲
+        /// </summary>
+        [SerializeField]
+        private string _range = "TestStory!A2:N15";
+
         public override async UniTask OnStart()
         {
             await base.OnStart();
@@ -26,7 +38,7 @@ namespace iCON.System
         public void PlayStory()
         {
             _storyManager.gameObject.SetActive(true);
-            _storyManager.PlayStory("TestStory", "TestStory!A2:N15", () => _storyManager.gameObject.SetActive(false)).Forget();
+            _storyManager.PlayStory(_spreadsheetName, _range, () => _storyManager.gameObject.SetActive(false)).Forget();
         }
     }
 }
