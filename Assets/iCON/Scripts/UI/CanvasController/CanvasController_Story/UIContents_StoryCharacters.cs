@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using iCON.Enums;
 using iCON.Utility;
 using UnityEngine;
@@ -68,15 +69,15 @@ namespace iCON.UI
         public bool ChangeSprite(CharacterPositionType position, string fillName)
         {
             // データクラスを取得する
-            var characterData = GetCharacterPosition(position);
-            if (characterData?.Image == null)
-            {
-                LogUtility.Error($"{position} の画像が設定されていません", LogCategory.UI, this);
-                return false;
-            }
+            // var characterData = GetCharacterPosition(position);
+            // if (characterData?.Image == null)
+            // {
+            //     LogUtility.Error($"{position} の画像が設定されていません", LogCategory.UI, this);
+            //     return false;
+            // }
 
             // nullではなかったら画像を差し替える
-            characterData.Image.AssetName = fillName;
+            _positionCache[position].Image.AssetName = fillName;
             return true;
         }
         
