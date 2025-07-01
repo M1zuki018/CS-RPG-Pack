@@ -37,8 +37,9 @@ namespace iCON.UI
         /// <summary>
         /// 表示
         /// </summary>
-        public void Show(CharacterPositionType position)
+        public void Show(CharacterPositionType position, string fileName)
         {
+            ChangeSprite(position,fileName);
             GetCharacterPosition(position).Image.Show();
         }
         
