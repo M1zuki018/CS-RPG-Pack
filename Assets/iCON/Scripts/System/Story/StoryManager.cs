@@ -1,5 +1,6 @@
 
 using Cysharp.Threading.Tasks;
+using iCON.UI;
 using UnityEngine;
 
 namespace iCON.System
@@ -10,9 +11,20 @@ namespace iCON.System
     public class StoryManager : ViewBase
     {
         /// <summary>
+        /// View
+        /// </summary>
+        [SerializeField] 
+        private StoryView _view;
+        
+        /// <summary>
         /// ストーリーを進行させる
         /// </summary>
         private StoryProgress _progress;
+        
+        /// <summary>
+        /// オーダーを実行する
+        /// </summary>
+        private OrderExecutor _orderExecutor;
 
         #region Lifecycle
         
@@ -20,6 +32,7 @@ namespace iCON.System
         {
             await base.OnAwake();
             _progress = new StoryProgress();
+            _orderExecutor = new OrderExecutor(_view);
 
             await _progress.Setup();
         }
@@ -40,6 +53,7 @@ namespace iCON.System
         private void NextOrder()
         {
             var order = _progress.NextOrder();
+            _orderExecutor.Execute(order);
         }
         
         /// <summary>
