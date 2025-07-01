@@ -35,8 +35,9 @@ namespace iCON.System
 
         /// <summary>
         /// ストーリー終了時のアクション
+        /// NOTE: 初期化後すぐにストーリーが進まないようにDefaultはtrueにしておく
         /// </summary>
-        private bool _isStoryComplete;
+        private bool _isStoryComplete = true;
 
         /// <summary>
         /// 現在のストーリー位置
@@ -56,7 +57,7 @@ namespace iCON.System
         public override async UniTask OnAwake()
         {
             await base.OnAwake();
-            await InitializeComponents();
+            InitializeComponents();
         }
         
         /// <summary>
@@ -83,13 +84,29 @@ namespace iCON.System
         /// <summary>
         /// 各コンポーネントの初期化
         /// </summary>
-        private async UniTask InitializeComponents()
+        private void InitializeComponents()
         {
             _progressTracker = new StoryProgressTracker();
             _orderProvider = new StoryOrderProvider();
-            _orderExecutor = new OrderExecutor(_view, () => _isStoryComplete = true);
+            _orderExecutor = new OrderExecutor(_view);
+        }
 
-            await _orderProvider.InitializeAsync();
+        /// <summary>
+        /// ストーリー再生を開始する
+        /// </summary>
+        public async UniTask PlayStory(string spreadsheetName, string range, Action endAction)
+        {
+            _orderExecutor.Setup(() =>
+            {
+                endAction?.Invoke();
+                _isStoryComplete = true;
+            });
+            
+            // ストーリーデータを読み込む
+            await _orderProvider.InitializeAsync(spreadsheetName, range);
+            
+            // ストーリー読了フラグをfalseにして、再生できるようにする
+            _isStoryComplete = false;
         }
 
         #region Orderの進行処理

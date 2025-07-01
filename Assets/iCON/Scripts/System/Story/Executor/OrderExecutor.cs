@@ -40,9 +40,16 @@ namespace iCON.System
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public OrderExecutor(StoryView view, Action endAction)
+        public OrderExecutor(StoryView view)
         {
             _view = view;
+        }
+
+        /// <summary>
+        /// Setup
+        /// </summary>
+        public void Setup(Action endAction)
+        {
             _endAction = endAction;
         }
 

@@ -14,9 +14,9 @@
           private SceneData _currentSceneData;
 
           /// <summary>初期化処理</summary>
-          public async UniTask InitializeAsync()
+          public async UniTask InitializeAsync(string spreadsheetName, string range)
           {
-              _currentSceneData = await _storyDataLoader.Setup();
+              _currentSceneData = await _storyDataLoader.Setup(spreadsheetName, range);
           }
 
           /// <summary>指定位置のオーダーを取得</summary>

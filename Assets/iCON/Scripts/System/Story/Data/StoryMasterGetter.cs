@@ -14,9 +14,9 @@ namespace iCON.System
     {
         private Dictionary<string, int> _columnIndexMap = new();
         
-        public async UniTask<SceneData> Setup()
+        public async UniTask<SceneData> Setup(string spreadsheetName, string range)
         {
-            var data = await SheetsDataService.Instance.ReadFromSpreadsheetAsync("TestStory", "TestStory!A2:N15"); // TODO: Sceneの管理データに持たせて変数化したい
+            var data = await SheetsDataService.Instance.ReadFromSpreadsheetAsync(spreadsheetName, range);
             return LoadFromSpreadsheet(data);
         }
         
@@ -80,7 +80,7 @@ namespace iCON.System
         }
 
         /// <summary>
-        /// ヘッダー行から列インデックスマップを構築（IList<object>対応）
+        /// ヘッダー行から列インデックスマップを構築
         /// </summary>
         private void BuildColumnIndexMap(IList<IList<object>> data)
         {
@@ -100,7 +100,7 @@ namespace iCON.System
         }
         
         /// <summary>
-        /// 指定された列から文字列値を取得（IList<object>対応）
+        /// 指定された列から文字列値を取得
         /// </summary>
         private string GetStringValue(IList<object> row, StoryDataColumn column)
         {
