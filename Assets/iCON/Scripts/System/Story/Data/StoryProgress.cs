@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using iCON.Enums;
 
 namespace iCON.System
 {
@@ -32,9 +34,37 @@ namespace iCON.System
         }
         
         /// <summary>
+        /// Appendまでのオーダーを連続で取得
+        /// </summary>
+        public List<OrderData> GetOrdersUntilAppend()
+        {
+            var orders = new List<OrderData>();
+            
+            // 最初のオーダーを取得
+            orders.Add(NextOrder());
+
+            // 次のオーダーがAppend以外の時は取得を続ける
+            while (PeekNextOrder().Sequence != SequenceType.Append)
+            {
+                orders.Add(NextOrder());
+            }
+        
+            return orders;
+        }
+        
+        /// <summary>
+        /// 次のオーダーを取得せずに確認
+        /// </summary>
+        public OrderData PeekNextOrder()
+        {
+            // 現在位置の次のオーダーを確認（位置は進めない）
+            return Get(CurrentOrderIndex + 1);
+        }
+        
+        /// <summary>
         /// 次のオーダーに進む
         /// </summary>
-        public OrderData NextOrder()
+        private OrderData NextOrder()
         {
             CurrentOrderIndex++;
             return Get();
@@ -91,6 +121,11 @@ namespace iCON.System
         private OrderData Get()
         {
             return _sceneData.Orders[CurrentOrderIndex];
+        }
+
+        private OrderData Get(int orderIndex)
+        {
+            return _sceneData.Orders[orderIndex];
         }
     }   
 }

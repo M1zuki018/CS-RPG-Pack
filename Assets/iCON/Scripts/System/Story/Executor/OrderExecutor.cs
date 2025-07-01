@@ -50,6 +50,7 @@ namespace iCON.System
                 // 念のため実行中のシーケンスがあればキルする
                 _currentSequence?.Kill(true);
                 _currentSequence = DOTween.Sequence();
+                Debug.Log("新しいシーケンスを開始");
             }
             
             // _isExecuting = true;

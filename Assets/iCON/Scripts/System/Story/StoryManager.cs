@@ -1,5 +1,7 @@
 
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using iCON.Enums;
 using iCON.UI;
 using UnityEngine;
 
@@ -59,12 +61,14 @@ namespace iCON.System
             }
             else
             {
-                // 次のオーダーの演出を開始する
-                _orderExecutor.Execute(_progress.NextOrder());
+                // 取得したオーダーをすべて実行
+                foreach (var orderToExecute in _progress.GetOrdersUntilAppend())
+                {
+                    _orderExecutor.Execute(orderToExecute);
+                }
             }
-            
         }
-        
+
         /// <summary>
         /// 次のシーンに進む
         /// </summary>
