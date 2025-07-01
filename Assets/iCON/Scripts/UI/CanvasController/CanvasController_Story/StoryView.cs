@@ -12,26 +12,32 @@ namespace iCON.UI
         /// <summary>
         /// 背景管理クラス
         /// </summary>
-        [SerializeField]
+        [SerializeField, HighlightIfNull]
         private UIContents_StoryBackground _background;
         
         /// <summary>
         /// キャラクター立ち絵管理クラス
         /// </summary>
-        [SerializeField]
+        [SerializeField, HighlightIfNull]
         private UIContents_StoryCharacters _characters;
         
         /// <summary>
         /// スチル管理クラス
         /// </summary>
-        [SerializeField]
+        [SerializeField, HighlightIfNull]
         private UIContents_StorySteel _steel;
         
         /// <summary>
         /// ダイアログ管理クラス
         /// </summary>
-        [SerializeField]
+        [SerializeField, HighlightIfNull]
         private UIContents_StoryDialog _dialog;
+        
+        /// <summary>
+        /// フェードパネル管理クラス
+        /// </summary>
+        [SerializeField, HighlightIfNull]
+        private UIContents_FadePanel _fadePanel;
 
         /// <summary>
         /// 背景を変更する
@@ -54,7 +60,7 @@ namespace iCON.UI
             _characters.Hide(position);
         }
 
-        public void HideAll()
+        public void HideAllCharacters()
         {
             _characters.HideAll();
         }
@@ -101,6 +107,30 @@ namespace iCON.UI
             }
             
             return _dialog.SetDescription(description, duration);
+        }
+
+        /// <summary>
+        /// フェードイン
+        /// </summary>
+        public Tween FadeIn(float duration)
+        {
+            return _fadePanel.FadeIn(duration);
+        }
+
+        /// <summary>
+        /// フェードアウト
+        /// </summary>
+        public Tween FadeOut(float duration)
+        {
+            return _fadePanel.FadeOut(duration);
+        }
+
+        /// <summary>
+        /// フェードパネルの表示/非表示を即座に切り替える
+        /// </summary>
+        public void FadePanelSetVisible(bool visible)
+        {
+            _fadePanel.SetVisible(visible);
         }
     }
    

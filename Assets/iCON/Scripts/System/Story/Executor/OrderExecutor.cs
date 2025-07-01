@@ -136,7 +136,8 @@ namespace iCON.System
         private void HandleStart(OrderData data)
         {
             Debug.Log("Story started");
-            _view.HideAll();
+            _view.HideAllCharacters();
+            _currentSequence.AddTween(data.Sequence, _view.FadeIn(data.Duration));
             // TODO
         }
 
@@ -162,7 +163,7 @@ namespace iCON.System
         private void HandleEnd(OrderData data)
         {
             Debug.Log("Story ended");
-            _view.HideAll();
+            _currentSequence.AddTween(data.Sequence, _view.FadeOut(data.Duration));
             // TODO
         }
 
