@@ -149,14 +149,6 @@ namespace iCON.System
         private void HandleStart(OrderData data)
         {
             Debug.Log("Story started");
-            
-            // 全キャラクター非表示
-            _view.HideAllCharacters();
-            // スチル非表示
-            _view.HideSteel();
-            //ダイアログをリセット
-            _view.ResetTalk();
-            _view.ResetDescription();
             // フェードイン
             _currentSequence.AddTween(data.Sequence, _view.FadeIn(data.Duration));
             // TODO
@@ -187,8 +179,9 @@ namespace iCON.System
             
             // フェードアウト
             _currentSequence.AddTween(data.Sequence, _view.FadeOut(data.Duration));
+            
             // 終了時の処理を実行
-            _currentSequence.OnKill(() => _endAction?.Invoke());
+            _currentSequence.OnKill(HandleReset);
             // TODO
         }
 
@@ -282,6 +275,22 @@ namespace iCON.System
         private void HandleCustom(OrderData data)
         {
             // TODO
+        }
+        
+        /// <summary>
+        /// ストーリー終了時のリセット処理
+        /// </summary>
+        private void HandleReset()
+        {
+            // 全キャラクター非表示
+            _view.HideAllCharacters();
+            // スチル非表示
+            _view.HideSteel();
+            //ダイアログをリセット
+            _view.ResetTalk();
+            _view.ResetDescription();
+
+            _endAction?.Invoke();
         }
 
         public void Dispose()
