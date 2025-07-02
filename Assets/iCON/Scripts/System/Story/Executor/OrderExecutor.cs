@@ -190,7 +190,8 @@ namespace iCON.System
         /// </summary>
         private void HandleChangeBGM(OrderData data)
         {
-            // TODO
+            AudioManager.Instance.PlayBGM(data.FilePath).Forget();
+            _currentSequence.AppendInterval(data.Duration);
         }
 
         /// <summary>
@@ -257,7 +258,7 @@ namespace iCON.System
         /// </summary>
         private void HandleChangeBackground(OrderData data)
         {
-            _view.SetBackground(data.FilePath);
+            _view.SetBackground(data.FilePath).Forget();
             _currentSequence.AppendInterval(data.Duration);
         }
 

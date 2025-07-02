@@ -54,4 +54,4 @@ MonoBehaviour:
   - SceneName: Maki
     SpreadsheetName: TestStory
     HeaderRange: TestStory!A2:N2
-    Range: TestStory!A15:N87
+    Range: TestStory!A15:N89
