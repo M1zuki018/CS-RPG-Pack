@@ -39,26 +39,6 @@ namespace iCON.System
         private AsyncOperationHandle<AudioClip> _loadHandle;
         private bool _isLoading = false;
 
-        /// <summary>
-        /// SEのオブジェクトプールからAudioSourceを取得する
-        /// </summary>
-        public AudioSource GetSEAudioSource() => _seSourcePool.Get();
-
-        /// <summary>
-        /// VoiceのオブジェクトプールからAudioSourceを取得する
-        /// </summary>
-        public AudioSource GetVoiceAudioSource() => _voiceSourcePool.Get();
-
-        /// <summary>
-        /// SEのオブジェクトプールから引数で渡したAudioSourceを解除する
-        /// </summary>
-        public void SESourceRelease(AudioSource source) => _seSourcePool.Release(source);
-
-        /// <summary>
-        /// Voiceのオブジェクトプールから引数で渡したAudioSourceを解除する
-        /// </summary>
-        public void VoiceSourceRelease(AudioSource source) => _voiceSourcePool.Release(source);
-
         #region Lifecycle
         
         public override UniTask OnAwake()
@@ -138,7 +118,17 @@ namespace iCON.System
                 _seSourcePool.Release(source);
             }
         }
+        
+        /// <summary>
+        /// SEのオブジェクトプールからAudioSourceを取得する
+        /// </summary>
+        public AudioSource GetSEAudioSource() => _seSourcePool.Get();
 
+        /// <summary>
+        /// SEのオブジェクトプールから引数で渡したAudioSourceを解除する
+        /// </summary>
+        public void SESourceRelease(AudioSource source) => _seSourcePool.Release(source);
+        
         /// <summary>
         /// 環境音を再生する
         /// </summary>
@@ -168,6 +158,16 @@ namespace iCON.System
                 _voiceSourcePool.Release(source);
             }
         }
+        
+        /// <summary>
+        /// VoiceのオブジェクトプールからAudioSourceを取得する
+        /// </summary>
+        public AudioSource GetVoiceAudioSource() => _voiceSourcePool.Get();
+
+        /// <summary>
+        /// Voiceのオブジェクトプールから引数で渡したAudioSourceを解除する
+        /// </summary>
+        public void VoiceSourceRelease(AudioSource source) => _voiceSourcePool.Release(source);
 
         #region Private Methods
 
