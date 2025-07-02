@@ -7,6 +7,7 @@
     <list default="true" id="e98df84d-2589-499c-b455-344a5dd5de9f" name="変更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.iCON/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.iCON/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/iCON/Audio/AudioMixer.mixer" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/iCON/Audio/AudioMixer.mixer" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/iCON/Scripts/System/Story/Executor/OrderExecutor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/iCON/Scripts/System/Story/Executor/OrderExecutor.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,6 +41,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/84f0d810adef4e6c8deab33e4ae93f7c1dec00/f7/e7a4c0e7/Scene.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a91c06e683e34bc9beda6e2852c047839b8e00/d9/633e3ae9/SerializedProperty.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ffe351aa6232372f4a3b8c3ff36a636f33de226f60e607acbfe569289d7289d/System.IO.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/AssetStoreTools/DOTwennUniTaskExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Editor/CustomUI/CustomButtonEditor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Editor/CustomUI/CustomImageEditor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/iCON/Editor/LogUtilitySettingsWindow.cs" root0="FORCE_HIGHLIGHTING" />
@@ -90,7 +92,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feat/story-select",
+    "git-widget-placeholder": "feat/story-bgm",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -149,6 +151,7 @@
       <workItem from="1751153995272" duration="11447000" />
       <workItem from="1751288670932" duration="4580000" />
       <workItem from="1751341269650" duration="12716000" />
+      <workItem from="1751416701161" duration="5346000" />
     </task>
     <servers />
   </component>
