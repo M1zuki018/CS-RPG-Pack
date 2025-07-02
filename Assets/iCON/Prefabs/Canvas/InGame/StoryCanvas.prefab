@@ -917,6 +917,7 @@ GameObject:
   - component: {fileID: 4297485547815760813}
   - component: {fileID: 9118346743274492970}
   - component: {fileID: 8529576289407957489}
+  - component: {fileID: 2991436450977270425}
   m_Layer: 5
   m_Name: StoryCanvas
   m_TagString: Untagged
@@ -1029,6 +1030,7 @@ MonoBehaviour:
   _steel: {fileID: 6922220018848247410}
   _dialog: {fileID: 5987859303044627970}
   _fadePanel: {fileID: 2662856324998147803}
+  _canvasShaker: {fileID: 2991436450977270425}
 --- !u!114 &8529576289407957489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1042,6 +1044,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _view: {fileID: 9118346743274492970}
+--- !u!114 &2991436450977270425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7241587270615209574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7847c2ed270ab18498a58f7ae9a78ecf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7334819405195371951
 GameObject:
   m_ObjectHideFlags: 0
