@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using iCON.UI;
 using iCON.Utility;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace iCON.System
 {
@@ -17,6 +18,12 @@ namespace iCON.System
         /// </summary>
         [SerializeField] 
         private StoryView _view;
+        
+        /// <summary>
+        /// オーバーレイ上のUIボタンを管理するクラス
+        /// </summary>
+        [SerializeField]
+        private UIContents_OverlayContents _overlayContents;
         
         /// <summary>
         /// ストーリーの現在位置の保持と移動を行う
@@ -40,6 +47,11 @@ namespace iCON.System
         private bool _isStoryComplete = true;
 
         /// <summary>
+        /// UI非表示ボタンが押されている
+        /// </summary>
+        private bool _isImmerseMode = false;
+
+        /// <summary>
         /// 現在のストーリー位置
         /// </summary>
         private StoryPosition CurrentPosition => _progressTracker.CurrentPosition;
@@ -58,6 +70,7 @@ namespace iCON.System
         {
             await base.OnAwake();
             InitializeComponents();
+            SetupOverlayContents();
         }
         
         /// <summary>
@@ -65,6 +78,12 @@ namespace iCON.System
         /// </summary>
         private void Update()
         {
+            if (_isImmerseMode)
+            {
+                // UI非表示モードの場合ストーリーを進めない
+                return;
+            }
+            
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 ProcessNextOrder();
@@ -89,6 +108,34 @@ namespace iCON.System
             _progressTracker = new StoryProgressTracker();
             _orderProvider = new StoryOrderProvider();
             _orderExecutor = new OrderExecutor(_view);
+        }
+
+        /// <summary>
+        /// オーバーレイ上のUIの初期化
+        /// </summary>
+        private void SetupOverlayContents()
+        {
+            // UI非表示ボタン
+            _overlayContents.SetupImmerseButton(HandleClickImmerseButton);
+        }
+
+        /// <summary>
+        /// UI非表示ボタンが押されたときの処理
+        /// </summary>
+        private void HandleClickImmerseButton()
+        {
+            // UI非表示状態かフラグを切り替える
+            _isImmerseMode = !_isImmerseMode;
+
+            if (_isImmerseMode)
+            {
+                // 非表示状態であれば、ダイアログを非表示にする
+                _view.HideDialog();
+            }
+            else
+            {
+                _view.ShowDialog();
+            }
         }
 
         /// <summary>
