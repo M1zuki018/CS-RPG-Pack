@@ -234,7 +234,7 @@ namespace iCON.System
         /// </summary>
         private void HandleCameraShake(OrderData data)
         {
-            // TODO
+            _currentSequence.AddTween(data.Sequence, _view.CameraShake(data.Duration, data.OverrideTextSpeed));
         }
 
         /// <summary>

@@ -41,6 +41,12 @@ namespace iCON.UI
         private UIContents_FadePanel _fadePanel;
 
         /// <summary>
+        /// キャンバスを揺らすクラス
+        /// </summary>
+        [SerializeField, HighlightIfNull]
+        private CanvasShaker _canvasShaker;
+
+        /// <summary>
         /// 会話テキストを更新する
         /// </summary>
         public Tween SetTalk(string name, string dialog, float duration)
@@ -172,6 +178,14 @@ namespace iCON.UI
         {
             await _background.SetImageAsync(fileName);
             _background.FadeIn();
+        }
+
+        /// <summary>
+        /// カメラシェイク
+        /// </summary>
+        public Tween CameraShake(float duration, float strengthLate)
+        {
+            return _canvasShaker.ExplosionShake(duration, strengthLate);
         }
     }
    
