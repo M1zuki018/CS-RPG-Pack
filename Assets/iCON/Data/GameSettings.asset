@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   _graphicsQuality: 1
-  _masterVolume: 1
+  _masterVolume: 0.805
   _bgmVolume: 1
   _seVolume: 1
   _ambientVolume: 1
