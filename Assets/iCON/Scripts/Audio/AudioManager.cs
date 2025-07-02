@@ -258,6 +258,14 @@ namespace iCON.System
                 await sequence.ToUniTask();
             }
         }
+        
+        /// <summary>
+        /// BGMの音量を直接設定する
+        /// </summary>
+        public void SetBGMVolume(float volume)
+        {
+            CurrentBGMSource.volume = volume;
+        }
 
         /// <summary>
         /// SEを再生する
