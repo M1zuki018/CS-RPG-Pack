@@ -1,5 +1,8 @@
 using System;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using iCON.Constants;
+using iCON.Extensions;
 using iCON.Utility;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -20,25 +23,74 @@ namespace iCON.System
         /// </summary>
         public static AudioManager Instance { get; private set; }
 
-        [Header("AudioMixer")] 
+        /// <summary>
+        /// AudioMixer
+        /// </summary>
         [SerializeField, HighlightIfNull]
         private AudioMixer _mixer;
 
+        /// <summary>
+        /// ゲーム設定（AudioMixerの調節用）
+        /// </summary>
         [SerializeField, HighlightIfNull] 
         private GameSettings _gameSettings;
 
-        [Header("AudioSource")] 
+        // NOTE: クロスフェード用に2つ用意する
         private AudioSource _bgmSource; // BGM用
+        private AudioSource _bgmSourceSecondary; // クロスフェード用セカンダリBGM
         private AudioSource _ambienceSource; // 環境音用
+        private AudioSource _ambienceSourceSecondary; // クロスフェード用セカンダリ環境音
+
+        // NOTE: 複数同時に音が鳴るものはObjectPoolで管理
         private IObjectPool<AudioSource> _seSourcePool; // SE用のAudioSource
         private IObjectPool<AudioSource> _voiceSourcePool; // Voice用のAudioSource
 
+        // NOTE: フェード管理用
+        private Tween _bgmFadeTween;
+        private Tween _ambienceFadeTween;
+        private bool _isUsingSecondaryBGM = false;
+        private bool _isUsingSecondaryAmbience = false;
+        
         /// <summary>
         /// Addressable
         /// </summary>
         private AsyncOperationHandle<AudioClip> _loadHandle;
         private bool _isLoading = false;
 
+        #region Properties
+
+        /// <summary>
+        /// 現在のBGMソース
+        /// </summary>
+        private AudioSource CurrentBGMSource => _isUsingSecondaryBGM ? _bgmSourceSecondary : _bgmSource;
+        
+        /// <summary>
+        /// 次のBGMソース（クロスフェード用）
+        /// </summary>
+        private AudioSource NextBGMSource => _isUsingSecondaryBGM ? _bgmSource : _bgmSourceSecondary;
+
+        /// <summary>
+        /// 現在の環境音ソース
+        /// </summary>
+        private AudioSource CurrentAmbienceSource => _isUsingSecondaryAmbience ? _ambienceSourceSecondary : _ambienceSource;
+        
+        /// <summary>
+        /// 次の環境音ソース（クロスフェード用）
+        /// </summary>
+        private AudioSource NextAmbienceSource => _isUsingSecondaryAmbience ? _ambienceSource : _ambienceSourceSecondary;
+        
+        /// <summary>
+        /// SEのオブジェクトプールからAudioSourceを取得する
+        /// </summary>
+        public AudioSource GetSEAudioSource() => _seSourcePool.Get();
+        
+        /// <summary>
+        /// VoiceのオブジェクトプールからAudioSourceを取得する
+        /// </summary>
+        public AudioSource GetVoiceAudioSource() => _voiceSourcePool.Get();
+
+        #endregion
+        
         #region Lifecycle
         
         public override UniTask OnAwake()
@@ -52,17 +104,33 @@ namespace iCON.System
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
-            _bgmSource = CreateAudioSource(Enums.AudioType.BGM);
-            _ambienceSource = CreateAudioSource(Enums.AudioType.Ambience);
-            _seSourcePool = CreateAudioSourcePool(Enums.AudioType.SE, 3, 100); // SE用のオブジェクトプール初期化
-            _voiceSourcePool = CreateAudioSourcePool(Enums.AudioType.Voice, 3, 20); // Voice用のオブジェクトプール初期化
+            // BGM用のオブジェクト生成
+            _bgmSource = CreateAudioSource(Enums.AudioType.BGM, "BGM_Primary");
+            _bgmSourceSecondary = CreateAudioSource(Enums.AudioType.BGM, "BGM_Secondary");
+            
+            // 環境音用のオブジェクト生成
+            _ambienceSource = CreateAudioSource(Enums.AudioType.Ambience, "Ambience_Primary");
+            _ambienceSourceSecondary = CreateAudioSource(Enums.AudioType.Ambience, "Ambience_Secondary");
+            
+            // SE用のオブジェクトプール初期化
+            _seSourcePool = CreateAudioSourcePool(Enums.AudioType.SE, 3, 100);
+            
+            // Voice用のオブジェクトプール初期化
+            _voiceSourcePool = CreateAudioSourcePool(Enums.AudioType.Voice, 3, 20);
 
+            // 初期状態はボリューム0に設定
+            _bgmSource.volume = 0f;
+            _bgmSourceSecondary.volume = 0f;
+            _ambienceSource.volume = 0f;
+            _ambienceSourceSecondary.volume = 0f;
+            
             for (int i = 0; i < 3; i++)
             {
                 _seSourcePool.Get();
                 _voiceSourcePool.Get();
             }
 
+            // GameSettingsを元にAudioMixerの音量を設定
             SetVolume("Master", _gameSettings.MasterVolume);
             SetVolume("BGM", _gameSettings.BGMVolume);
             SetVolume("SE", _gameSettings.SEVolume);
@@ -95,9 +163,99 @@ namespace iCON.System
             // NOTE: nullの可能性があるのでnullチェックを行う
             if (clip != null)
             {
-                _bgmSource.gameObject.SetActive(true);
-                _bgmSource.clip = clip;
-                _bgmSource.Play();
+                CurrentBGMSource.gameObject.SetActive(true);
+                CurrentBGMSource.clip = clip;
+                CurrentBGMSource.volume = 1f;
+                CurrentBGMSource.loop = true;
+                CurrentBGMSource.Play();
+            }
+        }
+        
+        /// <summary>
+        /// BGMをフェードインで再生する
+        /// </summary>
+        public async UniTask PlayBGMWithFadeIn(string filePath, float fadeDuration = -1f)
+        {
+            if (fadeDuration < 0)
+            {
+                // フェード時間が特に設定されておらず負の値の場合は、Constantで宣言している値を使用する
+                fadeDuration = StoryConstants.BGM_FADE_DURATION;
+            }
+            
+            var clip = await LoadAudioClipAsync(filePath);
+            if (clip != null)
+            {
+                _bgmFadeTween?.Kill();
+                
+                CurrentBGMSource.gameObject.SetActive(true);
+                CurrentBGMSource.clip = clip;
+                CurrentBGMSource.volume = 0f;
+                CurrentBGMSource.loop = true;
+                CurrentBGMSource.Play();
+                
+                _bgmFadeTween = CurrentBGMSource.DOFade(1f, fadeDuration).SetEase(StoryConstants.BGM_FADE_EASE);
+                await _bgmFadeTween.ToUniTask();
+            }
+        }
+        
+        /// <summary>
+        /// BGMをフェードアウトする
+        /// </summary>
+        public async UniTask FadeOutBGM(float fadeDuration = -1f, bool stopAfterFade = true)
+        {
+            if (fadeDuration < 0)
+            {
+                // フェード時間が特に設定されておらず負の値の場合は、Constantで宣言している値を使用する
+                fadeDuration = StoryConstants.BGM_FADE_DURATION;
+            }
+            
+            _bgmFadeTween?.Kill();
+            
+            _bgmFadeTween = CurrentBGMSource.DOFade(0f, fadeDuration).SetEase(StoryConstants.BGM_FADE_EASE);
+            await _bgmFadeTween.ToUniTask();
+            
+            if (stopAfterFade)
+            {
+                CurrentBGMSource.Stop();
+                CurrentBGMSource.gameObject.SetActive(false);
+            }
+        }
+
+        /// <summary>
+        /// BGMをクロスフェードで切り替える
+        /// </summary>
+        public async UniTask CrossFadeBGM(string filePath, float fadeDuration = -1f)
+        {
+            if (fadeDuration < 0)
+            {
+                // フェード時間が特に設定されておらず負の値の場合は、Constantで宣言している値を使用する
+                fadeDuration = StoryConstants.BGM_FADE_DURATION;
+            }
+            
+            var clip = await LoadAudioClipAsync(filePath);
+            if (clip != null)
+            {
+                _bgmFadeTween?.Kill();
+                
+                // 次のソースを準備
+                NextBGMSource.gameObject.SetActive(true);
+                NextBGMSource.clip = clip;
+                NextBGMSource.volume = 0f;
+                CurrentBGMSource.loop = true;
+                NextBGMSource.Play();
+                
+                // クロスフェード実行
+                var sequence = DOTween.Sequence();
+                sequence.Append(CurrentBGMSource.DOFade(0f, fadeDuration).SetEase(StoryConstants.BGM_FADE_EASE));
+                sequence.Join(NextBGMSource.DOFade(1f, fadeDuration).SetEase(StoryConstants.BGM_FADE_EASE));
+                sequence.OnComplete(() => {
+                    CurrentBGMSource.Stop();
+                    CurrentBGMSource.gameObject.SetActive(false);
+                    _isUsingSecondaryBGM = !_isUsingSecondaryBGM;
+                });
+                
+                _bgmFadeTween = sequence;
+                await sequence.ToUniTask();
             }
         }
 
@@ -113,16 +271,11 @@ namespace iCON.System
                 AudioSource source = _seSourcePool.Get();
                 source.PlayOneShot(clip);
 
-                await UniTask.WaitForSeconds(clip.length);
+                await UniTask.Delay(TimeSpan.FromSeconds(clip.length));
 
                 _seSourcePool.Release(source);
             }
         }
-        
-        /// <summary>
-        /// SEのオブジェクトプールからAudioSourceを取得する
-        /// </summary>
-        public AudioSource GetSEAudioSource() => _seSourcePool.Get();
 
         /// <summary>
         /// SEのオブジェクトプールから引数で渡したAudioSourceを解除する
@@ -153,16 +306,11 @@ namespace iCON.System
                 AudioSource source = _voiceSourcePool.Get();
                 source.PlayOneShot(clip);
 
-                await UniTask.WaitForSeconds(clip.length);
+                await UniTask.Delay(TimeSpan.FromSeconds(clip.length));
 
                 _voiceSourcePool.Release(source);
             }
         }
-        
-        /// <summary>
-        /// VoiceのオブジェクトプールからAudioSourceを取得する
-        /// </summary>
-        public AudioSource GetVoiceAudioSource() => _voiceSourcePool.Get();
 
         /// <summary>
         /// Voiceのオブジェクトプールから引数で渡したAudioSourceを解除する
@@ -202,10 +350,13 @@ namespace iCON.System
         /// <summary>
         /// 新しくGameObjectとAudioSourceを生成する
         /// </summary>
-        private AudioSource CreateAudioSource(iCON.Enums.AudioType type)
+        private AudioSource CreateAudioSource(iCON.Enums.AudioType type, string objectName = null)
         {
-            GameObject obj = new GameObject(type.ToString());
+            // 新規ゲームオブジェクトを生成
+            GameObject obj = new GameObject(objectName ?? type.ToString());
             obj.transform.SetParent(transform);
+            
+            // AudioSourceコンポーネントを追加
             AudioSource source = obj.AddComponent<AudioSource>();
             source.outputAudioMixerGroup = _mixer.FindMatchingGroups(type.ToString())[0];
             obj.SetActive(false);
