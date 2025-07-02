@@ -36,7 +36,14 @@ namespace iCON.UI
         private void Start()
         {
             _canvasGroup = GetComponent<CanvasGroup>();
+            
             Hide();
+            
+            // 非表示にする・テキストをクリアする
+            _talkLayout.SetVisibility(false);
+            _talkLayout.ClearText();
+            _descriptionLayout.SetVisibility(false);
+            _descriptionLayout.ClearText();
         }
 
         #endregion
@@ -99,12 +106,6 @@ namespace iCON.UI
         public void Hide()
         {
             SetVisibility(false);
-            
-            // 非表示にする・テキストをクリアする
-            _talkLayout.SetVisibility(false);
-            _talkLayout.ClearText();
-            _descriptionLayout.SetVisibility(false);
-            _descriptionLayout.ClearText();
         }
 
         #region Private Methods

@@ -39,13 +39,13 @@ namespace iCON.UI
         /// </summary>
         [SerializeField, HighlightIfNull]
         private UIContents_FadePanel _fadePanel;
-
+        
         /// <summary>
         /// キャンバスを揺らすクラス
         /// </summary>
         [SerializeField, HighlightIfNull]
         private CanvasShaker _canvasShaker;
-
+        
         /// <summary>
         /// 会話テキストを更新する
         /// </summary>
@@ -90,6 +90,22 @@ namespace iCON.UI
             }
             
             return _dialog.SetDescription(description, duration);
+        }
+
+        /// <summary>
+        /// ダイアログを非表示にする
+        /// </summary>
+        public void ShowDialog()
+        {
+            _dialog.Show();
+        }
+        
+        /// <summary>
+        /// ダイアログを非表示にする
+        /// </summary>
+        public void HideDialog()
+        {
+            _dialog.Hide();
         }
 
         /// <summary>
