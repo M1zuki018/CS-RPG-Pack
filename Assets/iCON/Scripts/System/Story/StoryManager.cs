@@ -47,9 +47,14 @@ namespace iCON.System
         private bool _isStoryComplete = true;
 
         /// <summary>
-        /// UI非表示ボタンが押されている
+        /// UI非表示モード
         /// </summary>
         private bool _isImmerseMode = false;
+        
+        /// <summary>
+        /// オート再生モード
+        /// </summary>
+        private bool _autoPlayMode = false;
 
         /// <summary>
         /// 現在のストーリー位置
@@ -117,6 +122,7 @@ namespace iCON.System
         {
             // UI非表示ボタン
             _overlayContents.SetupImmerseButton(HandleClickImmerseButton);
+            _overlayContents.SetupAutoPlayButton(() => _autoPlayMode = !_autoPlayMode);
         }
 
         /// <summary>

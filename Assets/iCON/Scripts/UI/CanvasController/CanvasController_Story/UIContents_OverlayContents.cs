@@ -15,11 +15,18 @@ namespace iCON.UI
         [SerializeField]
         private Button _immersedButton;
 
+        /// <summary>
+        /// オート再生ボタン
+        /// </summary>
+        [SerializeField]
+        private Button _autoPlayButton;
+        
         #region Lifecycle
 
         private void OnDestroy()
         {
             _immersedButton.onClick.RemoveAllListeners();
+            _autoPlayButton.onClick.RemoveAllListeners();
         }
 
         #endregion
@@ -32,6 +39,16 @@ namespace iCON.UI
             // NOTE: 非表示になったときはダイアログを非表示に・ストーリーが進行しないようにする
             _immersedButton.onClick.RemoveAllListeners();
             _immersedButton.onClick.AddListener(() => action?.Invoke());
+        }
+
+        /// <summary>
+        /// オート再生ボタンのセットアップ
+        /// </summary>
+        /// <param name="action"></param>
+        public void SetupAutoPlayButton(Action action)
+        {
+            _autoPlayButton.onClick.RemoveAllListeners();
+            _autoPlayButton.onClick.AddListener(() => action?.Invoke());
         }
         
         #region Private Methods
