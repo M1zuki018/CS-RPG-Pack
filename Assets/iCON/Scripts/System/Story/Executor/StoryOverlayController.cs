@@ -49,7 +49,7 @@ namespace iCON.System
         /// <summary>
         /// Setup
         /// </summary>
-        public void Setup(StoryView view, Action cancelAutoPlayAction)
+        public void Setup(StoryView view, Action cancelAutoPlayAction, Action skipAction)
         {
             _view = view;
             _cancelAutoPlayAction = cancelAutoPlayAction;
@@ -59,6 +59,9 @@ namespace iCON.System
             
             // オート再生ボタン
             _overlayContents.SetupAutoPlayButton(HandleClickAutoPlayButton);
+            
+            // スキップボタン
+            _overlayContents.SetupSkipButton(skipAction);
         }
         
         /// <summary>

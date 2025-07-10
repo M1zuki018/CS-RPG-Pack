@@ -21,12 +21,19 @@ namespace iCON.UI
         [SerializeField]
         private Button _autoPlayButton;
         
+        /// <summary>
+        /// スキップボタン
+        /// </summary>
+        [SerializeField]
+        private Button _skipButton;
+        
         #region Lifecycle
 
         private void OnDestroy()
         {
             _immersedButton.onClick.RemoveAllListeners();
             _autoPlayButton.onClick.RemoveAllListeners();
+            _skipButton.onClick.RemoveAllListeners();
         }
 
         #endregion
@@ -49,6 +56,16 @@ namespace iCON.UI
         {
             _autoPlayButton.onClick.RemoveAllListeners();
             _autoPlayButton.onClick.AddListener(() => action?.Invoke());
+        }
+
+        /// <summary>
+        /// スキップボタンのセットアップ
+        /// </summary>
+        /// <param name="action"></param>
+        public void SetupSkipButton(Action action)
+        {
+            _skipButton.onClick.RemoveAllListeners();
+            _skipButton.onClick.AddListener(() => action?.Invoke());
         }
         
         #region Private Methods

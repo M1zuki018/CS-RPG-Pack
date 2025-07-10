@@ -76,7 +76,7 @@ namespace iCON.System
         {
             await base.OnAwake();
             InitializeComponents();
-            _overlayController.Setup(_view, CancelAutoPlay);
+            _overlayController.Setup(_view, CancelAutoPlay, () => MoveToNextScene()); // TODO: 第三引数のスキップボタンのMethodについては仮
         }
         
         /// <summary>
