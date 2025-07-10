@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using iCON.Constants;
 using iCON.UI;
 using iCON.Utility;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace iCON.System
 {
@@ -61,6 +61,11 @@ namespace iCON.System
         /// オート再生開始予約済み
         /// </summary>
         private bool _isAutoPlayReserved = false;
+        
+        /// <summary>
+        /// CancellationTokenSource
+        /// </summary>
+        private CancellationTokenSource _cts = new CancellationTokenSource();
 
         /// <summary>
         /// 現在のストーリー位置
@@ -135,7 +140,7 @@ namespace iCON.System
         {
             // UI非表示ボタン
             _overlayContents.SetupImmerseButton(HandleClickImmerseButton);
-            _overlayContents.SetupAutoPlayButton(() => _autoPlayMode = !_autoPlayMode);
+            _overlayContents.SetupAutoPlayButton(HandleClickAutoPlayButton);
         }
 
         /// <summary>
@@ -154,6 +159,22 @@ namespace iCON.System
             else
             {
                 _view.ShowDialog();
+            }
+        }
+        
+        /// <summary>
+        /// オート再生ボタンが押されたときの処理
+        /// </summary>
+        private void HandleClickAutoPlayButton()
+        {
+            _autoPlayMode = !_autoPlayMode;
+
+            if (!_autoPlayMode)
+            {
+                // オート再生が終了された場合、オート再生用のUniTaskをキャンセルする
+                _cts?.Cancel();
+                _cts?.Dispose();
+                _cts = null;
             }
         }
 
@@ -263,12 +284,30 @@ namespace iCON.System
         /// </summary>
         private async UniTask AutoPlay()
         {
-            // 定数で設定しているインターバル分待機してから次のオーダーを実行する
-            await UniTask.Delay(TimeSpan.FromSeconds(StoryConstants.AUTO_PLAY_INTERVAL));
-            ProcessNextOrder();
+            // 新しいCancellationTokenSourceを作成
+            _cts = new CancellationTokenSource();
+            var token = _cts.Token;
             
-            // 予約が実行されたのでフラグを戻す
-            _isAutoPlayReserved = false;
+            try
+            {
+                // 定数で設定しているインターバル分待機してから次のオーダーを実行する
+                await UniTask.Delay(TimeSpan.FromSeconds(StoryConstants.AUTO_PLAY_INTERVAL), cancellationToken: token);
+                
+                // キャンセルされていない場合のみ次のオーダーを実行
+                if (!token.IsCancellationRequested)
+                {
+                    ProcessNextOrder();
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // オート再生がキャンセルされた
+            }
+            finally
+            {
+                // 予約が実行されたのでフラグを戻す
+                _isAutoPlayReserved = false;
+            }
         }
 
         #endregion
