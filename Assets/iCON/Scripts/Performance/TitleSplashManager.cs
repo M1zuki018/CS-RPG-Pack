@@ -60,20 +60,6 @@ namespace iCON.Performance
             
             return base.OnAwake();
         }
-
-        public override UniTask OnStart()
-        {
-            Play(); // TODO: 仮でここから呼び出す
-            return base.OnStart();
-        }
-
-        private void Update()
-        {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
-            {
-                Skip();
-            }
-        }
         
         /// <summary>
         /// OnDestroy
