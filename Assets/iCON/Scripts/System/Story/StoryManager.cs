@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using iCON.Constants;
 using iCON.UI;
 using iCON.Utility;
 using UnityEngine;
@@ -55,6 +56,11 @@ namespace iCON.System
         /// オート再生モード
         /// </summary>
         private bool _autoPlayMode = false;
+        
+        /// <summary>
+        /// オート再生開始予約済み
+        /// </summary>
+        private bool _isAutoPlayReserved = false;
 
         /// <summary>
         /// 現在のストーリー位置
@@ -87,6 +93,13 @@ namespace iCON.System
             {
                 // UI非表示モードの場合ストーリーを進めない
                 return;
+            }
+            
+            if (_autoPlayMode && !_orderExecutor.IsExecuting && !_isAutoPlayReserved)
+            {
+                // フラグを予約済みに切り替える
+                _isAutoPlayReserved = true;
+                AutoPlay().Forget();
             }
             
             if (Input.GetKeyDown(KeyCode.Space))
@@ -243,6 +256,19 @@ namespace iCON.System
             {
                 _orderExecutor.Execute(order);
             }
+        }
+
+        /// <summary>
+        /// オート再生
+        /// </summary>
+        private async UniTask AutoPlay()
+        {
+            // 定数で設定しているインターバル分待機してから次のオーダーを実行する
+            await UniTask.Delay(TimeSpan.FromSeconds(StoryConstants.AUTO_PLAY_INTERVAL));
+            ProcessNextOrder();
+            
+            // 予約が実行されたのでフラグを戻す
+            _isAutoPlayReserved = false;
         }
 
         #endregion
