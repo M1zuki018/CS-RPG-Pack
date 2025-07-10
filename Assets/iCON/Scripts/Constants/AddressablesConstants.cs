@@ -14,5 +14,10 @@ namespace iCON.Constants
         /// スチル
         /// </summary>
         public const string STEEL_PATH = "Assets/AssetStoreTools/Images/Steel/";
+
+        /// <summary>
+        /// タイトルの背景
+        /// </summary>
+        public const string TITLE_BACKGROUND_PATH = "Assets/AssetStoreTools/Images/TitleBackground/";
     }
 }
