@@ -27,6 +27,8 @@ namespace iCON.System
                 return base.OnStart();
             }
             
+            _titleSplashManager.gameObject.SetActive(true);
+            
             // タイトルスプラッシュの演出を開始
             _titleSplashManager.Play();
             return base.OnStart();
