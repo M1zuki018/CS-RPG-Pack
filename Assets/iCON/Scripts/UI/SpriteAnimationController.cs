@@ -4,7 +4,6 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using iCON.Utility;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace iCON.UI
 {
