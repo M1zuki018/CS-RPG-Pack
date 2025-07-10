@@ -109,6 +109,7 @@ namespace iCON.System
         private void OnDestroy()
         {
             _orderExecutor.Dispose();
+            CancelAutoPlay();
         }
         
         #endregion
@@ -153,6 +154,12 @@ namespace iCON.System
         /// </summary>
         private void ProcessNextOrder()
         {
+            if (_isAutoPlayReserved)
+            {
+                // オート再生中に手動でオーダーを進めた場合、オート再生の予約をキャンセルする
+                CancelAutoPlay();
+            }
+            
             if (_orderExecutor.IsExecuting)
             {
                 // オーダーが実行中であれば演出をスキップする
