@@ -66,6 +66,14 @@ namespace iCON.Performance
             Play(); // TODO: 仮でここから呼び出す
             return base.OnStart();
         }
+
+        private void Update()
+        {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+            {
+                Skip();
+            }
+        }
         
         /// <summary>
         /// OnDestroy
@@ -83,6 +91,14 @@ namespace iCON.Performance
         public void Play()
         {
             LogoAnimation();
+        }
+
+        /// <summary>
+        /// 演出をスキップする
+        /// </summary>
+        public void Skip()
+        {
+            _sequence?.Kill(true);
         }
 
         #region 演出
