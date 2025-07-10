@@ -21,10 +21,10 @@ namespace iCON.System
         private StoryView _view;
         
         /// <summary>
-        /// オーバーレイ上のUIボタンを管理するクラス
+        /// オーバーレイ
         /// </summary>
         [SerializeField]
-        private UIContents_OverlayContents _overlayContents;
+        private StoryOverlayController _overlayController;
         
         /// <summary>
         /// ストーリーの現在位置の保持と移動を行う
@@ -46,16 +46,6 @@ namespace iCON.System
         /// NOTE: 初期化後すぐにストーリーが進まないようにDefaultはtrueにしておく
         /// </summary>
         private bool _isStoryComplete = true;
-
-        /// <summary>
-        /// UI非表示モード
-        /// </summary>
-        private bool _isImmerseMode = false;
-        
-        /// <summary>
-        /// オート再生モード
-        /// </summary>
-        private bool _autoPlayMode = false;
         
         /// <summary>
         /// オート再生開始予約済み
@@ -86,7 +76,7 @@ namespace iCON.System
         {
             await base.OnAwake();
             InitializeComponents();
-            SetupOverlayContents();
+            _overlayController.Setup(_view, CancelAutoPlay);
         }
         
         /// <summary>
@@ -94,13 +84,13 @@ namespace iCON.System
         /// </summary>
         private void Update()
         {
-            if (_isImmerseMode)
+            if (_overlayController.IsImmerseMode)
             {
                 // UI非表示モードの場合ストーリーを進めない
                 return;
             }
             
-            if (_autoPlayMode && !_orderExecutor.IsExecuting && !_isAutoPlayReserved)
+            if (_overlayController.AutoPlayMode && !_orderExecutor.IsExecuting && !_isAutoPlayReserved)
             {
                 // フラグを予約済みに切り替える
                 _isAutoPlayReserved = true;
@@ -131,51 +121,6 @@ namespace iCON.System
             _progressTracker = new StoryProgressTracker();
             _orderProvider = new StoryOrderProvider();
             _orderExecutor = new OrderExecutor(_view);
-        }
-
-        /// <summary>
-        /// オーバーレイ上のUIの初期化
-        /// </summary>
-        private void SetupOverlayContents()
-        {
-            // UI非表示ボタン
-            _overlayContents.SetupImmerseButton(HandleClickImmerseButton);
-            _overlayContents.SetupAutoPlayButton(HandleClickAutoPlayButton);
-        }
-
-        /// <summary>
-        /// UI非表示ボタンが押されたときの処理
-        /// </summary>
-        private void HandleClickImmerseButton()
-        {
-            // UI非表示状態かフラグを切り替える
-            _isImmerseMode = !_isImmerseMode;
-
-            if (_isImmerseMode)
-            {
-                // 非表示状態であれば、ダイアログを非表示にする
-                _view.HideDialog();
-            }
-            else
-            {
-                _view.ShowDialog();
-            }
-        }
-        
-        /// <summary>
-        /// オート再生ボタンが押されたときの処理
-        /// </summary>
-        private void HandleClickAutoPlayButton()
-        {
-            _autoPlayMode = !_autoPlayMode;
-
-            if (!_autoPlayMode)
-            {
-                // オート再生が終了された場合、オート再生用のUniTaskをキャンセルする
-                _cts?.Cancel();
-                _cts?.Dispose();
-                _cts = null;
-            }
         }
 
         /// <summary>
@@ -312,6 +257,16 @@ namespace iCON.System
 
         #endregion
 
+        /// <summary>
+        /// オート再生を止める処理
+        /// </summary>
+        private void CancelAutoPlay()
+        {
+            // オート再生用のUniTaskをキャンセルする
+            _cts?.Cancel();
+            _cts?.Dispose();
+        }
+        
         /// <summary>
         /// 次のシーンに進む
         /// </summary>
