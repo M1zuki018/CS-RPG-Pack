@@ -244,9 +244,18 @@
             "id": "978836a3-09b2-46de-b6bd-fef090d5d3ca",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Confirm",
                     "type": "Button",
                     "id": "0fbcd017-dc7b-4376-b292-fd84012d88bb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "7fbed3b5-3fdd-47a9-87df-2c252d64c7a0",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -261,7 +270,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d3d4f827-990b-4ca8-b7d0-e081ec35d7f2",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
