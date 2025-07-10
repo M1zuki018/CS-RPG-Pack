@@ -34,6 +34,14 @@ namespace iCON.System
             // ストーリー再生時以外はゲームオブジェクトを非アクティブにしておく
             _storyManager.gameObject.SetActive(false);
         }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.F7))
+            {
+                PlayStory();
+            }
+        }
         
         [MethodButtonInspector]
         public void PlayStory()
