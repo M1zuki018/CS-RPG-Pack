@@ -37,7 +37,7 @@ namespace iCON.System
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F7))
+            if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
             {
                 PlayStory();
             }
