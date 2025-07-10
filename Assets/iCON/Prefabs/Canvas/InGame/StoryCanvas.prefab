@@ -1316,6 +1316,7 @@ GameObject:
   - component: {fileID: 4297485547815760813}
   - component: {fileID: 9118346743274492970}
   - component: {fileID: 8529576289407957489}
+  - component: {fileID: 6708084340632892392}
   m_Layer: 5
   m_Name: StoryCanvas
   m_TagString: Untagged
@@ -1417,6 +1418,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _view: {fileID: 9118346743274492970}
+  _overlayController: {fileID: 6708084340632892392}
+--- !u!114 &6708084340632892392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7241587270615209574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f773bd1b4bf8cdd4894497de67cd2f3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _overlayContents: {fileID: 1286595276290285933}
 --- !u!1 &7252807638717778896
 GameObject:
@@ -1471,6 +1485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _immersedButton: {fileID: 5605664830690512658}
+  _autoPlayButton: {fileID: 6239651685267309691}
 --- !u!223 &7001036751142654354
 Canvas:
   m_ObjectHideFlags: 0
