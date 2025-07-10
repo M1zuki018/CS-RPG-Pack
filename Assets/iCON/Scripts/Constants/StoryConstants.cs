@@ -18,6 +18,11 @@ namespace iCON.Constants
         public const float BGM_FADE_DURATION = 0.5f;
 
         /// <summary>
+        /// オート再生時のインターバル
+        /// </summary>
+        public const int AUTO_PLAY_INTERVAL = 3;
+
+        /// <summary>
         /// フェード時のイージング
         /// </summary>
         public const Ease FADE_EASE = Ease.Linear;
