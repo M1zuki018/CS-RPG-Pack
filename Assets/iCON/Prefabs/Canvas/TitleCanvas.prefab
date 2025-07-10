@@ -96,7 +96,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &817624300646302588
 RectTransform:
   m_ObjectHideFlags: 0
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca018749cc25284ea4ce99fee387638, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabCanvasGroup: {fileID: 5995128931417173026}
+  _canvasGroup: {fileID: 5995128931417173026}
   _endFadeDuration: 3
   _logo: {fileID: 1893051067973657093}
   _logoFadeDuration: 1
@@ -289,6 +289,7 @@ GameObject:
   - component: {fileID: 4211765271885846254}
   - component: {fileID: 7901624590057025650}
   - component: {fileID: 9041064191358373680}
+  - component: {fileID: 10676772377763909}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -354,6 +355,19 @@ MonoBehaviour:
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
   _assetName: 
+--- !u!114 &10676772377763909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2768853976031358040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9df136c21ac347b4bb5a0179c5606bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _background: {fileID: 0}
 --- !u!1 &3862505619270375626
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,7 +799,7 @@ Canvas:
   m_GameObject: {fileID: 7241587270615209574}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
