@@ -9,26 +9,31 @@ namespace iCON.Performance
 {
     /// <summary>
     /// タイトルスプラッシュの演出を管理するクラス
-    /// 【演出フロー】
-    /// 1. ロゴ表示 → フェードイン/アウト
-    /// 2. ブルースクリーン演出 → 背景色を青に変更
-    /// 3. 年齢制限表示 → フェードイン/アウト
-    /// 4. 終了フェード → タイトルシーンへ遷移
     /// </summary>
     public class TitleSplashManager : ViewBase
     {
         /// <summary>
         ///  タイトルスプラッシュのアニメーション終了
         /// </summary>
-        public event Action OnFinishedTitleSplash; 
+        public event Action OnFinishedTitleSplash;
+
+        /// <summary>
+        /// 注意書きが表示された状態で選択ボタンが押されるのを待機している状態
+        /// </summary>
+        private bool _isWaiting = false;
         
         [FormerlySerializedAs("_prefabCanvasGroup")] [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField, Comment("演出終了時のフェードアウトにかける秒数")] private float _endFadeDuration = 3f;
         
         [Header("ロゴ関連の設定")]
         [SerializeField] private Image _logo;
-        [SerializeField, Comment("表示/非表示にかける秒数")] private float _logoFadeDuration = 1f;
+        [SerializeField, Comment("表示にかける秒数")] private float _logoFadeDuration = 1f;
         [SerializeField, Comment("表示時間")] private float _logoDisplayTime = 3f;
+        
+        [Header("グリッチアニメーションの設定")]
+        [SerializeField] private RawImage _glitchImage;
+        [SerializeField, Comment("表示にかける時間")] private float _glitchDisplayTime = 0.5f;
+        [SerializeField, Comment("表示時間")] private float _glitchDisplayDuration = 1f;
         
         [Header("背景の設定")]
         [SerializeField] private Image _background;
@@ -39,7 +44,7 @@ namespace iCON.Performance
         [Header("注意書きの設定")]
         [SerializeField] private CanvasGroup _cautionaryNote;
         [SerializeField, Comment("表示/非表示にかける秒数")] private float _cautionaFadeDuration = 1f;
-        [SerializeField, Comment("表示時間")] private float _cautionDisplayTime = 5f;
+        // [SerializeField, Comment("表示時間")] private float _cautionDisplayTime = 5f;
         
         /// <summary>
         /// 現在再生中のシーケンス
@@ -56,9 +61,18 @@ namespace iCON.Performance
             // 非表示/デフォルト色にセット
             _logo.DOFade(0f, 0f);
             _cautionaryNote.DOFade(0f, 0f);
+            _glitchImage.DOFade(0f, 0f);
             _background.color = _defaultColor;
             
             return base.OnAwake();
+        }
+
+        private void Update()
+        {
+            if (_isWaiting && UnityEngine.Input.GetKeyDown(KeyCode.Return))
+            {
+                EndAnimation();
+            }
         }
         
         /// <summary>
@@ -95,31 +109,47 @@ namespace iCON.Performance
         private void LogoAnimation()
         {
             var seq = DOTween.Sequence()
-                
+
                 // フェードイン
                 .Append(_logo.DOFade(1f, _logoFadeDuration))
-                
+
                 // 指定秒数待つ
-                .AppendInterval(_logoDisplayTime)
-                
-                // フェードアウト
-                .Append(_logo.DOFade(0f, _logoDisplayTime));
+                .AppendInterval(_logoDisplayTime);
             
             _sequence = seq;
 
-            // キルされたらブルースクリーンアニメーションへ遷移
-            seq.OnKill(BlueScreenAnimation);
+            // キルされたらグリッチアニメーションへ遷移
+            seq.OnKill(GlitchAnimation);
         }
 
         /// <summary>
-        /// 2. ブルースクリーンの演出
+        /// 2.グリッチアニメーションの演出
+        /// </summary>
+        private void GlitchAnimation()
+        {
+            var seq = DOTween.Sequence()
+
+                // グリッジアニメーションを再生しつつ、ロゴを消す
+                .Append(_glitchImage.DOFade(1f, _glitchDisplayDuration))
+                .Join(_logo.DOFade(0f, _glitchDisplayDuration))
+
+                .AppendInterval(_glitchDisplayTime);
+            
+            _sequence = seq;
+            
+            seq.OnKill(BlueScreenAnimation);
+        }
+        
+        /// <summary>
+        /// 3. ブルースクリーンの演出
         /// </summary>
         private void BlueScreenAnimation()
         {
             var seq = DOTween.Sequence()
-
+                
                 // 即座に背景色を変更して驚かせる
                 .Append(_background.DOColor(_blueScreenColor, 0.1f))
+                .Join(_glitchImage.DOFade(0f, 0.1f))
                 
                 // 指定秒数待つ
                 .AppendInterval(_blueScreenDisplayTime);
@@ -131,28 +161,30 @@ namespace iCON.Performance
         }
 
         /// <summary>
-        /// 3. 注意書きのアニメーション
+        /// 4. 注意書きのアニメーション
         /// </summary>
         private void ShowCautionaryNoteAnimation()
         {
             var seq = DOTween.Sequence()
-                
+
                 // フェードイン
-                .Append(_cautionaryNote.DOFade(1f, _cautionaFadeDuration))
-                
-                // 指定秒数待つ
-                .AppendInterval(_cautionDisplayTime)
-                
-                // フェードアウト
-                .Append(_cautionaryNote.DOFade(0f, _cautionaFadeDuration));
+                .Append(_cautionaryNote.DOFade(1f, _cautionaFadeDuration));
             
             _sequence = seq;
             
-            seq.OnKill(EndAnimation);
+            // 待機状態にする
+            _sequence.OnKill(() => _isWaiting = true);
+                
+                // 指定秒数待つ NOTE: 手動で進めることになったので、一旦コメントアウト
+                // .AppendInterval(_cautionDisplayTime)
+                // フェードアウト
+                //.Append(_cautionaryNote.DOFade(0f, _cautionaFadeDuration));
+                // _sequence = seq;
+                // seq.OnKill(EndAnimation);
         }
 
         /// <summary>
-        /// 4. 演出終了
+        /// 5. 演出終了
         /// </summary>
         private void EndAnimation()
         {
