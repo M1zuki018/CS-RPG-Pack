@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using iCON.Battle;
 using iCON.Enums;
 using iCON.Utility;
 using UnityEngine;
@@ -36,9 +37,8 @@ namespace iCON.UI
         /// </summary>
         private void OnStartBattle()
         {
-            // 行動選択キャンバスを開く
-            ServiceLocator.GetLocal<BattleCanvasManager>().ShowCanvas((int)BattleCanvasType.ActionSelect);
-            Debug.Log("戦う");
+            // 行動選択に移る
+            ServiceLocator.GetLocal<BattleManager>().SetState(BattleSystemState.ActionSelect);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace iCON.UI
         /// </summary>
         private void OnEscape()
         {
-            Debug.Log("逃げる");
+            ServiceLocator.GetLocal<BattleManager>().SetState(BattleSystemState.TryEscape);
         }
         
         private void OnDestroy()
