@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// UIマネージャーの基底クラス
 /// </summary>
-public abstract class SceneUIManagerBase : ViewBase
+public abstract class SceneCanvasManagerBase : ViewBase
 {
     [SerializeField] protected List<WindowBase> _canvasObjects = new List<WindowBase>();
     [SerializeField] protected int _defaultCanvasIndex = 0;
@@ -15,12 +15,6 @@ public abstract class SceneUIManagerBase : ViewBase
     protected int _currentCanvasIndex = -1; // 現在表示中のキャンバスインデックス
     public event Action<int, int> OnBeforeCanvasChange; // キャンバス切り替え前のイベント(前のインデックス, 次のインデックス)
     public event Action<int> OnAfterCanvasChange;     // キャンバス切り替え後のイベント(現在のインデックス)
-
-    public override UniTask OnBind()
-    {
-        RegisterWindowEvents();
-        return base.OnBind();
-    }
     
     public override UniTask OnStart()
     {
@@ -170,9 +164,4 @@ public abstract class SceneUIManagerBase : ViewBase
     {
         return _currentCanvasIndex;
     }
-    
-    /// <summary>
-    /// 画面遷移イベントの登録を行う
-    /// </summary>
-    protected abstract void RegisterWindowEvents();
 }
