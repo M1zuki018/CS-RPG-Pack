@@ -1517,6 +1517,7 @@ GameObject:
   - component: {fileID: 9118346743274492970}
   - component: {fileID: 8529576289407957489}
   - component: {fileID: 6708084340632892392}
+  - component: {fileID: 2641913366541531687}
   m_Layer: 5
   m_Name: StoryCanvas
   m_TagString: Untagged
@@ -1605,6 +1606,7 @@ MonoBehaviour:
   _dialog: {fileID: 5987859303044627970}
   _fadePanel: {fileID: 2662856324998147803}
   _canvasShaker: {fileID: 8177625389064018242}
+  _canvasGroup: {fileID: 2641913366541531687}
 --- !u!114 &8529576289407957489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1632,6 +1634,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _overlayContents: {fileID: 1286595276290285933}
+--- !u!225 &2641913366541531687
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7241587270615209574}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7252807638717778896
 GameObject:
   m_ObjectHideFlags: 0
