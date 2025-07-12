@@ -18,10 +18,11 @@ namespace iCON.Field.Player
         [SerializeField]
         private SpriteAnimationController _animController;
 
-        [SerializeField] private List<Sprite> _leftSprites = new List<Sprite>();
-        [SerializeField] private List<Sprite> _rightSprites = new List<Sprite>();
-        [SerializeField] private List<Sprite> _upSprites = new List<Sprite>();
-        [SerializeField] private List<Sprite> _downSprites = new List<Sprite>();
+        /// <summary>
+        /// アニメーションの画像を設定するスクリプタブルオブジェクト
+        /// </summary>
+        [SerializeField]
+        private PlayerAnimationSetting _animationSetting;
         
         /// <summary>
         /// 移動速度
@@ -107,7 +108,7 @@ namespace iCON.Field.Player
                     if (_directionType != MoveDirectionType.Right)
                     {
                         _directionType = MoveDirectionType.Right;
-                        _animController.ChangeSprites(_rightSprites);
+                        ChangeAnimationSprites();
                     }
                 }
                 else
@@ -115,7 +116,7 @@ namespace iCON.Field.Player
                     if (_directionType != MoveDirectionType.Left)
                     {
                         _directionType = MoveDirectionType.Left;
-                        _animController.ChangeSprites(_leftSprites);
+                        ChangeAnimationSprites();
                     }
                 }
             }
@@ -127,7 +128,7 @@ namespace iCON.Field.Player
                     if (_directionType != MoveDirectionType.Up)
                     {
                         _directionType = MoveDirectionType.Up;
-                        _animController.ChangeSprites(_upSprites);
+                        ChangeAnimationSprites();
                     }
                 }
                 else
@@ -135,9 +136,23 @@ namespace iCON.Field.Player
                     if (_directionType != MoveDirectionType.Down)
                     {
                         _directionType = MoveDirectionType.Down;
-                        _animController.ChangeSprites(_downSprites);
+                        ChangeAnimationSprites();
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// アニメーションの画像を差し替える
+        /// </summary>
+        private void ChangeAnimationSprites()
+        {
+            var sprites = _animationSetting.GetSprites(_directionType);
+        
+            // nullの可能性があるので確認
+            if (sprites != null)
+            {
+                _animController.ChangeSprites(sprites);
             }
         }
 
