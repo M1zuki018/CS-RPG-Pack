@@ -31,6 +31,8 @@ namespace iCON.System
         {
             await base.OnStart();
             
+            ServiceLocator.Resister(this, ServiceType.Local);
+            
             // ストーリー再生時以外はゲームオブジェクトを非アクティブにしておく
             _storyManager.gameObject.SetActive(false);
         }
@@ -39,23 +41,20 @@ namespace iCON.System
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
             {
-                PlayStory();
+                var playLine = _storyLine.FirstOrDefault(line => line.SceneName == _playStoryName);
+                if (playLine != null)
+                {
+                    PlayStory(playLine.SpreadsheetName, playLine.HeaderRange, playLine.Range);
+                }
             }
         }
         
         [MethodButtonInspector]
-        public void PlayStory()
+        public void PlayStory(string spreadsheetName, string headerRange, string range)
         {
             _storyManager.gameObject.SetActive(true);
-            
-            // TODO: 仮作成
-            var playLine = _storyLine.FirstOrDefault(line => line.SceneName == _playStoryName);
-            if (playLine != null)
-            {
-                _storyManager.PlayStory(playLine.SpreadsheetName, playLine.HeaderRange, playLine.Range,
-                    () => _storyManager.gameObject.SetActive(false)).Forget();
-            }
-                
+            _storyManager.PlayStory(spreadsheetName, headerRange, range, 
+                () => _storyManager.gameObject.SetActive(false)).Forget();
         }
     }
 }

@@ -10,7 +10,6 @@ namespace iCON.UI
     public partial class CanvasController_InGame : WindowBase
     {
         [SerializeField, HighlightIfNull] private CustomButton _button;
-        [SerializeField, HighlightIfNull] private StoryView _storyView;
         
         public event Action OnButtonClicked;
                 
@@ -20,12 +19,6 @@ namespace iCON.UI
             if(_button != null) _button.onClick.AddListener(Temporary);
             
             return base.OnAwake();
-        }
-
-        public override UniTask OnUIInitialize()
-        {
-            if(_storyView != null) _storyView.SetActive(false); // 非表示からスタート
-            return base.OnUIInitialize();
         }
         
         private void Temporary()

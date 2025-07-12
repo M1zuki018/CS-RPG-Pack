@@ -48,12 +48,6 @@ namespace iCON.UI
         private CanvasShaker _canvasShaker;
         
         /// <summary>
-        /// 自身のキャンバスグループ
-        /// </summary>
-        [SerializeField]
-        private CanvasGroup _canvasGroup;
-        
-        /// <summary>
         /// 会話テキストを更新する
         /// </summary>
         public Tween SetTalk(string name, string dialog, float duration)
@@ -209,16 +203,6 @@ namespace iCON.UI
         public Tween CameraShake(float duration, float strengthLate)
         {
             return _canvasShaker.ExplosionShake(duration, strengthLate);
-        }
-
-        /// <summary>
-        /// 表示・非表示を切り替える
-        /// </summary>
-        public void SetActive(bool isActive)
-        {
-            _canvasGroup.alpha = isActive ? 1 : 0;
-            _canvasGroup.interactable = isActive;
-            _canvasGroup.blocksRaycasts = isActive;
         }
     }
    
