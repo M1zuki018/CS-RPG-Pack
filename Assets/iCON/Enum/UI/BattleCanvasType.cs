@@ -7,6 +7,7 @@ namespace iCON.Enums
     {
         Battle,
         FirstSelect,
+        TryEscape,
         ActionSelect,
     }
 }
