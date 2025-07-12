@@ -1,4 +1,4 @@
-using System;
+using iCON.Enums;
 
 namespace iCON.UI
 {
@@ -7,9 +7,9 @@ namespace iCON.UI
     /// </summary>
     public class BattleCanvasManager : SceneCanvasManagerBase
     {
-        private void Awake()
+        public void ShowCanvas(BattleCanvasType canvasType)
         {
-            ServiceLocator.Resister(this, ServiceType.Local);
+            base.ShowCanvas((int)canvasType);
         }
     }
 
