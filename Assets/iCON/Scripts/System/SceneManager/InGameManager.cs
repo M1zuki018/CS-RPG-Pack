@@ -37,7 +37,7 @@ namespace iCON.System
             _storyManager.gameObject.SetActive(false);
         }
 
-        private void Update()
+        private async void Update()
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
             {
@@ -46,6 +46,11 @@ namespace iCON.System
                 {
                     PlayStory(playLine.SpreadsheetName, playLine.HeaderRange, playLine.Range);
                 }
+            }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.F8))
+            {
+                await ServiceLocator.GetGlobal<SceneLoader>().LoadSceneAsync(new SceneTransitionData(SceneType.Title));
             }
         }
         
