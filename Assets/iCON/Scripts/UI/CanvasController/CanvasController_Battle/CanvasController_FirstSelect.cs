@@ -38,7 +38,7 @@ namespace iCON.UI
         private void OnStartBattle()
         {
             // 行動選択に移る
-            ServiceLocator.GetLocal<BattleManager>().SetState(BattleSystemState.ActionSelect);
+            ServiceLocator.GetLocal<BattleManager>().SetState(BattleSystemState.CommandSelect);
         }
 
         /// <summary>

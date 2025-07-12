@@ -8,7 +8,7 @@ namespace iCON.Battle
         public override void Enter(BattleManager manager, BattleCanvasManager view)
         {
             base.Enter(manager, view);
-            view.ShowCanvas(BattleCanvasType.ActionSelect);
+            view.ShowCanvas(BattleCanvasType.CommondSelector);
         }
     }
 }

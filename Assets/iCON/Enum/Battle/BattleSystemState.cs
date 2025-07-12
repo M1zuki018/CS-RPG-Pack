@@ -10,7 +10,7 @@ namespace iCON.Enums
         None,
         FirstSelect,
         TryEscape,
-        ActionSelect,
+        CommandSelect,
     }
 
 }

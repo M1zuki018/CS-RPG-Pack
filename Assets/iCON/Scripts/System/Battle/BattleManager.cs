@@ -46,7 +46,7 @@ namespace iCON.Battle
             {
                 _states.Add(BattleSystemState.FirstSelect, new FirstSelectState());
                 _states.Add(BattleSystemState.TryEscape, new TryEscapeState());
-                _states.Add(BattleSystemState.ActionSelect, new ActionSelectState());
+                _states.Add(BattleSystemState.CommandSelect, new ActionSelectState());
             }
             catch(Exception e)
             {
