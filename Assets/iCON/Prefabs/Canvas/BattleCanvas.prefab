@@ -376,6 +376,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TryEscape
       objectReference: {fileID: 0}
+    - target: {fileID: 8670441210844950808, guid: 88132f33ff6cfec498b7fe94810ee40e, type: 3}
+      propertyPath: m_Text
+      value: "\u25BC\u9003\u3052\u5834\u306A\u3069\u306A\u3044"
+      objectReference: {fileID: 0}
     - target: {fileID: 9078537940442508249, guid: 88132f33ff6cfec498b7fe94810ee40e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
