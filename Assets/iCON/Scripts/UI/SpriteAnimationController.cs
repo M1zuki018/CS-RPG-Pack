@@ -137,12 +137,6 @@ namespace iCON.UI
         {
             _sprites = sprites ?? new List<Sprite>();
             _currentIndex = 0;
-            
-            // 再生中の場合は再開
-            if (_isPlaying)
-            {
-                Play().Forget();
-            }
         }
 
         /// <summary>
@@ -231,11 +225,9 @@ namespace iCON.UI
             }
             
             _spriteRenderer.sprite = _sprites[_currentIndex];
-            _currentIndex = (_currentIndex + 1) % _sprites.Count;
 
             _isPlaying = true;
             _isPaused = false;
-            _currentIndex = 0;
             
             // 新しいCancellationTokenSourceを作成
             _cts?.Cancel();

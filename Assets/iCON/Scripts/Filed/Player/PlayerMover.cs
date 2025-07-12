@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using iCON.Enums;
 using iCON.UI;
 using iCON.Utility;
@@ -16,6 +17,11 @@ namespace iCON.Field.Player
         [SerializeField]
         private SpriteAnimationController _animController;
 
+        [SerializeField] private List<Sprite> _leftSprites = new List<Sprite>();
+        [SerializeField] private List<Sprite> _rightSprites = new List<Sprite>();
+        [SerializeField] private List<Sprite> _upSprites = new List<Sprite>();
+        [SerializeField] private List<Sprite> _downSprites = new List<Sprite>();
+        
         /// <summary>
         /// 移動速度
         /// </summary>
@@ -29,23 +35,27 @@ namespace iCON.Field.Player
         
         private void Update()
         {
-            if (UnityEngine.Input.GetKey(KeyCode.A))
+            if (UnityEngine.Input.GetKeyDown(KeyCode.A))
             {
                 _directionType = MoveDirectionType.Left;
+                _animController.ChangeSprites(_leftSprites);
             }
-            else if (UnityEngine.Input.GetKey(KeyCode.D))
+            if (UnityEngine.Input.GetKeyDown(KeyCode.D))
             {
                 _directionType = MoveDirectionType.Right;
+                _animController.ChangeSprites(_rightSprites);
             }
-            else if (UnityEngine.Input.GetKey(KeyCode.W))
+            if (UnityEngine.Input.GetKeyDown(KeyCode.W))
             {
                 _directionType = MoveDirectionType.Up;
+                _animController.ChangeSprites(_upSprites);
             }
-            else if (UnityEngine.Input.GetKey(KeyCode.S))
+            if (UnityEngine.Input.GetKeyDown(KeyCode.S))
             {
                 _directionType = MoveDirectionType.Down;
+                _animController.ChangeSprites(_downSprites);
             }
-            else
+            if (!UnityEngine.Input.GetKey(KeyCode.A) && !UnityEngine.Input.GetKey(KeyCode.D) && !UnityEngine.Input.GetKey(KeyCode.W) && !UnityEngine.Input.GetKey(KeyCode.S))
             {
                 _directionType = MoveDirectionType.None;
             }
