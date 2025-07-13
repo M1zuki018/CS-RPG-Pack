@@ -11,6 +11,7 @@ namespace iCON.Enums
         FirstSelect,
         TryEscape,
         CommandSelect,
+        Execute,
     }
 
 }

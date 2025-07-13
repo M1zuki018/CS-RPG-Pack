@@ -8,6 +8,7 @@ namespace iCON.Enums
         Battle,
         FirstSelect,
         TryEscape,
-        CommondSelector,
+        CommandSelector,
+        Execute,
     }
 }
