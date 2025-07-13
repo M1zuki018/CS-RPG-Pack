@@ -13,7 +13,7 @@ public class CustomText : Text
     {
         base.Awake();
 
-        if (_wordingKey != string.Empty)
+        if (!string.IsNullOrEmpty(_wordingKey))
         {
             string wordingText = WordingMaster.GetText(_wordingKey);
             if (wordingText != null)
