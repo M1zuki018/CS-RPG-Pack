@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using System.IO;
 using iCON.Constants;
+using iCON.Utility;
 using UnityEngine.SceneManagement;
 
 namespace iCON.Boot
@@ -77,7 +78,7 @@ namespace iCON.Boot
                 }
                 else
                 {
-                    Debug.LogWarning($"Bootシーンが見つかりません: {KSceneManagement.BOOT_SCENE_PATH}");
+                    LogUtility.Error($"Bootシーンが見つかりません: {KSceneManagement.BOOT_SCENE_PATH}", LogCategory.System);
                 }
             }
         }
@@ -116,8 +117,8 @@ namespace iCON.Boot
         private static void ToggleAutoSwitch()
         {
             bool currentState = IsAutoSwitchEnabled();
-            EditorPrefs.SetBool(PREF_KEY_ENABLED, !currentState);
-            Debug.Log($"Boot Scene Auto Switch: {(!currentState ? "Enabled" : "Disabled")}");
+            EditorPrefs.SetBool(PREF_KEY_ENABLED, !currentState); 
+            LogUtility.Info($"Bootシーンの自動切り替え: {(!currentState ? "Enabled" : "Disabled")}", LogCategory.System);
         }
         
         /// <summary>
@@ -143,7 +144,7 @@ namespace iCON.Boot
             }
             else
             {
-                Debug.LogError($"Bootシーンが見つかりません: {KSceneManagement.BOOT_SCENE_PATH}");
+                LogUtility.Error($"Bootシーンが見つかりません: {KSceneManagement.BOOT_SCENE_PATH}", LogCategory.System);
             }
         }
     }
