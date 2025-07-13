@@ -313,10 +313,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8428736758172401362}
   - component: {fileID: 3628715095808725566}
-  - component: {fileID: 6311441150342944839}
+  - component: {fileID: 2262372743094785053}
   - component: {fileID: 4176025942082868400}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: 'Text '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -349,7 +349,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8348321035123942932}
   m_CullTransparentMesh: 1
---- !u!114 &6311441150342944839
+--- !u!114 &2262372743094785053
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -358,7 +358,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8348321035123942932}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -371,18 +371,19 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: fc70d11028633814ca4e447cac4d780f, type: 3}
-    m_FontSize: 68
+    m_FontSize: 74
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 70
-    m_Alignment: 8
+    m_MaxSize: 79
+    m_Alignment: 2
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Loading...
+  _wordingKey: 
 --- !u!114 &4176025942082868400
 MonoBehaviour:
   m_ObjectHideFlags: 0
