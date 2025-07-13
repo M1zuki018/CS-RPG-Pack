@@ -1,9 +1,9 @@
 namespace iCON.Constants
 {
     /// <summary>
-    /// 通信に関連する定数
+    /// Google APIとの通信に関連する定数を定義するクラス
     /// </summary>
-    public static class APIConstants
+    public static class KGoogleApi
     {
         /// <summary>
         /// サービスアカウントキーのファイル名

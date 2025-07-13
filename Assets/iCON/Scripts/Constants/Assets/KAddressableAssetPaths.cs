@@ -3,7 +3,7 @@ namespace iCON.Constants
     /// <summary>
     /// Addressable Asset System で使用するアセットパスの定数
     /// </summary>
-    public static class AddressablesConstants
+    public static class KAddressableAssetPaths
     {
         /// <summary>
         /// キャラクター

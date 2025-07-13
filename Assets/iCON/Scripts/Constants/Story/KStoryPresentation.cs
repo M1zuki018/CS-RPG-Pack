@@ -5,7 +5,7 @@ namespace iCON.Constants
     /// <summary>
     /// ストーリーに関連する定数
     /// </summary>
-    public static class StoryConstants
+    public static class KStoryPresentation
     {
         /// <summary>
         /// フェード時間
@@ -18,7 +18,7 @@ namespace iCON.Constants
         public const float BGM_FADE_DURATION = 0.5f;
 
         /// <summary>
-        /// オート再生時のインターバル
+        /// オート再生モードでのテキスト表示間隔
         /// </summary>
         public const int AUTO_PLAY_INTERVAL = 3;
 
