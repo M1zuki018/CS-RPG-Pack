@@ -207,9 +207,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4190612356374196458}
   - component: {fileID: 3324235010348925617}
-  - component: {fileID: 7479457938573262829}
+  - component: {fileID: 5500853475765363151}
   m_Layer: 0
-  m_Name: Text (Legacy)
+  m_Name: Button_Skip_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -242,7 +242,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 856540628355150815}
   m_CullTransparentMesh: 1
---- !u!114 &7479457938573262829
+--- !u!114 &5500853475765363151
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 856540628355150815}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -276,6 +276,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u30B9\u30AD\u30C3\u30D7"
+  _wordingKey: STORY_SKIP
 --- !u!1 &1003333268384398078
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,9 +701,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2573614749307157931}
   - component: {fileID: 3267904010660036073}
-  - component: {fileID: 3053031520278654712}
+  - component: {fileID: 3875595793010553595}
   m_Layer: 0
-  m_Name: Text (Legacy)
+  m_Name: Button_AutoPlay_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -735,7 +736,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2806401082041490773}
   m_CullTransparentMesh: 1
---- !u!114 &3053031520278654712
+--- !u!114 &3875595793010553595
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -744,7 +745,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2806401082041490773}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -769,6 +770,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u30AA\u30FC\u30C8\n\u518D\u751F"
+  _wordingKey: STORY_AUTO
 --- !u!1 &3689341027404438774
 GameObject:
   m_ObjectHideFlags: 0
@@ -1349,81 +1351,6 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "\u306F\u3042\u3042\uFF1F\uFF1F"
   _wordingKey: 
---- !u!1 &6851562599213008563
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2737149654270843126}
-  - component: {fileID: 3863307119354148165}
-  - component: {fileID: 8940878513345230079}
-  m_Layer: 5
-  m_Name: Base
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2737149654270843126
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6851562599213008563}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2645920889907406468}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &3863307119354148165
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6851562599213008563}
-  m_CullTransparentMesh: 1
---- !u!114 &8940878513345230079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6851562599213008563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6932904035693077887
 GameObject:
   m_ObjectHideFlags: 0
@@ -1434,9 +1361,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6636886930544858380}
   - component: {fileID: 3537212157680584887}
-  - component: {fileID: 7098862626322413531}
+  - component: {fileID: 4255355182202030090}
   m_Layer: 0
-  m_Name: Text (Legacy)
+  m_Name: Button_Immersed_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1469,7 +1396,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6932904035693077887}
   m_CullTransparentMesh: 1
---- !u!114 &7098862626322413531
+--- !u!114 &4255355182202030090
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1478,7 +1405,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6932904035693077887}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -1503,6 +1430,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "UI\n\u975E\u8868\u793A"
+  _wordingKey: STORY_IMMERSED
 --- !u!1 &7241587270615209574
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,7 +1465,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 2737149654270843126}
   - {fileID: 5987552536146987524}
   - {fileID: 1329680585147840211}
   - {fileID: 2828786711787943529}
@@ -1606,7 +1533,6 @@ MonoBehaviour:
   _dialog: {fileID: 5987859303044627970}
   _fadePanel: {fileID: 2662856324998147803}
   _canvasShaker: {fileID: 8177625389064018242}
-  _canvasGroup: {fileID: 2641913366541531687}
 --- !u!114 &8529576289407957489
 MonoBehaviour:
   m_ObjectHideFlags: 0
