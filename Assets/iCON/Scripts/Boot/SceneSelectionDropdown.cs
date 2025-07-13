@@ -2,10 +2,10 @@ using iCON.Constants;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace iCON.Boot
+namespace iCON.UI
 {
     /// <summary>
-    /// Scene選択用のドロップダウンを管理
+    /// 開始シーンを選択するためのドロップダウンコンポーネント
     /// </summary>
     [RequireComponent(typeof(Dropdown))]
     public class SceneSelector : MonoBehaviour

@@ -1,9 +1,10 @@
 using Cysharp.Threading.Tasks;
 using iCON.System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace iCON.Boot
+namespace iCON.UI
 {
     /// <summary>
     /// スタートボタン
@@ -11,7 +12,7 @@ namespace iCON.Boot
     [RequireComponent(typeof(Button))]
     public class StartButton : MonoBehaviour
     {
-        [SerializeField] private SceneSelector _sceneSelector;
+        [FormerlySerializedAs("_sceneSelector")] [SerializeField] private SceneSelectionDropdown sceneSelectionDropdown;
         private Button _button;
 
         private void Start()
@@ -23,7 +24,7 @@ namespace iCON.Boot
         private void HandleStart()
         {
             ServiceLocator.Get<SceneLoader>().LoadSceneAsync(
-                new SceneTransitionData((SceneType)_sceneSelector.SelectedSceneIndex, true, true)).Forget();
+                new SceneTransitionData((SceneType)sceneSelectionDropdown.SelectedSceneIndex, true, true)).Forget();
         }
     }
 

@@ -10,7 +10,7 @@ namespace iCON.Boot
     /// エディター再生時に自動的にBootシーンに切り替えるエディター拡張機能
     /// </summary>
     [InitializeOnLoad]
-    public static class BootSceneSwitcher
+    public static class BootSceneAuteSwitcher
     {
         /// <summary>
         /// // 前回開いていたシーンのパスを保存するキー
@@ -25,7 +25,7 @@ namespace iCON.Boot
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        static BootSceneSwitcher()
+        static BootSceneAuteSwitcher()
         {
             // PlayModeの状態が変わった時に呼び出されるコールバックを登録
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
