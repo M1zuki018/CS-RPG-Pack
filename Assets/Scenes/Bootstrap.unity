@@ -119,50 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &115498760
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 115498762}
-  - component: {fileID: 115498761}
-  m_Layer: 0
-  m_Name: ServiceLocator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &115498761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 115498760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fa56868605831948828ef17170b45c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &115498762
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 115498760}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &167022736
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -311,7 +267,7 @@ PrefabInstance:
     - target: {fileID: 101238449623391728, guid: b9c22db4f7720384f93c1a61d709d190, type: 3}
       propertyPath: '_prefabsToInstantiate.Array.data[0]'
       value: 
-      objectReference: {fileID: 1976271327}
+      objectReference: {fileID: 0}
     - target: {fileID: 101238449623391728, guid: b9c22db4f7720384f93c1a61d709d190, type: 3}
       propertyPath: '_prefabsToInstantiate.Array.data[1]'
       value: 
@@ -493,54 +449,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!1 &1976271327
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1976271329}
-  - component: {fileID: 1976271328}
-  m_Layer: 0
-  m_Name: GoogleTest
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1976271328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1976271327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cf38a76fbaa93242a63f69f92702877, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spreadsheetConfigs:
-  - _name: Main
-    _spreadsheetId: 1P2Uq8shFwjMMpR8-frGEYyjXqEl6kBjJVAzBJz5_iZs
-    _description: 
---- !u!4 &1976271329
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1976271327}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1338144476779734361
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -662,7 +570,5 @@ SceneRoots:
   - {fileID: 669242571}
   - {fileID: 1338144476779734361}
   - {fileID: 167022736}
-  - {fileID: 115498762}
   - {fileID: 2793963172221933127}
-  - {fileID: 1976271329}
   - {fileID: 309516720}
