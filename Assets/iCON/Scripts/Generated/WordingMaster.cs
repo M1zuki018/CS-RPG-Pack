@@ -17,6 +17,6 @@ public static class WordingMaster
 
     public static string GetText(string key)
     {
-        return _data.GetValueOrDefault(key, key);
+        return _data.GetValueOrDefault(key, null);
     }
 }

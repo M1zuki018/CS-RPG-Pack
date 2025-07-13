@@ -93,7 +93,7 @@ public class WordingMasterGeneratorWindow : EditorWindow
         sb.AppendLine();
         sb.AppendLine("    public static string GetText(string key)");
         sb.AppendLine("    {");
-        sb.AppendLine("        return _data.GetValueOrDefault(key, key);");
+        sb.AppendLine("        return _data.GetValueOrDefault(key, null);");
         sb.AppendLine("    }");
         sb.AppendLine("}");
         
