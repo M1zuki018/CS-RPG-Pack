@@ -10,8 +10,8 @@ using UnityEngine;
 /// </summary>
 public class WordingMasterGeneratorWindow : EditorWindow
 {
-    private string _spreadsheetName = "";
-    private string _range = "";
+    private string _spreadsheetName = "WordingMaster";
+    private string _range = "WordingMaster!A2:B";
     private string _className = "WordingMaster";
     private string _outputPath = "Assets/iCON/Scripts/Generated/";
     
