@@ -1,15 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class MasterDataManager : ViewBase
 {
-    [FormerlySerializedAs("sheetsManager")]
     [Header("参照")]
-    [SerializeField] private SheetsDataService sheetsDataService;
+    [SerializeField] private SheetsDataService _sheetsDataService;
     
     // マスタデータの保持
     public List<CharacterStatus> CharacterStatusList { get; private set; }
@@ -42,7 +39,7 @@ public class MasterDataManager : ViewBase
         // Debug.Log("=== スプレッドシート情報確認開始 ===");
         //
         // // 全シート名を取得
-        // var sheetNames = await sheetsDataService.GetAllSheetNames();
+        // var sheetNames = await _sheetsDataService.GetAllSheetNames();
         // Debug.Log($"利用可能なシート数: {sheetNames.Count}");
         //
         // // 最初のシートのデータを汎用メソッドで取得してみる
@@ -51,7 +48,7 @@ public class MasterDataManager : ViewBase
         //     string firstSheetName = sheetNames[0];
         //     Debug.Log($"最初のシート '{firstSheetName}' のデータを取得中...");
         //     
-        //     var data = await sheetsDataService.GetSheetData(firstSheetName, "A1:Z10");
+        //     var data = await _sheetsDataService.GetSheetData(firstSheetName, "A1:Z10");
         //     Debug.Log($"取得したデータ行数: {data.Count}");
         //     
         //     // 最初の数行を表示
@@ -73,14 +70,14 @@ public class MasterDataManager : ViewBase
         // Debug.Log("マスタデータ読み込み開始...");
         //
         // // まずキャッシュから読み込みを試行
-        // CharacterStatusList = sheetsDataService.LoadDataFromCache<CharacterStatus>("character_status_cache.json");
-        // StoryDataList = sheetsDataService.LoadDataFromCache<StoryData>("story_data_cache.json");
+        // CharacterStatusList = _sheetsDataService.LoadDataFromCache<CharacterStatus>("character_status_cache.json");
+        // StoryDataList = _sheetsDataService.LoadDataFromCache<StoryData>("story_data_cache.json");
         //
         // // オンラインでデータを更新
         // try
         // {
-        //     var characterTask = sheetsDataService.LoadCharacterStatusData();
-        //     var storyTask = sheetsDataService.LoadStoryData();
+        //     var characterTask = _sheetsDataService.LoadCharacterStatusData();
+        //     var storyTask = _sheetsDataService.LoadStoryData();
         //     
         //     await UniTask.WhenAll(characterTask, storyTask);
         //     
@@ -88,8 +85,8 @@ public class MasterDataManager : ViewBase
         //     StoryDataList = await storyTask;
         //     
         //     // 取得したデータをキャッシュに保存
-        //     sheetsDataService.CacheDataToLocal(CharacterStatusList, "character_status_cache.json");
-        //     sheetsDataService.CacheDataToLocal(StoryDataList, "story_data_cache.json");
+        //     _sheetsDataService.CacheDataToLocal(CharacterStatusList, "character_status_cache.json");
+        //     _sheetsDataService.CacheDataToLocal(StoryDataList, "story_data_cache.json");
         //     
         //     Debug.Log("マスタデータ読み込み完了");
         // }
