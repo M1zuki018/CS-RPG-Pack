@@ -1,9 +1,9 @@
 namespace iCON.Constants
 {
     /// <summary>
-    /// Addressableの画像呼び出しに関連する定数
+    /// Addressable Asset System で使用するアセットパスの定数
     /// </summary>
-    public static class AddressableConstants
+    public static class AddressablesConstants
     {
         /// <summary>
         /// キャラクター
@@ -13,7 +13,7 @@ namespace iCON.Constants
         /// <summary>
         /// スチル
         /// </summary>
-        public const string STEEL_PATH = "Assets/AssetStoreTools/Images/Steel/";
+        public const string STILL_PATH = "Assets/AssetStoreTools/Images/Still/";
 
         /// <summary>
         /// タイトルの背景
