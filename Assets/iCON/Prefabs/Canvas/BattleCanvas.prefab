@@ -653,8 +653,51 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6435729436491519408, guid: 88132f33ff6cfec498b7fe94810ee40e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8752858379322861984}
   m_SourcePrefab: {fileID: 100100000, guid: 88132f33ff6cfec498b7fe94810ee40e, type: 3}
+--- !u!1 &4765618856327727396 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6435729436491519408, guid: 88132f33ff6cfec498b7fe94810ee40e, type: 3}
+  m_PrefabInstance: {fileID: 1977833172885003412}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8752858379322861984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4765618856327727396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: fc70d11028633814ca4e447cac4d780f, type: 3}
+    m_FontSize: 48
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 78
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "\u25BC\u9003\u3052\u5834\u306A\u3069\u306A\u3044"
+  _wordingKey: 
 --- !u!114 &6837098415971405318 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5012765879748252306, guid: 88132f33ff6cfec498b7fe94810ee40e, type: 3}
@@ -766,8 +809,94 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7511205102548122450, guid: dab13ea6d33f69b4f8a946ab5fa9f430, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3338068464538659343}
+    - targetCorrespondingSourceObject: {fileID: 758248457745622899, guid: dab13ea6d33f69b4f8a946ab5fa9f430, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2474231047366130572}
   m_SourcePrefab: {fileID: 100100000, guid: dab13ea6d33f69b4f8a946ab5fa9f430, type: 3}
+--- !u!1 &2439684239315121562 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 758248457745622899, guid: dab13ea6d33f69b4f8a946ab5fa9f430, type: 3}
+  m_PrefabInstance: {fileID: 3125121110762672873}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2474231047366130572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2439684239315121562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: fc70d11028633814ca4e447cac4d780f, type: 3}
+    m_FontSize: 77
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 78
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "\u306B\u3052\u308B"
+  _wordingKey: BATTLE_FIRSTSELECT_ESCAPE
+--- !u!1 &4855865737143527867 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7511205102548122450, guid: dab13ea6d33f69b4f8a946ab5fa9f430, type: 3}
+  m_PrefabInstance: {fileID: 3125121110762672873}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3338068464538659343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4855865737143527867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: fc70d11028633814ca4e447cac4d780f, type: 3}
+    m_FontSize: 77
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 78
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "\u305F\u305F\u304B\u3046"
+  _wordingKey: BATTLE_FIRSTSELECT_START
 --- !u!114 &6357866751400260656 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8315060019182692057, guid: dab13ea6d33f69b4f8a946ab5fa9f430, type: 3}
@@ -981,8 +1110,143 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7677331692932469932, guid: f37898787cd8d164f967f00b4d31ba32, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7544179683342768012}
+    - targetCorrespondingSourceObject: {fileID: 7234222652500329153, guid: f37898787cd8d164f967f00b4d31ba32, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7351922226390694284}
+    - targetCorrespondingSourceObject: {fileID: 2922988353396593516, guid: f37898787cd8d164f967f00b4d31ba32, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7702251721982688965}
+    - targetCorrespondingSourceObject: {fileID: 7840132628816011194, guid: f37898787cd8d164f967f00b4d31ba32, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6846260053084324811}
+    - targetCorrespondingSourceObject: {fileID: 2473293699991374611, guid: f37898787cd8d164f967f00b4d31ba32, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4446993598674729336}
   m_SourcePrefab: {fileID: 100100000, guid: f37898787cd8d164f967f00b4d31ba32, type: 3}
+--- !u!1 &1264289410574440097 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7840132628816011194, guid: f37898787cd8d164f967f00b4d31ba32, type: 3}
+  m_PrefabInstance: {fileID: 9026928425219442971}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6846260053084324811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264289410574440097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: fc70d11028633814ca4e447cac4d780f, type: 3}
+    m_FontSize: 42
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 78
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "\u307E\u3082\u308B"
+  _wordingKey: BATTLE_COMMAND_GUARD
+--- !u!1 &1715110514008415671 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7677331692932469932, guid: f37898787cd8d164f967f00b4d31ba32, type: 3}
+  m_PrefabInstance: {fileID: 9026928425219442971}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7544179683342768012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715110514008415671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: fc70d11028633814ca4e447cac4d780f, type: 3}
+    m_FontSize: 42
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 78
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "\u30A2\u30BF\u30C3\u30AF"
+  _wordingKey: BATTLE_COMMAND_ATTCK
+--- !u!1 &1811301095629720538 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7234222652500329153, guid: f37898787cd8d164f967f00b4d31ba32, type: 3}
+  m_PrefabInstance: {fileID: 9026928425219442971}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7351922226390694284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811301095629720538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: fc70d11028633814ca4e447cac4d780f, type: 3}
+    m_FontSize: 42
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 78
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: idea
+  _wordingKey: BATTLE_COMMAND_IDEA
 --- !u!114 &1937025985394078424 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7469120259329997763, guid: f37898787cd8d164f967f00b4d31ba32, type: 3}
@@ -999,3 +1263,83 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5403365789712677090, guid: f37898787cd8d164f967f00b4d31ba32, type: 3}
   m_PrefabInstance: {fileID: 9026928425219442971}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6185304829952924279 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2922988353396593516, guid: f37898787cd8d164f967f00b4d31ba32, type: 3}
+  m_PrefabInstance: {fileID: 9026928425219442971}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7702251721982688965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6185304829952924279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: fc70d11028633814ca4e447cac4d780f, type: 3}
+    m_FontSize: 42
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 78
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: item
+  _wordingKey: BATTLE_COMMAND_ITEM
+--- !u!1 &6851364916509950472 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2473293699991374611, guid: f37898787cd8d164f967f00b4d31ba32, type: 3}
+  m_PrefabInstance: {fileID: 9026928425219442971}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4446993598674729336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6851364916509950472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: fc70d11028633814ca4e447cac4d780f, type: 3}
+    m_FontSize: 42
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 78
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "\uFF0A"
+  _wordingKey: 
