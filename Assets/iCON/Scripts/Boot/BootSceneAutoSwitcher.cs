@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using System.IO;
 using iCON.Constants;
+using UnityEngine.SceneManagement;
 
 namespace iCON.Boot
 {
@@ -10,10 +11,10 @@ namespace iCON.Boot
     /// エディター再生時に自動的にBootシーンに切り替えるエディター拡張機能
     /// </summary>
     [InitializeOnLoad]
-    public static class BootSceneAuteSwitcher
+    public static class BootSceneAutoSwitcher
     {
         /// <summary>
-        /// // 前回開いていたシーンのパスを保存するキー
+        /// 前回開いていたシーンのパスを保存するキー
         /// </summary>
         private const string PREF_KEY_PREVIOUS_SCENE = "BootSceneSwitcher_PreviousScene";
         
@@ -25,7 +26,7 @@ namespace iCON.Boot
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        static BootSceneAuteSwitcher()
+        static BootSceneAutoSwitcher()
         {
             // PlayModeの状態が変わった時に呼び出されるコールバックを登録
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
@@ -37,7 +38,7 @@ namespace iCON.Boot
         private static void OnPlayModeStateChanged(PlayModeStateChange state)
         {
             // 機能が無効化されている場合は何もしない
-            if (!IsEnabled()) return;
+            if (!IsAutoSwitchEnabled()) return;
 
             switch (state)
             {
@@ -61,7 +62,7 @@ namespace iCON.Boot
         private static void SaveCurrentSceneAndSwitchToBoot()
         {
             // 現在アクティブなシーンの情報を取得
-            var currentScene = EditorSceneManager.GetActiveScene();
+            var currentScene = SceneManager.GetActiveScene();
             if (currentScene.path != SceneConstants.BOOT_SCENE_PATH)
             {
                 // 現在のシーンパスをEditorPrefsに保存（復帰用）
@@ -103,7 +104,7 @@ namespace iCON.Boot
         /// <summary>
         /// 自動切り替え機能が有効かどうかを判定する
         /// </summary>
-        private static bool IsEnabled()
+        private static bool IsAutoSwitchEnabled()
         {
             return EditorPrefs.GetBool(PREF_KEY_ENABLED, true);
         }
@@ -114,7 +115,7 @@ namespace iCON.Boot
         [MenuItem("Tools/Boot Scene Switcher/Toggle Auto Switch")]
         private static void ToggleAutoSwitch()
         {
-            bool currentState = IsEnabled();
+            bool currentState = IsAutoSwitchEnabled();
             EditorPrefs.SetBool(PREF_KEY_ENABLED, !currentState);
             Debug.Log($"Boot Scene Auto Switch: {(!currentState ? "Enabled" : "Disabled")}");
         }
@@ -125,7 +126,7 @@ namespace iCON.Boot
         [MenuItem("Tools/Boot Scene Switcher/Toggle Auto Switch", true)]
         private static bool ToggleAutoSwitchValidation()
         {
-            Menu.SetChecked("Tools/Boot Scene Switcher/Toggle Auto Switch", IsEnabled());
+            Menu.SetChecked("Tools/Boot Scene Switcher/Toggle Auto Switch", IsAutoSwitchEnabled());
             return true;
         }
 
