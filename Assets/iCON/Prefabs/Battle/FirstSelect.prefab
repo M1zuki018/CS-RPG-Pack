@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7789731321452737221}
   - component: {fileID: 1223029115667925109}
-  - component: {fileID: 5657088337643539511}
+  - component: {fileID: 2368419287029440427}
   m_Layer: 0
-  m_Name: Text (Legacy)
+  m_Name: Escape_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 758248457745622899}
   m_CullTransparentMesh: 1
---- !u!114 &5657088337643539511
+--- !u!114 &2368419287029440427
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,7 +54,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 758248457745622899}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -79,6 +79,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u306B\u3052\u308B"
+  _wordingKey: BATTLE_FIRSTSELECT_ESCAPE
 --- !u!1 &2146138289166445522
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,9 +352,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5970060114596156107}
   - component: {fileID: 7047308171614302615}
-  - component: {fileID: 4670500874191186545}
+  - component: {fileID: 3053204122468290085}
   m_Layer: 0
-  m_Name: Text (Legacy)
+  m_Name: Battle_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -386,7 +387,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7511205102548122450}
   m_CullTransparentMesh: 1
---- !u!114 &4670500874191186545
+--- !u!114 &3053204122468290085
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -395,7 +396,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7511205102548122450}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -420,6 +421,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u305F\u305F\u304B\u3046"
+  _wordingKey: BATTLE_FIRSTSELECT_START
 --- !u!1 &8049642343509643450
 GameObject:
   m_ObjectHideFlags: 0
