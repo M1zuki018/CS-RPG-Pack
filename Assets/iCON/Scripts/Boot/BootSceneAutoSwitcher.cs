@@ -63,21 +63,21 @@ namespace iCON.Boot
         {
             // 現在アクティブなシーンの情報を取得
             var currentScene = SceneManager.GetActiveScene();
-            if (currentScene.path != SceneConstants.BOOT_SCENE_PATH)
+            if (currentScene.path != KSceneManagement.BOOT_SCENE_PATH)
             {
                 // 現在のシーンパスをEditorPrefsに保存（復帰用）
                 EditorPrefs.SetString(PREF_KEY_PREVIOUS_SCENE, currentScene.path);
 
                 // Bootシーンが実際に存在するかチェック
-                if (File.Exists(SceneConstants.BOOT_SCENE_PATH))
+                if (File.Exists(KSceneManagement.BOOT_SCENE_PATH))
                 {
                     // 未保存の変更がある場合はユーザーに保存を促してからBootSceneを開く
                     EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-                    EditorSceneManager.OpenScene(SceneConstants.BOOT_SCENE_PATH);
+                    EditorSceneManager.OpenScene(KSceneManagement.BOOT_SCENE_PATH);
                 }
                 else
                 {
-                    Debug.LogWarning($"Bootシーンが見つかりません: {SceneConstants.BOOT_SCENE_PATH}");
+                    Debug.LogWarning($"Bootシーンが見つかりません: {KSceneManagement.BOOT_SCENE_PATH}");
                 }
             }
         }
@@ -91,7 +91,7 @@ namespace iCON.Boot
 
             if (!string.IsNullOrEmpty(previousScenePath) &&
                 File.Exists(previousScenePath) &&
-                previousScenePath != SceneConstants.BOOT_SCENE_PATH)
+                previousScenePath != KSceneManagement.BOOT_SCENE_PATH)
             {
                 // 元のシーンを開く
                 EditorSceneManager.OpenScene(previousScenePath);
@@ -136,14 +136,14 @@ namespace iCON.Boot
         [MenuItem("Tools/Boot Scene Switcher/Go to Boot Scene %&b")]
         private static void GoToBootScene()
         {
-            if (File.Exists(SceneConstants.BOOT_SCENE_PATH))
+            if (File.Exists(KSceneManagement.BOOT_SCENE_PATH))
             {
                 EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-                EditorSceneManager.OpenScene(SceneConstants.BOOT_SCENE_PATH);
+                EditorSceneManager.OpenScene(KSceneManagement.BOOT_SCENE_PATH);
             }
             else
             {
-                Debug.LogError($"Bootシーンが見つかりません: {SceneConstants.BOOT_SCENE_PATH}");
+                Debug.LogError($"Bootシーンが見つかりません: {KSceneManagement.BOOT_SCENE_PATH}");
             }
         }
     }

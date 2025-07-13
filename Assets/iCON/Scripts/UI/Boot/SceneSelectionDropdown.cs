@@ -10,7 +10,7 @@ namespace iCON.UI
     [RequireComponent(typeof(Dropdown))]
     public class SceneSelectionDropdown : MonoBehaviour
     {
-        private int _selectedSceneIndex = SceneConstants.SYSTEM_SCENE_COUNT;
+        private int _selectedSceneIndex = KSceneManagement.SYSTEM_SCENE_COUNT;
         private Dropdown _dropdown;
         
         /// <summary>
@@ -33,7 +33,7 @@ namespace iCON.UI
         private void ChangeSelectedSceneIndex(int index)
         {
             // NOTE: シーンの番号と合わせるために開発シーンの個数分Indexを追加する
-            _selectedSceneIndex = index + SceneConstants.SYSTEM_SCENE_COUNT;
+            _selectedSceneIndex = index + KSceneManagement.SYSTEM_SCENE_COUNT;
         }
     }
 }

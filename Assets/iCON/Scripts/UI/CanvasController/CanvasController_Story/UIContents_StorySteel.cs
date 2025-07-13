@@ -80,8 +80,8 @@ namespace iCON.UI
         /// </summary>
         public void FadeIn()
         {
-            _steelImages[_activeImageIndex].DOFade(1, StoryConstants.IMAGE_FADE_DURATION)
-                .SetEase(StoryConstants.FADE_EASE)
+            _steelImages[_activeImageIndex].DOFade(1, KStoryPresentation.IMAGE_FADE_DURATION)
+                .SetEase(KStoryPresentation.FADE_EASE)
                 .OnComplete(() =>
                 {
                     // 前面のスチルが表示されたら、裏面のスチルの透明度をゼロにしておく
@@ -95,8 +95,8 @@ namespace iCON.UI
         /// </summary>
         public void FadeOut()
         {
-            _steelImages[_activeImageIndex].DOFade(0, StoryConstants.IMAGE_FADE_DURATION)
-                .SetEase(StoryConstants.FADE_EASE);
+            _steelImages[_activeImageIndex].DOFade(0, KStoryPresentation.IMAGE_FADE_DURATION)
+                .SetEase(KStoryPresentation.FADE_EASE);
         }
 
         /// <summary>

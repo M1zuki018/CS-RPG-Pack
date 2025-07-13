@@ -243,7 +243,7 @@ namespace iCON.System
             try
             {
                 // 定数で設定しているインターバル分待機してから次のオーダーを実行する
-                await UniTask.Delay(TimeSpan.FromSeconds(StoryConstants.AUTO_PLAY_INTERVAL), cancellationToken: token);
+                await UniTask.Delay(TimeSpan.FromSeconds(KStoryPresentation.AUTO_PLAY_INTERVAL), cancellationToken: token);
                 
                 // キャンセルされていない場合のみ次のオーダーを実行
                 if (!token.IsCancellationRequested)

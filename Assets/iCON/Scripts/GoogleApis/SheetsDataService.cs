@@ -156,7 +156,7 @@ public class SheetsDataService : ViewBase
     {
         // StreamingAssetsフォルダ内のサービスアカウントキーファイルのパスを構築
         // NOTE: サービスアカウントキーファイルは必ず「Assets/StreamingAssets」の下におく
-        string keyFilePath = Path.Combine(Application.streamingAssetsPath, APIConstants.SERVICE_ACCOUNT_KEY_FILE_NAME);
+        string keyFilePath = Path.Combine(Application.streamingAssetsPath, KGoogleApi.SERVICE_ACCOUNT_KEY_FILE_NAME);
         
         // サービスアカウントキーファイルの存在確認
         if (!File.Exists(keyFilePath))
@@ -178,7 +178,7 @@ public class SheetsDataService : ViewBase
         {
             // 認証情報を設定
             HttpClientInitializer = credential,
-            ApplicationName = APIConstants.APPLICATION_NAME
+            ApplicationName = KGoogleApi.APPLICATION_NAME
         });
         
         // 初期化完了フラグを設定

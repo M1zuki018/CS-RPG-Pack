@@ -179,7 +179,7 @@ namespace iCON.System
             if (fadeDuration < 0)
             {
                 // フェード時間が特に設定されておらず負の値の場合は、Constantで宣言している値を使用する
-                fadeDuration = StoryConstants.BGM_FADE_DURATION;
+                fadeDuration = KStoryPresentation.BGM_FADE_DURATION;
             }
             
             var clip = await LoadAudioClipAsync(filePath);
@@ -193,7 +193,7 @@ namespace iCON.System
                 CurrentBGMSource.loop = true;
                 CurrentBGMSource.Play();
                 
-                _bgmFadeTween = CurrentBGMSource.DOFade(1f, fadeDuration).SetEase(StoryConstants.BGM_FADE_EASE);
+                _bgmFadeTween = CurrentBGMSource.DOFade(1f, fadeDuration).SetEase(KStoryPresentation.BGM_FADE_EASE);
                 await _bgmFadeTween.ToUniTask();
             }
         }
@@ -206,12 +206,12 @@ namespace iCON.System
             if (fadeDuration < 0)
             {
                 // フェード時間が特に設定されておらず負の値の場合は、Constantで宣言している値を使用する
-                fadeDuration = StoryConstants.BGM_FADE_DURATION;
+                fadeDuration = KStoryPresentation.BGM_FADE_DURATION;
             }
             
             _bgmFadeTween?.Kill();
             
-            _bgmFadeTween = CurrentBGMSource.DOFade(0f, fadeDuration).SetEase(StoryConstants.BGM_FADE_EASE);
+            _bgmFadeTween = CurrentBGMSource.DOFade(0f, fadeDuration).SetEase(KStoryPresentation.BGM_FADE_EASE);
             await _bgmFadeTween.ToUniTask();
             
             if (stopAfterFade)
@@ -229,7 +229,7 @@ namespace iCON.System
             if (fadeDuration < 0)
             {
                 // フェード時間が特に設定されておらず負の値の場合は、Constantで宣言している値を使用する
-                fadeDuration = StoryConstants.BGM_FADE_DURATION;
+                fadeDuration = KStoryPresentation.BGM_FADE_DURATION;
             }
             
             var clip = await LoadAudioClipAsync(filePath);
@@ -246,8 +246,8 @@ namespace iCON.System
                 
                 // クロスフェード実行
                 var sequence = DOTween.Sequence();
-                sequence.Append(CurrentBGMSource.DOFade(0f, fadeDuration).SetEase(StoryConstants.BGM_FADE_EASE));
-                sequence.Join(NextBGMSource.DOFade(1f, fadeDuration).SetEase(StoryConstants.BGM_FADE_EASE));
+                sequence.Append(CurrentBGMSource.DOFade(0f, fadeDuration).SetEase(KStoryPresentation.BGM_FADE_EASE));
+                sequence.Join(NextBGMSource.DOFade(1f, fadeDuration).SetEase(KStoryPresentation.BGM_FADE_EASE));
                 sequence.OnComplete(() => {
                     CurrentBGMSource.Stop();
                     CurrentBGMSource.gameObject.SetActive(false);

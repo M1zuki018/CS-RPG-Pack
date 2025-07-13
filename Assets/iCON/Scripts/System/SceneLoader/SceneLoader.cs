@@ -205,7 +205,7 @@ namespace iCON.System
         /// </summary>
         private async UniTask PreloadAssetsAsync(CancellationToken token)
         {
-            await UniTask.Delay(SceneConstants.PRELOAD_TIME, cancellationToken: token);
+            await UniTask.Delay(KSceneManagement.ASSET_PRELOAD_WAIT_TIME_MS, cancellationToken: token);
         }
         
         /// <summary>

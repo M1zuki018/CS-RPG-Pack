@@ -127,8 +127,8 @@ namespace iCON.Input
         /// </summary>
         private void RegisterCommonActions(InputActionMap actionMap)
         {
-            actionMap.FindAction(InputActionConstants.CONFIRM).performed += OnConfirm;
-            actionMap.FindAction(InputActionConstants.PAUSE).performed += OnPause;
+            actionMap.FindAction(KInputActionNames.CONFIRM).performed += OnConfirm;
+            actionMap.FindAction(KInputActionNames.PAUSE).performed += OnPause;
         }
 
         /// <summary>
@@ -139,12 +139,12 @@ namespace iCON.Input
             switch (actionMap.name)
             {
                 case "Field":
-                    actionMap.FindAction(InputActionConstants.MOVE).started += OnMove;
-                    actionMap.FindAction(InputActionConstants.MOVE).performed += OnMove;
-                    actionMap.FindAction(InputActionConstants.MOVE).canceled += OnMove;
-                    actionMap.FindAction(InputActionConstants.DASH).performed += OnDash;
-                    actionMap.FindAction(InputActionConstants.SHORTCUT).performed += OnShortcut;
-                    actionMap.FindAction(InputActionConstants.CHARAMENU).performed += OnCharaMenu;
+                    actionMap.FindAction(KInputActionNames.MOVE).started += OnMove;
+                    actionMap.FindAction(KInputActionNames.MOVE).performed += OnMove;
+                    actionMap.FindAction(KInputActionNames.MOVE).canceled += OnMove;
+                    actionMap.FindAction(KInputActionNames.DASH).performed += OnDash;
+                    actionMap.FindAction(KInputActionNames.SHORTCUT).performed += OnShortcut;
+                    actionMap.FindAction(KInputActionNames.CHARACTER_MENU).performed += OnCharaMenu;
                     break;
 
                 case "UI":
@@ -179,13 +179,13 @@ namespace iCON.Input
         /// </summary>
         private void UnregisterCommonActions(InputActionMap actionMap)
         {
-            var confirmAction = actionMap.FindAction(InputActionConstants.CONFIRM);
+            var confirmAction = actionMap.FindAction(KInputActionNames.CONFIRM);
             if (confirmAction != null)
             {
                 confirmAction.performed -= OnConfirm;
             }
 
-            var pauseAction = actionMap.FindAction(InputActionConstants.PAUSE);
+            var pauseAction = actionMap.FindAction(KInputActionNames.PAUSE);
             if (pauseAction != null)
             {
                 pauseAction.performed -= OnPause;
@@ -200,7 +200,7 @@ namespace iCON.Input
             switch (actionMap.name)
             {
                 case "Field":
-                    var moveAction = actionMap.FindAction(InputActionConstants.MOVE);
+                    var moveAction = actionMap.FindAction(KInputActionNames.MOVE);
                     if (moveAction != null)
                     {
                         moveAction.started -= OnMove;
@@ -208,19 +208,19 @@ namespace iCON.Input
                         moveAction.canceled -= OnMove;
                     }
 
-                    var dashAction = actionMap.FindAction(InputActionConstants.DASH);
+                    var dashAction = actionMap.FindAction(KInputActionNames.DASH);
                     if (dashAction != null)
                     {
                         dashAction.performed -= OnDash;
                     }
 
-                    var shortcutAction = actionMap.FindAction(InputActionConstants.SHORTCUT);
+                    var shortcutAction = actionMap.FindAction(KInputActionNames.SHORTCUT);
                     if (shortcutAction != null)
                     {
                         shortcutAction.performed -= OnShortcut;
                     }
 
-                    var charaMenuAction = actionMap.FindAction(InputActionConstants.CHARAMENU);
+                    var charaMenuAction = actionMap.FindAction(KInputActionNames.CHARACTER_MENU);
                     if (charaMenuAction != null)
                     {
                         charaMenuAction.performed -= OnCharaMenu;

@@ -65,8 +65,8 @@ namespace iCON.UI
         /// </summary>
         public void FadeIn()
         {
-            _bgImages[_activeImageIndex].DOFade(1, StoryConstants.IMAGE_FADE_DURATION)
-                .SetEase(StoryConstants.FADE_EASE)
+            _bgImages[_activeImageIndex].DOFade(1, KStoryPresentation.IMAGE_FADE_DURATION)
+                .SetEase(KStoryPresentation.FADE_EASE)
                 .OnComplete(() =>
                 {
                     // 前面のオブジェクトが表示されたら、裏面のオブジェクトの透明度をゼロにしておく
