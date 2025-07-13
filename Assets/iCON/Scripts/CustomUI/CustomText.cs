@@ -15,7 +15,11 @@ public class CustomText : Text
 
         if (_wordingKey != string.Empty)
         {
-            // TODO: Wordingから定型文をセットする処理
+            string wordingText = WordingMaster.GetText(_wordingKey);
+            if (wordingText != null)
+            {
+                m_Text = wordingText;
+            }
         }
     }
 

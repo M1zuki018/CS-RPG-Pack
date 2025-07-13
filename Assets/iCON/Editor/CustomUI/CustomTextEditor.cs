@@ -23,9 +23,9 @@ public class CustomTextEditor : TextEditor
         // カスタムフィールドを表示
         EditorGUILayout.PropertyField(_wordingKeyProp, new GUIContent("Wording Key"));
         
+        serializedObject.ApplyModifiedProperties();
+        
         // 元のプロパティを表示
         base.OnInspectorGUI();
-        
-        serializedObject.ApplyModifiedProperties();
     }
 }
