@@ -332,7 +332,7 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 4624312288486186699}
   m_Template: {fileID: 5159789463564799649}
-  m_CaptionText: {fileID: 8114874083639103788}
+  m_CaptionText: {fileID: 0}
   m_CaptionImage: {fileID: 0}
   m_ItemText: {fileID: 6314384735730954662}
   m_ItemImage: {fileID: 0}
@@ -878,7 +878,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000015258789}
   m_SizeDelta: {x: 0, y: 70.261}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &5323321125041126356
@@ -999,9 +999,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6693237622878977995}
   - component: {fileID: 7316287292129958642}
-  - component: {fileID: 2881147651397223125}
+  - component: {fileID: 2287662788454606346}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: Button_Start_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1023,8 +1023,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.0000038146973}
+  m_SizeDelta: {x: -67.4924, y: -25.6471}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7316287292129958642
 CanvasRenderer:
@@ -1034,7 +1034,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5737245703589986733}
   m_CullTransparentMesh: 1
---- !u!114 &2881147651397223125
+--- !u!114 &2287662788454606346
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1043,11 +1043,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5737245703589986733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c676c89d87fcb34492a4501f39af394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.09433961, g: 0.09433961, b: 0.09433961, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1060,7 +1060,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 93
+    m_MaxSize: 66
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1068,6 +1068,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Start
+  _wordingKey: BOOT_START
 --- !u!1 &6007842309818530761
 GameObject:
   m_ObjectHideFlags: 0
