@@ -25,6 +25,13 @@ namespace iCON.Battle
         [SerializeField]
         private BattleSystemState _currentState;
         
+        // TODO: 仮
+        [SerializeField]
+        private List<BattleUnitMaster> _units;
+        
+        [SerializeField]
+        private List<BattleUnitMaster> _enemies;
+        
         private BattleStateBase _currentStateHandler;
         private Dictionary<BattleSystemState, BattleStateBase> _states;
 
@@ -58,7 +65,7 @@ namespace iCON.Battle
             InitializeStates();
             SetState(_currentState);
             
-            _data = new BattleData();
+            _data = new BattleData(new List<int>{0}, new List<int>{0}, _units, _enemies);
         }
 
         #endregion
