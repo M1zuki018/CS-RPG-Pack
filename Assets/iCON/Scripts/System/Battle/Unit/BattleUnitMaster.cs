@@ -22,6 +22,8 @@ namespace iCON.Battle
         [SerializeField] private int _speed;
         [SerializeField] private int _dodgeSpeed;
         [SerializeField] private int _armorPenetration;
+        [SerializeField] private float _criticalLate; // TODO: 値の登録方法については検討中
+        [SerializeField] private float _criticalDamage; // TODO: 値の登録方法については検討中
 
         /// <summary>
         /// キャラクターID
@@ -92,5 +94,15 @@ namespace iCON.Battle
         /// 防御無視
         /// </summary>
         public int ArmorPenetration => _armorPenetration;
+        
+        /// <summary>
+        /// クリティカル率
+        /// </summary>
+        public float CriticalLate => _criticalLate;
+        
+        /// <summary>
+        /// クリティカルダメージ
+        /// </summary>
+        public float CriticalDamage => _criticalDamage;
     }
 }
