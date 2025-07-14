@@ -44,8 +44,8 @@ namespace iCON.Battle
         /// </summary>
         private void Attack()
         {
-            // コマンドを記録 TODO: 仮実装
-            BattleManager.RecordCommand("攻撃");
+            // コマンドを記録
+            BattleManager.AddCommandList(CommandType.Attack);
             Next();
         }
 
@@ -64,7 +64,7 @@ namespace iCON.Battle
         /// </summary>
         private void Guard()
         {
-            BattleManager.RecordCommand("ガード");
+            BattleManager.AddCommandList(CommandType.Guard);
             Next();
         }
         
