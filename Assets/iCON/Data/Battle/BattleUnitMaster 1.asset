@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a295cd761c8b52448e8fe7c47145b21, type: 3}
+  m_Name: BattleUnitMaster 1
+  m_EditorClassIdentifier: 
+  _hp: 100
+  _will: 100
+  _stamina: 50
+  _sp: 50
+  _physicalAttack: 100
+  _skillAttack: 100
+  _intelligence: 30
+  _physicalDefense: 30
+  _skillDefense: 30
+  _speed: 10
+  _dodgeSpeed: 10
+  _armorPenetration: 0
