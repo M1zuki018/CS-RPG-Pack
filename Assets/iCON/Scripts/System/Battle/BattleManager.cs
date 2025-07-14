@@ -154,7 +154,7 @@ namespace iCON.Battle
         /// <summary>
         /// バトル実行
         /// </summary>
-        public async UniTask ExecuteBattle()
+        public async UniTask<(bool isFinish, bool isWin)> ExecuteBattle()
         {
             // 敵のAI行動を追加
             AddEnemyCommands();
@@ -192,17 +192,13 @@ namespace iCON.Battle
                 {
                     LogUtility.Warning($"コマンド実行失敗: {result.Message}");
                 }
-                
-                // バトル終了条件をチェック
-                if (CheckBattleEnd())
-                {
-                    break;
-                }
             }
             
             // コマンドリストをクリア
             _commandList.Clear();
             ResetCommandSelectIndex();
+            
+            return CheckBattleEnd();
         }
         
         /// <summary>
@@ -218,6 +214,8 @@ namespace iCON.Battle
                 _states.Add(BattleSystemState.TryEscape, new TryEscapeState());
                 _states.Add(BattleSystemState.CommandSelect, new CommandSelectState());
                 _states.Add(BattleSystemState.Execute, new ExecuteState());
+                _states.Add(BattleSystemState.Win, new WinState());
+                _states.Add(BattleSystemState.Lose, new LoseState());
             }
             catch(Exception e)
             {
@@ -265,7 +263,7 @@ namespace iCON.Battle
         /// <summary>
         /// バトル終了条件をチェック
         /// </summary>
-        private bool CheckBattleEnd()
+        private (bool isFinish, bool isWin) CheckBattleEnd()
         {
             // 戦闘に参加しているすべてのUnitの生存状態を調べる
             bool allPlayersDead = _data.UnitData.All(u => !u.IsAlive);
@@ -274,16 +272,16 @@ namespace iCON.Battle
             if (allPlayersDead)
             {
                 LogUtility.Info("プレイヤーの敗北");
-                return true;
+                return (true, false);
             }
             
             if (allEnemiesDead)
             {
                 LogUtility.Info("プレイヤーの勝利");
-                return true;
+                return (true, true);
             }
             
-            return false;
+            return (false, false);
         }
         
         /// <summary>
