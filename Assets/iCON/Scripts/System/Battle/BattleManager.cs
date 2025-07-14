@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using iCON.Enums;
 using iCON.UI;
@@ -32,7 +33,14 @@ namespace iCON.Battle
         [SerializeField]
         private List<BattleUnitMaster> _enemies;
         
+        /// <summary>
+        /// 現在のステートのステートマシン用クラスの参照
+        /// </summary>
         private BattleStateBase _currentStateHandler;
+        
+        /// <summary>
+        /// Enumとステートマシン用クラスのkvpの辞書
+        /// </summary>
         private Dictionary<BattleSystemState, BattleStateBase> _states;
 
         /// <summary>
@@ -41,9 +49,9 @@ namespace iCON.Battle
         private BattleData _data;
 
         /// <summary>
-        /// コマンドを記録しておくリスト
+        /// 実行待ちのコマンドを記録しておくリスト
         /// </summary>
-        private List<string> _commands = new List<string>();
+        private List<BattleCommandEntry> _commandList = new List<BattleCommandEntry>();
         
         /// <summary>
         /// 現在コマンドを選んでいるキャラクターのIndex
@@ -54,17 +62,25 @@ namespace iCON.Battle
         /// バトルで使用する変数をまとめたクラス
         /// </summary>
         public BattleData Data => _data;
+        
+        /// <summary>
+        /// 現在コマンドを選んでいるキャラクターのデータ
+        /// </summary>
+        public BattleUnit CurrentSelectingUnit => _currentCommandSelectIndex < _data.UnitCount ? 
+            _data.UnitData[_currentCommandSelectIndex] : null;
 
         #region Life cycle
 
         private void Awake()
         {
+            // サービスロケーターに登録（特にGrobalで使用する必要はないのでLocalで登録する）
             ServiceLocator.Resister(this, ServiceType.Local);
             
             // ステートマシンの初期化
             InitializeStates();
             SetState(_currentState);
             
+            // バトルデータ作成
             _data = new BattleData(new List<int>{0}, new List<int>{0}, _units, _enemies);
         }
 
@@ -89,12 +105,37 @@ namespace iCON.Battle
         }
 
         /// <summary>
-        /// コマンドを記録する
-        /// TODO: 仮実装
+        /// コマンドをリストに追加
         /// </summary>
-        public void RecordCommand(string command)
+        public void AddCommandList(CommandType commandType, BattleUnit[] targets = null)
         {
-            _commands.Add(command);
+            // コマンドを取得
+            var command = BattleCommandFactory.GetCommand(commandType);
+            if (command == null)
+            {
+                LogUtility.Error($"未知のコマンドです: {commandType}", LogCategory.Gameplay);
+                return;
+            }
+            
+            // コマンドの実行者は現在コマンドを選択中のキャラクターとする
+            var executor = CurrentSelectingUnit;
+            if (executor == null)
+            {
+                LogUtility.Error("実行者が設定されていません", LogCategory.Gameplay);
+                return;
+            }
+            
+            // デフォルトターゲットの設定 TODO: 今後対象を選択式にする
+            if (targets == null || targets.Length == 0)
+            {
+                targets = GetDefaultTargets(commandType);
+            }
+            
+            // 実行待ちコマンドを登録
+            var entry = new BattleCommandEntry(executor, command, targets);
+            _commandList.Add(entry);
+            
+            LogUtility.Info($"{executor.Name}のコマンド登録: {commandType}");
         }
         
         /// <summary>
@@ -110,18 +151,54 @@ namespace iCON.Battle
         /// <summary>
         /// バトル実行
         /// </summary>
-        public UniTask ExecuteBattle()
+        public async UniTask ExecuteBattle()
         {
-            // TODO: 実行処理を書く
-            foreach (var command in _commands)
+            // 敵のAI行動を追加
+            AddEnemyCommands();
+            
+            // コマンドを優先度順にソート（コマンドの優先順->攻撃速度）
+            _commandList = _commandList
+                .OrderByDescending(entry => entry.Priority)
+                .ThenByDescending(entry => entry.Executor.Speed)
+                .ToList();
+            
+            // コマンドを順次実行
+            foreach (var entry in _commandList)
             {
-                LogUtility.Info(command);
+                if (!entry.Executor.IsAlive)
+                {
+                    continue; // 実行者が死亡している場合はスキップ
+                }
+                
+                // コマンドの実行終了を待機
+                var result = await entry.Command.ExecuteAsync(entry.Executor, entry.Targets);
+                
+                if (result.IsSuccess)
+                {
+                    LogUtility.Info(result.Message);
+                    
+                    // エフェクト処理
+                    foreach (var effect in result.Effects)
+                    {
+                        // TODO: エフェクトの表示処理
+                        await UniTask.Delay(100); // エフェクトの表示時間
+                    }
+                }
+                else
+                {
+                    LogUtility.Warning($"コマンド実行失敗: {result.Message}");
+                }
+                
+                // バトル終了条件をチェック
+                if (CheckBattleEnd())
+                {
+                    break;
+                }
             }
             
-            // 実行が終わったらコマンドリストをクリア
-            _commands.Clear();
-            
-            return UniTask.CompletedTask;
+            // コマンドリストをクリア
+            _commandList.Clear();
+            ResetCommandSelectIndex();
         }
         
         /// <summary>
@@ -143,5 +220,76 @@ namespace iCON.Battle
                 LogUtility.Error($"State初期化中に例外が発生: {e.Message}", LogCategory.Gameplay);
             }
         }
+
+        #region Battle Private Methods
+
+        /// <summary>
+        /// デフォルトターゲットを取得
+        /// </summary>
+        private BattleUnit[] GetDefaultTargets(CommandType commandType)
+        {
+            return commandType switch
+            {
+                // TODO: 仮実装。攻撃の場合はターゲットに生存している敵を1体設定
+                CommandType.Attack => _data.EnemyData.Where(u => u.IsAlive).Take(1).ToArray(),
+                
+                // ガードは自身をターゲットに設定
+                CommandType.Guard => new BattleUnit[] { CurrentSelectingUnit },
+                _ => Array.Empty<BattleUnit>()
+            };
+        }
+        
+        /// <summary>
+        /// 敵のAI行動を追加
+        /// </summary>
+        private void AddEnemyCommands()
+        {
+            foreach (var enemy in _data.EnemyData.Where(u => u.IsAlive))
+            {
+                // TODO: 仮実装として常に攻撃としている
+                var command = BattleCommandFactory.GetCommand(CommandType.Attack);
+                var targets = _data.UnitData.Where(u => u.IsAlive).Take(1).ToArray();
+                
+                if (command != null && targets.Length > 0)
+                {
+                    var entry = new BattleCommandEntry(enemy, command, targets);
+                    _commandList.Add(entry);
+                }
+            }
+        }
+        
+        /// <summary>
+        /// バトル終了条件をチェック
+        /// </summary>
+        private bool CheckBattleEnd()
+        {
+            // 戦闘に参加しているすべてのUnitの生存状態を調べる
+            bool allPlayersDead = _data.UnitData.All(u => !u.IsAlive);
+            bool allEnemiesDead = _data.EnemyData.All(u => !u.IsAlive);
+            
+            if (allPlayersDead)
+            {
+                LogUtility.Info("プレイヤーの敗北");
+                return true;
+            }
+            
+            if (allEnemiesDead)
+            {
+                LogUtility.Info("プレイヤーの勝利");
+                return true;
+            }
+            
+            return false;
+        }
+        
+        /// <summary>
+        /// コマンド選択インデックスをリセット
+        /// </summary>
+        private void ResetCommandSelectIndex()
+        {
+            _currentCommandSelectIndex = 0;
+        }
+
+        #endregion
     }
 }
