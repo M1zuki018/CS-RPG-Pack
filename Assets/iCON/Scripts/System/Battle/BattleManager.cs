@@ -82,6 +82,9 @@ namespace iCON.Battle
             
             // バトルデータ作成
             _data = new BattleData(new List<int>{0}, new List<int>{0}, _units, _enemies);
+            
+            // アイコンを用意する
+            _view.SetupIcons(_data.UnitData);
         }
 
         #endregion
@@ -183,6 +186,7 @@ namespace iCON.Battle
                         // TODO: エフェクトの表示処理
                         await UniTask.Delay(100); // エフェクトの表示時間
                     }
+                    
                 }
                 else
                 {
