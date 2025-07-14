@@ -14,6 +14,6 @@ namespace iCON.Enums
         Execute,
         Win,
         Lose,
+        Idea,
     }
-
 }
