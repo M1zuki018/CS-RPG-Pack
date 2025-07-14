@@ -1,3 +1,4 @@
+using System;
 using iCON.Utility;
 using UnityEngine;
 
@@ -34,6 +35,21 @@ namespace iCON.Battle
         /// 生存しているか
         /// </summary>
         public bool IsAlive => CurrentHp > 0;
+        
+        /// <summary>
+        /// HP変動を通知するコールバック
+        /// </summary>
+        public event Action<int, int> OnHpChanged;
+        
+        /// <summary>
+        /// スキルポイント変動を通知するコールバック
+        /// </summary>
+        public event Action<int, int> OnSpChanged;
+
+        /// <summary>
+        /// 死亡通知
+        /// </summary>
+        public event Action OnDeath;
 
         /// <summary>
         /// コンストラクタ
@@ -83,6 +99,7 @@ namespace iCON.Battle
             // 最小値は0、最大値はMaxHPにおさまるように調整
             var value = Mathf.Max(0, CurrentHp - damage);
             CurrentHp = Mathf.Min(value, Data.Hp);
+            OnHpChanged?.Invoke(CurrentHp, Data.Hp);
         }
     }
 }
