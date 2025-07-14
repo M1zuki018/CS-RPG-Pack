@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a295cd761c8b52448e8fe7c47145b21, type: 3}
   m_Name: BattleUnitMaster
   m_EditorClassIdentifier: 
+  _characterId: 0
+  _name: 
   _hp: 100
   _will: 100
   _stamina: 50
@@ -24,3 +26,5 @@ MonoBehaviour:
   _speed: 10
   _dodgeSpeed: 10
   _armorPenetration: 0
+  _criticalLate: 0.1
+  _criticalDamage: 2
