@@ -12,6 +12,8 @@ namespace iCON.Enums
         TryEscape,
         CommandSelect,
         Execute,
+        Win,
+        Lose,
     }
 
 }
