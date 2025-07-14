@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterId: 0
   _name: 
-  _hp: 100
+  _hp: 300
   _will: 100
   _stamina: 50
   _sp: 50
