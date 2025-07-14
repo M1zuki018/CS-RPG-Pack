@@ -22,6 +22,18 @@ namespace iCON.Battle
         public int Speed { get; set; }
         public int DodgeSpeed { get; set; }
         public int ArmorPenetration { get; set; }
+        
+        /// <summary>
+        /// ガード中
+        /// </summary>
+        public bool IsGuarding { get; set; }
+        
+        public string Name => Data.name;
+        
+        /// <summary>
+        /// 生存しているか
+        /// </summary>
+        public bool IsAlive => CurrentHp > 0;
 
         /// <summary>
         /// コンストラクタ
@@ -62,11 +74,6 @@ namespace iCON.Battle
             DodgeSpeed = Data.DodgeSpeed;
             ArmorPenetration = Data.ArmorPenetration;
         }
-        
-        /// <summary>
-        /// 生存しているか
-        /// </summary>
-        public bool IsAlive => CurrentHp > 0;
 
         /// <summary>
         /// ダメージを受ける
