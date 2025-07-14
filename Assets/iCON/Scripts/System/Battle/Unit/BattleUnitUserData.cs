@@ -7,7 +7,7 @@ namespace iCON.Battle
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int CurrentHp { get; set; } = 100;
+        public int CurrentHp { get; set; } = 300;
         public int CurrentWill { get; set; } = 100;
         public int CurrentStamina { get; set; } = 50;
         public int CurrentSp { get; set; } = 50;

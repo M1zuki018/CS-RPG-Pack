@@ -18,7 +18,7 @@ MonoBehaviour:
   _will: 100
   _stamina: 50
   _sp: 50
-  _physicalAttack: 50
+  _physicalAttack: 70
   _skillAttack: 50
   _intelligence: 30
   _physicalDefense: 30
