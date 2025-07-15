@@ -28,3 +28,4 @@ MonoBehaviour:
   _armorPenetration: 0
   _criticalLate: 0.1
   _criticalDamage: 2
+  _iconPath: Assets/AssetStoreTools/Images/Battle/Character/Yuki.png
