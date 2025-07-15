@@ -39,7 +39,7 @@ namespace iCON.Battle
         /// <summary>
         /// HP変動を通知するコールバック
         /// </summary>
-        public event Action<int, int> OnHpChanged;
+        public event Action<int, int, int> OnHpChanged;
         
         /// <summary>
         /// スキルポイント変動を通知するコールバック
@@ -99,7 +99,7 @@ namespace iCON.Battle
             // 最小値は0、最大値はMaxHPにおさまるように調整
             var value = Mathf.Max(0, CurrentHp - damage);
             CurrentHp = Mathf.Min(value, Data.Hp);
-            OnHpChanged?.Invoke(CurrentHp, Data.Hp);
+            OnHpChanged?.Invoke(CurrentHp, Data.Hp, damage);
         }
     }
 }
