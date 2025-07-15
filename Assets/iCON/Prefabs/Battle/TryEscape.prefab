@@ -149,7 +149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 541126379329894067}
   - component: {fileID: 5966097795555942001}
-  - component: {fileID: 4996541590484266651}
+  - component: {fileID: 5660737462689453996}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
@@ -184,7 +184,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6435729436491519408}
   m_CullTransparentMesh: 1
---- !u!114 &4996541590484266651
+--- !u!114 &5660737462689453996
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -218,4 +218,4 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u25BC\u9003\u3052\u5834\u306A\u3069\u306A\u3044"
-  _wordingKey: 
+  _wordingKey: BATTLE_FAILED_ESCAPE

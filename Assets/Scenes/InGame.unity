@@ -1012,6 +1012,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7991292631236175323, guid: 978d61a8171e13147a165fffae57bae9, type: 3}
+      propertyPath: _storyLine.Range
+      value: "\u30B9\u30C8\u30FC\u30EA\u30FC\u30C7\u30FC\u30BF!A3:N28"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991292631236175323, guid: 978d61a8171e13147a165fffae57bae9, type: 3}
+      propertyPath: _storyLine.SceneName
+      value: iCON
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991292631236175323, guid: 978d61a8171e13147a165fffae57bae9, type: 3}
+      propertyPath: _storyLine.HeaderRange
+      value: "\u30B9\u30C8\u30FC\u30EA\u30FC\u30C7\u30FC\u30BF!A2:N2"
+      objectReference: {fileID: 0}
     - target: {fileID: 8568445935242303008, guid: 978d61a8171e13147a165fffae57bae9, type: 3}
       propertyPath: m_Name
       value: TestMap
@@ -1144,7 +1156,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8349254557646403581, guid: d0e33c4e8257247499aadfe2f0b00205, type: 3}
       propertyPath: _storyLine.Array.data[2].Range
-      value: "\u30B9\u30C8\u30FC\u30EA\u30FC\u30C7\u30FC\u30BF!A3:N13"
+      value: "\u30B9\u30C8\u30FC\u30EA\u30FC\u30C7\u30FC\u30BF!A3:N28"
       objectReference: {fileID: 0}
     - target: {fileID: 8349254557646403581, guid: d0e33c4e8257247499aadfe2f0b00205, type: 3}
       propertyPath: _storyLine.Array.data[2].SceneName
