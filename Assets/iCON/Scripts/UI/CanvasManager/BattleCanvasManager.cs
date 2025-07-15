@@ -19,6 +19,9 @@ namespace iCON.UI
         [SerializeField]
         private CharacterIconContents _unitIconPrefab;
         private List<CharacterIconContents> _icons;
+        
+        [SerializeField]
+        private Transform _unitIconParent;
 
         /// <summary>
         /// エネミーアイコンのPrefab
@@ -26,6 +29,9 @@ namespace iCON.UI
         [SerializeField] 
         private EnemyIconContents _enemyIconPrefab;
         private List<EnemyIconContents> _enemyIcons;
+
+        [SerializeField] 
+        private Transform _enemyIconParent;
          
         /// <summary>
         /// ダメージテキストのオブジェクトプールを管理するクラス
@@ -56,9 +62,7 @@ namespace iCON.UI
             
             for (int i = 0; i < unitData.Count; i++)
             {
-                // 自身の子オブジェクトとしてアイコンを生成
-                var icon = Instantiate(_unitIconPrefab, transform);
-                icon.transform.SetSiblingIndex(2);
+                var icon = Instantiate(_unitIconPrefab, _unitIconParent);
                 _icons.Add(icon);
                 icon.Setup(_damageTextPool);
             }
@@ -69,9 +73,7 @@ namespace iCON.UI
             
             for (int i = 0; i < enemyData.Count; i++)
             {
-                // 自身の子オブジェクトとしてアイコンを生成
-                var icon = Instantiate(_enemyIconPrefab, transform);
-                icon.transform.SetSiblingIndex(2);
+                var icon = Instantiate(_enemyIconPrefab, _enemyIconParent);
                 _enemyIcons.Add(icon);
                 icon.Setup(_damageTextPool);
             }
