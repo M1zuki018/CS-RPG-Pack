@@ -1148,7 +1148,7 @@ PrefabInstance:
       objectReference: {fileID: 5484602867204383048}
     - target: {fileID: 8349254557646403581, guid: d0e33c4e8257247499aadfe2f0b00205, type: 3}
       propertyPath: _playStoryName
-      value: iCON
+      value: Maki
       objectReference: {fileID: 0}
     - target: {fileID: 8349254557646403581, guid: d0e33c4e8257247499aadfe2f0b00205, type: 3}
       propertyPath: _storyLine.Array.size
