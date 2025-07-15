@@ -51,3 +51,6 @@ MonoBehaviour:
   - _name: WordingMaster
     _spreadsheetId: 1ItGwkW6CEC4Xtr9tYC9jwmB9AGCPp-1KrfJ8VwnBXnI
     _description: "\u6587\u8A00\u30AD\u30FC\u3092\u7BA1\u7406\u3059\u308B\u30B9\u30D7\u30EC\u30C3\u30C9\u30B7\u30FC\u30C8"
+  - _name: IdeaMaster
+    _spreadsheetId: 1UrtVXKPnP5RN2lWyW5S8hTCpPeRzS6va_HXxnWv80lo
+    _description: "\u30A2\u30A4\u30C7\u30A2\uFF08\u30B9\u30AD\u30EB\uFF09\u60C5\u5831\u3092\u7BA1\u7406\u3059\u308B\u30B9\u30D7\u30EC\u30C3\u30C9\u30B7\u30FC\u30C8"
