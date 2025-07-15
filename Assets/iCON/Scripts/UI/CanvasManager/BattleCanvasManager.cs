@@ -65,6 +65,7 @@ namespace iCON.UI
                 var icon = Instantiate(_unitIconPrefab, _unitIconParent);
                 _icons.Add(icon);
                 icon.Setup(_damageTextPool);
+                icon.SetIcon(unitData[i].Data.IconPath);
             }
             
             SubscribeToUnitEvents(unitData);
@@ -76,6 +77,7 @@ namespace iCON.UI
                 var icon = Instantiate(_enemyIconPrefab, _enemyIconParent);
                 _enemyIcons.Add(icon);
                 icon.Setup(_damageTextPool);
+                icon.SetIcon(enemyData[i].Data.IconPath);
             }
             
             SubscribeToEnemyEvents(enemyData);
