@@ -32,7 +32,7 @@ namespace iCON.Battle
             {
                 CommandType.Attack => new AttackCommand(), 
                 CommandType.Guard => new GuardCommand(),
-                // CommandType.Idea => new IdeaCommand(),
+                CommandType.Idea => new IdeaCommand(),
                 // CommandType.Item => new ItemCommand(),
                 _ => null
             };
