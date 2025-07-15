@@ -84,7 +84,7 @@ namespace iCON.Battle
             _data = new BattleData(new List<int>{0}, new List<int>{0}, _units, _enemies);
             
             // アイコンを用意する
-            _view.SetupIcons(_data.UnitData);
+            _view.SetupIcons(_data.UnitData, _data.EnemyData);
         }
 
         #endregion
@@ -216,6 +216,7 @@ namespace iCON.Battle
                 _states.Add(BattleSystemState.Execute, new ExecuteState());
                 _states.Add(BattleSystemState.Win, new WinState());
                 _states.Add(BattleSystemState.Lose, new LoseState());
+                _states.Add(BattleSystemState.Idea, new IdeaState());
             }
             catch(Exception e)
             {
@@ -234,6 +235,7 @@ namespace iCON.Battle
             {
                 // TODO: 仮実装。攻撃の場合はターゲットに生存している敵を1体設定
                 CommandType.Attack => _data.EnemyData.Where(u => u.IsAlive).Take(1).ToArray(),
+                CommandType.Idea => _data.EnemyData.Where(u => u.IsAlive).Take(1).ToArray(),
                 
                 // ガードは自身をターゲットに設定
                 CommandType.Guard => new BattleUnit[] { CurrentSelectingUnit },
