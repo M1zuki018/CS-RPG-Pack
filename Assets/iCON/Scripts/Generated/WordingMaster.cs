@@ -1,6 +1,6 @@
 // ============================================================================
 // AUTO GENERATED - DO NOT MODIFY
-// Generated at: 2025-07-13 16:04:45
+// Generated at: 2025-07-15 00:29:49
 // ============================================================================
 
 using System.Collections.Generic;
@@ -23,6 +23,9 @@ public static class WordingMaster
         { "BATTLE_COMMAND_GUARD", "まもる" },
         { "BATTLE_FIRSTSELECT_START", "たたかう" },
         { "BATTLE_FIRSTSELECT_ESCAPE", "にげる" },
+        { "BATTLE_IDEA_COMMAND", "command" },
+        { "BATTLE_IDEA_ACTOR", "actor" },
+        { "BATTLE_FAILED_ESCAPE", "▼逃げ場などない" },
     };
 
     public static string GetText(string key)
