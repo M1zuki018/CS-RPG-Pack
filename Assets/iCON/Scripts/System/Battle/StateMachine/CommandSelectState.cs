@@ -51,7 +51,7 @@ namespace iCON.Battle
 
         private void Idea()
         {
-            
+            BattleManager.SetState(BattleSystemState.Idea);
         }
 
         private void Item()
