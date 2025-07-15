@@ -24,6 +24,7 @@ namespace iCON.Battle
         [SerializeField] private int _armorPenetration;
         [SerializeField] private float _criticalLate; // TODO: 値の登録方法については検討中
         [SerializeField] private float _criticalDamage; // TODO: 値の登録方法については検討中
+        [SerializeField] private string _iconPath;
 
         /// <summary>
         /// キャラクターID
@@ -104,5 +105,10 @@ namespace iCON.Battle
         /// クリティカルダメージ
         /// </summary>
         public float CriticalDamage => _criticalDamage;
+        
+        /// <summary>
+        /// キャラクターアイコンのパス
+        /// </summary>
+        public string IconPath => _iconPath;
     }
 }
