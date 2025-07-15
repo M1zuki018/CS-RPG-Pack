@@ -1,7 +1,6 @@
 using iCON.Enums;
 using iCON.UI;
 using iCON.Utility;
-using NotImplementedException = System.NotImplementedException;
 
 namespace iCON.Battle
 {
