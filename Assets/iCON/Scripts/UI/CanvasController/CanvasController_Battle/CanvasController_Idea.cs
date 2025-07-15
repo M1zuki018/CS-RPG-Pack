@@ -91,10 +91,10 @@ namespace iCON.UI
         /// </summary>
         private void SetupCommandButtonListeners()
         {
-            for (int i = 0; i < _commandIdeaContents.ButtonList.Count; i++)
+            for (int i = 0; i < _commandIdeaContents.IdeaButtons.Count; i++)
             {
                 int index = i; // クロージャ問題を回避
-                _commandIdeaContents.ButtonList[i].onClick.SafeReplaceListener(() => OnIdeaSelected?.Invoke(index));
+                _commandIdeaContents.IdeaButtons[i].onClick.SafeReplaceListener(() => OnIdeaSelected?.Invoke(index));
             }
         }
         
@@ -103,10 +103,10 @@ namespace iCON.UI
         /// </summary>
         private void SetupActorButtonListeners()
         {
-            for (int i = 0; i < _actorIdeaContents.ButtonList.Count; i++)
+            for (int i = 0; i < _actorIdeaContents.IdeaButtons.Count; i++)
             {
                 int index = i; // クロージャ問題を回避
-                _actorIdeaContents.ButtonList[i].onClick.SafeReplaceListener(() => OnIdeaSelected?.Invoke(index));
+                _actorIdeaContents.IdeaButtons[i].onClick.SafeReplaceListener(() => OnIdeaSelected?.Invoke(index));
             }
         }
         
@@ -115,9 +115,9 @@ namespace iCON.UI
         /// </summary>
         private void CleanupCommandButtonListeners()
         {
-            for (int i = 0; i < _commandIdeaContents.ButtonList.Count; i++)
+            for (int i = 0; i < _commandIdeaContents.IdeaButtons.Count; i++)
             {
-                _commandIdeaContents.ButtonList[i].onClick.SafeRemoveAllListeners();
+                _commandIdeaContents.IdeaButtons[i].onClick.SafeRemoveAllListeners();
             }
         }
         
@@ -126,9 +126,9 @@ namespace iCON.UI
         /// </summary>
         private void CleanupActorButtonListeners()
         {
-            for (int i = 0; i < _actorIdeaContents.ButtonList.Count; i++)
+            for (int i = 0; i < _actorIdeaContents.IdeaButtons.Count; i++)
             {
-                _actorIdeaContents.ButtonList[i].onClick.SafeRemoveAllListeners();
+                _actorIdeaContents.IdeaButtons[i].onClick.SafeRemoveAllListeners();
             }
         }
         
