@@ -20,7 +20,7 @@ namespace iCON.UI
         /// キャラクターアイコン
         /// </summary>
         [SerializeField]
-        private Image _icon;
+        private CustomImage _icon;
         
         /// <summary>
         /// HPバー
@@ -62,6 +62,14 @@ namespace iCON.UI
         public void Setup(DamageTextPool damageTextPool)
         {
             _damageTextPool = damageTextPool;
+        }
+
+        /// <summary>
+        /// アイコンを差し替える
+        /// </summary>
+        public void SetIcon(string spritePath)
+        {
+            _icon.AssetName = spritePath;
         }
         
         /// <summary>
