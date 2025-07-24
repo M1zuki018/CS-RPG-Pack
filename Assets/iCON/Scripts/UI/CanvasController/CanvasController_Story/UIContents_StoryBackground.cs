@@ -63,9 +63,9 @@ namespace iCON.UI
         /// <summary>
         /// フェードイン
         /// </summary>
-        public void FadeIn()
+        public Tween FadeIn(float duration)
         {
-            _bgImages[_activeImageIndex].DOFade(1, KStoryPresentation.IMAGE_FADE_DURATION)
+            return _bgImages[_activeImageIndex].DOFade(1, duration)
                 .SetEase(KStoryPresentation.FADE_EASE)
                 .OnComplete(() =>
                 {

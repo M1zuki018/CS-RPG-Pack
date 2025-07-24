@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spreadsheetConfigs:
   - _name: TestStory
-    _spreadsheetId: 1P2Uq8shFwjMMpR8-frGEYyjXqEl6kBjJVAzBJz5_iZs
+    _spreadsheetId: 1qsxU9Hq4Gn-M34rQDci4meN1TTwuuqCYVHDFCCFptgY
     _description: "\u30B9\u30C8\u30FC\u30EA\u30FC\u518D\u751F\u7528\u306E\u30B9\u30D7\u30EC\u30C3\u30C9\u30B7\u30FC\u30C8"
   - _name: WordingMaster
     _spreadsheetId: 1ItGwkW6CEC4Xtr9tYC9jwmB9AGCPp-1KrfJ8VwnBXnI

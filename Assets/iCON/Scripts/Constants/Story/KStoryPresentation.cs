@@ -30,6 +30,6 @@ namespace iCON.Constants
         /// <summary>
         /// BGMフェード時のイージング
         /// </summary>
-        public const Ease BGM_FADE_EASE = Ease.OutSine;
+        public const Ease BGM_FADE_EASE = Ease.InSine;
     }
 }

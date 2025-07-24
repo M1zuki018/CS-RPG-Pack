@@ -76,7 +76,7 @@ namespace iCON.System
         {
             await base.OnAwake();
             InitializeComponents();
-            _overlayController.Setup(_view, CancelAutoPlay, () => MoveToNextScene()); // TODO: 第三引数のスキップボタンのMethodについては仮
+            _overlayController.Setup(_view, CancelAutoPlay, MoveToEndOrder); // TODO: 第三引数のスキップボタンのMethodについては仮
         }
         
         /// <summary>
@@ -272,6 +272,28 @@ namespace iCON.System
             // オート再生用のUniTaskをキャンセルする
             _cts?.Cancel();
             _cts?.Dispose();
+        }
+
+        /// <summary>
+        /// スキップ機能
+        /// </summary>
+        private void MoveToEndOrder()
+        {
+            // Endオーダーの1つ前のオーダーIDを獲得
+            var endOrderIndex = _orderProvider.GetOrderCount() - 1;
+            
+            // Endオーダーの1つ前に移動
+            _progressTracker.JumpToPosition(new StoryPosition(CurrentPosition.PartId, CurrentPosition.ChapterId, 
+                CurrentPosition.SceneId, endOrderIndex));
+            
+            if (_orderExecutor.IsExecuting)
+            {
+                // オーダーが実行中であれば演出をスキップする
+                _orderExecutor.Skip();
+            }
+            
+            // Endオーダーを実行
+            ExecuteNextOrderSequence();
         }
         
         /// <summary>

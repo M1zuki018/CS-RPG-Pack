@@ -88,7 +88,7 @@ namespace iCON.System
                     OrderId = GetIntValue(row, StoryDataColumn.OrderId),
                     OrderType = GetType<OrderType>(row, StoryDataColumn.OrderType),
                     Sequence = GetType<SequenceType>(row, StoryDataColumn.Sequence),
-                    SpeakerId = GetStringValue(row, StoryDataColumn.SpeakerId),
+                    SpeakerId = GetIntValue(row, StoryDataColumn.SpeakerId),
                     DialogText = GetStringValue(row, StoryDataColumn.DialogText),
                     OverrideDisplayName = GetStringValue(row, StoryDataColumn.OverrideDisplayName),
                     FilePath = GetStringValue(row, StoryDataColumn.FilePath),

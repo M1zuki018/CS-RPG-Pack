@@ -27,6 +27,12 @@ namespace iCON.UI
         [SerializeField]
         private Button _skipButton;
         
+        /// <summary>
+        /// ボタンのデフォルト色
+        /// </summary>
+        [SerializeField]
+        private Color _defaultButtonColor;
+        
         #region Lifecycle
 
         private void OnDestroy()
@@ -51,7 +57,6 @@ namespace iCON.UI
         /// <summary>
         /// オート再生ボタンのセットアップ
         /// </summary>
-        /// <param name="action"></param>
         public void SetupAutoPlayButton(Action action)
         {
             _autoPlayButton.onClick.RemoveAllListeners();
@@ -67,10 +72,25 @@ namespace iCON.UI
             _skipButton.onClick.RemoveAllListeners();
             _skipButton.onClick.AddListener(() => action?.Invoke());
         }
+
+        /// <summary>
+        /// UI非表示ボタンの色を変更する
+        /// </summary>
+        public void ChangeImmerseButtonColor(bool isActive)
+        {
+            _immersedButton.image.color = isActive ? Color.gray : _defaultButtonColor;
+        }
+
+        /// <summary>
+        /// オート再生ボタンの色を変更する
+        /// </summary>
+        public void ChangeAutoPlayButtonColor(bool isActive)
+        {
+            _autoPlayButton.image.color = isActive ? Color.gray : _defaultButtonColor;
+        }
         
         #region Private Methods
 
-        
 
         #endregion
     }

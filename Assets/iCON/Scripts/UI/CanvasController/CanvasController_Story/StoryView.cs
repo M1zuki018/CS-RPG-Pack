@@ -2,6 +2,8 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.Rendering;
 
 namespace iCON.UI
 {
@@ -46,6 +48,12 @@ namespace iCON.UI
         /// </summary>
         [SerializeField, HighlightIfNull]
         private CanvasShaker _canvasShaker;
+        
+        /// <summary>
+        /// シーンで使用しているGlobal Volume
+        /// </summary>
+        [SerializeField, HighlightIfNull]
+        private Volume _volume;
         
         /// <summary>
         /// 会話テキストを更新する
@@ -142,19 +150,19 @@ namespace iCON.UI
         }
 
         /// <summary>
+        /// キャラクターを切り替え
+        /// </summary>
+        public Tween ChangeCharacter(CharacterPositionType position, string fileName, float duration)
+        {
+            return _characters.Change(position, fileName, duration);
+        }
+        
+        /// <summary>
         /// キャラクター退場
         /// </summary>
         public Tween CharacterExit(CharacterPositionType position, float duration)
         {
             return _characters.Exit(position, duration);
-        }
-        
-        /// <summary>
-        /// キャラクターを切り替える
-        /// </summary>
-        public void ChangeCharacter(CharacterPositionType position, string fileName)
-        {
-            _characters.ChangeSprite(position, fileName);
         }
 
         /// <summary>
@@ -168,33 +176,27 @@ namespace iCON.UI
         /// <summary>
         /// スチルを表示/切り替える
         /// </summary>
-        public async UniTask SetSteel(string fileName)
+        public async UniTask<Tween> SetSteel(string fileName, float duration)
         {
             await _steel.SetImageAsync(fileName);
-    
-            if (!_steel.IsVisible)
-            {
-                _steel.Show();
-            }
-            
-            _steel.FadeIn();
+            return _steel.FadeIn(duration);
         }
         
         /// <summary>
         /// スチルを非表示にする
         /// </summary>
-        public void HideSteel()
+        public Tween HideSteel(float duration)
         {
-            _steel.FadeOut();
+            return _steel.FadeOut(duration);
         }
         
         /// <summary>
         /// 背景を変更する
         /// </summary>
-        public async UniTask SetBackground(string fileName)
+        public async UniTask<Tween> SetBackground(string fileName, float duration)
         {
             await _background.SetImageAsync(fileName);
-            _background.FadeIn();
+            return _background.FadeIn(duration);
         }
 
         /// <summary>
@@ -203,6 +205,15 @@ namespace iCON.UI
         public Tween CameraShake(float duration, float strengthLate)
         {
             return _canvasShaker.ExplosionShake(duration, strengthLate);
+        }
+
+        /// <summary>
+        /// Volume変更
+        /// </summary>
+        public async void ChangeGlobalVolume(string volumePath)
+        {
+            var volumeProfile = await Addressables.LoadAssetAsync<VolumeProfile>(volumePath);
+            _volume.sharedProfile = volumeProfile;
         }
     }
    

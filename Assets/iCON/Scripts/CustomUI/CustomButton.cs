@@ -21,7 +21,6 @@ public class CustomButton : Button
         if (!string.IsNullOrEmpty(_assetName))
         {
             // TODO: Assetまわりを整えたら修正
-            SetSprite(AssetDatabase.LoadAssetAtPath<Sprite>(_assetName));
         }
 
         if (!string.IsNullOrEmpty(_wordingKey))

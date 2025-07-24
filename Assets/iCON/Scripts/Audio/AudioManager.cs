@@ -224,7 +224,7 @@ namespace iCON.System
         /// <summary>
         /// BGMをクロスフェードで切り替える
         /// </summary>
-        public async UniTask CrossFadeBGM(string filePath, float fadeDuration = -1f)
+        public async UniTask<Tween> CrossFadeBGM(string filePath, float fadeDuration = -1f)
         {
             if (fadeDuration < 0)
             {
@@ -255,8 +255,10 @@ namespace iCON.System
                 });
                 
                 _bgmFadeTween = sequence;
-                await sequence.ToUniTask();
+                return sequence;
             }
+
+            return null;
         }
         
         /// <summary>
@@ -367,6 +369,7 @@ namespace iCON.System
             // AudioSourceコンポーネントを追加
             AudioSource source = obj.AddComponent<AudioSource>();
             source.outputAudioMixerGroup = _mixer.FindMatchingGroups(type.ToString())[0];
+            source.loop = true;
             obj.SetActive(false);
             return source;
         }

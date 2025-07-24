@@ -71,6 +71,9 @@ namespace iCON.System
         {
             // UI非表示状態かフラグを切り替える
             _isImmerseMode = !_isImmerseMode;
+            
+            // ボタンの色を変える
+            _overlayContents.ChangeImmerseButtonColor(_isImmerseMode);
 
             if (_isImmerseMode)
             {
@@ -90,6 +93,9 @@ namespace iCON.System
         {
             _autoPlayMode = !_autoPlayMode;
 
+            // ボタンの色を変える
+            _overlayContents.ChangeAutoPlayButtonColor(_autoPlayMode);
+            
             if (!_autoPlayMode)
             {
                 // オートプレイをやめるアクションを実行

@@ -14,10 +14,10 @@ namespace iCON.Enums
         SpeakerId = 6,
         DialogText = 7,
         OverrideDisplayName = 8,
-        FilePath = 9,
         CharacterPositionType = 10,
         FacialExpressionType = 11,
         OverrideTextSpeed = 12,
-        Duration = 13
+        Duration = 13,
+        FilePath = 14,
     }
 }

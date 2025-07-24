@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
 using iCON.UI;
+using iCON.Utility;
 using UnityEngine;
 
 namespace iCON.System
@@ -89,6 +90,9 @@ namespace iCON.System
                 case OrderType.CharacterEntry:
                     HandleCharacterEntry(data);
                     break;
+                case OrderType.CharacterChange:
+                    HandleCharacterChange(data);
+                    break;
                 case OrderType.CharacterExit:
                     HandleCharacterExit(data);
                     break;
@@ -115,6 +119,9 @@ namespace iCON.System
                     break;
                 case OrderType.Custom:
                     HandleCustom(data);
+                    break;
+                case OrderType.ChangeLighting:
+                    HandleChangeLighting(data);
                     break;
 
                 #endregion
@@ -148,10 +155,8 @@ namespace iCON.System
         /// </summary>
         private void HandleStart(OrderData data)
         {
-            Debug.Log("Story started");
-            // フェードイン
+            LogUtility.Verbose("Story started", LogCategory.System);
             _currentSequence.AddTween(data.Sequence, _view.FadeIn(data.Duration));
-            // TODO
         }
 
         /// <summary>
@@ -175,23 +180,22 @@ namespace iCON.System
         /// </summary>
         private void HandleEnd(OrderData data)
         {
-            Debug.Log("Story ended");
+            LogUtility.Verbose("Story ended", LogCategory.System);
             
             // フェードアウト
             _currentSequence.AddTween(data.Sequence, _view.FadeOut(data.Duration));
             
             // 終了時の処理を実行
             _currentSequence.OnKill(HandleReset);
-            // TODO
         }
 
         /// <summary>
         /// ChangeBGM - BGM変更
         /// </summary>
-        private void HandleChangeBGM(OrderData data)
+        private async void HandleChangeBGM(OrderData data)
         {
-            AudioManager.Instance.CrossFadeBGM(data.FilePath, 10).Forget(); // TODO: フェード処理について考える
-            _currentSequence.AppendInterval(data.Duration);
+            var tween = await AudioManager.Instance.CrossFadeBGM(data.FilePath, data.Duration);
+            _currentSequence.AddTween(data.Sequence, tween);
         }
 
         /// <summary>
@@ -199,7 +203,15 @@ namespace iCON.System
         /// </summary>
         private void HandleCharacterEntry(OrderData data)
         {
-            _currentSequence.AddTween(data.Sequence,_view.CharacterEntry(data.Position, data.FilePath, data.Duration));
+            _currentSequence.AddTween(data.Sequence,_view.CharacterEntry(data.Position, data.FacialExpressionPath, data.Duration));
+        }
+
+        /// <summary>
+        /// CharacterChange - キャラクター切り替え
+        /// </summary>
+        private void HandleCharacterChange(OrderData data)
+        {
+            _currentSequence.AddTween(data.Sequence, _view.ChangeCharacter(data.Position, data.FacialExpressionPath, data.Duration));
         }
 
         /// <summary>
@@ -213,11 +225,10 @@ namespace iCON.System
         /// <summary>
         /// ShowSteel - スチル画像表示
         /// </summary>
-        private void HandleShowSteel(OrderData data)
+        private async void HandleShowSteel(OrderData data)
         {
-            // 非同期処理を先に実行してからTweenを取得
-            _view.SetSteel(data.FilePath).Forget();
-            _currentSequence.AppendInterval(data.Duration);
+            var tween = await _view.SetSteel(data.FilePath, data.Duration);
+            _currentSequence.AddTween(data.Sequence, tween);
         }
 
         /// <summary>
@@ -225,8 +236,7 @@ namespace iCON.System
         /// </summary>
         private void HandleHideSteel(OrderData data)
         {
-            _view.HideSteel();
-            _currentSequence.AppendInterval(data.Duration);
+            _currentSequence.AddTween(data.Sequence,_view.HideSteel(data.Duration));
         }
 
         /// <summary>
@@ -256,10 +266,10 @@ namespace iCON.System
         /// <summary>
         /// ChangeBackground - 背景変更
         /// </summary>
-        private void HandleChangeBackground(OrderData data)
+        private async void HandleChangeBackground(OrderData data)
         {
-            _view.SetBackground(data.FilePath).Forget();
-            _currentSequence.AppendInterval(data.Duration);
+            var tween = await _view.SetBackground(data.FilePath, data.Duration);
+            _currentSequence.AddTween(data.Sequence, tween);
         }
 
         /// <summary>
@@ -279,6 +289,14 @@ namespace iCON.System
         }
         
         /// <summary>
+        /// ChangeLighting - Global Volume変更処理
+        /// </summary>
+        private void HandleChangeLighting(OrderData data)
+        {
+            _view.ChangeGlobalVolume(data.FilePath);
+        }
+        
+        /// <summary>
         /// ストーリー終了時のリセット処理
         /// </summary>
         private void HandleReset()
@@ -286,7 +304,7 @@ namespace iCON.System
             // 全キャラクター非表示
             _view.HideAllCharacters();
             // スチル非表示
-            _view.HideSteel();
+            _view.HideSteel(0);
             //ダイアログをリセット
             _view.ResetTalk();
             _view.ResetDescription();

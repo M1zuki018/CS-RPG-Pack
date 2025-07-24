@@ -11,15 +11,18 @@ namespace iCON.Enums
         End = 3,
         ChangeBGM = 4,
         CharacterEntry = 5,
-        CharacterExit = 6,
-        ShowSteel = 7,
-        HideSteel = 8,
-        CameraShake = 9,
-        Choice = 10,
-        Effect = 11,
-        ChangeBackground = 12,
-        Wait = 13,
-        Custom = 14,
+        CharacterChange = 6,
+        CharacterExit = 7,
+        ShowSteel = 8,
+        HideSteel = 9,
+        CameraShake = 10,
+        Choice = 11,
+        Effect = 12,
+        ChangeBackground = 13,
+        Wait = 14,
+        ChangeLighting = 15,
+        
+        Custom = 99,
     }
 }
 

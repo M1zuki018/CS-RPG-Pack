@@ -28,7 +28,7 @@ namespace iCON.System
         public SequenceType Sequence { get; set; }
         
         /// <summary>話し手のキャラクターの管理ID</summary>
-        public string SpeakerId { get; set; }
+        public int SpeakerId { get; set; }
         
         /// <summary>テキスト</summary>
         public string DialogText { get; set; }
@@ -51,7 +51,10 @@ namespace iCON.System
         /// <summary>Duration</summary>
         public float Duration { get; set; }
 
-        /// <summary>表示名を取得（オーバーライドがあればそれを、なければSpeakerIdを使用）</summary>
-        public string DisplayName => !string.IsNullOrEmpty(OverrideDisplayName) ? OverrideDisplayName : SpeakerId;
+        /// <summary>表示名を取得（オーバーライドがあればそれを、なければマスターから表示名を取得）</summary>
+        public string DisplayName => !string.IsNullOrEmpty(OverrideDisplayName) ? OverrideDisplayName : StoryCharacterMaster.GetCharacter(SpeakerId).DisplayName;
+
+        /// <summary>表情差分のパス</summary>
+        public string FacialExpressionPath => StoryCharacterMaster.GetExpressionPath(SpeakerId, FacialExpressionType);
     }
 }

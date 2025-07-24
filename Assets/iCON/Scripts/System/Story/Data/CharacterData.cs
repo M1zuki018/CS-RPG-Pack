@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace iCON.System
@@ -5,32 +6,47 @@ namespace iCON.System
     /// <summary>
     /// キャラクターデータ
     /// </summary>
-    [CreateAssetMenu(fileName = "CharacterData", menuName = "iCON/Story/Character Data")]
-    public class CharacterData : ScriptableObject
+    public class CharacterData
     {
-        [SerializeField] private int _id;
-        [SerializeField] private string _fullName;
-        [SerializeField] private string _displayName;
-        [SerializeField] private string _defaultAssetPath;
-        [SerializeField] private Color _characterColor = Color.white;
-        [SerializeField] private float _textSpeed;
+        /// <summary>
+        /// キャラクターID
+        /// </summary>
+        public int Id;
+        
+        /// <summary>
+        /// フルネーム
+        /// </summary>
+        public string FullName;
+        
+        /// <summary>
+        /// 表示名
+        /// </summary>
+        public string DisplayName;
+        
+        /// <summary>
+        /// キャラクターカラー
+        /// </summary>
+        public Color CharacterColor;
 
-        /// <summary>キャラクターの管理ID</summary>
-        public int ID => _id;
+        /// <summary>
+        /// 文字送りの速さ
+        /// </summary>
+        public float TextSpeed;
         
-        /// <summary>フルネーム</summary>
-        public string FullName => _fullName;
-        
-        /// <summary>表示名</summary>
-        public string DisplayName => _displayName;
-        
-        /// <summary>ベースとなる素材のパス</summary>
-        public string DefaultAssetPath => _defaultAssetPath;
-        
-        /// <summary>キャラクターカラー</summary>
-        public Color CharacterColor => _characterColor;
-        
-        /// <summary>テキストの表示速度</summary>
-        public float TextSpeed => _textSpeed;
+        /// <summary>
+        /// 表情差分とファイルパスのkvp
+        /// </summary>
+        public Dictionary<FacialExpressionType, string> ExpressionPaths;
+
+        public CharacterData(int id, string fullName, string displayName, Color characterColor, 
+            float textSpeed, Dictionary<FacialExpressionType, string> expressionPaths)
+        {
+            Id = id;
+            FullName = fullName;
+            DisplayName = displayName;
+            CharacterColor = characterColor;
+            TextSpeed = textSpeed;
+            ExpressionPaths = expressionPaths;
+        }
     }
 }

@@ -19,5 +19,10 @@ namespace iCON.Enums
         /// 右
         /// </summary>
         Right = 2,
+        
+        /// <summary>
+        /// 近い
+        /// </summary>
+        Near = 3,
     }
 }

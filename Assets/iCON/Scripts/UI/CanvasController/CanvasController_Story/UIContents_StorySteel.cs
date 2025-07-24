@@ -78,9 +78,14 @@ namespace iCON.UI
         /// <summary>
         /// フェードイン
         /// </summary>
-        public void FadeIn()
+        public Tween FadeIn(float duration)
         {
-            _steelImages[_activeImageIndex].DOFade(1, KStoryPresentation.IMAGE_FADE_DURATION)
+            if (!IsVisible)
+            {
+                Show();
+            }
+            
+            return _steelImages[_activeImageIndex].DOFade(1, duration)
                 .SetEase(KStoryPresentation.FADE_EASE)
                 .OnComplete(() =>
                 {
@@ -93,9 +98,9 @@ namespace iCON.UI
         /// <summary>
         /// フェードアウト
         /// </summary>
-        public void FadeOut()
+        public Tween FadeOut(float duration)
         {
-            _steelImages[_activeImageIndex].DOFade(0, KStoryPresentation.IMAGE_FADE_DURATION)
+            return _steelImages[_activeImageIndex].DOFade(0, duration)
                 .SetEase(KStoryPresentation.FADE_EASE);
         }
 
