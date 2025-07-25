@@ -129,6 +129,9 @@ namespace iCON.System
                 case OrderType.FadeOut:
                     HandleFadeOut(data);
                     break;
+                case OrderType.PlaySE:
+                    HandlePlaySE(data);
+                    break;
 
                 #endregion
 
@@ -215,9 +218,10 @@ namespace iCON.System
         /// <summary>
         /// CharacterChange - キャラクター切り替え
         /// </summary>
-        private void HandleCharacterChange(OrderData data)
+        private async UniTask HandleCharacterChange(OrderData data)
         {
-            _currentSequence.AddTween(data.Sequence, _view.ChangeCharacter(data.Position, data.FacialExpressionPath, data.Duration));
+            var tween = await _view.ChangeCharacter(data.Position, data.FacialExpressionPath, data.Duration);
+            _currentSequence.AddTween(data.Sequence, tween);
         }
 
         /// <summary>
@@ -303,11 +307,19 @@ namespace iCON.System
         }
         
         /// <summary>
-        /// フェードアウト
+        /// FadeOut - フェードアウト
         /// </summary>
         private void HandleFadeOut(OrderData data)
         {
             _currentSequence.AddTween(data.Sequence, _view.FadeOut(data.Duration));
+        }
+
+        /// <summary>
+        /// PlaySE - SEを再生する
+        /// </summary>
+        private void HandlePlaySE(OrderData data)
+        {
+            AudioManager.Instance.PlaySE(data.FilePath, data.OverrideTextSpeed).Forget();
         }
         
         /// <summary>

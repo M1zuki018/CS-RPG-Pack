@@ -23,6 +23,7 @@ namespace iCON.Enums
         ChangeLighting = 15,
         FadeIn = 16,
         FadeOut = 17,
+        PlaySE = 18,
         
         Custom = 99,
     }

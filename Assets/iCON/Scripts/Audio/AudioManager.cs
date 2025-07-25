@@ -272,13 +272,14 @@ namespace iCON.System
         /// <summary>
         /// SEを再生する
         /// </summary>
-        public async UniTask PlaySE(string filePath)
+        public async UniTask PlaySE(string filePath, float volume)
         {
             var clip = await LoadAudioClipAsync(filePath);
 
             if (clip != null)
             {
                 AudioSource source = _seSourcePool.Get();
+                source.volume = volume;
                 source.PlayOneShot(clip);
 
                 await UniTask.Delay(TimeSpan.FromSeconds(clip.length));
