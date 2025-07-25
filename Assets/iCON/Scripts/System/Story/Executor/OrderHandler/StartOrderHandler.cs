@@ -1,5 +1,7 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
+using iCON.Extensions;
 using iCON.UI;
 using iCON.Utility;
 
@@ -9,17 +11,17 @@ namespace iCON.System
     /// Start - ストーリー開始処理 
     /// </summary>
     [OrderHandler(OrderType.Start)]
-    public class StartOrderHandler : BaseOrderHandler
+    public class StartOrderHandler : OrderHandlerBase
     {
         public override OrderType SupportedOrderType => OrderType.Start;
         
-        public override Tween Handler(OrderData data, StoryView view)
+        public override UniTask<Tween> HandleAsync(OrderData data, StoryView view)
         {
             // ログを流す
             LogUtility.Verbose("Story started", LogCategory.System);
             
             // フェードイン処理
-            return view.FadeIn(data.Duration);
+            return view.FadeIn(data.Duration).ToUniTaskWithResult();
         }
     }
 }

@@ -1,8 +1,8 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
+using iCON.Extensions;
 using iCON.UI;
-using iCON.Utility;
-using NUnit.Framework;
 
 namespace iCON.System
 {
@@ -10,14 +10,14 @@ namespace iCON.System
     /// Talk - キャラクターのセリフ表示
     /// </summary>
     [OrderHandler(OrderType.Talk)]
-    public class TalkOrderHandler : BaseOrderHandler
+    public class TalkOrderHandler : OrderHandlerBase
     {
         public override OrderType SupportedOrderType => OrderType.Talk;
         
-        public override Tween Handler(OrderData data, StoryView view)
+        public override UniTask<Tween> HandleAsync(OrderData data, StoryView view)
         {
             // 名前付きのダイアログを表示する
-            return view.SetTalk(data.DisplayName, data.DialogText, data.Duration);
+            return view.SetTalk(data.DisplayName, data.DialogText, data.Duration).ToUniTaskWithResult();
         }
     }
 }

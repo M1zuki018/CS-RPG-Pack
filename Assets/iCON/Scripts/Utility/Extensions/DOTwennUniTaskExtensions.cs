@@ -46,6 +46,45 @@ namespace iCON.Extensions
 
             return completionSource.Task;
         }
+        
+        /// <summary>
+        /// TweenをUniTask<Tween>に変換する（Tweenオブジェクトを返す）
+        /// </summary>
+        public static UniTask<Tween> ToUniTaskWithResult(this Tween tween, CancellationToken cancellationToken = default)
+        {
+            if (tween == null || !tween.IsActive())
+                return UniTask.FromResult(tween);
+
+            var completionSource = new UniTaskCompletionSource<Tween>();
+            
+            // キャンセレーション処理
+            if (cancellationToken.CanBeCanceled)
+            {
+                cancellationToken.Register(() =>
+                {
+                    tween?.Kill();
+                    if (!completionSource.Task.Status.IsCompleted())
+                        completionSource.TrySetCanceled(cancellationToken);
+                });
+            }
+
+            // Tween完了時の処理
+            tween.OnComplete(() =>
+            {
+                if (!completionSource.Task.Status.IsCompleted())
+                    completionSource.TrySetResult(tween);
+            });
+
+            // Tween強制終了時の処理
+            tween.OnKill(() =>
+            {
+                if (!completionSource.Task.Status.IsCompleted())
+                    completionSource.TrySetCanceled();
+            });
+
+            return completionSource.Task;
+        }
+
 
         /// <summary>
         /// SequenceをUniTaskに変換する

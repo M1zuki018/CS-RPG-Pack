@@ -211,7 +211,7 @@ namespace iCON.UI
         /// <summary>
         /// Volume変更
         /// </summary>
-        public async void ChangeGlobalVolume(string volumePath)
+        public async UniTask ChangeGlobalVolume(string volumePath)
         {
             var volumeProfile = await Addressables.LoadAssetAsync<VolumeProfile>(volumePath);
             _volume.sharedProfile = volumeProfile;

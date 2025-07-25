@@ -1,0 +1,20 @@
+using DG.Tweening;
+using iCON.Enums;
+using iCON.UI;
+
+namespace iCON.System
+{
+    /// <summary>
+    /// {ClassName} - 
+    /// </summary>
+    [OrderHandler(OrderType.{ClassName})]
+    public class {ClassName}OrderHandler : BaseOrderHandler
+    {
+        public override OrderType SupportedOrderType => OrderType.{ClassName};
+        
+        public override Tween Handler(OrderData data, StoryView view)
+        {
+            return 
+        }
+    }
+}
