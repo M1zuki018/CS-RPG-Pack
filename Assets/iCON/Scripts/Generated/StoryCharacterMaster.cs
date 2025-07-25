@@ -1,6 +1,6 @@
 // ============================================================================
 // AUTO GENERATED - DO NOT MODIFY
-// Generated at: 2025-07-24 12:43:20
+// Generated at: 2025-07-25 14:00:01
 // ============================================================================
 
 using System.Collections.Generic;
@@ -26,6 +26,27 @@ public static class StoryCharacterMaster
                     { FacialExpressionType.Smile, "Assets/AssetStoreTools/Images/Characters/kotoha/kotoha_Smile.png" },
                     { FacialExpressionType.Blush, "Assets/AssetStoreTools/Images/Characters/kotoha/kotoha_Blush.png" },
                     { FacialExpressionType.Embarrassed, "Assets/AssetStoreTools/Images/Characters/kotoha/kotoha_Embarrassed.png" },
+                })
+        },
+        {
+            1, new CharacterData(1, "マキ少年時代", "マキ", 
+                new Color(0.863f, 0.078f, 0.235f, 1.000f), 0.07f,
+                new Dictionary<FacialExpressionType, string>
+                {
+                    { FacialExpressionType.Default, "Assets/AssetStoreTools/Images/Characters/maqi_s/maqi_s_Default.png" },
+                    { FacialExpressionType.Nervous, "Assets/AssetStoreTools/Images/Characters/maqi_s/maqi_s_Nervous.png" },
+                    { FacialExpressionType.Surprised, "Assets/AssetStoreTools/Images/Characters/maqi_s/maqi_s_Surprised.png" },
+                    { FacialExpressionType.Determination, "Assets/AssetStoreTools/Images/Characters/maqi_s/maqi_s_Determination.png" },
+                    { FacialExpressionType.Scared, "Assets/AssetStoreTools/Images/Characters/maqi_s/maqi_s_Scared.png" },
+                })
+        },
+        {
+            2, new CharacterData(2, "ポーラン少年時代", "ポーラン", 
+                new Color(0.294f, 0.000f, 0.510f, 1.000f), 0.06f,
+                new Dictionary<FacialExpressionType, string>
+                {
+                    { FacialExpressionType.Default, "Assets/AssetStoreTools/Images/Characters/baolong/baolong_Default.png" },
+                    { FacialExpressionType.Beaming, "Assets/AssetStoreTools/Images/Characters/baolong/baolong_Beaming.png" },
                 })
         },
     };

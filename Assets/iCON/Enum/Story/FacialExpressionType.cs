@@ -25,5 +25,14 @@ namespace iCON.System
         
         /// <summary>恥ずかしい</summary>
         Embarrassed,
+        
+        /// <summary>満面の笑み</summary>
+        Beaming,
+        
+        /// <summary>決意</summary>
+        Determination,
+        
+        /// <summary>怖い</summary>
+        Scared,
     }    
 }
