@@ -152,9 +152,10 @@ namespace iCON.UI
         /// <summary>
         /// キャラクターを切り替え
         /// </summary>
-        public Tween ChangeCharacter(CharacterPositionType position, string fileName, float duration)
+        public async UniTask<Tween> ChangeCharacter(CharacterPositionType position, string fileName, float duration)
         {
-            return _characters.Change(position, fileName, duration);
+            var tween = await _characters.Change(position, fileName, duration);
+            return tween;
         }
         
         /// <summary>

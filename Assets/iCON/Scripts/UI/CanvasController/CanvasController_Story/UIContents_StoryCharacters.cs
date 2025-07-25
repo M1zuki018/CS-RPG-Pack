@@ -61,7 +61,7 @@ namespace iCON.UI
         /// <summary>
         /// キャラクター画像の差し替え
         /// </summary>
-        public Tween Change(CharacterPositionType position, string fileName, float duration)
+        public async UniTask<Tween> Change(CharacterPositionType position, string fileName, float duration)
         {
             // 指定された立ち位置の配置データを取得する
             var positionData = GetCharacterPosition(position);
@@ -81,7 +81,7 @@ namespace iCON.UI
             var nextImage = positionData.GetInactiveImage();
             
             // 次のImageに新しい画像を設定
-            nextImage.AssetName = fileName;
+            await nextImage.ChangeSpriteAsync(fileName);
             
             var sequence = DOTween.Sequence();
             
