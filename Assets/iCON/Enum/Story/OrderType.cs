@@ -21,6 +21,8 @@ namespace iCON.Enums
         ChangeBackground = 13,
         Wait = 14,
         ChangeLighting = 15,
+        FadeIn = 16,
+        FadeOut = 17,
         
         Custom = 99,
     }

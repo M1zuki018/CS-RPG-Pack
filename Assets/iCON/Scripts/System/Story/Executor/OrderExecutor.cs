@@ -123,6 +123,12 @@ namespace iCON.System
                 case OrderType.ChangeLighting:
                     HandleChangeLighting(data);
                     break;
+                case OrderType.FadeIn:
+                    HandleFadeIn(data);
+                    break;
+                case OrderType.FadeOut:
+                    HandleFadeOut(data);
+                    break;
 
                 #endregion
 
@@ -279,14 +285,6 @@ namespace iCON.System
         {
             _currentSequence.AppendInterval(data.Duration);
         }
-
-        /// <summary>
-        /// Custom - カスタムオーダー処理
-        /// </summary>
-        private void HandleCustom(OrderData data)
-        {
-            // TODO
-        }
         
         /// <summary>
         /// ChangeLighting - Global Volume変更処理
@@ -294,6 +292,30 @@ namespace iCON.System
         private void HandleChangeLighting(OrderData data)
         {
             _view.ChangeGlobalVolume(data.FilePath);
+        }
+        
+        /// <summary>
+        /// FadeIn - フェードイン
+        /// </summary>
+        private void HandleFadeIn(OrderData data)
+        {
+            _currentSequence.AddTween(data.Sequence, _view.FadeIn(data.Duration));
+        }
+        
+        /// <summary>
+        /// フェードアウト
+        /// </summary>
+        private void HandleFadeOut(OrderData data)
+        {
+            _currentSequence.AddTween(data.Sequence, _view.FadeOut(data.Duration));
+        }
+        
+        /// <summary>
+        /// Custom - カスタムオーダー処理
+        /// </summary>
+        private void HandleCustom(OrderData data)
+        {
+            // TODO
         }
         
         /// <summary>
