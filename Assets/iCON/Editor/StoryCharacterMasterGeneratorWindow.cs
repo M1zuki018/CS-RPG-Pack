@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using iCON.System;
 using UnityEditor;
 using UnityEngine;
 
@@ -31,14 +33,6 @@ public class StoryCharacterMasterGeneratorWindow : EditorWindow
         _range = EditorGUILayout.TextField("Range", _range);
         _className = EditorGUILayout.TextField("Class Name", _className);
         _outputPath = EditorGUILayout.TextField("Output Path", _outputPath);
-        
-        EditorGUILayout.Space();
-        
-        EditorGUILayout.HelpBox(
-            "想定するスプレッドシートの列構成:\n" +
-            "A: ID, B: FullName, C: DisplayName, D: CharacterColor, E: TextSpeed\n" +
-            "F: Default, G: Nervous, H: Sigh, I: Surprised, J: Smile, K: Blush, L: Embarrassed", 
-            MessageType.Info);
         
         EditorGUILayout.Space();
         
@@ -120,18 +114,17 @@ public class StoryCharacterMasterGeneratorWindow : EditorWindow
             sb.AppendLine($"                new Dictionary<FacialExpressionType, string>");
             sb.AppendLine($"                {{");
             
-            // 表情パスの追加（列インデックス5〜11）
-            var expressions = new[]
-            {
-                "Default", "Nervous", "Sigh", "Surprised", "Smile", "Blush", "Embarrassed"
-            };
+            // 表情パスの追加
+            var expressionTypes = System.Enum.GetValues(typeof(FacialExpressionType))
+                .Cast<FacialExpressionType>()
+                .ToArray();
             
-            for (int i = 0; i < expressions.Length; i++)
+            for (int i = 0; i < expressionTypes.Length; i++)
             {
                 var columnIndex = i + 5;
                 if (row.Count > columnIndex && !string.IsNullOrEmpty(row[columnIndex].ToString()))
                 {
-                    sb.AppendLine($"                    {{ FacialExpressionType.{expressions[i]}, \"{row[columnIndex]}\" }},");
+                    sb.AppendLine($"                    {{ FacialExpressionType.{expressionTypes[i]}, \"{row[columnIndex]}\" }},");
                 }
             }
             
