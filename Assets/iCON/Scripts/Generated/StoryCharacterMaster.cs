@@ -1,6 +1,6 @@
 // ============================================================================
 // AUTO GENERATED - DO NOT MODIFY
-// Generated at: 2025-07-25 14:00:01
+// Generated at: 2025-07-25 16:27:56
 // ============================================================================
 
 using System.Collections.Generic;
@@ -36,8 +36,10 @@ public static class StoryCharacterMaster
                     { FacialExpressionType.Default, "Assets/AssetStoreTools/Images/Characters/maqi_s/maqi_s_Default.png" },
                     { FacialExpressionType.Nervous, "Assets/AssetStoreTools/Images/Characters/maqi_s/maqi_s_Nervous.png" },
                     { FacialExpressionType.Surprised, "Assets/AssetStoreTools/Images/Characters/maqi_s/maqi_s_Surprised.png" },
+                    { FacialExpressionType.Smile, "Assets/AssetStoreTools/Images/Characters/maqi_s/maqi_s_Smile.png" },
                     { FacialExpressionType.Determination, "Assets/AssetStoreTools/Images/Characters/maqi_s/maqi_s_Determination.png" },
                     { FacialExpressionType.Scared, "Assets/AssetStoreTools/Images/Characters/maqi_s/maqi_s_Scared.png" },
+                    { FacialExpressionType.Despair, "Assets/AssetStoreTools/Images/Characters/maqi_s/maqi_s_Despair.png" },
                 })
         },
         {
@@ -45,8 +47,11 @@ public static class StoryCharacterMaster
                 new Color(0.294f, 0.000f, 0.510f, 1.000f), 0.06f,
                 new Dictionary<FacialExpressionType, string>
                 {
-                    { FacialExpressionType.Default, "Assets/AssetStoreTools/Images/Characters/baolong/baolong_Default.png" },
-                    { FacialExpressionType.Beaming, "Assets/AssetStoreTools/Images/Characters/baolong/baolong_Beaming.png" },
+                    { FacialExpressionType.Default, "Assets/AssetStoreTools/Images/Characters/baolong/baolong_s_Default.png" },
+                    { FacialExpressionType.Beaming, "Assets/AssetStoreTools/Images/Characters/baolong/baolong_s_Beaming.png" },
+                    { FacialExpressionType.Angry, "Assets/AssetStoreTools/Images/Characters/baolong/baolong_s_Angry.png" },
+                    { FacialExpressionType.Worry, "Assets/AssetStoreTools/Images/Characters/baolong/baolong_s_Worry.png" },
+                    { FacialExpressionType.Despair, "Assets/AssetStoreTools/Images/Characters/baolong_s/baolong_s_Despair.png" },
                 })
         },
     };

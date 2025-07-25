@@ -34,5 +34,14 @@ namespace iCON.System
         
         /// <summary>怖い</summary>
         Scared,
+        
+        /// <summary>怒る</summary>
+        Angry,
+        
+        /// <summary>心配</summary>
+        Worry,
+        
+        /// <summary>絶望</summary>
+        Despair,
     }    
 }
