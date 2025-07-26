@@ -32,7 +32,7 @@ public class CustomText : Text
     /// </summary>
     public void SetWordingText(string wordingKey)
     {
-        string wordingText = WordingMaster.GetText(_wordingKey);
+        string wordingText = WordingMaster.GetText(wordingKey);
         if (wordingText != null)
         {
             m_Text = wordingText;
