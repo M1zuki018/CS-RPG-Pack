@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 namespace iCON.UI
@@ -14,7 +15,7 @@ namespace iCON.UI
         /// 選択肢のボタンのプレハブ
         /// </summary>
         [SerializeField] 
-        private ChoiceButton _choiceButtonPrefab;
+        private CustomButton _choiceButtonPrefab;
 
         /// <summary>
         /// CanvasGroup
@@ -26,6 +27,7 @@ namespace iCON.UI
         private void Awake()
         {
             _canvasGroup = GetComponent<CanvasGroup>();
+            SetVisibility(false);
         }
 
         #endregion
@@ -39,32 +41,49 @@ namespace iCON.UI
             {
                 // 選択肢のボタンを子オブジェクトに生成
                 var button = Instantiate(_choiceButtonPrefab, transform);
-                button.Setup(viewData.Message, () =>
+                
+                button.SetText(viewData.Message);
+                button.SetClickAction(() =>
                 {
                     // ボタンが押されたとき、ViewDataとして渡されたアクションの実行と、キャンバスグループ非表示処理を行う
                     viewData.ClickAction?.Invoke();
-                    SetActive(false);
+                    SetVisibility(false);
                 });
-                SetActive(true);
             }
+
+            SetVisibility(true);
         }
 
         #region Private Methods
 
-        private void SetActive(bool isActive)
+        private void SetVisibility(bool isActive, float duration = 0)
         {
-            _canvasGroup.alpha = isActive ? 1f : 0f;
             _canvasGroup.interactable = isActive;
             _canvasGroup.blocksRaycasts = isActive;
+            
+            _canvasGroup.DOFade(isActive ? 1f : 0f, duration);
         }
 
         #endregion
         
+        /// <summary>
+        /// 選択肢表示のためのViewData
+        /// </summary>
         public class ViewData
         {
+            /// <summary>
+            /// 表示する文字列
+            /// </summary>
             public string Message;
+            
+            /// <summary>
+            /// クリックした時のAction
+            /// </summary>
             public Action ClickAction;
 
+            /// <summary>
+            /// コンストラクタ
+            /// </summary>
             public ViewData(string message, Action onClickAction)
             {
                 Message = message;
