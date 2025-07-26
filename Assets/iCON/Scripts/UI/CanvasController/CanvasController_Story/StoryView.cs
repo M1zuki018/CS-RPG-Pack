@@ -62,6 +62,8 @@ namespace iCON.UI
         [SerializeField, HighlightIfNull]
         private Volume _volume;
         
+        public bool IsStopRequested = false;
+        
         /// <summary>
         /// 会話テキストを更新する
         /// </summary>
@@ -206,8 +208,12 @@ namespace iCON.UI
             return _background.FadeIn(duration);
         }
 
-        public void Choice(IReadOnlyList<UIContents_Choice.ViewData> viewDataList)
+        /// <summary>
+        /// 選択肢を表示する
+        /// </summary>
+        public void SetupChoice(IReadOnlyList<UIContents_Choice.ViewData> viewDataList, float duration = 0)
         {
+            IsStopRequested = true;
             _choice.Setup(viewDataList);
         }
 

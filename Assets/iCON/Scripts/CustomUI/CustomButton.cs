@@ -1,6 +1,6 @@
 using System;
+using Cysharp.Threading.Tasks;
 using iCON.Utility;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +23,6 @@ public class CustomButton : Button
     [SerializeField] 
     private string _wordingKey;
 
-    private CustomButton _button;
     private CustomImage _image;
     private CustomText _text;
 
@@ -31,13 +30,12 @@ public class CustomButton : Button
     {
         base.Awake();
         
-        _button = GetComponent<CustomButton>();
         _image = GetComponent<CustomImage>();
         _text = GetComponentInChildren<CustomText>();
         
         if (!string.IsNullOrEmpty(_assetName))
         {
-            _image.AssetName = _assetName;
+            _image.ChangeSpriteAsync(_assetName).Forget();
         }
 
         if (!string.IsNullOrEmpty(_wordingKey))
@@ -48,8 +46,8 @@ public class CustomButton : Button
 
     protected override void OnDestroy()
     {
+        onClick.SafeRemoveAllListeners();
         base.OnDestroy();
-        _button.onClick.SafeRemoveAllListeners();
     }
 
     /// <summary>
@@ -63,9 +61,9 @@ public class CustomButton : Button
     /// <summary>
     /// アセットのパスを指定して画像の差し替えを行う
     /// </summary>
-    public void SetSprite(string assetName)
+    public async UniTask SetSprite(string assetName)
     {
-        _image.AssetName = assetName;
+        await _image.ChangeSpriteAsync(assetName);
     }
 
     /// <summary>
@@ -79,9 +77,9 @@ public class CustomButton : Button
     /// <summary>
     /// クリックアクションを登録する
     /// </summary>
-    public void SetClickAction(Action onClick)
+    public void SetClickAction(Action onClickAction)
     {
-        _button.onClick.SafeAddListener(() => onClick?.Invoke());
+        onClick.SafeAddListener(() => onClickAction?.Invoke());
     }
 }
 

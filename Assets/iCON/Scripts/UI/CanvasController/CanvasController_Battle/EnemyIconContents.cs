@@ -40,7 +40,7 @@ namespace iCON.UI
         /// </summary>
         public void SetIcon(string spritePath)
         {
-            _icon.AssetName = spritePath;
+            _icon.ChangeSpriteAsync(spritePath).Forget();
         }
         
         /// <summary>
