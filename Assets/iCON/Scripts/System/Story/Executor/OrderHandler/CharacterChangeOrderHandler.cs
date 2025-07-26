@@ -1,3 +1,5 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
 using iCON.UI;
@@ -8,13 +10,13 @@ namespace iCON.System
     /// CharacterChange - キャラクター切り替え
     /// </summary>
     [OrderHandler(OrderType.CharacterChange)]
-    public class CharacterChangeOrderHandler : OrderHandlerBase
+    public class CharacterChangeOrderHandler : AsyncOrderHandlerBase
     {
         public override OrderType SupportedOrderType => OrderType.CharacterChange;
-        
-        public override Tween HandleOrder(OrderData data, StoryView view)
+
+        public override async UniTask<Tween> HandleOrderAsync(OrderData data, StoryView view, CancellationToken cancellationToken)
         {
-            return view.ChangeCharacter(data.Position, data.FacialExpressionPath, data.Duration);
+            return await view.ChangeCharacter(data.Position, data.FacialExpressionPath, data.Duration);
         }
     }
 }
