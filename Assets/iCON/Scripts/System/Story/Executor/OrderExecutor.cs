@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
+using iCON.Extensions;
 using iCON.UI;
 using iCON.Utility;
 
@@ -16,6 +19,11 @@ namespace iCON.System
         /// Viewを操作するクラス
         /// </summary>
         private StoryView _view;
+        
+        /// <summary>
+        /// Sequenceに追加予定のTweenリスト
+        /// </summary>
+        private List<(SequenceType sequenceType, Tween tween)> _pendingTweens = new List<(SequenceType sequenceType, Tween tween)>();
         
         /// <summary>
         /// オーダーを実行中か
@@ -36,7 +44,9 @@ namespace iCON.System
         /// 各オーダーの列挙型と処理を行うHandlerのインスタンスのkvp
         /// </summary>
         private Dictionary<OrderType, OrderHandlerBase> _handlers;
-        
+
+        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+
         /// <summary>
         /// オーダーを実行中か
         /// </summary>
@@ -70,42 +80,60 @@ namespace iCON.System
         /// <summary>
         /// オーダーを実行する
         /// </summary>
-        public void Execute(OrderData data)
+        public async UniTask Execute(List<OrderData> orders)
         {
-            if (data.Sequence == SequenceType.Append)
-            {
-                // 念のため実行中のシーケンスがあればキルする
-                _currentSequence?.Kill(true);
-                _currentSequence = DOTween.Sequence();
-            }
-            
-            _isExecuting = true;
-            
             try
             {
-                if (_handlers.TryGetValue(data.OrderType, out var handler))
+                if (orders == null || orders.Count == 0)
                 {
-                    var tween = handler.HandleOrder(data, _view);
-                    if (tween != null)
+                    _isExecuting = false;
+                    return;
+                }
+                
+                foreach (var data in orders)
+                {
+                    if (data.Sequence == SequenceType.Append)
                     {
-                        _currentSequence.AddTween(data.Sequence, tween);
+                        // 念のため実行中のシーケンスがあればキルする
+                        _currentSequence?.Kill(true);
+                        _pendingTweens?.Clear();
+                
+                        // Sequenceの作成は全ての非同期処理完了後に行う
+                        _isExecuting = true;
+                    }
+                    
+                    if (_handlers.TryGetValue(data.OrderType, out var handler))
+                    {
+                        Tween tween = null;
+                        
+                        // ハンドラーが非同期対応かチェック
+                        if (handler is IAsyncOrderHandler asyncHandler)
+                        {
+                            // 非同期処理を実行
+                            tween = await asyncHandler.HandleOrderAsync(data, _view, _cancellationTokenSource.Token);
+                        }
+                        else
+                        {
+                            // 従来の同期処理
+                            tween = handler.HandleOrder(data, _view);
+                        }
+
+                        if (tween != null)
+                        {
+                            _pendingTweens.Add((data.Sequence, tween));
+                        }
+                    }
+                    else
+                    {
+                        LogUtility.Warning($"未登録のオーダータイプです: {data.OrderType}", LogCategory.System);
                     }
                 }
-                else
-                {
-                    LogUtility.Warning($"未登録のオーダータイプです: {data.OrderType}", LogCategory.System);
-                }
+
+                BuildAndPlaySequence().Forget();
             }
             catch (Exception ex)
             {
-                LogUtility.Error($"{data.OrderType} オーダー実行中にエラーが発生: {ex.Message}", LogCategory.System);
-            }
-            finally
-            {
-                if (data.Sequence == SequenceType.Append)
-                {
-                    _currentSequence.OnComplete(() => _isExecuting = false);
-                }
+                LogUtility.Error($"オーダー実行中にエラーが発生: {ex.Message}", LogCategory.System);
             }
         }
 
@@ -122,6 +150,9 @@ namespace iCON.System
             }
         }
 
+        /// <summary>
+        /// Dispose
+        /// </summary>
         public void Dispose()
         {
             if (_endAction != null)
@@ -135,6 +166,51 @@ namespace iCON.System
             {
                 endOrderHandler.Dispose();
             }
+        }
+        
+        /// <summary>
+        /// Sequenceを構築して再生する
+        /// </summary>
+        private async UniTask BuildAndPlaySequence()
+        {
+            if (_pendingTweens.Count == 0)
+            {
+                _isExecuting = false;
+                return;
+            }
+
+            _currentSequence = DOTween.Sequence();
+            
+            // 保存されたTweenをSequenceに追加
+            foreach (var (sequenceType, tween) in _pendingTweens)
+            {
+                if (tween != null && tween.IsActive() && !tween.IsComplete())
+                {
+                    _currentSequence.AddTween(sequenceType, tween);   
+                }
+                else if (tween != null)
+                {
+                    LogUtility.Warning($"無効なTweenをSequenceに追加しようとしました: {tween.GetType()}", LogCategory.System);
+                }
+            }
+            
+            // 有効なTweenがない場合の処理
+            if (_currentSequence.Duration() <= 0)
+            {
+                _currentSequence.Kill();
+                _isExecuting = false;
+                return;
+            }
+            
+            _currentSequence.OnComplete(() => _isExecuting = false);
+            
+            // Sequenceを開始
+            _currentSequence.Play();
+            
+            // Sequenceの完了を待機
+            await _currentSequence.ToUniTask();
+            
+            _pendingTweens.Clear();
         }
     }
 }

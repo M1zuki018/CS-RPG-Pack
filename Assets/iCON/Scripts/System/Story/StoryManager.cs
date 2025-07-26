@@ -225,10 +225,7 @@ namespace iCON.System
         /// </summary>
         private void ExecuteOrders(List<OrderData> orders)
         {
-            foreach (var order in orders)
-            {
-                _orderExecutor.Execute(order);
-            }
+            _orderExecutor.Execute(orders).Forget();
         }
 
         /// <summary>
