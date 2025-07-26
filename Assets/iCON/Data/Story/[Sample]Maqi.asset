@@ -18,4 +18,4 @@ MonoBehaviour:
     HeaderRange: TestStory!A2:O2
     Range: TestStory!A220:O348
   _characterScale: 1.2
-  _characterPositionOffset: {x: 150, y: 60, z: 0}
+  _characterPositionOffset: {x: 180, y: 60, z: 0}
