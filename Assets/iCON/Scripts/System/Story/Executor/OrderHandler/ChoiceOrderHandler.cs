@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
 using iCON.UI;
@@ -13,15 +14,12 @@ namespace iCON.System
     [OrderHandler(OrderType.Choice)]
     public class ChoiceOrderHandler : OrderHandlerBase
     {
+        private const char SPLIT = '-';
+        
         /// <summary>
         /// DialogTextで分割に使用している文字
         /// </summary>
-        private const char DELIMITER = ',';
-        
-        /// <summary>
-        /// 選択肢のパラメーターの個数
-        /// </summary>
-        private const int CHOICE_DATA_PAIR_SIZE = 2;
+        private const char LINE_SPLIT = ',';
         
         /// <summary>
         /// 選択肢を選んだ時に実行するAction
@@ -31,17 +29,7 @@ namespace iCON.System
         
         public override Tween HandleOrder(OrderData data, StoryView view)
         {
-            if (data?.DialogText == null)
-            {
-                throw new ArgumentNullException(nameof(data), "OrderData または DialogText が null です");
-            }
-            
-            if (view == null)
-            {
-                throw new ArgumentNullException(nameof(view), "StoryView が null です");
-            }
-            
-            var viewDataList = CreateChoiceViewDataList(data.DialogText);
+            var viewDataList = CreateChoiceViewDataList(data.DialogText, view);
             view.SetupChoice(viewDataList);
 
             return null;
@@ -58,20 +46,21 @@ namespace iCON.System
         /// <summary>
         /// DialogTextに入力されている文字列から選択肢のViewDataリストを作成する
         /// </summary>
-        private List<UIContents_Choice.ViewData> CreateChoiceViewDataList(string dialogText)
+        private List<UIContents_Choice.ViewData> CreateChoiceViewDataList(string dialogText, StoryView view)
         {
             // 入力されている文字列を分割
-            var splitText = dialogText.Split(DELIMITER);
-            
-            // バリデーション
-            ValidateChoiceData(splitText);
+            var lineTexts = dialogText.Split(LINE_SPLIT);
             
             var viewDataList = new List<UIContents_Choice.ViewData>();
             
-            for (int i = 0; i < splitText.Length; i += CHOICE_DATA_PAIR_SIZE)
+            for (int i = 0; i < lineTexts.Length; i++)
             {
-                var buttonText = splitText[i].Trim();
-                var orderIdText = splitText[i + 1].Trim();
+                var splitText = lineTexts[i].Split(SPLIT);
+                
+                var buttonText = splitText[0].Trim();
+                var orderIdText = splitText[1].Trim();
+                var backgroundPath = splitText[2].Trim();
+                var bgmPath = splitText[3].Trim();
                 
                 if (!TryParseOrderId(orderIdText, out int orderId))
                 {
@@ -80,29 +69,24 @@ namespace iCON.System
                 
                 viewDataList.Add(new UIContents_Choice.ViewData(
                     buttonText, 
-                    () => _choiceAction?.Invoke(orderId)
-                ));
+                    () =>
+                    {
+                        _choiceAction?.Invoke(orderId);
+
+                        if (backgroundPath != null)
+                        {
+                            view.SetBackground(backgroundPath, 0).Forget();
+                        }
+
+                        if (bgmPath != null)
+                        {
+                            AudioManager.Instance.CrossFadeBGM(bgmPath).Forget();
+                        }
+                        
+                    }));
             }
             
             return viewDataList;
-        }
-        
-        /// <summary>
-        /// 選択肢データの妥当性を検証する
-        /// </summary>
-        private static void ValidateChoiceData(string[] splitText)
-        {
-            if (splitText.Length == 0)
-            {
-                throw new ArgumentException("DialogText が空です");
-            }
-            
-            if (splitText.Length % CHOICE_DATA_PAIR_SIZE != 0)
-            {
-                throw new ArgumentException(
-                    $"DialogText の形式が正しくありません。「ボタンメッセージ,オーダーID」のペアで入力してください。現在の要素数: {splitText.Length}"
-                );
-            }
         }
         
         /// <summary>
