@@ -11,6 +11,6 @@ namespace iCON.System
     public abstract class OrderHandlerBase
     {
         public abstract OrderType SupportedOrderType { get; }
-        public abstract UniTask<Tween> HandleAsync(OrderData data, StoryView view);
+        public abstract Tween HandleOrder(OrderData data, StoryView view);
     }
 }

@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
 using iCON.UI;
@@ -13,9 +12,9 @@ namespace iCON.System
     {
         public override OrderType SupportedOrderType => OrderType.CharacterChange;
         
-        public override async UniTask<Tween> HandleAsync(OrderData data, StoryView view)
+        public override Tween HandleOrder(OrderData data, StoryView view)
         {
-            return await view.ChangeCharacter(data.Position, data.FacialExpressionPath, data.Duration);
+            return view.ChangeCharacter(data.Position, data.FacialExpressionPath, data.Duration);
         }
     }
 }

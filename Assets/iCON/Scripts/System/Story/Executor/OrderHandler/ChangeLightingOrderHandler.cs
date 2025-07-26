@@ -13,10 +13,10 @@ namespace iCON.System
     {
         public override OrderType SupportedOrderType => OrderType.ChangeLighting;
         
-        public override UniTask<Tween> HandleAsync(OrderData data, StoryView view)
+        public override Tween HandleOrder(OrderData data, StoryView view)
         {
             view.ChangeGlobalVolume(data.FilePath).Forget();
-            return new UniTask<Tween>();
+            return null;
         }
     }
 }

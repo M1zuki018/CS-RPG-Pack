@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
 using iCON.UI;
 using iCON.Utility;
-using UnityEngine;
 
 namespace iCON.System
 {
@@ -72,7 +70,7 @@ namespace iCON.System
         /// <summary>
         /// オーダーを実行する
         /// </summary>
-        public async UniTask Execute(OrderData data)
+        public void Execute(OrderData data)
         {
             if (data.Sequence == SequenceType.Append)
             {
@@ -87,7 +85,7 @@ namespace iCON.System
             {
                 if (_handlers.TryGetValue(data.OrderType, out var handler))
                 {
-                    var tween = await handler.HandleAsync(data, _view);
+                    var tween = handler.HandleOrder(data, _view);
                     if (tween != null)
                     {
                         _currentSequence.AddTween(data.Sequence, tween);

@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
 using iCON.UI;
@@ -13,9 +12,9 @@ namespace iCON.System
     {
         public override OrderType SupportedOrderType => OrderType.ChangeBackground;
         
-        public override async UniTask<Tween> HandleAsync(OrderData data, StoryView view)
+        public override Tween HandleOrder(OrderData data, StoryView view)
         {
-            return await view.SetBackground(data.FilePath, data.Duration);
+            return view.SetBackground(data.FilePath, data.Duration);
         }
     }
 }

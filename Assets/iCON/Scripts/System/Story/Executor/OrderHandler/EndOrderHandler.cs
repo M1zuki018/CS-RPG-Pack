@@ -2,7 +2,6 @@ using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
-using iCON.Extensions;
 using iCON.UI;
 using iCON.Utility;
 
@@ -29,16 +28,21 @@ namespace iCON.System
             _endAction = endAction;
         }
         
-        public override UniTask<Tween> HandleAsync(OrderData data, StoryView view)
+        public override Tween HandleOrder(OrderData data, StoryView view)
         {
             // ログを流す
             LogUtility.Verbose("Story ended", LogCategory.System);
 
             // フェードアウト実行後、ストーリー終了処理を実行する
+            
+            // BGMのフェードアウト
+            AudioManager.Instance.FadeOutBGM(0).Forget();
+            
+            // View全体を非表示
             var tween = view.FadeOut(data.Duration);
             tween.OnComplete(() => HandleReset(view));
             
-            return tween.ToUniTaskWithResult();
+            return tween;
         }
 
         /// <summary>
@@ -48,6 +52,14 @@ namespace iCON.System
         {
             _endAction = endAction;
         }
+        
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public void Dispose()
+        {
+            _endAction = null;
+        }
 
         /// <summary>
         /// ストーリー終了時のリセット処理
@@ -56,20 +68,15 @@ namespace iCON.System
         {
             // 全キャラクター非表示
             view.HideAllCharacters();
-            
+
             // スチル非表示
             view.HideSteel(0);
-            
+
             //ダイアログをリセット
             view.ResetTalk();
             view.ResetDescription();
-            
-            _endAction?.Invoke();
-        }
 
-        public void Dispose()
-        {
-            _endAction = null;
+            _endAction?.Invoke();
         }
     }
 }

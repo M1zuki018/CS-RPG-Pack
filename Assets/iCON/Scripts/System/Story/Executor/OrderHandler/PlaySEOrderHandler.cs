@@ -13,10 +13,10 @@ namespace iCON.System
     {
         public override OrderType SupportedOrderType => OrderType.PlaySE;
         
-        public override UniTask<Tween> HandleAsync(OrderData data, StoryView view)
+        public override Tween HandleOrder(OrderData data, StoryView view)
         {
             AudioManager.Instance.PlaySE(data.FilePath, data.OverrideTextSpeed).Forget();
-            return new UniTask<Tween>();
+            return null;
         }
     }
 }

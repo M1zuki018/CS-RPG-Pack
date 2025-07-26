@@ -220,47 +220,43 @@ namespace iCON.System
                 CurrentBGMSource.gameObject.SetActive(false);
             }
         }
-
+        
         /// <summary>
         /// BGMをクロスフェードで切り替える
         /// </summary>
-        public async UniTask<Tween> CrossFadeBGM(string filePath, float fadeDuration = -1f)
+        public async UniTask CrossFadeBGM(string filePath, float fadeDuration = -1f)
         {
             if (fadeDuration < 0)
             {
                 // フェード時間が特に設定されておらず負の値の場合は、Constantで宣言している値を使用する
                 fadeDuration = KStoryPresentation.BGM_FADE_DURATION;
             }
-            
-            var clip = await LoadAudioClipAsync(filePath);
-            if (clip != null)
-            {
-                _bgmFadeTween?.Kill();
-                
-                // 次のソースを準備
-                NextBGMSource.gameObject.SetActive(true);
-                NextBGMSource.clip = clip;
-                NextBGMSource.volume = 0f;
-                CurrentBGMSource.loop = true;
-                NextBGMSource.Play();
-                
-                // クロスフェード実行
-                var sequence = DOTween.Sequence();
-                sequence.Append(CurrentBGMSource.DOFade(0f, fadeDuration).SetEase(KStoryPresentation.BGM_FADE_EASE));
-                sequence.Join(NextBGMSource.DOFade(1f, fadeDuration).SetEase(KStoryPresentation.BGM_FADE_EASE));
-                sequence.OnComplete(() => {
-                    CurrentBGMSource.Stop();
-                    CurrentBGMSource.gameObject.SetActive(false);
-                    _isUsingSecondaryBGM = !_isUsingSecondaryBGM;
-                });
-                
-                _bgmFadeTween = sequence;
-                return sequence;
-            }
 
-            return null;
-        }
+            var clip = await LoadAudioClipAsync(filePath);
         
+            _bgmFadeTween?.Kill();
+        
+            // クロスフェード処理
+            NextBGMSource.gameObject.SetActive(true);
+            NextBGMSource.clip = clip;
+            NextBGMSource.volume = 0f;
+            CurrentBGMSource.loop = true;
+            NextBGMSource.Play();
+        
+            // フェードシーケンス
+            var fadeSequence = DOTween.Sequence();
+            fadeSequence.Append(CurrentBGMSource.DOFade(0f, fadeDuration).SetEase(KStoryPresentation.BGM_FADE_EASE));
+            fadeSequence.Join(NextBGMSource.DOFade(1f, fadeDuration).SetEase(KStoryPresentation.BGM_FADE_EASE));
+            fadeSequence.OnComplete(() =>
+            {
+                CurrentBGMSource.Stop();
+                CurrentBGMSource.gameObject.SetActive(false);
+                _isUsingSecondaryBGM = !_isUsingSecondaryBGM;
+            });
+        
+            _bgmFadeTween = fadeSequence;
+        }
+
         /// <summary>
         /// BGMの音量を直接設定する
         /// </summary>

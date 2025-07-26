@@ -14,9 +14,9 @@ namespace iCON.System
     {
         public override OrderType SupportedOrderType => OrderType.CameraShake;
         
-        public override UniTask<Tween> HandleAsync(OrderData data, StoryView view)
+        public override Tween HandleOrder(OrderData data, StoryView view)
         {
-            return view.CameraShake(data.Duration, data.OverrideTextSpeed).ToUniTaskWithResult();
+            return view.CameraShake(data.Duration, data.OverrideTextSpeed);
         }
     }
 }

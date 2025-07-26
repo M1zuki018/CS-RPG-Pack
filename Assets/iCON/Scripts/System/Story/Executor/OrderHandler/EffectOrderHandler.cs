@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
 using iCON.UI;
@@ -13,10 +12,10 @@ namespace iCON.System
     {
         public override OrderType SupportedOrderType => OrderType.Effect;
         
-        public override UniTask<Tween> HandleAsync(OrderData data, StoryView view)
+        public override Tween HandleOrder(OrderData data, StoryView view)
         {
             // TODO
-            return new UniTask<Tween>();
+            return null;
         }
     }
 }
