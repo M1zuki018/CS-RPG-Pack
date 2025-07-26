@@ -25,6 +25,7 @@ namespace iCON.Enums
         FadeOut = 17,
         PlaySE = 18,
         StopBGM = 19,
+        HideDialog = 20,
         
         Custom = 99,
     }

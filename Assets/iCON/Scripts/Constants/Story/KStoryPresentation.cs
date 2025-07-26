@@ -31,5 +31,10 @@ namespace iCON.Constants
         /// BGMフェード時のイージング
         /// </summary>
         public const Ease BGM_FADE_EASE = Ease.InSine;
+        
+        /// <summary>
+        /// ダイアログのフェード秒数
+        /// </summary>
+        public const float DIALOG_FADE_DURATION = 0.1f;
     }
 }
