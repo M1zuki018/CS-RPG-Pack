@@ -37,7 +37,7 @@ namespace iCON.UI
         {
             _canvasGroup = GetComponent<CanvasGroup>();
             
-            Hide();
+            Hide(0);
             
             // 非表示にする・テキストをクリアする
             _talkLayout.SetVisibility(false);
@@ -95,17 +95,17 @@ namespace iCON.UI
         /// <summary>
         /// ダイアログを表示する
         /// </summary>
-        public void Show()
+        public Tween Show(float duration)
         {
-            SetVisibility(true);
+            return SetVisibility(true, duration);
         }
         
         /// <summary>
         /// ダイアログを非表示にする
         /// </summary>
-        public void Hide()
+        public Tween Hide(float duration)
         {
-            SetVisibility(false);
+            return SetVisibility(false, duration);
         }
 
         #region Private Methods
@@ -113,11 +113,12 @@ namespace iCON.UI
         /// <summary>
         /// 自身の表示状態を設定する
         /// </summary>
-        private void SetVisibility(bool isActive)
+        private Tween SetVisibility(bool isActive, float duration)
         {
-            _canvasGroup.alpha = isActive ? 1 : 0;
             _canvasGroup.interactable = isActive;
             _canvasGroup.blocksRaycasts = isActive;
+            
+            return _canvasGroup.DOFade(isActive ? 1 : 0, duration);
         }
         
         #endregion

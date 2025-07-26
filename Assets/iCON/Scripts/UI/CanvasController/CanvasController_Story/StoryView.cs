@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using iCON.Constants;
 using iCON.Enums;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -74,7 +75,7 @@ namespace iCON.UI
             if (!_dialog.IsVisible)
             {
                 // ダイアログのオブジェクトが非表示だったら表示する
-                _dialog.Show();
+                _dialog.Show(duration / 10);
             }
 
             return tween;
@@ -104,26 +105,26 @@ namespace iCON.UI
         {
             if (!_dialog.IsVisible)
             {
-                _dialog.Show();
+                _dialog.Show(KStoryPresentation.DIALOG_FADE_DURATION);
             }
             
             return _dialog.SetDescription(description, duration);
         }
 
         /// <summary>
-        /// ダイアログを非表示にする
+        /// ダイアログを表示する
         /// </summary>
-        public void ShowDialog()
+        public Tween ShowDialog(float duration = 0)
         {
-            _dialog.Show();
+            return _dialog.Show(duration);
         }
         
         /// <summary>
         /// ダイアログを非表示にする
         /// </summary>
-        public void HideDialog()
+        public Tween HideDialog(float duration = 0)
         {
-            _dialog.Hide();
+            return _dialog.Hide(duration);
         }
 
         /// <summary>
