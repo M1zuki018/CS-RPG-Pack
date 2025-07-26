@@ -144,21 +144,17 @@ namespace iCON.UI
         /// <summary>
         /// キャラクター登場
         /// </summary>
-        public Tween CharacterEntry(CharacterPositionType position, string fileName, float duration)
+        public async UniTask<Tween> CharacterEntry(CharacterPositionType position, string fileName, float duration)
         {
-            return _characters.Entry(position, fileName, duration);
+            return await _characters.Entry(position, fileName, duration);
         }
 
         /// <summary>
         /// キャラクターを切り替え
         /// </summary>
-        public Tween ChangeCharacter(CharacterPositionType position, string fileName, float duration)
+        public async UniTask<Tween> ChangeCharacter(CharacterPositionType position, string fileName, float duration)
         {
-            return DOTween.To(() => 0f, _ => { }, 0f, 0f)
-                .OnStart(async () =>
-                {
-                    await _characters.Change(position, fileName, duration);
-                });
+            return await _characters.Change(position, fileName, duration);
         }
         
         /// <summary>
@@ -180,14 +176,10 @@ namespace iCON.UI
         /// <summary>
         /// スチルを表示/切り替える
         /// </summary>
-        public Tween SetSteel(string fileName, float duration)
+        public async UniTask<Tween> SetSteel(string fileName, float duration)
         {
-            return DOTween.To(() => 0f, _ => { }, 0f, 0f)
-                .OnStart(async () =>
-                {
-                    await _steel.SetImageAsync(fileName);
-                    _steel.FadeIn(duration);
-                });
+            await _steel.SetImageAsync(fileName);
+            return _steel.FadeIn(duration);
         }
         
         /// <summary>
@@ -201,14 +193,10 @@ namespace iCON.UI
         /// <summary>
         /// 背景を変更する
         /// </summary>
-        public Tween SetBackground(string fileName, float duration)
+        public async UniTask<Tween> SetBackground(string fileName, float duration)
         {
-            return DOTween.To(() => 0f, _ => { }, 0f, 0f)
-                .OnStart(async () =>
-                {
-                    await _background.SetImageAsync(fileName);
-                    _background.FadeIn(duration);
-                });
+            await _background.SetImageAsync(fileName);
+            return _background.FadeIn(duration);
         }
 
         /// <summary>

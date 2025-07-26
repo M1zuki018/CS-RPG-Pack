@@ -42,7 +42,7 @@ namespace iCON.UI
         /// <summary>
         /// 登場
         /// </summary>
-        public Tween Entry(CharacterPositionType position, string fileName, float duration)
+        public async UniTask<Tween> Entry(CharacterPositionType position, string fileName, float duration)
         {
             // 指定された立ち位置の配置データを取得する
             var positionData = GetCharacterPosition(position);
@@ -53,7 +53,8 @@ namespace iCON.UI
             
             // アクティブなImageに画像を設定
             var activeImage = positionData.GetActiveImage();
-            activeImage.AssetName = fileName;
+            
+            await activeImage.ChangeSpriteAsync(fileName);
             
             return activeImage.DOFade(1, duration);
         }
@@ -73,7 +74,7 @@ namespace iCON.UI
             if (!IsVisible(position))
             {
                 // まだ画像が表示されていなければ通常の登場処理Tweenを実行する
-                return Entry(position, fileName, duration);
+                return await Entry(position, fileName, duration);
             }
 
             // クロスフェード処理
