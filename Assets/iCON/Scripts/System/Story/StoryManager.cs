@@ -128,7 +128,7 @@ namespace iCON.System
         /// <summary>
         /// ストーリー再生を開始する
         /// </summary>
-        public async UniTask PlayStory(string spreadsheetName, string headerRange, string range, Action endAction)
+        public async UniTask PlayStory(StoryExecuteDataSO executeDataSO, Action endAction)
         {
             // ストーリーの進行位置をリセット
             _progressTracker.Reset();
@@ -138,11 +138,16 @@ namespace iCON.System
                 endAction?.Invoke();
                 _isStoryComplete = true;
             });
+            
+            // キャラクター立ち絵のSetup
+            _view.SetupCharacter(executeDataSO.CharacterScale, executeDataSO._characterPositionOffset);
 
+            var storyLine = executeDataSO.StoryLine;
+            
             // ヘッダーデータを読み込む
-            await _orderProvider.InitializeAsync(spreadsheetName, headerRange);
+            await _orderProvider.InitializeAsync(storyLine.SpreadsheetName, storyLine.HeaderRange);
             // ストーリーデータを読み込む
-            await _orderProvider.LoadSceneDataAsync(spreadsheetName, range);
+            await _orderProvider.LoadSceneDataAsync(storyLine.SpreadsheetName, storyLine.Range);
             
             // ストーリー読了フラグをfalseにして、再生できるようにする
             _isStoryComplete = false;

@@ -39,26 +39,16 @@ namespace iCON.System
 
         private async void Update()
         {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
-            {
-                var playLine = _storyLine.FirstOrDefault(line => line.SceneName == _playStoryName);
-                if (playLine != null)
-                {
-                    PlayStory(playLine.SpreadsheetName, playLine.HeaderRange, playLine.Range);
-                }
-            }
-
             if (UnityEngine.Input.GetKeyDown(KeyCode.F8))
             {
                 await ServiceLocator.GetGlobal<SceneLoader>().LoadSceneAsync(new SceneTransitionData(SceneType.Title));
             }
         }
         
-        [MethodButtonInspector]
-        public void PlayStory(string spreadsheetName, string headerRange, string range)
+        public void PlayStory(StoryExecuteDataSO storyExecuteDataSO)
         {
             _storyManager.gameObject.SetActive(true);
-            _storyManager.PlayStory(spreadsheetName, headerRange, range, 
+            _storyManager.PlayStory(storyExecuteDataSO,
                 () => _storyManager.gameObject.SetActive(false)).Forget();
         }
     }
