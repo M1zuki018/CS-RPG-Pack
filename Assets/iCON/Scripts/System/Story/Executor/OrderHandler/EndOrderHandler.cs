@@ -36,7 +36,7 @@ namespace iCON.System
             // フェードアウト実行後、ストーリー終了処理を実行する
             
             // BGMのフェードアウト
-            AudioManager.Instance.FadeOutBGM(0).Forget();
+            AudioManager.Instance.FadeOutBGM(data.Duration).Forget();
             
             // View全体を非表示
             var tween = view.FadeOut(data.Duration);
@@ -75,6 +75,9 @@ namespace iCON.System
             //ダイアログをリセット
             view.ResetTalk();
             view.ResetDescription();
+            
+            // BGMの音量を確実に0にする
+            AudioManager.Instance.FadeOutBGM(0).Forget();
 
             _endAction?.Invoke();
         }
