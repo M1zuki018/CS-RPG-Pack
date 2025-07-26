@@ -214,9 +214,6 @@ namespace iCON.System
             // Sequenceを開始
             _currentSequence.Play();
             
-            // Sequenceの完了を待機
-            await _currentSequence.ToUniTask();
-            
             _pendingTweens.Clear();
         }
     }
