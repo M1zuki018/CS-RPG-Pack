@@ -15,11 +15,7 @@ public class CustomText : Text
 
         if (!string.IsNullOrEmpty(_wordingKey))
         {
-            string wordingText = WordingMaster.GetText(_wordingKey);
-            if (wordingText != null)
-            {
-                m_Text = wordingText;
-            }
+            SetWordingText(_wordingKey);
         }
     }
 
@@ -29,5 +25,17 @@ public class CustomText : Text
     public void SetText(string text)
     {
         base.text = text;
+    }
+
+    /// <summary>
+    /// 文言キーを使ってテキストを設定する
+    /// </summary>
+    public void SetWordingText(string wordingKey)
+    {
+        string wordingText = WordingMaster.GetText(wordingKey);
+        if (wordingText != null)
+        {
+            m_Text = wordingText;
+        }
     }
 }

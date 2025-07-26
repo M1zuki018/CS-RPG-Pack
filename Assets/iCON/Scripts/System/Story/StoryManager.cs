@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using iCON.Constants;
+using iCON.Enums;
 using iCON.UI;
 using iCON.Utility;
 using UnityEngine;
@@ -121,7 +122,7 @@ namespace iCON.System
         {
             _progressTracker = new StoryProgressTracker();
             _orderProvider = new StoryOrderProvider();
-            _orderExecutor = new OrderExecutor(_view);
+            _orderExecutor = new OrderExecutor(_view, ExecuteChoiceBranch);
         }
 
         /// <summary>
@@ -177,7 +178,7 @@ namespace iCON.System
         /// </summary>
         private void ExecuteNextOrderSequence()
         {
-            if (_isStoryComplete)
+            if (_isStoryComplete || _view.IsStopRequested)
             {
                 // ストーリーを読了していたらreturn
                 return;
@@ -266,9 +267,12 @@ namespace iCON.System
         /// </summary>
         private void CancelAutoPlay()
         {
-            // オート再生用のUniTaskをキャンセルする
-            _cts?.Cancel();
-            _cts?.Dispose();
+            if (_cts != null)
+            {
+                // オート再生用のUniTaskをキャンセルする
+                _cts?.Cancel();
+                _cts?.Dispose();
+            }
         }
 
         /// <summary>
@@ -291,6 +295,23 @@ namespace iCON.System
             
             // Endオーダーを実行
             ExecuteNextOrderSequence();
+        }
+
+        /// <summary>
+        /// 選択肢による分岐機能
+        /// </summary>
+        private void ExecuteChoiceBranch(int orderIndex = -1)
+        {
+            // オーダーのインデックスがデフォルトであれば現在の地点を
+            // その他のインデックスの場合は引数で指定されたオーダーに移動する
+            var targetOrder = orderIndex == -1 ? CurrentPosition.OrderIndex : orderIndex;
+
+            // 分岐先のオーダーに進捗をセットする
+            _progressTracker.JumpToPosition(CurrentPosition.PartId, CurrentPosition.ChapterId, CurrentPosition.SceneId, targetOrder);
+            _view.IsStopRequested = false;
+            
+            // オーダーを実行
+            ProcessNextOrder();
         }
         
         /// <summary>

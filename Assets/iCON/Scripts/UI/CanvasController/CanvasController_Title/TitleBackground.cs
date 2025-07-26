@@ -49,7 +49,7 @@ namespace iCON.UI
                 int randomIndex = Random.Range(0, locations.Count);
                 var selectedBackground = locations[randomIndex].PrimaryKey;
             
-                _background.AssetName = selectedBackground;
+                await _background.ChangeSpriteAsync(selectedBackground);
             }
         }
     }

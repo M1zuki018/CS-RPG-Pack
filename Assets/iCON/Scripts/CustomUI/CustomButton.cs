@@ -1,4 +1,6 @@
-using UnityEditor;
+using System;
+using Cysharp.Threading.Tasks;
+using iCON.Utility;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,28 +8,46 @@ using UnityEngine.UI;
 /// CustomButton
 /// </summary>
 [AddComponentMenu("Custom UI/Custom Button")]
+[RequireComponent(typeof(CustomImage))]
 public class CustomButton : Button
 {
-    [SerializeField] private string _assetName;
-    [SerializeField] private string _wordingKey;
-    private Text _text;
+    /// <summary>
+    /// CustomImageに表示したいアセット名
+    /// </summary>
+    [SerializeField] 
+    private string _assetName;
+    
+    /// <summary>
+    /// 子オブジェクトのCustomTextに表示したい文言キー
+    /// </summary>
+    [SerializeField] 
+    private string _wordingKey;
+
+    private CustomImage _image;
+    private CustomText _text;
 
     protected override void Awake()
     {
         base.Awake();
         
-        _text = GetComponentInChildren<Text>();
-
+        _image = GetComponent<CustomImage>();
+        _text = GetComponentInChildren<CustomText>();
+        
         if (!string.IsNullOrEmpty(_assetName))
         {
-            // TODO: Assetまわりを整えたら修正
+            _image.ChangeSpriteAsync(_assetName).Forget();
         }
 
         if (!string.IsNullOrEmpty(_wordingKey))
         {
-            // TODO: Wordingをつくったら修正
-            SetText("Wording Test");
+            _text.SetWordingText(_wordingKey);
         }
+    }
+
+    protected override void OnDestroy()
+    {
+        onClick.SafeRemoveAllListeners();
+        base.OnDestroy();
     }
 
     /// <summary>
@@ -35,7 +55,15 @@ public class CustomButton : Button
     /// </summary>
     public void SetSprite(Sprite sprite)
     {
-        image.sprite = sprite;
+        _image.sprite = sprite;
+    }
+
+    /// <summary>
+    /// アセットのパスを指定して画像の差し替えを行う
+    /// </summary>
+    public async UniTask SetSprite(string assetName)
+    {
+        await _image.ChangeSpriteAsync(assetName);
     }
 
     /// <summary>
@@ -44,6 +72,14 @@ public class CustomButton : Button
     public void SetText(string text)
     {
         _text.text = text;
+    }
+
+    /// <summary>
+    /// クリックアクションを登録する
+    /// </summary>
+    public void SetClickAction(Action onClickAction)
+    {
+        onClick.SafeAddListener(() => onClickAction?.Invoke());
     }
 }
 

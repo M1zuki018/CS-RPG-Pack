@@ -39,6 +39,8 @@ namespace iCON.System
         /// ストーリー終了時に実行するアクション
         /// </summary>
         private Action _endAction;
+
+        private Action<int> _jampAction;
         
         /// <summary>
         /// 各オーダーの列挙型と処理を行うHandlerのインスタンスのkvp
@@ -55,9 +57,10 @@ namespace iCON.System
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public OrderExecutor(StoryView view)
+        public OrderExecutor(StoryView view, Action<int> jampAction)
         {
             _view = view;
+            _jampAction = jampAction;
             
             // 各オーダーの列挙型と処理を行うHandlerのインスタンスの辞書を作成
             _handlers = OrderHandlerFactory.CreateAllHandlers(_view, null);
@@ -69,7 +72,11 @@ namespace iCON.System
         public void Setup(Action endAction)
         {
             _endAction = endAction;
-            
+
+            if (_handlers.TryGetValue(OrderType.Choice, out var choiceHandler) && choiceHandler is ChoiceOrderHandler choiceOrderHandler)
+            {
+                choiceOrderHandler.SetChoiceAction(_jampAction);
+            }
             // EndHandlerに終了アクションを設定
             if (_handlers.TryGetValue(OrderType.End, out var endHandler) && endHandler is EndOrderHandler endOrderHandler)
             {

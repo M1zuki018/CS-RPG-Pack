@@ -5,16 +5,18 @@ using iCON.UI;
 namespace iCON.System
 {
     /// <summary>
-    /// {ClassName} - 
+    /// {ClassName} - オーダーの説明
     /// </summary>
     [OrderHandler(OrderType.{ClassName})]
-    public class {ClassName}OrderHandler : BaseOrderHandler
+    public class {ClassName}OrderHandler : OrderHandlerBase
     {
         public override OrderType SupportedOrderType => OrderType.{ClassName};
         
-        public override Tween Handler(OrderData data, StoryView view)
+        public override Tween HandleOrder(OrderData data, StoryView view)
         {
-            return 
+            // Tweenメソッドの呼び出しを行う
+            // 非同期処理が必要な場合は、継承を「AsyncOrderHandlerBase」に変更してください
+            return null;
         }
     }
 }

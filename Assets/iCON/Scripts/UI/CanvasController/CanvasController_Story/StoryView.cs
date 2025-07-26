@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
@@ -44,6 +45,12 @@ namespace iCON.UI
         private UIContents_FadePanel _fadePanel;
         
         /// <summary>
+        /// 選択肢表示管理クラス
+        /// </summary>
+        [SerializeField, HighlightIfNull]
+        private UIContents_Choice _choice;
+        
+        /// <summary>
         /// キャンバスを揺らすクラス
         /// </summary>
         [SerializeField, HighlightIfNull]
@@ -54,6 +61,8 @@ namespace iCON.UI
         /// </summary>
         [SerializeField, HighlightIfNull]
         private Volume _volume;
+        
+        public bool IsStopRequested = false;
         
         /// <summary>
         /// 会話テキストを更新する
@@ -200,13 +209,22 @@ namespace iCON.UI
         }
 
         /// <summary>
+        /// 選択肢を表示する
+        /// </summary>
+        public void SetupChoice(IReadOnlyList<UIContents_Choice.ViewData> viewDataList, float duration = 0)
+        {
+            IsStopRequested = true;
+            _choice.Setup(viewDataList);
+        }
+
+        /// <summary>
         /// カメラシェイク
         /// </summary>
         public Tween CameraShake(float duration, float strengthLate)
         {
             return _canvasShaker.ExplosionShake(duration, strengthLate);
         }
-
+        
         /// <summary>
         /// Volume変更
         /// </summary>

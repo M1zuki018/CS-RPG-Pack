@@ -53,7 +53,7 @@ namespace iCON.UI
         /// <summary>
         /// アセットが既に設定されているかを確認
         /// </summary>
-        public bool HasAsset => Image1 != null && !string.IsNullOrEmpty(Image1.AssetName);
+        public bool HasAsset => Image1 != null && Image1.HasAsset;
         
         /// <summary>
         /// 現在アクティブなImageを取得
