@@ -14,20 +14,9 @@ public class CustomImage : Image
     [SerializeField] private string _assetName;
     private AsyncOperationHandle<Sprite> _loadHandle;
     private bool _isLoading = false;
-    
-    /// <summary>
-    /// アセット名
-    /// </summary>
-    public string AssetName
-    {
-        get => _assetName;
-        set
-        {
-            _assetName = value;
-            LoadSpriteAsync().Forget();
-        }
-    }
 
+    public bool HasAsset => sprite != null; 
+    
     protected override void Awake()
     {
         base.Awake();
