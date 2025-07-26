@@ -152,10 +152,13 @@ namespace iCON.UI
         /// <summary>
         /// キャラクターを切り替え
         /// </summary>
-        public async UniTask<Tween> ChangeCharacter(CharacterPositionType position, string fileName, float duration)
+        public Tween ChangeCharacter(CharacterPositionType position, string fileName, float duration)
         {
-            var tween = await _characters.Change(position, fileName, duration);
-            return tween;
+            return DOTween.To(() => 0f, _ => { }, 0f, 0f)
+                .OnStart(async () =>
+                {
+                    await _characters.Change(position, fileName, duration);
+                });
         }
         
         /// <summary>
@@ -177,10 +180,14 @@ namespace iCON.UI
         /// <summary>
         /// スチルを表示/切り替える
         /// </summary>
-        public async UniTask<Tween> SetSteel(string fileName, float duration)
+        public Tween SetSteel(string fileName, float duration)
         {
-            await _steel.SetImageAsync(fileName);
-            return _steel.FadeIn(duration);
+            return DOTween.To(() => 0f, _ => { }, 0f, 0f)
+                .OnStart(async () =>
+                {
+                    await _steel.SetImageAsync(fileName);
+                    _steel.FadeIn(duration);
+                });
         }
         
         /// <summary>
@@ -194,10 +201,14 @@ namespace iCON.UI
         /// <summary>
         /// 背景を変更する
         /// </summary>
-        public async UniTask<Tween> SetBackground(string fileName, float duration)
+        public Tween SetBackground(string fileName, float duration)
         {
-            await _background.SetImageAsync(fileName);
-            return _background.FadeIn(duration);
+            return DOTween.To(() => 0f, _ => { }, 0f, 0f)
+                .OnStart(async () =>
+                {
+                    await _background.SetImageAsync(fileName);
+                    _background.FadeIn(duration);
+                });
         }
 
         /// <summary>
@@ -211,7 +222,7 @@ namespace iCON.UI
         /// <summary>
         /// Volume変更
         /// </summary>
-        public async void ChangeGlobalVolume(string volumePath)
+        public async UniTask ChangeGlobalVolume(string volumePath)
         {
             var volumeProfile = await Addressables.LoadAssetAsync<VolumeProfile>(volumePath);
             _volume.sharedProfile = volumeProfile;
