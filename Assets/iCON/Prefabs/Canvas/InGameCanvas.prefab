@@ -151,22 +151,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2645920889907406468}
     m_Modifications:
-    - target: {fileID: 2004084331568959828, guid: a59b76794a82b504ab314c89e7ec0695, type: 3}
-      propertyPath: _storyLine.Range
-      value: TestStory!A220:O345
-      objectReference: {fileID: 0}
-    - target: {fileID: 2004084331568959828, guid: a59b76794a82b504ab314c89e7ec0695, type: 3}
-      propertyPath: _storyLine.HeaderRange
-      value: TestStory!A2:O2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2918743522042359363, guid: a59b76794a82b504ab314c89e7ec0695, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -475
-      objectReference: {fileID: 0}
-    - target: {fileID: 5490178154509180669, guid: a59b76794a82b504ab314c89e7ec0695, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: fb3c0175d7cef3d449285aaa9021e791, type: 3}
     - target: {fileID: 5571916589648455115, guid: a59b76794a82b504ab314c89e7ec0695, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -247,10 +231,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5663659656452167881, guid: a59b76794a82b504ab314c89e7ec0695, type: 3}
-      propertyPath: _storyLine.Range
-      value: TestStory!A3:O218
-      objectReference: {fileID: 0}
     - target: {fileID: 7604436659806114933, guid: a59b76794a82b504ab314c89e7ec0695, type: 3}
       propertyPath: m_Name
       value: '[Sample]StorySelectCanvas'
@@ -258,29 +238,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7604436659806114933, guid: a59b76794a82b504ab314c89e7ec0695, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2219183539031062766}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a59b76794a82b504ab314c89e7ec0695, type: 3}
---- !u!1 &4627315048012409642 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7604436659806114933, guid: a59b76794a82b504ab314c89e7ec0695, type: 3}
-  m_PrefabInstance: {fileID: 3008374173386604383}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2219183539031062766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4627315048012409642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72592efcd0016a946a934c77b4265f19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _button: {fileID: 0}
 --- !u!224 &7272337868594403988 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5571916589648455115, guid: a59b76794a82b504ab314c89e7ec0695, type: 3}
@@ -378,60 +337,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: StoryCanvas
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5875891500233060307, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7241587270615209574, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1472795912758669211}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
---- !u!1 &4072666668505126507 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7241587270615209574, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
-  m_PrefabInstance: {fileID: 6699752610432335885}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1472795912758669211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4072666668505126507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8614964303dba434e9109eed8659506b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _parallaxSettings:
-  - Name: "\u5F31"
-    Factor: 0.01
-    Inverse: 0
-    Objects:
-    - {fileID: 6487642616532000579}
-    - {fileID: 7017276842031071699}
-  - Name: "\u4E2D"
-    Factor: 0.03
-    Inverse: 0
-    Objects:
-    - {fileID: 6651734958024365628}
-  _smoothTime: 0.2
---- !u!224 &6487642616532000579 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 500727588331953998, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
-  m_PrefabInstance: {fileID: 6699752610432335885}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &6651734958024365628 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 51219869429388849, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
-  m_PrefabInstance: {fileID: 6699752610432335885}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &7017276842031071699 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4438347577725190622, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
-  m_PrefabInstance: {fileID: 6699752610432335885}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8665627752397252233 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2645920889907406468, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}

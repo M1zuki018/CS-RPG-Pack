@@ -152,6 +152,14 @@ namespace iCON.UI
         }
         
         /// <summary>
+        /// キャラクター立ち絵のSetup
+        /// </summary>
+        public void SetupCharacter(float scale, Vector3 position)
+        {
+            _characters.SetupAllCharacters(scale, position);
+        }
+        
+        /// <summary>
         /// キャラクター登場
         /// </summary>
         public async UniTask<Tween> CharacterEntry(CharacterPositionType position, string fileName, float duration)
@@ -180,7 +188,15 @@ namespace iCON.UI
         /// </summary>
         public void HideAllCharacters()
         {
-            _characters.HideAll();
+            _characters.HideAllCharacters();
+        }
+
+        /// <summary>
+        /// キャラクター表示のリセット
+        /// </summary>
+        public void ResetCharacters()
+        {
+            _characters.ResetAllTransforms();
         }
         
         /// <summary>

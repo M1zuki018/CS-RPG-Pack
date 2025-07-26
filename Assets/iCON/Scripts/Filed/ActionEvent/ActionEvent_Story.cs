@@ -1,5 +1,6 @@
 using iCON.System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace iCON.Field.System
 {
@@ -9,15 +10,15 @@ namespace iCON.Field.System
     public class ActionEvent_Story : ActionEventBase
     {
         /// <summary>
-        /// ストーリー開始位置
+        /// ストーリー再生用データ
         /// </summary>
         [SerializeField]
-        private StoryLine _storyLine;
+        private StoryExecuteDataSO _storyExecuteData;
 
         protected override void OnPlayerEnter(Collider2D playerCollider)
         {
             var storyManager = ServiceLocator.GetLocal<InGameManager>();
-            storyManager.PlayStory(_storyLine.SpreadsheetName, _storyLine.HeaderRange, _storyLine.Range);
+            storyManager.PlayStory(_storyExecuteData);
         }
     }
 }

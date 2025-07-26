@@ -11,7 +11,7 @@ public class PackSample_StoryPlayButton : ViewBase
     [SerializeField, Comment("ボタンに表示するテキスト")] private string _displayText;
     
     [Header("再生するストーリーの設定")]
-    [SerializeField] private StoryLine _storyLine;
+    [SerializeField, ExpandableSO] private StoryExecuteDataSO _storyData;
     
     private Button _button;
     private Text _childText;
@@ -37,6 +37,6 @@ public class PackSample_StoryPlayButton : ViewBase
 
     private void Play()
     {
-        ServiceLocator.GetLocal<InGameManager>().PlayStory(_storyLine.SpreadsheetName, _storyLine.HeaderRange, _storyLine.Range);
+        ServiceLocator.GetLocal<InGameManager>().PlayStory(_storyData);
     }
 }
