@@ -7,7 +7,6 @@ using iCON.Enums;
 using iCON.Extensions;
 using iCON.UI;
 using iCON.Utility;
-using UnityEngine;
 
 namespace iCON.System
 {
@@ -137,6 +136,37 @@ namespace iCON.System
                 LogUtility.Error($"オーダー実行中にエラーが発生: {ex.Message}", LogCategory.System);
             }
         }
+
+        /// <summary>
+        /// オーダーの演出をスキップする
+        /// </summary>
+        public void Skip()
+        {
+            if (_currentSequence != null && _isExecuting)
+            {
+                // 演出実行中であれば、シーケンスをキルしてコンプリートの状態にする
+                _currentSequence.Kill(true);
+                _isExecuting = false;
+            }
+        }
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public void Dispose()
+        {
+            if (_endAction != null)
+            {
+                // アクションが登録されていたら破棄する
+                _endAction = null;
+            }
+            
+            // EndHandlerに登録した終了アクションの購読を解除
+            if (_handlers.TryGetValue(OrderType.End, out var endHandler) && endHandler is EndOrderHandler endOrderHandler)
+            {
+                endOrderHandler.Dispose();
+            }
+        }
         
         /// <summary>
         /// Sequenceを構築して再生する
@@ -181,34 +211,6 @@ namespace iCON.System
             await _currentSequence.ToUniTask();
             
             _pendingTweens.Clear();
-        }
-
-        /// <summary>
-        /// オーダーの演出をスキップする
-        /// </summary>
-        public void Skip()
-        {
-            if (_currentSequence != null && _isExecuting)
-            {
-                // 演出実行中であれば、シーケンスをキルしてコンプリートの状態にする
-                _currentSequence.Kill(true);
-                _isExecuting = false;
-            }
-        }
-
-        public void Dispose()
-        {
-            if (_endAction != null)
-            {
-                // アクションが登録されていたら破棄する
-                _endAction = null;
-            }
-            
-            // EndHandlerに登録した終了アクションの購読を解除
-            if (_handlers.TryGetValue(OrderType.End, out var endHandler) && endHandler is EndOrderHandler endOrderHandler)
-            {
-                endOrderHandler.Dispose();
-            }
         }
     }
 }
