@@ -161,6 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5571916589648455115}
   - component: {fileID: 6822415913363579068}
+  - component: {fileID: 810197767554606273}
   m_Layer: 5
   m_Name: '[Sample]StorySelectCanvas'
   m_TagString: Untagged
@@ -203,6 +204,19 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &810197767554606273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604436659806114933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72592efcd0016a946a934c77b4265f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 0}
 --- !u!1001 &3470967201917160803
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -215,6 +229,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: '[Sample]StoryPlayButton (1)'
       objectReference: {fileID: 0}
+    - target: {fileID: 3162840113429732407, guid: c0191ec353d03b84c893d1151fe8befa, type: 3}
+      propertyPath: _storyData
+      value: 
+      objectReference: {fileID: 11400000, guid: 94f981484ce7fe5449f97853a2d884f5, type: 2}
     - target: {fileID: 3162840113429732407, guid: c0191ec353d03b84c893d1151fe8befa, type: 3}
       propertyPath: _displayText
       value: "\u30DE\u30AD\u30FB\u5E7C\u5C11\u671F"
@@ -333,6 +351,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: '[Sample]StoryPlayButton'
       objectReference: {fileID: 0}
+    - target: {fileID: 3162840113429732407, guid: c0191ec353d03b84c893d1151fe8befa, type: 3}
+      propertyPath: _storyData
+      value: 
+      objectReference: {fileID: 11400000, guid: a760867c2af24054fa5259222000ee14, type: 2}
     - target: {fileID: 5619511453415484093, guid: c0191ec353d03b84c893d1151fe8befa, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -395,7 +417,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5619511453415484093, guid: c0191ec353d03b84c893d1151fe8befa, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -449.50174
+      value: -475
       objectReference: {fileID: 0}
     - target: {fileID: 5619511453415484093, guid: c0191ec353d03b84c893d1151fe8befa, type: 3}
       propertyPath: m_AnchoredPosition.y
