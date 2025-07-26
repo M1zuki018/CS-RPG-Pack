@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 
 namespace iCON.UI
@@ -56,12 +55,14 @@ namespace iCON.UI
 
         #region Private Methods
 
-        private void SetVisibility(bool isActive, float duration = 0)
+        /// <summary>
+        /// 選択肢の表示/非表示を切り替える
+        /// </summary>
+        private void SetVisibility(bool isActive)
         {
+            _canvasGroup.alpha = isActive ? 1 : 0;
             _canvasGroup.interactable = isActive;
             _canvasGroup.blocksRaycasts = isActive;
-            
-            _canvasGroup.DOFade(isActive ? 1f : 0f, duration);
         }
 
         #endregion
