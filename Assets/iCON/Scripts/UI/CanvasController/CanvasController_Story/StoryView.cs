@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
@@ -42,6 +43,12 @@ namespace iCON.UI
         /// </summary>
         [SerializeField, HighlightIfNull]
         private UIContents_FadePanel _fadePanel;
+        
+        /// <summary>
+        /// 選択肢表示管理クラス
+        /// </summary>
+        [SerializeField, HighlightIfNull]
+        private UIContents_Choice _choice;
         
         /// <summary>
         /// キャンバスを揺らすクラス
@@ -199,6 +206,11 @@ namespace iCON.UI
             return _background.FadeIn(duration);
         }
 
+        public void Choice(IReadOnlyList<UIContents_Choice.ViewData> viewDataList)
+        {
+            _choice.Setup(viewDataList);
+        }
+
         /// <summary>
         /// カメラシェイク
         /// </summary>
@@ -206,7 +218,7 @@ namespace iCON.UI
         {
             return _canvasShaker.ExplosionShake(duration, strengthLate);
         }
-
+        
         /// <summary>
         /// Volume変更
         /// </summary>

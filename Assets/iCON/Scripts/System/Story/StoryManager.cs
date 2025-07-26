@@ -121,7 +121,7 @@ namespace iCON.System
         {
             _progressTracker = new StoryProgressTracker();
             _orderProvider = new StoryOrderProvider();
-            _orderExecutor = new OrderExecutor(_view);
+            _orderExecutor = new OrderExecutor(_view, JampToPosition);
         }
 
         /// <summary>
@@ -266,9 +266,12 @@ namespace iCON.System
         /// </summary>
         private void CancelAutoPlay()
         {
-            // オート再生用のUniTaskをキャンセルする
-            _cts?.Cancel();
-            _cts?.Dispose();
+            if (_cts != null)
+            {
+                // オート再生用のUniTaskをキャンセルする
+                _cts?.Cancel();
+                _cts?.Dispose();
+            }
         }
 
         /// <summary>
@@ -327,6 +330,12 @@ namespace iCON.System
         {
             _progressTracker.JumpToPosition(partId, chapterId, sceneId, orderIndex);
             return CurrentOrder;
+        }
+
+        public void JampToPosition(int orderIndex = 0)
+        {
+            _progressTracker.JumpToPosition(CurrentPosition.PartId, CurrentPosition.ChapterId, 
+                CurrentPosition.SceneId, orderIndex);
         }
         
         /// <summary>
