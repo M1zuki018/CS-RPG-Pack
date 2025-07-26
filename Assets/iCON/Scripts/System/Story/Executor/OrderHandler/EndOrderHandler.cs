@@ -66,8 +66,9 @@ namespace iCON.System
         /// </summary>
         private void HandleReset(StoryView view)
         {
-            // 全キャラクター非表示
+            // キャラクター立ち絵のリセット処理
             view.HideAllCharacters();
+            view.ResetCharacters();
 
             // スチル非表示
             view.HideSteel(0);
