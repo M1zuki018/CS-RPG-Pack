@@ -15,9 +15,8 @@ namespace iCON.UI
         
         public override Tween HandlePerformance(OrderData data, StoryView view)
         {
-            // TODO: 仮実装
-            return view.Flash(data.Duration, Color.white);
+            ColorUtility.TryParseHtmlString(data.OverrideDisplayName, out var color);
+            return view.Flash(data.Duration, color);
         }
     }
-
 }
