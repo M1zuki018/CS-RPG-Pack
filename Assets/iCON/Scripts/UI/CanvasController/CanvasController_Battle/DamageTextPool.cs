@@ -1,3 +1,4 @@
+using CryStar.Attribute;
 using UnityEngine;
 using UnityEngine.Pool;
 

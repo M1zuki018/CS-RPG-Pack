@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using CryStar.Attribute;
 using UnityEngine;
 
 namespace iCON.UI

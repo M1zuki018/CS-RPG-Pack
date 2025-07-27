@@ -1,4 +1,5 @@
 using System;
+using CryStar.Attribute;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;

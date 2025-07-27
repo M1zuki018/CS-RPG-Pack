@@ -1,4 +1,5 @@
 using System;
+using CryStar.Attribute;
 using UnityEngine;
 
 namespace iCON.UI

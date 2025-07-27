@@ -1,4 +1,5 @@
 using System;
+using CryStar.Attribute;
 using Cysharp.Threading.Tasks;
 using iCON.Battle;
 using iCON.Utility;
