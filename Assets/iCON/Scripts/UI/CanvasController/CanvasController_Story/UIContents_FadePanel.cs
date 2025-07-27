@@ -87,6 +87,21 @@ namespace iCON.UI
         }
 
         /// <summary>
+        /// 画面のフラッシュ演出
+        /// </summary>
+        public Tween Flash(float duration, Color panelColor)
+        {
+            Color = panelColor;
+
+            var sequence = DOTween.Sequence()
+                .Append(FadeOut(duration * 0.3f, Ease.InQuart))
+                .Append(FadeIn(duration * 0.7f, Ease.OutSine))
+                .OnComplete(() => SetColorWithAlpha(Color.black, 0));
+            
+            return sequence;
+        }
+
+        /// <summary>
         /// 即座にアルファ値を設定
         /// </summary>
         public void SetAlpha(float alpha)

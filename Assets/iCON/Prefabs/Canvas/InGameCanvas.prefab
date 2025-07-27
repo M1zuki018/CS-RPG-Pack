@@ -337,11 +337,35 @@ PrefabInstance:
       propertyPath: m_Name
       value: StoryCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 9118346743274492970, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
+      propertyPath: _effects
+      value: 
+      objectReference: {fileID: 3872943831294226678}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7241587270615209574, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3872943831294226678}
   m_SourcePrefab: {fileID: 100100000, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
+--- !u!1 &4072666668505126507 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7241587270615209574, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
+  m_PrefabInstance: {fileID: 6699752610432335885}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3872943831294226678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4072666668505126507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5774ff0b21ec97b4eb354435bd695cd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8665627752397252233 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2645920889907406468, guid: ad883ec367aab28458fc4a45fa44ee8b, type: 3}
