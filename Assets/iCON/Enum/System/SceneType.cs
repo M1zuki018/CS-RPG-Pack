@@ -9,7 +9,7 @@ namespace iCON.System
         Load = 1,
         Title = 2,
         InGame = 3,
-        Battle = 4,
+        
         None = 99,
     }
 }
