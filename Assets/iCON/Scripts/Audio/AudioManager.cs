@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Constants;
@@ -54,8 +55,8 @@ namespace iCON.System
         /// <summary>
         /// Addressable
         /// </summary>
-        private AsyncOperationHandle<AudioClip> _loadHandle;
-        private bool _isLoading = false;
+        private Dictionary<string, AudioClip> _audioClipCache = new Dictionary<string, AudioClip>();
+        private Dictionary<string, AsyncOperationHandle<AudioClip>> _loadHandles = new Dictionary<string, AsyncOperationHandle<AudioClip>>();
 
         #region Properties
 
@@ -145,9 +146,12 @@ namespace iCON.System
         /// </summary>
         private void OnDestroy()
         {
-            if (_loadHandle.IsValid())
+            foreach (var loadHandle in _loadHandles.Values)
             {
-                Addressables.Release(_loadHandle);
+                if (loadHandle.IsValid())
+                {
+                    Addressables.Release(loadHandle);
+                }
             }
         }
         
@@ -278,9 +282,8 @@ namespace iCON.System
                 source.volume = volume;
                 source.PlayOneShot(clip);
 
-                await UniTask.Delay(TimeSpan.FromSeconds(clip.length));
-
-                _seSourcePool.Release(source);
+                // クリップ再生完了を待たずに即座に返す。リソース管理は非同期で行う
+                ReleaseAudioSourceAfterPlay(source, clip.length).Forget();
             }
         }
 
@@ -376,33 +379,61 @@ namespace iCON.System
         /// </summary>
         private async UniTask<AudioClip> LoadAudioClipAsync(string filePath)
         {
-            if (_isLoading || string.IsNullOrEmpty(filePath))
+            if (string.IsNullOrEmpty(filePath))
                 return null;
 
-            _isLoading = true;
+            // キャッシュから取得を試行
+            if (_audioClipCache.TryGetValue(filePath, out var cachedClip))
+            {
+                return cachedClip;
+            }
+
+            // 既に読み込み中の場合は待機
+            if (_loadHandles.TryGetValue(filePath, out var existingHandle))
+            {
+                try
+                {
+                    return await existingHandle.ToUniTask();
+                }
+                catch (Exception e)
+                {
+                    LogUtility.Error($"AudioClipのロードに失敗しました: {filePath}, Error: {e.Message}", LogCategory.Audio);
+                    _loadHandles.Remove(filePath);
+                    return null;
+                }
+            }
 
             try
             {
-                // 既存のハンドルがあれば解放
-                if (_loadHandle.IsValid())
-                {
-                    Addressables.Release(_loadHandle);
-                }
-
                 // 新しいアセットを読み込み
-                _loadHandle = Addressables.LoadAssetAsync<AudioClip>(filePath);
-                return await _loadHandle.ToUniTask();
+                var handle = Addressables.LoadAssetAsync<AudioClip>(filePath);
+                _loadHandles[filePath] = handle;
+        
+                var clip = await handle.ToUniTask();
+        
+                // キャッシュに保存
+                if (clip != null)
+                {
+                    _audioClipCache[filePath] = clip;
+                }
+        
+                return clip;
             }
             catch (Exception e)
             {
                 LogUtility.Error($"AudioClipのロードに失敗しました: {filePath}, Error: {e.Message}", LogCategory.Audio);
+                _loadHandles.Remove(filePath);
+                return null;
             }
-            finally
-            {
-                _isLoading = false;
-            }
-
-            return null;
+        }
+        
+        /// <summary>
+        /// 指定時間後にAudioSourceをプールに返却する
+        /// </summary>
+        private async UniTask ReleaseAudioSourceAfterPlay(AudioSource source, float duration)
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(duration));
+            _seSourcePool.Release(source);
         }
 
         #endregion
