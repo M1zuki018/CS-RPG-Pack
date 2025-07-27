@@ -150,6 +150,14 @@ namespace iCON.UI
         {
             _fadePanel.SetVisible(visible);
         }
+
+        /// <summary>
+        /// フェードパネルを使用したフラッシュ演出
+        /// </summary>
+        public Tween Flash(float fadeOutDuration, Color color)
+        {
+            return _fadePanel.Flash(fadeOutDuration, color);
+        }
         
         /// <summary>
         /// キャラクター立ち絵のSetup
