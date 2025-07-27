@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using CryStar.Attribute;
 using UnityEditor;
 using UnityEngine;
@@ -288,3 +289,4 @@ namespace CryStar.Editor
         #endregion
     }
 }
+#endif

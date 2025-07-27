@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using CryStar.Attribute;
 using UnityEditor;
@@ -37,3 +38,4 @@ namespace CryStar.Editor
         }
     }   
 }
+#endif
