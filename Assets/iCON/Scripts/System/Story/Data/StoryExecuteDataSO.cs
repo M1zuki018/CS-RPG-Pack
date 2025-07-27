@@ -1,3 +1,4 @@
+using CryStar.Attribute;
 using UnityEngine;
 
 namespace iCON.System
