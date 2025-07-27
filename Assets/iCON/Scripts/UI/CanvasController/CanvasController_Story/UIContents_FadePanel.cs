@@ -91,12 +91,17 @@ namespace iCON.UI
         /// </summary>
         public Tween Flash(float duration, Color panelColor)
         {
-            Color = panelColor;
+            // アルファ値はゼロのまま、色を切り替える
+            SetColorWithAlpha(panelColor, 0);
 
             var sequence = DOTween.Sequence()
-                .Append(FadeOut(duration * 0.3f, Ease.InQuart))
+                
+                // NOTE: アルファ値を1にしてしまうとその後ろが見えなくなってしまうので、1までは上げないようにする
+                .Append(FadeToAlpha(0.5f, duration * 0.3f, Ease.InQuart))
                 .Append(FadeIn(duration * 0.7f, Ease.OutSine))
-                .OnComplete(() => SetColorWithAlpha(Color.black, 0));
+                
+                // NOTE: デフォルトの色に戻しておく
+                .OnComplete(() => SetColorWithAlpha(_defaultColor, 0));
             
             return sequence;
         }

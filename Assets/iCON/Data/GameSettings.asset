@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _graphicsQuality: 1
   _masterVolume: 0.805
-  _bgmVolume: 1
-  _seVolume: 1
-  _ambientVolume: 1
+  _bgmVolume: 0.887
+  _seVolume: 0.643
+  _ambientVolume: 0.653
   _voiceVolume: 1
   _textLanguage: 0
   _voiceLanguage: 0
