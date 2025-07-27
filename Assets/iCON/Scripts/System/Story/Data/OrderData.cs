@@ -53,8 +53,11 @@ namespace iCON.System
 
         /// <summary>表示名を取得（オーバーライドがあればそれを、なければマスターから表示名を取得）</summary>
         public string DisplayName => !string.IsNullOrEmpty(OverrideDisplayName) ? OverrideDisplayName : StoryCharacterMaster.GetCharacter(SpeakerId).DisplayName;
-
+        
         /// <summary>表情差分のパス</summary>
         public string FacialExpressionPath => StoryCharacterMaster.GetExpressionPath(SpeakerId, FacialExpressionType);
+
+        /// <summary>キャラクターデータ</summary>
+        public CharacterData CharacterData => StoryCharacterMaster.GetCharacter(SpeakerId);
     }
 }
