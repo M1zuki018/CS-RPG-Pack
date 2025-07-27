@@ -16,6 +16,6 @@ MonoBehaviour:
     SceneName: Maki
     SpreadsheetName: TestStory
     HeaderRange: TestStory!A2:O2
-    Range: TestStory!A220:O348
+    Range: TestStory!A220:O352
   _characterScale: 1.2
   _characterPositionOffset: {x: 180, y: 60, z: 0}
