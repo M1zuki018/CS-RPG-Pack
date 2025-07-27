@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CryStar.Attribute;
 using Cysharp.Threading.Tasks;
 using iCON.Enums;
 using iCON.UI;

@@ -1,4 +1,5 @@
 using System.Linq;
+using CryStar.Attribute;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
