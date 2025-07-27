@@ -77,10 +77,17 @@ namespace iCON.System
             {
                 choiceOrderHandler.SetChoiceAction(_jampAction);
             }
+            
             // EndHandlerに終了アクションを設定
             if (_handlers.TryGetValue(OrderType.End, out var endHandler) && endHandler is EndOrderHandler endOrderHandler)
             {
                 endOrderHandler.SetEndAction(_endAction);
+            }
+
+            // エフェクト処理のファクトリーのSetup
+            if (_handlers.TryGetValue(OrderType.Effect, out var effectHandler) && effectHandler is EffectOrderHandler effectOrderHandler)
+            {
+                effectOrderHandler.SetupPerformerCache(_view);
             }
         }
 
