@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CryStar.Enums;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 

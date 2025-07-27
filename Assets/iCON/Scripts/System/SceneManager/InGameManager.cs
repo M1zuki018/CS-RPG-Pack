@@ -1,5 +1,6 @@
 using System.Linq;
 using CryStar.Attribute;
+using CryStar.Enums;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 

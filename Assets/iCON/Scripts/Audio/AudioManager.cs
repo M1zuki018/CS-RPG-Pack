@@ -107,18 +107,18 @@ namespace iCON.System
             DontDestroyOnLoad(gameObject);
 
             // BGM用のオブジェクト生成
-            _bgmSource = CreateAudioSource(Enums.AudioType.BGM, "BGM_Primary");
-            _bgmSourceSecondary = CreateAudioSource(Enums.AudioType.BGM, "BGM_Secondary");
+            _bgmSource = CreateAudioSource(CryStar.Enums.AudioType.BGM, "BGM_Primary");
+            _bgmSourceSecondary = CreateAudioSource(CryStar.Enums.AudioType.BGM, "BGM_Secondary");
             
             // 環境音用のオブジェクト生成
-            _ambienceSource = CreateAudioSource(Enums.AudioType.Ambience, "Ambience_Primary");
-            _ambienceSourceSecondary = CreateAudioSource(Enums.AudioType.Ambience, "Ambience_Secondary");
+            _ambienceSource = CreateAudioSource(CryStar.Enums.AudioType.Ambience, "Ambience_Primary");
+            _ambienceSourceSecondary = CreateAudioSource(CryStar.Enums.AudioType.Ambience, "Ambience_Secondary");
             
             // SE用のオブジェクトプール初期化
-            _seSourcePool = CreateAudioSourcePool(Enums.AudioType.SE, 3, 100);
+            _seSourcePool = CreateAudioSourcePool(CryStar.Enums.AudioType.SE, 3, 100);
             
             // Voice用のオブジェクトプール初期化
-            _voiceSourcePool = CreateAudioSourcePool(Enums.AudioType.Voice, 3, 20);
+            _voiceSourcePool = CreateAudioSourcePool(CryStar.Enums.AudioType.Voice, 3, 20);
 
             // 初期状態はボリューム0に設定
             _bgmSource.volume = 0f;
@@ -346,7 +346,7 @@ namespace iCON.System
         /// <summary>
         /// AudioSourceのオブジェクトプールを作成
         /// </summary>
-        private IObjectPool<AudioSource> CreateAudioSourcePool(iCON.Enums.AudioType type, int defaultCapacity, int maxSize)
+        private IObjectPool<AudioSource> CreateAudioSourcePool(CryStar.Enums.AudioType type, int defaultCapacity, int maxSize)
         {
             return new ObjectPool<AudioSource>(
                 createFunc: () => CreateAudioSource(type),
@@ -361,7 +361,7 @@ namespace iCON.System
         /// <summary>
         /// 新しくGameObjectとAudioSourceを生成する
         /// </summary>
-        private AudioSource CreateAudioSource(iCON.Enums.AudioType type, string objectName = null)
+        private AudioSource CreateAudioSource(CryStar.Enums.AudioType type, string objectName = null)
         {
             // 新規ゲームオブジェクトを生成
             GameObject obj = new GameObject(objectName ?? type.ToString());
