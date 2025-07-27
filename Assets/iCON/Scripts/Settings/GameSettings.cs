@@ -1,4 +1,5 @@
 using System;
+using CryStar.Enums;
 using UnityEngine;
 
 /// <summary>
