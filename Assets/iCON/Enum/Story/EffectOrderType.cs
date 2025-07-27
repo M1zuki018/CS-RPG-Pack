@@ -6,5 +6,7 @@ namespace iCON.Enums
     public enum EffectOrderType
     {
         Flash = 1,
+        PlayParticle = 2,
+        StopParticle = 3,
     }
 }
