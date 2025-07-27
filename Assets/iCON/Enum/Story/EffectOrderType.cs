@@ -8,5 +8,6 @@ namespace iCON.Enums
         Flash = 1,
         PlayParticle = 2,
         StopParticle = 3,
+        Dizziness = 4,
     }
 }
