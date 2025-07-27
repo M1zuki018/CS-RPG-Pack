@@ -1,16 +1,19 @@
 using UnityEngine;
 using System;
 
-/// <summary>
-/// インスペクターにボタンを表示しメソッドを実行できるようにする属性
-/// </summary>
-[AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
-public class MethodButtonInspectorAttribute : PropertyAttribute
+namespace CryStar.Attribute
 {
-    public string Label { get; }
-
-    public MethodButtonInspectorAttribute(string label = null)
+    /// <summary>
+    /// インスペクターにボタンを表示しメソッドを実行できるようにする属性
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+    public class MethodButtonInspectorAttribute : PropertyAttribute
     {
-        Label = label;
+        public string Label { get; }
+
+        public MethodButtonInspectorAttribute(string label = null)
+        {
+            Label = label;
+        }
     }
 }
