@@ -1,25 +1,28 @@
 using System;
 using UnityEngine;
 
-/// <summary>
-/// ScriptableObjectをInspector上で展開して編集できるようにする属性
-/// </summary>
-[AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
-public class ExpandableSOAttribute : PropertyAttribute
+namespace CryStar.Attribute
 {
     /// <summary>
-    /// 展開表示するかどうかの初期状態
+    /// ScriptableObjectをInspector上で展開して編集できるようにする属性
     /// </summary>
-    public bool DefaultExpanded { get; }
-
-    /// <summary>
-    /// 背景スタイルを使用するかどうか
-    /// </summary>
-    public bool UseBackground { get; }
-
-    public ExpandableSOAttribute(bool defaultExpanded = true, bool useBackground = true)
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+    public class ExpandableSOAttribute : PropertyAttribute
     {
-        DefaultExpanded = defaultExpanded;
-        UseBackground = useBackground;
+        /// <summary>
+        /// 展開表示するかどうかの初期状態
+        /// </summary>
+        public bool DefaultExpanded { get; }
+
+        /// <summary>
+        /// 背景スタイルを使用するかどうか
+        /// </summary>
+        public bool UseBackground { get; }
+
+        public ExpandableSOAttribute(bool defaultExpanded = true, bool useBackground = true)
+        {
+            DefaultExpanded = defaultExpanded;
+            UseBackground = useBackground;
+        }
     }
 }
