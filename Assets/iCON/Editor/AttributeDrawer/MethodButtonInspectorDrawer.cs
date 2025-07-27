@@ -1,45 +1,72 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 using System.Reflection;
+using CryStar.Attribute;
 
-/// <summary>
-/// インスペクターにボタンを表示しメソッドを実行できるようにする
-/// （ContextMenuの代わりなどに）
-/// </summary>
-[CustomEditor(typeof(MonoBehaviour), true)]
-public class MethodButtonInspectorDrawer : Editor
+namespace CryStar.Editor
 {
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector(); // デフォルトのプロパティを描画
-        DrawButtonsForMethods(); // ボタンを描画
-    }
-
     /// <summary>
-    /// メソッドを探してボタンを描画
+    /// インスペクターにボタンを表示しメソッドを実行できるようにする（ContextMenuの代わりなどに）
     /// </summary>
-    private void DrawButtonsForMethods()
+    [CustomEditor(typeof(MonoBehaviour), true)]
+    public class MethodButtonInspectorDrawer : UnityEditor.Editor
     {
-        // 現在のターゲットオブジェクトを取得
-        MonoBehaviour targetObject = (MonoBehaviour)target;
+        // NOTE: 初回のみリフレクションを行い、以降はキャッシュを使用して重い検索を避けている
+        private MethodInfo[] _cachedMethods;
+        private Type _cachedType;
         
-        // メソッドを取得
-        MethodInfo[] methods = targetObject.GetType()
-            .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-
-        // [Button] 属性が付いたメソッドを探す
-        foreach (MethodInfo method in methods)
+        public override void OnInspectorGUI()
         {
-            MethodButtonInspectorAttribute methodButtonInspectorAttribute = method.GetCustomAttribute<MethodButtonInspectorAttribute>();
-            if (methodButtonInspectorAttribute != null)
-            {
-                string buttonText = string.IsNullOrEmpty(methodButtonInspectorAttribute.Label) ? method.Name : methodButtonInspectorAttribute.Label;
+            DrawDefaultInspector(); // デフォルトのプロパティを描画
+            DrawButtonsForMethods(); // ボタンを描画
+        }
 
-                // ボタンを描画
-                if (GUILayout.Button("MethodTest: " + buttonText))
+        /// <summary>
+        /// メソッドを探してボタンを描画
+        /// </summary>
+        private void DrawButtonsForMethods()
+        {
+            // 現在のターゲットオブジェクトを取得
+            MonoBehaviour targetObject = (MonoBehaviour)target;
+
+            // 型が変わった場合のみメソッドを再取得
+            if (_cachedMethods == null || _cachedType != targetObject.GetType())
+            {
+                _cachedType = targetObject.GetType();
+                _cachedMethods = _cachedType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            }
+
+            // [MethodButtonInspector] 属性が付いたメソッドを探す
+            foreach (MethodInfo method in _cachedMethods)
+            {
+                MethodButtonInspectorAttribute methodButtonInspectorAttribute =
+                    method.GetCustomAttribute<MethodButtonInspectorAttribute>();
+                if (methodButtonInspectorAttribute != null)
                 {
-                    // メソッドを呼び出す
-                    method.Invoke(targetObject, null);
+                    string buttonText = string.IsNullOrEmpty(methodButtonInspectorAttribute.Label)
+                        ? method.Name
+                        : methodButtonInspectorAttribute.Label;
+
+                    // ボタンを描画
+                    if (GUILayout.Button(buttonText))
+                    {
+                        try
+                        {
+                            if (method.GetParameters().Length > 0)
+                            {
+                                Debug.LogWarning($"複数のパラメーターがあるメソッドは Inspector Button からは呼び出せません！ '{method.Name}'");
+                                continue;
+                            }
+                            
+                            // メソッドを呼び出す
+                            method.Invoke(targetObject, null);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogError($"Method '{method.Name}' execution failed: {e.Message}");
+                        }
+                    }
                 }
             }
         }
