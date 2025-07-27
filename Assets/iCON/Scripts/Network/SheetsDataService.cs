@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CryStar.Attribute;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Google.Apis.Auth.OAuth2;
