@@ -5752,7 +5752,28 @@ PrefabInstance:
       propertyPath: m_Name
       value: InGameCanvas
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8171321500976306889, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
+      propertyPath: _zoomScale
+      value: 1.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8171321500976306889, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
+      propertyPath: _smoothTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8171321500976306889, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
+      propertyPath: _zoomDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8171321500976306889, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
+      propertyPath: _longPressThreshold
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8171321500976306889, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
+      propertyPath: _zoomParallaxMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3872943831294226678, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -36,5 +36,10 @@ namespace iCON.Constants
         /// ダイアログのフェード秒数
         /// </summary>
         public const float DIALOG_FADE_DURATION = 0.1f;
+
+        /// <summary>
+        /// ダイアログの文字送りの速さ
+        /// </summary>
+        public const float DIALOG_TEXT_SPEED = 0.04f;
     }
 }
