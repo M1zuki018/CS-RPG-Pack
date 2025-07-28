@@ -60,7 +60,7 @@ namespace iCON.System
         /// <summary>
         /// 現在のストーリー位置
         /// </summary>
-        private StoryPosition CurrentPosition => _progressTracker.CurrentPosition;
+        private int CurrentPosition => _progressTracker.CurrentPosition;
         
         /// <summary>
         /// 現在のストーリー位置のオーダーデータ
@@ -209,7 +209,7 @@ namespace iCON.System
             if (orders.Count > 1)
             {
                 // 取得した最後のオーダーの位置まで現在の進行位置を進める
-                _progressTracker.CurrentPosition.OrderIndex += orders.Count;
+                _progressTracker.AddPosition(orders.Count);
             }
             else if (orders.Count == 1)
             {
@@ -283,8 +283,7 @@ namespace iCON.System
             var endOrderIndex = _orderProvider.GetOrderCount() - 1;
             
             // Endオーダーの1つ前に移動
-            _progressTracker.JumpToPosition(new StoryPosition(CurrentPosition.PartId, CurrentPosition.ChapterId, 
-                CurrentPosition.SceneId, endOrderIndex));
+            _progressTracker.JumpToPosition(endOrderIndex);
             
             if (_orderExecutor.IsExecuting)
             {
@@ -303,10 +302,10 @@ namespace iCON.System
         {
             // オーダーのインデックスがデフォルトであれば現在の地点を
             // その他のインデックスの場合は引数で指定されたオーダーに移動する
-            var targetOrder = orderIndex == -1 ? CurrentPosition.OrderIndex : orderIndex;
+            var targetOrder = orderIndex == -1 ? CurrentPosition : orderIndex;
 
             // 分岐先のオーダーに進捗をセットする
-            _progressTracker.JumpToPosition(CurrentPosition.PartId, CurrentPosition.ChapterId, CurrentPosition.SceneId, targetOrder);
+            _progressTracker.JumpToPosition(targetOrder);
             _view.IsStopRequested = false;
             
             // オーダーを実行
@@ -314,45 +313,9 @@ namespace iCON.System
         }
         
         /// <summary>
-        /// 次のシーンに進む
-        /// </summary>
-        public OrderData MoveToNextScene()
-        {
-            _progressTracker.MoveToNextScene();
-            return CurrentOrder;
-        }
-        
-        /// <summary>
-        /// 次のチャプターに進む
-        /// </summary>
-        public OrderData MoveToNextChapter()
-        {
-            _progressTracker.MoveToNextChapter();
-            return CurrentOrder;
-        }
-        
-        /// <summary>
-        /// 次のパートに進む
-        /// </summary>
-        public OrderData MoveToNextPart()
-        {
-            _progressTracker.MoveToNextPart();
-            return CurrentOrder;
-        }
-        
-        /// <summary>
         /// 指定位置にジャンプ
         /// </summary>
-        public OrderData JumpToPosition(int partId, int chapterId, int sceneId, int orderIndex = 0)
-        {
-            _progressTracker.JumpToPosition(partId, chapterId, sceneId, orderIndex);
-            return CurrentOrder;
-        }
-        
-        /// <summary>
-        /// 指定位置にジャンプ
-        /// </summary>
-        public OrderData JumpToPosition(StoryPosition position)
+        public OrderData JumpToPosition(int position)
         {
             _progressTracker.JumpToPosition(position);
             return CurrentOrder;

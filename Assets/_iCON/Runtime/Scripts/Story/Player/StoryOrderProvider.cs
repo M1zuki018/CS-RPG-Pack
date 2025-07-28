@@ -22,37 +22,28 @@
           }
 
           /// <summary>
-          /// 指定位置のオーダーを取得
-          /// </summary>
-          public OrderData GetOrderAt(StoryPosition position)
-          {
-              return GetOrderAt(position.OrderIndex);
-          }
-
-          /// <summary>
           /// 指定位置からAppendが出現するまでの連続オーダーを取得
           /// </summary>
-          public List<OrderData> GetContinuousOrdersFrom(StoryPosition startPosition)
+          public List<OrderData> GetContinuousOrdersFrom(int startPosition)
           {
               var orders = new List<OrderData>();
-              var currentIndex = startPosition.OrderIndex;
 
               // 最初のオーダーを追加
-              var firstOrder = GetOrderAt(currentIndex);
+              var firstOrder = GetOrderAt(startPosition);
               if (firstOrder == null) return orders;
 
               orders.Add(firstOrder);
-              currentIndex++;
+              startPosition++;
 
               // Append以外のオーダーが続く限り取得を継続
-              while (IsValidOrderIndex(currentIndex))
+              while (IsValidOrderIndex(startPosition))
               {
-                  var order = GetOrderAt(currentIndex);
+                  var order = GetOrderAt(startPosition);
                   if (order.Sequence == SequenceType.Append)
                       break;
 
                   orders.Add(order);
-                  currentIndex++;
+                  startPosition++;
               }
 
               return orders;
@@ -61,17 +52,17 @@
           /// <summary>
           /// 次のオーダーが存在するかチェック
           /// </summary>
-          public bool HasNextOrder(StoryPosition position)
+          public bool HasNextOrder(int position)
           {
-              return IsValidOrderIndex(position.OrderIndex + 1);
+              return IsValidOrderIndex(position + 1);
           }
 
           /// <summary>
           /// 次のオーダーのシーケンスタイプを確認
           /// </summary>
-          public SequenceType? PeekNextOrderSequence(StoryPosition position)
+          public SequenceType? PeekNextOrderSequence(int position)
           {
-              var nextOrder = GetOrderAt(position.OrderIndex + 1);
+              var nextOrder = GetOrderAt(position + 1);
               return nextOrder?.Sequence;
           }
 
@@ -86,7 +77,7 @@
           /// <summary>
           /// 指定インデックスのオーダーを取得
           /// </summary>
-          private OrderData GetOrderAt(int orderIndex)
+          public OrderData GetOrderAt(int orderIndex)
           {
               if (!IsValidOrderIndex(orderIndex))
                   return null;
