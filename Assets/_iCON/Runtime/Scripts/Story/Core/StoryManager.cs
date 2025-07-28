@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using iCON.System;
 using UnityEngine;
@@ -22,9 +23,9 @@ namespace CryStar.Story.Core
         private StoryDataLoader _dataLoader = new StoryDataLoader();
         
         /// <summary>
-        /// 読み込んだシーンデータのキャッシュ
+        /// 読み込んだオーダーデータのキャッシュ
         /// </summary>
-        private SceneData _sceneData;
+        private List<OrderData> _orders;
 
         // TODO: 仮おき
         private const string SPREAD_SHEET_NAME = "TestStory";
@@ -36,18 +37,18 @@ namespace CryStar.Story.Core
         /// </summary>
         public async UniTask LoadSceneDataAsync(string spreadsheetName, string range)
         {
-            _sceneData = await _dataLoader.LoadSceneDataAsync(spreadsheetName, range);
+            _orders = await _dataLoader.LoadSceneDataAsync(spreadsheetName, range);
         }
 
         public async UniTask PlayStory(SceneDataSO sceneDataSo, Action endAction)
         {
-            if (_sceneData == null)
+            if (_orders == null)
             {
                 await InitializeAsync(SPREAD_SHEET_NAME, HEADER_RANGE);
                 await LoadSceneDataAsync(SPREAD_SHEET_NAME, RANGE);
             }
             
-            _player.Play(_sceneData);
+            _player.Play(_orders);
             await _player.PlayStory(sceneDataSo, endAction);
         }
         

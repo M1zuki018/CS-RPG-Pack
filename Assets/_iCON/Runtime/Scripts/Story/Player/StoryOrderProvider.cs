@@ -11,14 +11,14 @@
       /// </summary>
       public class StoryOrderProvider
       {
-          private SceneData _currentSceneData;
+          private List<OrderData> _orders;
 
           /// <summary>
           /// 再生を行うシーンデータのキャッシュのセットアップ
           /// </summary>
-          public void Setup(SceneData sceneData)
+          public void Setup(List<OrderData> orders)
           {
-              _currentSceneData = sceneData;
+              _orders = orders;
           }
 
           /// <summary>
@@ -80,7 +80,7 @@
           /// </summary>
           public int GetOrderCount()
           {
-              return _currentSceneData?.Orders?.Count ?? 0;
+              return _orders?.Count ?? 0;
           }
 
           /// <summary>
@@ -91,7 +91,7 @@
               if (!IsValidOrderIndex(orderIndex))
                   return null;
 
-              return _currentSceneData.Orders[orderIndex];
+              return _orders[orderIndex];
           }
           
           /// <summary>
@@ -99,9 +99,9 @@
           /// </summary>
           private bool IsValidOrderIndex(int orderIndex)
           {
-              return _currentSceneData?.Orders != null &&
+              return _orders != null &&
                      orderIndex >= 0 &&
-                     orderIndex < _currentSceneData.Orders.Count;
+                     orderIndex < _orders.Count;
           }
       }
   }

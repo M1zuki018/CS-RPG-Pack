@@ -128,9 +128,9 @@ namespace iCON.System
         /// <summary>
         /// ストーリー再生開始
         /// </summary>
-        public void Play(SceneData sceneData)
+        public void Play(List<OrderData> orders)
         {
-            _orderProvider.Setup(sceneData);
+            _orderProvider.Setup(orders);
         }
 
         /// <summary>

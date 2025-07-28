@@ -39,7 +39,7 @@ namespace CryStar.Story.Core
         /// <summary>
         /// 指定範囲のデータを読み込んでSceneDataを作成する
         /// </summary>
-        public async UniTask<SceneData> LoadSceneDataAsync(string spreadsheetName, string dataRange)
+        public async UniTask<List<OrderData>> LoadSceneDataAsync(string spreadsheetName, string dataRange)
         {
             if (!_isInitialized)
             {
@@ -55,7 +55,7 @@ namespace CryStar.Story.Core
         /// <summary>
         /// スプレッドシートから読み込み
         /// </summary>
-        private SceneData LoadFromSpreadsheetData(IList<IList<object>> spreadsheetData)
+        private List<OrderData> LoadFromSpreadsheetData(IList<IList<object>> spreadsheetData)
         {
             var orderDataList = new List<OrderData>();
             
@@ -69,9 +69,7 @@ namespace CryStar.Story.Core
                 }
             }
             
-            SceneData sceneData = new SceneData(orderDataList[0].ChapterId, orderDataList[0].SceneId, orderDataList);
-            
-            return sceneData;
+            return orderDataList;
         }
 
         /// <summary>
