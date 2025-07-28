@@ -1246,6 +1246,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4a28801ca6ca347be77e2dd12e1b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5484602867204383049 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2486412284398853022, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
+  m_PrefabInstance: {fileID: 5484602867204383047}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72592efcd0016a946a934c77b4265f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6123547724769672601
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1356,6 +1367,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8349254557646403581, guid: d0e33c4e8257247499aadfe2f0b00205, type: 3}
+      propertyPath: _storyPlayer
+      value: 
+      objectReference: {fileID: 5484602867204383048}
+    - target: {fileID: 8349254557646403581, guid: d0e33c4e8257247499aadfe2f0b00205, type: 3}
       propertyPath: _storyManager
       value: 
       objectReference: {fileID: 5484602867204383048}
@@ -1363,6 +1378,10 @@ PrefabInstance:
       propertyPath: _playStoryName
       value: Kotoha
       objectReference: {fileID: 0}
+    - target: {fileID: 8349254557646403581, guid: d0e33c4e8257247499aadfe2f0b00205, type: 3}
+      propertyPath: _canvasController
+      value: 
+      objectReference: {fileID: 5484602867204383049}
     - target: {fileID: 8349254557646403581, guid: d0e33c4e8257247499aadfe2f0b00205, type: 3}
       propertyPath: _storyLine.Array.size
       value: 2
