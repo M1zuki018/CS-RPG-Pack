@@ -10,7 +10,7 @@
       /// </summary>
       public class StoryOrderProvider
       {
-          private readonly StoryMasterGetter _storyDataLoader = new();
+          private readonly StoryDataLoader _storyDataLoader = new();
           private SceneData _currentSceneData;
 
           /// <summary>
