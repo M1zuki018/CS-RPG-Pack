@@ -1,11 +1,11 @@
 {
   "dependencies": {
-    "com.crystar-package": {
-      "version": "https://github.com/M1zuki018/CryStar-Package.git",
+    "com.crystar.custom-attributes": {
+      "version": "https://github.com/M1zuki018/crystar-custom-attributes.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "dedd08fa6b8e1cb49c7774f81d982760c5615d59"
+      "hash": "bda89cadd14403830939782ccde22c1f70941ce8"
     },
     "com.cysharp.unitask": {
       "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.3.3",
