@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using CryStar.Story.Constants;
 using Cysharp.Threading.Tasks;
-using iCON.Constants;
-using iCON.Enums;
 using iCON.UI;
 using iCON.Utility;
 using UnityEngine;
