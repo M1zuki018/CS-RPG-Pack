@@ -19,10 +19,7 @@ namespace iCON.UI
         
         public void Setup()
         {
-            foreach (var button in _buttons)
-            {
-                button.Setup();
-            }
+            
         }
     }
 }

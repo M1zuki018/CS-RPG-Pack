@@ -129,7 +129,7 @@ public class StorySceneMasterGeneratorWindow : BaseMasterGeneratorWindow
         sb.AppendLine("    /// <summary>");
         sb.AppendLine("    /// IDからストーリーシーンデータを取得");
         sb.AppendLine("    /// </summary>");
-        sb.AppendLine("    public static StorySceneData GetScene(int id)");
+        sb.AppendLine("    public static StorySceneData GetSceneById(int id)");
         sb.AppendLine("    {");
         sb.AppendLine("        return _sceneData.GetValueOrDefault(id, null);");
         sb.AppendLine("    }");
@@ -147,7 +147,7 @@ public class StorySceneMasterGeneratorWindow : BaseMasterGeneratorWindow
         sb.AppendLine("    /// <summary>");
         sb.AppendLine("    /// チャプターIDとシーンIDからストーリーシーンデータを取得");
         sb.AppendLine("    /// </summary>");
-        sb.AppendLine("    public static StorySceneData GetScene(int chapterId, int sceneId)");
+        sb.AppendLine("    public static StorySceneData GetSceneById(int chapterId, int sceneId)");
         sb.AppendLine("    {");
         sb.AppendLine("        return _sceneData.Values.FirstOrDefault(scene => ");
         sb.AppendLine("            scene.ChapterId == chapterId && scene.SceneId == sceneId);");
@@ -209,7 +209,7 @@ public class StorySceneMasterGeneratorWindow : BaseMasterGeneratorWindow
         sb.AppendLine("    /// </summary>");
         sb.AppendLine("    public static bool CanExecuteScene(int sceneId, HashSet<int> completedStories)");
         sb.AppendLine("    {");
-        sb.AppendLine("        var scene = GetScene(sceneId);");
+        sb.AppendLine("        var scene = GetSceneById(sceneId);");
         sb.AppendLine("        if (scene == null) return false;");
         sb.AppendLine();
         sb.AppendLine("        // 前提ストーリーが指定されていない場合は実行可能");

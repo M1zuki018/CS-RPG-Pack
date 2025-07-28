@@ -212,6 +212,11 @@ MonoBehaviour:
   AmplitudeGain: 1
   FrequencyGain: 1
   m_NoiseOffsets: {x: 533.3998, y: 872.6549, z: -26.468384}
+--- !u!1 &171153468 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4072666668505126507, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
+  m_PrefabInstance: {fileID: 5484602867204383047}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &206427335 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4801339468575427108, guid: d0e33c4e8257247499aadfe2f0b00205, type: 3}
@@ -1233,14 +1238,17 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7272337868594403988, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1970736676}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4072666668505126507, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5484602867204383052}
   m_SourcePrefab: {fileID: 100100000, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
 --- !u!114 &5484602867204383048 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3072978804911749628, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
   m_PrefabInstance: {fileID: 5484602867204383047}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 171153468}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad4a28801ca6ca347be77e2dd12e1b27, type: 3}
@@ -1257,6 +1265,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72592efcd0016a946a934c77b4265f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5484602867204383052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171153468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb09bede9f0b98948abab075b9ca24a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 5484602867204383048}
 --- !u!1001 &6123547724769672601
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1373,7 +1394,7 @@ PrefabInstance:
     - target: {fileID: 8349254557646403581, guid: d0e33c4e8257247499aadfe2f0b00205, type: 3}
       propertyPath: _storyManager
       value: 
-      objectReference: {fileID: 5484602867204383048}
+      objectReference: {fileID: 5484602867204383052}
     - target: {fileID: 8349254557646403581, guid: d0e33c4e8257247499aadfe2f0b00205, type: 3}
       propertyPath: _playStoryName
       value: Kotoha

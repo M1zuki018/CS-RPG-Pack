@@ -41,10 +41,10 @@ namespace iCON.System
             }
         }
         
-        public void PlayStory(SceneDataSO sceneDataSo)
+        public void PlayStory(int storyId)
         {
             _storyManager.gameObject.SetActive(true);
-            _storyManager.PlayStory(sceneDataSo,
+            _storyManager.PlayStory(storyId,
                 () =>
                 {
                     _storyManager.gameObject.SetActive(false);

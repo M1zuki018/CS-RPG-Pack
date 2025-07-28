@@ -11,8 +11,8 @@ public class PackSample_StoryPlayButton : ViewBase
     [Header("表示の設定")]
     [SerializeField, Comment("ボタンに表示するテキスト")] private string _displayText;
     
-    [Header("再生するストーリーの設定")]
-    [SerializeField, ExpandableSO] private SceneDataSO _storyData;
+    [Header("再生するストーリーのID")]
+    [SerializeField] private int _storyId;
     
     private Button _button;
     private Text _childText;
@@ -35,14 +35,9 @@ public class PackSample_StoryPlayButton : ViewBase
     {
         _button.onClick.SafeRemoveAllListeners();
     }
-
-    public void Setup()
-    {
-        _button.enabled = _storyData.IsPremiseAllStoryClear();
-    }
     
     private void Play()
     {
-        ServiceLocator.GetLocal<InGameManager>().PlayStory(_storyData);
+        ServiceLocator.GetLocal<InGameManager>().PlayStory(_storyId);
     }
 }

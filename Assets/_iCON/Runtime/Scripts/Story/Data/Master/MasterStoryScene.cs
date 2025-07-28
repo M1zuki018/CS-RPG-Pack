@@ -62,7 +62,7 @@ public static class MasterStoryScene
     /// <summary>
     /// IDからストーリーシーンデータを取得
     /// </summary>
-    public static StorySceneData GetScene(int id)
+    public static StorySceneData GetSceneById(int id)
     {
         return _sceneData.GetValueOrDefault(id, null);
     }
@@ -132,7 +132,7 @@ public static class MasterStoryScene
     /// </summary>
     public static bool CanExecuteScene(int sceneId, HashSet<int> completedStories)
     {
-        var scene = GetScene(sceneId);
+        var scene = GetSceneById(sceneId);
         if (scene == null) return false;
 
         // 前提ストーリーが指定されていない場合は実行可能
