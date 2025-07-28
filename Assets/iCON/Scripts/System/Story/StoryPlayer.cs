@@ -13,7 +13,7 @@ namespace iCON.System
     /// <summary>
     /// ストーリー全体の進行を管理するマネージャー
     /// </summary>
-    public class StoryManager : ViewBase
+    public class StoryPlayer : ViewBase
     {
         /// <summary>
         /// View
