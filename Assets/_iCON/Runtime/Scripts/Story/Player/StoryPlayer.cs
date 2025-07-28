@@ -126,6 +126,14 @@ namespace iCON.System
         }
 
         /// <summary>
+        /// ストーリー再生開始
+        /// </summary>
+        public void Play(SceneData sceneData)
+        {
+            _orderProvider.Setup(sceneData);
+        }
+
+        /// <summary>
         /// ストーリー再生を開始する
         /// </summary>
         public async UniTask PlayStory(SceneDataSO executeDataSO, Action endAction)
@@ -141,13 +149,6 @@ namespace iCON.System
             
             // キャラクター立ち絵のSetup
             _view.SetupCharacter(executeDataSO.CharacterScale, executeDataSO.CharacterPositionOffset);
-
-            var storyLine = executeDataSO.StoryLine;
-            
-            // ヘッダーデータを読み込む
-            await _orderProvider.InitializeAsync(storyLine.SpreadsheetName, storyLine.HeaderRange);
-            // ストーリーデータを読み込む
-            await _orderProvider.LoadSceneDataAsync(storyLine.SpreadsheetName, storyLine.Range);
             
             // ストーリー読了フラグをfalseにして、再生できるようにする
             _isStoryComplete = false;
