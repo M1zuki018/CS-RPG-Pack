@@ -33,6 +33,9 @@ namespace iCON.System
             // ログを流す
             LogUtility.Verbose("Story ended", LogCategory.System);
 
+            // ストーリー読了を記録
+            StoryUserData.AddStoryClearData(new StorySaveData(data.PartId, data.ChapterId, data.SceneId));
+            
             // フェードアウト実行後、ストーリー終了処理を実行する
             
             // BGMのフェードアウト
