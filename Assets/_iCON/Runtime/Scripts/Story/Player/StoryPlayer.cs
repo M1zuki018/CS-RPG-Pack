@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using CryStar.Story.Constants;
 using Cysharp.Threading.Tasks;
 using iCON.System;
 using iCON.UI;
@@ -28,11 +26,6 @@ namespace CryStar.Story.Player
         private StoryOverlayController _overlayController;
         
         /// <summary>
-        /// ストーリーの現在位置の保持と移動を行う
-        /// </summary>
-        private StoryProgressTracker _progressTracker;
-        
-        /// <summary>
         /// データの読み込みとオーダー取得を行う
         /// </summary>
         private StoryOrderProvider _orderProvider;
@@ -56,12 +49,12 @@ namespace CryStar.Story.Player
         /// <summary>
         /// 現在のストーリー位置
         /// </summary>
-        private int CurrentPosition => _progressTracker.CurrentPosition;
+        private int _currentOrder = 0;
         
         /// <summary>
         /// 現在のストーリー位置のオーダーデータ
         /// </summary>
-        private OrderData CurrentOrder => _orderProvider.GetOrderAt(CurrentPosition);
+        private OrderData CurrentOrder => _orderProvider.GetOrderAt(_currentOrder);
 
         #region Lifecycle
         
@@ -117,7 +110,7 @@ namespace CryStar.Story.Player
             _orderProvider.Setup(orders);
             
             // ストーリーの進行位置をリセット
-            _progressTracker.Reset();
+            _currentOrder = 0;
             
             _orderExecutor.Setup(() =>
             {
@@ -189,18 +182,10 @@ namespace CryStar.Story.Player
         private List<OrderData> GetContinuousOrdersAndAdvance()
         {
             // 指定位置からAppendが出現するまでの連続オーダーを取得
-            var orders = _orderProvider.GetContinuousOrdersFrom(CurrentPosition);
+            var orders = _orderProvider.GetContinuousOrdersFrom(_currentOrder);
             
-            if (orders.Count > 1)
-            {
-                // 取得した最後のオーダーの位置まで現在の進行位置を進める
-                _progressTracker.AddPosition(orders.Count);
-            }
-            else if (orders.Count == 1)
-            {
-                // 単一オーダーの場合は次に進める
-                _progressTracker.MoveToNextOrder();
-            }
+            // オーダーの位置を変更
+            _currentOrder += orders.Count;
             
             return orders;
         }
@@ -220,7 +205,6 @@ namespace CryStar.Story.Player
         /// </summary>
         private void InitializeComponents()
         {
-            _progressTracker = new StoryProgressTracker();
             _orderProvider = new StoryOrderProvider();
             _orderExecutor = new OrderExecutor(_view, ExecuteChoiceBranch);
             _autoPlayController = new StoryAutoPlayController(ProcessNextOrder);
@@ -231,11 +215,8 @@ namespace CryStar.Story.Player
         /// </summary>
         private void MoveToEndOrder()
         {
-            // Endオーダーの1つ前のオーダーIDを獲得
-            var endOrderIndex = _orderProvider.GetOrderCount() - 1;
-            
-            // Endオーダーの1つ前に移動
-            _progressTracker.JumpToPosition(endOrderIndex);
+            // Endオーダーの1つ前のオーダーに移動
+            _currentOrder = _orderProvider.GetOrderCount() - 1;
             
             if (_orderExecutor.IsExecuting)
             {
@@ -254,10 +235,9 @@ namespace CryStar.Story.Player
         {
             // オーダーのインデックスがデフォルトであれば現在の地点を
             // その他のインデックスの場合は引数で指定されたオーダーに移動する
-            var targetOrder = orderIndex == -1 ? CurrentPosition : orderIndex;
+            _currentOrder = orderIndex == -1 ? _currentOrder : orderIndex;
 
-            // 分岐先のオーダーに進捗をセットする
-            _progressTracker.JumpToPosition(targetOrder);
+            // 一時停止解除
             _view.IsStopRequested = false;
             
             // オーダーを実行
