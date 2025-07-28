@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Enums;
+using iCON.System;
 using UnityEngine;
 
-namespace iCON.System
+namespace CryStar.Story.Core
 {
     /// <summary>
     /// ストーリーのマスタデータを参照してゲーム内で利用できるように整形する
@@ -48,6 +49,8 @@ namespace iCON.System
             var data = await SheetsDataService.Instance.ReadFromSpreadsheetAsync(spreadsheetName, dataRange);
             return LoadFromSpreadsheetData(data);
         }
+
+        #region Private Methods
         
         /// <summary>
         /// スプレッドシートから読み込み
@@ -207,5 +210,7 @@ namespace iCON.System
             
             return 0f;
         }
+        
+        #endregion
     }
 }
