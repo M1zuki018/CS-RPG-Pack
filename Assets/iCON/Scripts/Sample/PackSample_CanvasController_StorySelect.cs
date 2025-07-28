@@ -1,4 +1,3 @@
-using System;
 using CryStar.Attribute;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -10,24 +9,20 @@ namespace iCON.UI
     /// </summary>
     public partial class PackSample_CanvasController_StorySelect : WindowBase
     {
-        [SerializeField, HighlightIfNull] private CustomButton _button;
-                
-        public event Action OnButtonClicked;
-                
-        public override UniTask OnAwake()
+        [SerializeField, HighlightIfNull] private PackSample_StoryPlayButton[] _buttons;
+
+        public override UniTask OnStart()
         {
-            // イベント登録
-            if(_button != null) _button.onClick.AddListener(Temporary);
-            return base.OnAwake();
+            Setup();
+            return base.OnStart();
         }
         
-        private void Temporary()
+        public void Setup()
         {
-        }
-        
-        private void OnDestroy()
-        {
-            if(_button != null) _button.onClick?.RemoveAllListeners();
+            foreach (var button in _buttons)
+            {
+                button.Setup();
+            }
         }
     }
 }

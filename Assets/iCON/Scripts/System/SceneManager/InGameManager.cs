@@ -2,6 +2,7 @@ using System.Linq;
 using CryStar.Attribute;
 using CryStar.Enums;
 using Cysharp.Threading.Tasks;
+using iCON.UI;
 using UnityEngine;
 
 namespace iCON.System
@@ -17,17 +18,8 @@ namespace iCON.System
         [SerializeField, HighlightIfNull]
         private StoryManager _storyManager;
 
-        /// <summary>
-        /// 再生したいストーリーの名前
-        /// </summary>
         [SerializeField]
-        private string _playStoryName;
-        
-        /// <summary>
-        /// データを読み込む際に必要なデータ
-        /// </summary>
-        [SerializeField]
-        private StoryLine[] _storyLine;
+        private PackSample_CanvasController_StorySelect _canvasController;
 
         public override async UniTask OnStart()
         {
@@ -47,11 +39,15 @@ namespace iCON.System
             }
         }
         
-        public void PlayStory(StoryExecuteDataSO storyExecuteDataSO)
+        public void PlayStory(SceneDataSO sceneDataSo)
         {
             _storyManager.gameObject.SetActive(true);
-            _storyManager.PlayStory(storyExecuteDataSO,
-                () => _storyManager.gameObject.SetActive(false)).Forget();
+            _storyManager.PlayStory(sceneDataSo,
+                () =>
+                {
+                    _storyManager.gameObject.SetActive(false);
+                    _canvasController.Setup();
+                }).Forget();
         }
     }
 }
