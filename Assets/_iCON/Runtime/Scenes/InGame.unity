@@ -786,6 +786,10 @@ PrefabInstance:
       value: '[Sample]StoryPlayButton (2)'
       objectReference: {fileID: 0}
     - target: {fileID: 3162840113429732407, guid: c0191ec353d03b84c893d1151fe8befa, type: 3}
+      propertyPath: _storyId
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3162840113429732407, guid: c0191ec353d03b84c893d1151fe8befa, type: 3}
       propertyPath: _storyData
       value: 
       objectReference: {fileID: 11400000, guid: 681c5f87bf3d7494e84fc5efc0b8e60c, type: 2}
@@ -1187,6 +1191,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: e94e998bc7082dc458a132db8d69bafd, type: 3}
+    - target: {fileID: 3634427215924620811, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
+      propertyPath: _storyId
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4943837291101685377, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1210,6 +1218,10 @@ PrefabInstance:
     - target: {fileID: 7241587270615209574, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
       propertyPath: m_Name
       value: InGameCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7432830734603134870, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
+      propertyPath: _storyId
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8171321500976306889, guid: 9e6194a68ba0e2d4c971a68c9c3414f9, type: 3}
       propertyPath: _zoomScale
