@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using CryStar.Story.Constants;
 using Cysharp.Threading.Tasks;
 using iCON.System;
@@ -22,18 +21,8 @@ namespace CryStar.Story.Core
         /// <summary>
         /// マスタデータを読み取りストーリー再生可能なデータに整えるためのクラス
         /// </summary>
-        private StoryDataLoader _dataLoader = new StoryDataLoader();
+        private StorySceneDataService _sceneDataService = new StorySceneDataService();
         
-        /// <summary>
-        /// ストーリーIDと読み込んだオーダーデータのキャッシュのkvp
-        /// </summary>
-        private Dictionary<int, List<OrderData>> _ordersCache = new Dictionary<int, List<OrderData>>();
-        
-        /// <summary>
-        /// 初期化済みか
-        /// </summary>
-        private bool _isInitialized = false;
-
         #region Life cycle
 
         private void OnDestroy()
@@ -56,9 +45,14 @@ namespace CryStar.Story.Core
             
             // 指定されたオーダーを取得
             await LoadSceneDataAsync(sceneId);
+            var orders = await _sceneDataService.GetSceneDataAsync(
+                sceneId, 
+                KStoryPresentation.SPREAD_SHEET_NAME, 
+                BuildSheetRange(storySceneData.Range)
+            );
             
             // ストーリー再生
-            _player.PlayStory(storySceneData, _ordersCache[sceneId], endAction);
+            _player.PlayStory(storySceneData, orders, endAction);
         }
         
         /// <summary>
@@ -67,23 +61,23 @@ namespace CryStar.Story.Core
         /// </summary>
         public async UniTask LoadSceneDataAsync(int sceneId)
         {
-            if (_ordersCache.ContainsKey(sceneId))
+            if (!_sceneDataService.IsInitialized)
             {
-                // 既にキャッシュが生成されていればスキップ
-                return;
+                // 初期化されていなかったらヘッダーの初期化を先に行う
+                await _sceneDataService.InitializeAsync(
+                    KStoryPresentation.SPREAD_SHEET_NAME, 
+                    BuildSheetRange(KStoryPresentation.HEADER_RANGE)
+                );
             }
-            
-            if (!_isInitialized)
-            {
-                // ヘッダーの初期化を行っていない場合は先にヘッダーの初期化を行う
-                await InitializeAsync();
-            }
-            
+        
             if (TryGetMasterData(sceneId, out var sceneData))
-            { 
-                // オーダーリストを取得した後、辞書に登録
-                var orders = await _dataLoader.LoadSceneDataAsync(KStoryPresentation.SPREAD_SHEET_NAME, BuildSheetRange(sceneData.Range));
-                _ordersCache[sceneId] = orders;
+            {
+                // シーンデータを取得する
+                await _sceneDataService.GetSceneDataAsync(
+                    sceneId,
+                    KStoryPresentation.SPREAD_SHEET_NAME,
+                    BuildSheetRange(sceneData.Range)
+                );
             }
         }
 
@@ -92,7 +86,7 @@ namespace CryStar.Story.Core
         /// </summary>
         public void ClearCache(int sceneId)
         {
-            _ordersCache[sceneId] = null;
+            _sceneDataService.ClearCache(sceneId);
         }
         
         /// <summary>
@@ -100,21 +94,10 @@ namespace CryStar.Story.Core
         /// </summary>
         public void ClearAllCache()
         {
-            _ordersCache.Clear();
+            _sceneDataService.ClearAllCache();
         }
         
         #region Private methods
-        
-        /// <summary>
-        /// 初期化処理
-        /// </summary>
-        private async UniTask InitializeAsync()
-        {
-            // ヘッダー行を読み込んでインデックスマップを作成
-            // ヘッダー行が全て共通している場合は呼びなおしは不要
-            await _dataLoader.InitializeAsync(KStoryPresentation.SPREAD_SHEET_NAME, BuildSheetRange(KStoryPresentation.HEADER_RANGE));
-            _isInitialized = true;
-        }
         
         /// <summary>
         /// マスタからStorySceneDataを取得してnullチェックを行う
