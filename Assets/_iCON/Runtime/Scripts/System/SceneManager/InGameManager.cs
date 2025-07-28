@@ -44,7 +44,7 @@ namespace iCON.System
         public void PlayStory(int storyId)
         {
             _storyManager.gameObject.SetActive(true);
-            _storyManager.PlayStory(storyId,
+            _storyManager.PlayStoryAsync(storyId,
                 () =>
                 {
                     _storyManager.gameObject.SetActive(false);
