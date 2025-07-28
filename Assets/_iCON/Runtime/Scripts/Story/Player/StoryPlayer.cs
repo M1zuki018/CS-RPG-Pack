@@ -41,22 +41,17 @@ namespace CryStar.Story.Player
         /// オーダーを実行する
         /// </summary>
         private OrderExecutor _orderExecutor;
+        
+        /// <summary>
+        /// オート再生を担当
+        /// </summary>
+        private StoryAutoPlayController _autoPlayController;
 
         /// <summary>
         /// ストーリー終了時のアクション
         /// NOTE: 初期化後すぐにストーリーが進まないようにDefaultはtrueにしておく
         /// </summary>
         private bool _isStoryComplete = true;
-        
-        /// <summary>
-        /// オート再生開始予約済み
-        /// </summary>
-        private bool _isAutoPlayReserved = false;
-        
-        /// <summary>
-        /// CancellationTokenSource
-        /// </summary>
-        private CancellationTokenSource _cts = new CancellationTokenSource();
 
         /// <summary>
         /// 現在のストーリー位置
@@ -77,7 +72,7 @@ namespace CryStar.Story.Player
         {
             await base.OnAwake();
             InitializeComponents();
-            _overlayController.Setup(_view, CancelAutoPlay, MoveToEndOrder); // TODO: 第三引数のスキップボタンのMethodについては仮
+            _overlayController.Setup(_view, _autoPlayController.CancelAutoPlay, MoveToEndOrder);
         }
         
         /// <summary>
@@ -91,14 +86,13 @@ namespace CryStar.Story.Player
                 return;
             }
             
-            if (_overlayController.AutoPlayMode && !_orderExecutor.IsExecuting && !_isAutoPlayReserved)
+            if (_overlayController.AutoPlayMode && !_orderExecutor.IsExecuting && !_autoPlayController.IsAutoPlayReserved)
             {
                 // フラグを予約済みに切り替える
-                _isAutoPlayReserved = true;
-                AutoPlay().Forget();
+                _autoPlayController.AutoPlay().Forget();
             }
             
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 ProcessNextOrder();
             }
@@ -110,20 +104,10 @@ namespace CryStar.Story.Player
         private void OnDestroy()
         {
             _orderExecutor.Dispose();
-            CancelAutoPlay();
+            _autoPlayController.Dispose();
         }
         
         #endregion
-        
-        /// <summary>
-        /// 各コンポーネントの初期化
-        /// </summary>
-        private void InitializeComponents()
-        {
-            _progressTracker = new StoryProgressTracker();
-            _orderProvider = new StoryOrderProvider();
-            _orderExecutor = new OrderExecutor(_view, ExecuteChoiceBranch);
-        }
 
         /// <summary>
         /// ストーリー再生を開始する
@@ -155,10 +139,10 @@ namespace CryStar.Story.Player
         /// </summary>
         private void ProcessNextOrder()
         {
-            if (_isAutoPlayReserved)
+            if (_autoPlayController.IsAutoPlayReserved)
             {
                 // オート再生中に手動でオーダーを進めた場合、オート再生の予約をキャンセルする
-                CancelAutoPlay();
+                _autoPlayController.CancelAutoPlay();
             }
             
             if (_orderExecutor.IsExecuting)
@@ -228,53 +212,20 @@ namespace CryStar.Story.Player
         {
             _orderExecutor.Execute(orders).Forget();
         }
-
-        /// <summary>
-        /// オート再生
-        /// </summary>
-        private async UniTask AutoPlay()
-        {
-            // 新しいCancellationTokenSourceを作成
-            _cts = new CancellationTokenSource();
-            var token = _cts.Token;
-            
-            try
-            {
-                // 定数で設定しているインターバル分待機してから次のオーダーを実行する
-                await UniTask.Delay(TimeSpan.FromSeconds(KStoryPresentation.AUTO_PLAY_INTERVAL), cancellationToken: token);
-                
-                // キャンセルされていない場合のみ次のオーダーを実行
-                if (!token.IsCancellationRequested)
-                {
-                    ProcessNextOrder();
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                // オート再生がキャンセルされた
-            }
-            finally
-            {
-                // 予約が実行されたのでフラグを戻す
-                _isAutoPlayReserved = false;
-            }
-        }
-
+        
         #endregion
 
         /// <summary>
-        /// オート再生を止める処理
+        /// 各コンポーネントの初期化
         /// </summary>
-        private void CancelAutoPlay()
+        private void InitializeComponents()
         {
-            if (_cts != null)
-            {
-                // オート再生用のUniTaskをキャンセルする
-                _cts?.Cancel();
-                _cts?.Dispose();
-            }
+            _progressTracker = new StoryProgressTracker();
+            _orderProvider = new StoryOrderProvider();
+            _orderExecutor = new OrderExecutor(_view, ExecuteChoiceBranch);
+            _autoPlayController = new StoryAutoPlayController(ProcessNextOrder);
         }
-
+        
         /// <summary>
         /// スキップ機能
         /// </summary>
@@ -311,23 +262,6 @@ namespace CryStar.Story.Player
             
             // オーダーを実行
             ProcessNextOrder();
-        }
-        
-        /// <summary>
-        /// 指定位置にジャンプ
-        /// </summary>
-        public OrderData JumpToPosition(int position)
-        {
-            _progressTracker.JumpToPosition(position);
-            return CurrentOrder;
-        }
-        
-        /// <summary>
-        /// ストーリーをリセット
-        /// </summary>
-        public void ResetStory()
-        {
-            _progressTracker.Reset();
         }
     }
 }
