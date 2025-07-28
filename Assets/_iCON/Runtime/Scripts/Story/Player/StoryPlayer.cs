@@ -127,18 +127,12 @@ namespace iCON.System
         }
 
         /// <summary>
-        /// ストーリー再生開始
-        /// </summary>
-        public void Play(List<OrderData> orders)
-        {
-            _orderProvider.Setup(orders);
-        }
-
-        /// <summary>
         /// ストーリー再生を開始する
         /// </summary>
-        public async UniTask PlayStory(StorySceneData sceneData, Action endAction)
+        public void PlayStory(StorySceneData sceneData, IReadOnlyList<OrderData> orders, Action endAction)
         {
+            _orderProvider.Setup(orders);
+            
             // ストーリーの進行位置をリセット
             _progressTracker.Reset();
             
