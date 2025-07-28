@@ -15,7 +15,7 @@ public class StoryCharacterMasterGeneratorWindow : EditorWindow
     private string _spreadsheetName = "TestStory";
     private string _range = "StoryCharacterMaster!A3:L";
     private string _className = "StoryCharacterMaster";
-    private string _outputPath = "Assets/iCON/Scripts/Generated/";
+    private string _outputPath = "Assets/_iCON/Runtime/Scripts/Story/Master/";
     
     [MenuItem("Tools/Story Character Master Generator")]
     public static void ShowWindow()
