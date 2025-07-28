@@ -11,12 +11,12 @@
       /// </summary>
       public class StoryOrderProvider
       {
-          private List<OrderData> _orders;
+          private IReadOnlyList<OrderData> _orders;
 
           /// <summary>
           /// 再生を行うシーンデータのキャッシュのセットアップ
           /// </summary>
-          public void Setup(List<OrderData> orders)
+          public void Setup(IReadOnlyList<OrderData> orders)
           {
               _orders = orders;
           }
