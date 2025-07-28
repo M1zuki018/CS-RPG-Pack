@@ -128,7 +128,7 @@ namespace iCON.System
         /// <summary>
         /// ストーリー再生を開始する
         /// </summary>
-        public async UniTask PlayStory(StoryExecuteDataSO executeDataSO, Action endAction)
+        public async UniTask PlayStory(SceneDataSO executeDataSO, Action endAction)
         {
             // ストーリーの進行位置をリセット
             _progressTracker.Reset();
@@ -140,7 +140,7 @@ namespace iCON.System
             });
             
             // キャラクター立ち絵のSetup
-            _view.SetupCharacter(executeDataSO.CharacterScale, executeDataSO._characterPositionOffset);
+            _view.SetupCharacter(executeDataSO.CharacterScale, executeDataSO.CharacterPositionOffset);
 
             var storyLine = executeDataSO.StoryLine;
             
