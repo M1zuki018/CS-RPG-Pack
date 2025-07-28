@@ -10,7 +10,7 @@ using iCON.System;
 /// <summary>
 /// ストーリーキャラクター情報の定数クラス
 /// </summary>
-public static class StoryCharacterMaster
+public static class MasterStoryCharacter
 {
     private static readonly Dictionary<int, CharacterData> _characterData = new Dictionary<int, CharacterData>
     {
