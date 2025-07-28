@@ -8,10 +8,12 @@
   {
       /// <summary>
       /// ストーリーオーダーの取得を専門とするクラス
-      /// NOTE: データの読み込みとオーダー取得のロジックを担当
       /// </summary>
       public class StoryOrderProvider
       {
+          /// <summary>
+          /// 再生するオーダーのリスト
+          /// </summary>
           private IReadOnlyList<OrderData> _orders;
 
           /// <summary>
@@ -28,11 +30,11 @@
           public List<OrderData> GetContinuousOrdersFrom(int startPosition)
           {
               var orders = new List<OrderData>();
-
-              // 最初のオーダーを追加
+              
               var firstOrder = GetOrderAt(startPosition);
               if (firstOrder == null) return orders;
 
+              // 最初のオーダーを追加
               orders.Add(firstOrder);
               startPosition++;
 
@@ -48,23 +50,6 @@
               }
 
               return orders;
-          }
-
-          /// <summary>
-          /// 次のオーダーが存在するかチェック
-          /// </summary>
-          public bool HasNextOrder(int position)
-          {
-              return IsValidOrderIndex(position + 1);
-          }
-
-          /// <summary>
-          /// 次のオーダーのシーケンスタイプを確認
-          /// </summary>
-          public SequenceType? PeekNextOrderSequence(int position)
-          {
-              var nextOrder = GetOrderAt(position + 1);
-              return nextOrder?.Sequence;
           }
 
           /// <summary>
