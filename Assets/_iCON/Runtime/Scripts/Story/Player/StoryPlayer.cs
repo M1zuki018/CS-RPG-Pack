@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using CryStar.Story.Constants;
 using Cysharp.Threading.Tasks;
+using iCON.System;
 using iCON.UI;
 using iCON.Utility;
 using UnityEngine;
 
-namespace iCON.System
+namespace CryStar.Story.Player
 {
     /// <summary>
     /// ストーリー全体の進行を管理するマネージャー
@@ -27,11 +26,6 @@ namespace iCON.System
         private StoryOverlayController _overlayController;
         
         /// <summary>
-        /// ストーリーの現在位置の保持と移動を行う
-        /// </summary>
-        private StoryProgressTracker _progressTracker;
-        
-        /// <summary>
         /// データの読み込みとオーダー取得を行う
         /// </summary>
         private StoryOrderProvider _orderProvider;
@@ -40,32 +34,22 @@ namespace iCON.System
         /// オーダーを実行する
         /// </summary>
         private OrderExecutor _orderExecutor;
+        
+        /// <summary>
+        /// オート再生を担当
+        /// </summary>
+        private StoryAutoPlayController _autoPlayController;
 
         /// <summary>
         /// ストーリー終了時のアクション
         /// NOTE: 初期化後すぐにストーリーが進まないようにDefaultはtrueにしておく
         /// </summary>
         private bool _isStoryComplete = true;
-        
-        /// <summary>
-        /// オート再生開始予約済み
-        /// </summary>
-        private bool _isAutoPlayReserved = false;
-        
-        /// <summary>
-        /// CancellationTokenSource
-        /// </summary>
-        private CancellationTokenSource _cts = new CancellationTokenSource();
 
         /// <summary>
         /// 現在のストーリー位置
         /// </summary>
-        private StoryPosition CurrentPosition => _progressTracker.CurrentPosition;
-        
-        /// <summary>
-        /// 現在のストーリー位置のオーダーデータ
-        /// </summary>
-        private OrderData CurrentOrder => _orderProvider.GetOrderAt(CurrentPosition);
+        private int _currentOrder = 0;
 
         #region Lifecycle
         
@@ -76,7 +60,6 @@ namespace iCON.System
         {
             await base.OnAwake();
             InitializeComponents();
-            _overlayController.Setup(_view, CancelAutoPlay, MoveToEndOrder); // TODO: 第三引数のスキップボタンのMethodについては仮
         }
         
         /// <summary>
@@ -84,20 +67,19 @@ namespace iCON.System
         /// </summary>
         private void Update()
         {
-            if (_overlayController.IsImmerseMode)
+            if (_overlayController.IsImmerseMode || _view.IsStopRequested || _isStoryComplete)
             {
-                // UI非表示モードの場合ストーリーを進めない
+                // UI非表示モード/選択肢表示中/既に読了していた場合は処理を行わない
                 return;
             }
             
-            if (_overlayController.AutoPlayMode && !_orderExecutor.IsExecuting && !_isAutoPlayReserved)
+            if (_overlayController.AutoPlayMode && !_orderExecutor.IsExecuting && !_autoPlayController.IsAutoPlayReserved)
             {
-                // フラグを予約済みに切り替える
-                _isAutoPlayReserved = true;
-                AutoPlay().Forget();
+                // オート再生のフラグを予約済みに切り替える
+                _autoPlayController.AutoPlay().Forget();
             }
             
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 ProcessNextOrder();
             }
@@ -109,20 +91,10 @@ namespace iCON.System
         private void OnDestroy()
         {
             _orderExecutor.Dispose();
-            CancelAutoPlay();
+            _autoPlayController.Dispose();
         }
         
         #endregion
-        
-        /// <summary>
-        /// 各コンポーネントの初期化
-        /// </summary>
-        private void InitializeComponents()
-        {
-            _progressTracker = new StoryProgressTracker();
-            _orderProvider = new StoryOrderProvider();
-            _orderExecutor = new OrderExecutor(_view, ExecuteChoiceBranch);
-        }
 
         /// <summary>
         /// ストーリー再生を開始する
@@ -132,7 +104,7 @@ namespace iCON.System
             _orderProvider.Setup(orders);
             
             // ストーリーの進行位置をリセット
-            _progressTracker.Reset();
+            _currentOrder = 0;
             
             _orderExecutor.Setup(() =>
             {
@@ -154,10 +126,10 @@ namespace iCON.System
         /// </summary>
         private void ProcessNextOrder()
         {
-            if (_isAutoPlayReserved)
+            if (_autoPlayController.IsAutoPlayReserved)
             {
                 // オート再生中に手動でオーダーを進めた場合、オート再生の予約をキャンセルする
-                CancelAutoPlay();
+                _autoPlayController.CancelAutoPlay();
             }
             
             if (_orderExecutor.IsExecuting)
@@ -177,12 +149,6 @@ namespace iCON.System
         /// </summary>
         private void ExecuteNextOrderSequence()
         {
-            if (_isStoryComplete || _view.IsStopRequested)
-            {
-                // ストーリーを読了していたらreturn
-                return;
-            }
-            
             // オーダーを取得し、進行位置も更新する
             var orders = GetContinuousOrdersAndAdvance();
             
@@ -204,18 +170,10 @@ namespace iCON.System
         private List<OrderData> GetContinuousOrdersAndAdvance()
         {
             // 指定位置からAppendが出現するまでの連続オーダーを取得
-            var orders = _orderProvider.GetContinuousOrdersFrom(CurrentPosition);
+            var orders = _orderProvider.GetContinuousOrdersFrom(_currentOrder);
             
-            if (orders.Count > 1)
-            {
-                // 取得した最後のオーダーの位置まで現在の進行位置を進める
-                _progressTracker.CurrentPosition.OrderIndex += orders.Count;
-            }
-            else if (orders.Count == 1)
-            {
-                // 単一オーダーの場合は次に進める
-                _progressTracker.MoveToNextOrder();
-            }
+            // オーダーの位置を変更
+            _currentOrder += orders.Count;
             
             return orders;
         }
@@ -227,64 +185,27 @@ namespace iCON.System
         {
             _orderExecutor.Execute(orders).Forget();
         }
-
-        /// <summary>
-        /// オート再生
-        /// </summary>
-        private async UniTask AutoPlay()
-        {
-            // 新しいCancellationTokenSourceを作成
-            _cts = new CancellationTokenSource();
-            var token = _cts.Token;
-            
-            try
-            {
-                // 定数で設定しているインターバル分待機してから次のオーダーを実行する
-                await UniTask.Delay(TimeSpan.FromSeconds(KStoryPresentation.AUTO_PLAY_INTERVAL), cancellationToken: token);
-                
-                // キャンセルされていない場合のみ次のオーダーを実行
-                if (!token.IsCancellationRequested)
-                {
-                    ProcessNextOrder();
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                // オート再生がキャンセルされた
-            }
-            finally
-            {
-                // 予約が実行されたのでフラグを戻す
-                _isAutoPlayReserved = false;
-            }
-        }
-
+        
         #endregion
 
         /// <summary>
-        /// オート再生を止める処理
+        /// 各コンポーネントの初期化
         /// </summary>
-        private void CancelAutoPlay()
+        private void InitializeComponents()
         {
-            if (_cts != null)
-            {
-                // オート再生用のUniTaskをキャンセルする
-                _cts?.Cancel();
-                _cts?.Dispose();
-            }
+            _orderProvider = new StoryOrderProvider();
+            _orderExecutor = new OrderExecutor(_view, ExecuteChoiceBranch);
+            _autoPlayController = new StoryAutoPlayController(ProcessNextOrder);
+            _overlayController.Setup(_view, _autoPlayController.CancelAutoPlay, MoveToEndOrder);
         }
-
+        
         /// <summary>
         /// スキップ機能
         /// </summary>
         private void MoveToEndOrder()
         {
-            // Endオーダーの1つ前のオーダーIDを獲得
-            var endOrderIndex = _orderProvider.GetOrderCount() - 1;
-            
-            // Endオーダーの1つ前に移動
-            _progressTracker.JumpToPosition(new StoryPosition(CurrentPosition.PartId, CurrentPosition.ChapterId, 
-                CurrentPosition.SceneId, endOrderIndex));
+            // Endオーダーの1つ前のオーダーに移動
+            _currentOrder = _orderProvider.GetOrderCount() - 1;
             
             if (_orderExecutor.IsExecuting)
             {
@@ -292,7 +213,7 @@ namespace iCON.System
                 _orderExecutor.Skip();
             }
             
-            // Endオーダーを実行
+            // すぐにEndオーダーを実行
             ExecuteNextOrderSequence();
         }
 
@@ -303,67 +224,13 @@ namespace iCON.System
         {
             // オーダーのインデックスがデフォルトであれば現在の地点を
             // その他のインデックスの場合は引数で指定されたオーダーに移動する
-            var targetOrder = orderIndex == -1 ? CurrentPosition.OrderIndex : orderIndex;
+            _currentOrder = orderIndex == -1 ? _currentOrder : orderIndex;
 
-            // 分岐先のオーダーに進捗をセットする
-            _progressTracker.JumpToPosition(CurrentPosition.PartId, CurrentPosition.ChapterId, CurrentPosition.SceneId, targetOrder);
+            // 一時停止解除
             _view.IsStopRequested = false;
             
             // オーダーを実行
             ProcessNextOrder();
-        }
-        
-        /// <summary>
-        /// 次のシーンに進む
-        /// </summary>
-        public OrderData MoveToNextScene()
-        {
-            _progressTracker.MoveToNextScene();
-            return CurrentOrder;
-        }
-        
-        /// <summary>
-        /// 次のチャプターに進む
-        /// </summary>
-        public OrderData MoveToNextChapter()
-        {
-            _progressTracker.MoveToNextChapter();
-            return CurrentOrder;
-        }
-        
-        /// <summary>
-        /// 次のパートに進む
-        /// </summary>
-        public OrderData MoveToNextPart()
-        {
-            _progressTracker.MoveToNextPart();
-            return CurrentOrder;
-        }
-        
-        /// <summary>
-        /// 指定位置にジャンプ
-        /// </summary>
-        public OrderData JumpToPosition(int partId, int chapterId, int sceneId, int orderIndex = 0)
-        {
-            _progressTracker.JumpToPosition(partId, chapterId, sceneId, orderIndex);
-            return CurrentOrder;
-        }
-        
-        /// <summary>
-        /// 指定位置にジャンプ
-        /// </summary>
-        public OrderData JumpToPosition(StoryPosition position)
-        {
-            _progressTracker.JumpToPosition(position);
-            return CurrentOrder;
-        }
-        
-        /// <summary>
-        /// ストーリーをリセット
-        /// </summary>
-        public void ResetStory()
-        {
-            _progressTracker.Reset();
         }
     }
 }
