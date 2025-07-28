@@ -50,11 +50,6 @@ namespace CryStar.Story.Player
         /// 現在のストーリー位置
         /// </summary>
         private int _currentOrder = 0;
-        
-        /// <summary>
-        /// 現在のストーリー位置のオーダーデータ
-        /// </summary>
-        private OrderData CurrentOrder => _orderProvider.GetOrderAt(_currentOrder);
 
         #region Lifecycle
         
@@ -65,7 +60,6 @@ namespace CryStar.Story.Player
         {
             await base.OnAwake();
             InitializeComponents();
-            _overlayController.Setup(_view, _autoPlayController.CancelAutoPlay, MoveToEndOrder);
         }
         
         /// <summary>
@@ -73,15 +67,15 @@ namespace CryStar.Story.Player
         /// </summary>
         private void Update()
         {
-            if (_overlayController.IsImmerseMode)
+            if (_overlayController.IsImmerseMode || _view.IsStopRequested || _isStoryComplete)
             {
-                // UI非表示モードの場合ストーリーを進めない
+                // UI非表示モード/選択肢表示中/既に読了していた場合は処理を行わない
                 return;
             }
             
             if (_overlayController.AutoPlayMode && !_orderExecutor.IsExecuting && !_autoPlayController.IsAutoPlayReserved)
             {
-                // フラグを予約済みに切り替える
+                // オート再生のフラグを予約済みに切り替える
                 _autoPlayController.AutoPlay().Forget();
             }
             
@@ -155,12 +149,6 @@ namespace CryStar.Story.Player
         /// </summary>
         private void ExecuteNextOrderSequence()
         {
-            if (_isStoryComplete || _view.IsStopRequested)
-            {
-                // ストーリーを読了していたらreturn
-                return;
-            }
-            
             // オーダーを取得し、進行位置も更新する
             var orders = GetContinuousOrdersAndAdvance();
             
@@ -208,6 +196,7 @@ namespace CryStar.Story.Player
             _orderProvider = new StoryOrderProvider();
             _orderExecutor = new OrderExecutor(_view, ExecuteChoiceBranch);
             _autoPlayController = new StoryAutoPlayController(ProcessNextOrder);
+            _overlayController.Setup(_view, _autoPlayController.CancelAutoPlay, MoveToEndOrder);
         }
         
         /// <summary>
@@ -224,7 +213,7 @@ namespace CryStar.Story.Player
                 _orderExecutor.Skip();
             }
             
-            // Endオーダーを実行
+            // すぐにEndオーダーを実行
             ExecuteNextOrderSequence();
         }
 
