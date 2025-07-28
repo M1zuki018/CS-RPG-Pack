@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace CryStar.Story.Core
 {
     /// <summary>
     /// スプレッドシートとの接続を行いデータを取得する
     /// </summary>
-    public class StorySceneDataRepository : MonoBehaviour
+    public class StorySceneDataRepository
     {
         /// <summary>
         /// 初期化済みか

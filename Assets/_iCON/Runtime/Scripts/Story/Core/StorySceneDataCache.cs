@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using iCON.System;
-using UnityEngine;
 
 namespace CryStar.Story.Core
 {
     /// <summary>
     /// StorySceneDataのキャッシュ管理を行う
     /// </summary>
-    public class StorySceneDataCache : MonoBehaviour
+    public class StorySceneDataCache
     {
         private readonly Dictionary<int, List<OrderData>> _cache = new();
 
