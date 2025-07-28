@@ -10,7 +10,7 @@ namespace iCON.System
     /// <summary>
     /// ストーリーのマスタデータを参照してゲーム内で利用できるように整形する
     /// </summary>
-    public class StoryMasterGetter
+    public class StoryDataLoader
     {
         private Dictionary<string, int> _columnIndexMap = new();
         private bool _isInitialized = false;
