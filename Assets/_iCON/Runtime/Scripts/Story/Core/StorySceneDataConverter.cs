@@ -1,76 +1,53 @@
 using System;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
-using DG.Tweening;
+using CryStar.Story.Enums;
 using iCON.Enums;
+using iCON.System;
 using UnityEngine;
 
-namespace iCON.System
+namespace CryStar.Story.Core
 {
     /// <summary>
-    /// ストーリーのマスタデータを参照してゲーム内で利用できるように整形する
+    /// ストーリーのデータをゲーム内で使用できる形に変換するロジックをまとめたクラス
     /// </summary>
-    public class StoryMasterGetter
+    public class StorySceneDataConverter
     {
         private Dictionary<string, int> _columnIndexMap = new();
         private bool _isInitialized = false;
-        
+
         /// <summary>
-        /// Setup
-        /// ヘッダー行を読み込んでインデックスマップを作成する
+        /// ヘッダーデータから列マップを初期化
         /// </summary>
-        public async UniTask InitializeAsync(string spreadsheetName, string headerRange)
+        public void Initialize(IList<IList<object>> headerData)
         {
-            var headerData = await SheetsDataService.Instance.ReadFromSpreadsheetAsync(spreadsheetName, headerRange);
-            
-            if (headerData == null || headerData.Count == 0)
-            {
-                throw new InvalidOperationException($"ヘッダーデータの読み込みに失敗しました: {spreadsheetName}, {headerRange}");
-            }
-            
-            // ヘッダー行から列インデックスマップを作成
             BuildColumnIndexMap(headerData);
-            
-            // 初期化完了
             _isInitialized = true;
         }
-        
+
         /// <summary>
-        /// 指定範囲のデータを読み込んでSceneDataを作成する
+        /// 生データをOrderDataリストに変換
         /// </summary>
-        public async UniTask<SceneData> LoadSceneDataAsync(string spreadsheetName, string dataRange)
+        public List<OrderData> ConvertToOrderDataList(IList<IList<object>> rawData)
         {
             if (!_isInitialized)
             {
-                throw new InvalidOperationException("InitializeAsync を先に呼び出してください");
+                throw new InvalidOperationException("Initialize を先に呼び出してください");
             }
-            
-            var data = await SheetsDataService.Instance.ReadFromSpreadsheetAsync(spreadsheetName, dataRange);
-            return LoadFromSpreadsheetData(data);
-        }
-        
-        /// <summary>
-        /// スプレッドシートから読み込み
-        /// </summary>
-        private SceneData LoadFromSpreadsheetData(IList<IList<object>> spreadsheetData)
-        {
+
             var orderDataList = new List<OrderData>();
-            
-            // データ行を処理
-            for (int row = 0; row < spreadsheetData.Count; row++)
+
+            for (int row = 0; row < rawData.Count; row++)
             {
-                var orderData = CreateOrderData(spreadsheetData, row);
+                var orderData = CreateOrderData(rawData, row);
                 if (orderData != null)
                 {
                     orderDataList.Add(orderData);
                 }
             }
-            
-            SceneData sceneData = new SceneData(orderDataList[0].ChapterId, orderDataList[0].SceneId, orderDataList);
-            
-            return sceneData;
-        }
 
+            return orderDataList;
+        }
+        
         /// <summary>
         /// 行データからOrderDataを作成
         /// </summary>

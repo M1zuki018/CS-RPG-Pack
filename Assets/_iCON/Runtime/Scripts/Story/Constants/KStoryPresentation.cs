@@ -1,12 +1,22 @@
 using DG.Tweening;
 
-namespace iCON.Constants
+namespace CryStar.Story.Constants
 {
     /// <summary>
     /// ストーリーに関連する定数
     /// </summary>
     public static class KStoryPresentation
     {
+        /// <summary>
+        /// ストーリーのスプレッドシート名 TODO: 仮
+        /// </summary>
+        public const string SPREAD_SHEET_NAME = "TestStory";
+        
+        /// <summary>
+        /// ヘッダーの範囲 TODO: 仮
+        /// </summary>
+        public const string HEADER_RANGE = "A2:O2";
+        
         /// <summary>
         /// フェード時間
         /// </summary>

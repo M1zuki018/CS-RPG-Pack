@@ -1,4 +1,4 @@
-namespace iCON.Enums
+namespace CryStar.Story.Enums
 {
     /// <summary>
     /// スプレッドシートの列定義

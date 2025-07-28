@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using iCON.System;
@@ -10,61 +9,17 @@ using UnityEngine;
 /// <summary>
 /// StoryCharacterMasterの辞書を生成するウィンドウ
 /// </summary>
-public class StoryCharacterMasterGeneratorWindow : EditorWindow
+public class StoryCharacterMasterGeneratorWindow : BaseMasterGeneratorWindow
 {
-    private string _spreadsheetName = "TestStory";
-    private string _range = "StoryCharacterMaster!A3:L";
-    private string _className = "StoryCharacterMaster";
-    private string _outputPath = "Assets/_iCON/Runtime/Scripts/Story/Master/";
-    
     [MenuItem("Tools/Story Character Master Generator")]
     public static void ShowWindow()
     {
         GetWindow<StoryCharacterMasterGeneratorWindow>("Story Character Master Generator");
     }
     
-    private void OnGUI()
-    {
-        GUILayout.Label("Story Character Master Generator", EditorStyles.boldLabel);
-        
-        EditorGUILayout.Space();
-        
-        _spreadsheetName = EditorGUILayout.TextField("Spreadsheet Name", _spreadsheetName);
-        _range = EditorGUILayout.TextField("Range", _range);
-        _className = EditorGUILayout.TextField("Class Name", _className);
-        _outputPath = EditorGUILayout.TextField("Output Path", _outputPath);
-        
-        EditorGUILayout.Space();
-        
-        if (GUILayout.Button("クラス生成"))
-        {
-            GenerateCharacterClass();
-        }
-    }
+    protected override string GetWindowTitle() => "Story Character Master Generator";
     
-    private async void GenerateCharacterClass()
-    {
-        if (string.IsNullOrEmpty(_spreadsheetName) || string.IsNullOrEmpty(_range))
-        {
-            EditorUtility.DisplayDialog("エラー", "スプレッドシート名と範囲を入力してください", "OK");
-            return;
-        }
-        
-        try
-        {
-            // 読み込み
-            var data = await SheetsDataService.Instance.ReadFromSpreadsheetAsync(_spreadsheetName, _range);
-            
-            // クラス生成
-            GenerateClass(data);
-        }
-        catch (System.Exception e)
-        {
-            EditorUtility.DisplayDialog("エラー", $"クラス生成に失敗しました: {e.Message}", "OK");
-        }
-    }
-    
-    private void GenerateClass(IList<IList<object>> data)
+    protected override void GenerateClass(IList<IList<object>> data)
     {
         var sb = new StringBuilder();
         
@@ -194,20 +149,5 @@ public class StoryCharacterMasterGeneratorWindow : EditorWindow
         
         // ファイル出力
         SaveToFile(sb.ToString());
-    }
-    
-    private void SaveToFile(string content)
-    {
-        if (!Directory.Exists(_outputPath))
-        {
-            Directory.CreateDirectory(_outputPath);
-        }
-        
-        string filePath = Path.Combine(_outputPath, $"{_className}.cs");
-        File.WriteAllText(filePath, content);
-        
-        AssetDatabase.Refresh();
-        
-        EditorUtility.DisplayDialog("完了", $"クラス生成完了: {filePath}", "OK");
     }
 }

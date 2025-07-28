@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using CryStar.Story.Constants;
 using Cysharp.Threading.Tasks;
-using iCON.Constants;
-using iCON.Enums;
 using iCON.UI;
 using iCON.Utility;
 using UnityEngine;
@@ -128,8 +127,10 @@ namespace iCON.System
         /// <summary>
         /// ストーリー再生を開始する
         /// </summary>
-        public async UniTask PlayStory(SceneDataSO executeDataSO, Action endAction)
+        public void PlayStory(StorySceneData sceneData, IReadOnlyList<OrderData> orders, Action endAction)
         {
+            _orderProvider.Setup(orders);
+            
             // ストーリーの進行位置をリセット
             _progressTracker.Reset();
             
@@ -140,14 +141,7 @@ namespace iCON.System
             });
             
             // キャラクター立ち絵のSetup
-            _view.SetupCharacter(executeDataSO.CharacterScale, executeDataSO.CharacterPositionOffset);
-
-            var storyLine = executeDataSO.StoryLine;
-            
-            // ヘッダーデータを読み込む
-            await _orderProvider.InitializeAsync(storyLine.SpreadsheetName, storyLine.HeaderRange);
-            // ストーリーデータを読み込む
-            await _orderProvider.LoadSceneDataAsync(storyLine.SpreadsheetName, storyLine.Range);
+            _view.SetupCharacter(sceneData.CharacterScale, sceneData.PositionCorrection);
             
             // ストーリー読了フラグをfalseにして、再生できるようにする
             _isStoryComplete = false;

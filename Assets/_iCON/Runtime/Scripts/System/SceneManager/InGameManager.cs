@@ -1,6 +1,7 @@
 using System.Linq;
 using CryStar.Attribute;
 using CryStar.Enums;
+using CryStar.Story.Core;
 using Cysharp.Threading.Tasks;
 using iCON.UI;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace iCON.System
         /// ストーリーマネージャー
         /// </summary>
         [SerializeField, HighlightIfNull]
-        private StoryPlayer _storyPlayer;
+        private StoryManager _storyManager;
 
         [SerializeField]
         private PackSample_CanvasController_StorySelect _canvasController;
@@ -29,7 +30,7 @@ namespace iCON.System
             ServiceLocator.Resister(this, ServiceType.Local);
             
             // ストーリー再生時以外はゲームオブジェクトを非アクティブにしておく
-            _storyPlayer.gameObject.SetActive(false);
+            _storyManager.gameObject.SetActive(false);
         }
 
         private async void Update()
@@ -40,13 +41,13 @@ namespace iCON.System
             }
         }
         
-        public void PlayStory(SceneDataSO sceneDataSo)
+        public void PlayStory(int storyId)
         {
-            _storyPlayer.gameObject.SetActive(true);
-            _storyPlayer.PlayStory(sceneDataSo,
+            _storyManager.gameObject.SetActive(true);
+            _storyManager.PlayStoryAsync(storyId,
                 () =>
                 {
-                    _storyPlayer.gameObject.SetActive(false);
+                    _storyManager.gameObject.SetActive(false);
                     _canvasController.Setup();
                 }).Forget();
         }

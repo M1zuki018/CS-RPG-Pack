@@ -52,12 +52,12 @@ namespace iCON.System
         public float Duration { get; set; }
 
         /// <summary>表示名を取得（オーバーライドがあればそれを、なければマスターから表示名を取得）</summary>
-        public string DisplayName => !string.IsNullOrEmpty(OverrideDisplayName) ? OverrideDisplayName : StoryCharacterMaster.GetCharacter(SpeakerId).DisplayName;
+        public string DisplayName => !string.IsNullOrEmpty(OverrideDisplayName) ? OverrideDisplayName : MasterStoryCharacter.GetCharacter(SpeakerId).DisplayName;
         
         /// <summary>表情差分のパス</summary>
-        public string FacialExpressionPath => StoryCharacterMaster.GetExpressionPath(SpeakerId, FacialExpressionType);
+        public string FacialExpressionPath => MasterStoryCharacter.GetExpressionPath(SpeakerId, FacialExpressionType);
 
         /// <summary>キャラクターデータ</summary>
-        public CharacterData CharacterData => StoryCharacterMaster.GetCharacter(SpeakerId);
+        public CharacterData CharacterData => MasterStoryCharacter.GetCharacter(SpeakerId);
     }
 }

@@ -1,3 +1,4 @@
+using CryStar.Story.Constants;
 using DG.Tweening;
 using iCON.Constants;
 using iCON.Enums;

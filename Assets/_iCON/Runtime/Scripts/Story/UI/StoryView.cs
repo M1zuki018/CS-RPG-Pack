@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CryStar.Attribute;
+using CryStar.Story.Constants;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Constants;
