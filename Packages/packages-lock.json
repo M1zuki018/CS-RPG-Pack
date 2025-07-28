@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.crystar-package": {
+      "version": "https://github.com/M1zuki018/CryStar-Package.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "dedd08fa6b8e1cb49c7774f81d982760c5615d59"
+    },
     "com.cysharp.unitask": {
       "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.3.3",
       "depth": 0,

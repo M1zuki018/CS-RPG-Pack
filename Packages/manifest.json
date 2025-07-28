@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.crystar-package": "https://github.com/M1zuki018/CryStar-Package.git",
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.3.3",
     "com.unity.addressables": "2.2.2",
     "com.unity.cinemachine": "3.1.4",
