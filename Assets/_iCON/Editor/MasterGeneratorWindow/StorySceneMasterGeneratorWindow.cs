@@ -12,7 +12,7 @@ public class StorySceneMasterGeneratorWindow : BaseMasterGeneratorWindow
     [MenuItem("Tools/Story Scene Master Generator")]
     public static void ShowWindow()
     {
-        GetWindow<StoryCharacterMasterGeneratorWindow>("Story Scene Master Generator");
+        GetWindow<StorySceneMasterGeneratorWindow>("Story Scene Master Generator");
     }
 
     protected override string GetWindowTitle() => "Story Scene Master Generator";
@@ -99,9 +99,6 @@ public class StorySceneMasterGeneratorWindow : BaseMasterGeneratorWindow
 
         sb.AppendLine("}");
         sb.AppendLine();
-
-        // データクラスの定義
-        AppendStorySceneDataClass(sb);
 
         // ファイル出力
         SaveToFile(sb.ToString());
@@ -221,62 +218,5 @@ public class StorySceneMasterGeneratorWindow : BaseMasterGeneratorWindow
         sb.AppendLine("        // 前提ストーリーが完了している場合は実行可能");
         sb.AppendLine("        return completedStories.Contains(scene.PrerequisiteStoryId.Value);");
         sb.AppendLine("    }");
-    }
-
-    /// <summary>
-    /// StorySceneDataクラスの定義を追加
-    /// </summary>
-    private void AppendStorySceneDataClass(StringBuilder sb)
-    {
-        sb.AppendLine("/// <summary>");
-        sb.AppendLine("/// ストーリーシーンデータクラス");
-        sb.AppendLine("/// </summary>");
-        sb.AppendLine("[System.Serializable]");
-        sb.AppendLine("public class StorySceneData");
-        sb.AppendLine("{");
-        sb.AppendLine("    /// <summary>シーンID</summary>");
-        sb.AppendLine("    public int Id { get; set; }");
-        sb.AppendLine();
-        sb.AppendLine("    /// <summary>シーン名</summary>");
-        sb.AppendLine("    public string SceneName { get; set; }");
-        sb.AppendLine();
-        sb.AppendLine("    /// <summary>パートID</summary>");
-        sb.AppendLine("    public int PartId { get; set; }");
-        sb.AppendLine();
-        sb.AppendLine("    /// <summary>チャプターID</summary>");
-        sb.AppendLine("    public int ChapterId { get; set; }");
-        sb.AppendLine();
-        sb.AppendLine("    /// <summary>シーンID（チャプター内）</summary>");
-        sb.AppendLine("    public int SceneId { get; set; }");
-        sb.AppendLine();
-        sb.AppendLine("    /// <summary>範囲（セル範囲など）</summary>");
-        sb.AppendLine("    public string Range { get; set; }");
-        sb.AppendLine();
-        sb.AppendLine("    /// <summary>立ち絵の拡大率</summary>");
-        sb.AppendLine("    public float CharacterScale { get; set; }");
-        sb.AppendLine();
-        sb.AppendLine("    /// <summary>位置補正量</summary>");
-        sb.AppendLine("    public Vector3 PositionCorrection { get; set; }");
-        sb.AppendLine();
-        sb.AppendLine("    /// <summary>前提ストーリーID（null可）</summary>");
-        sb.AppendLine("    public int? PrerequisiteStoryId { get; set; }");
-        sb.AppendLine();
-        sb.AppendLine("    /// <summary>");
-        sb.AppendLine("    /// 文字列表現を取得");
-        sb.AppendLine("    /// </summary>");
-        sb.AppendLine("    public override string ToString()");
-        sb.AppendLine("    {");
-        sb.AppendLine(
-            "        return $\"StoryScene[{Id}]: {SceneName} (Part{PartId}-Chapter{ChapterId}-Scene{SceneId})\";");
-        sb.AppendLine("    }");
-        sb.AppendLine();
-        sb.AppendLine("    /// <summary>");
-        sb.AppendLine("    /// 位置補正量を文字列で取得");
-        sb.AppendLine("    /// </summary>");
-        sb.AppendLine("    public string GetPositionCorrectionString()");
-        sb.AppendLine("    {");
-        sb.AppendLine("        return $\"{PositionCorrection.x}-{PositionCorrection.y}-{PositionCorrection.z}\";");
-        sb.AppendLine("    }");
-        sb.AppendLine("}");
     }
 }
