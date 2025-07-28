@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10cf9ce525c4b0a48bfac2c6de7b5a47, type: 3}
-  m_Name: '[Sample]Maqi'
+  m_Name: '[Sample]Maqi1'
   m_EditorClassIdentifier: 
   _storyLine:
     SceneName: Maki
     SpreadsheetName: TestStory
     HeaderRange: TestStory!A2:O2
-    Range: TestStory!A220:O352
+    Range: TestStory!A220:O298
   _characterScale: 1.2
   _characterPositionOffset: {x: 180, y: 60, z: 0}
