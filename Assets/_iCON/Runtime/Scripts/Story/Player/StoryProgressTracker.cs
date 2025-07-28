@@ -1,4 +1,4 @@
-namespace iCON.System
+namespace CryStar.Story.Player
 {
     /// <summary>
     /// ストーリー進行状態を管理するクラス

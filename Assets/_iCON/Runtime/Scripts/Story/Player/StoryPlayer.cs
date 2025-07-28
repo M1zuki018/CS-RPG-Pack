@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Threading;
 using CryStar.Story.Constants;
 using Cysharp.Threading.Tasks;
+using iCON.System;
 using iCON.UI;
 using iCON.Utility;
 using UnityEngine;
 
-namespace iCON.System
+namespace CryStar.Story.Player
 {
     /// <summary>
     /// ストーリー全体の進行を管理するマネージャー

@@ -2,8 +2,9 @@
   using CryStar.Story.Core;
   using Cysharp.Threading.Tasks;
   using iCON.Enums;
-  
-  namespace iCON.System
+  using iCON.System;
+
+  namespace CryStar.Story.Player
   {
       /// <summary>
       /// ストーリーオーダーの取得を専門とするクラス
