@@ -1,99 +1,144 @@
 // ============================================================================
 // AUTO GENERATED - DO NOT MODIFY
-// Generated at: 2025-07-28 23:37:51
+// Generated at: 2025-07-29 00:08:33
 // ============================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using iCON.System;
 
 /// <summary>
-/// ストーリーキャラクター情報の定数クラス
+/// ストーリーシーン情報の定数クラス
 /// </summary>
 public static class MasterStoryScene
 {
-    private static readonly Dictionary<int, CharacterData> _characterData = new Dictionary<int, CharacterData>
+    private static readonly Dictionary<int, StorySceneData> _sceneData = new Dictionary<int, StorySceneData>
     {
         {
-            1, new CharacterData(1, "琴葉の休息", "1", 
-                Color.white, 1.00f,
-                new Dictionary<FacialExpressionType, string>
-                {
-                    { FacialExpressionType.Default, "A3:O218" },
-                    { FacialExpressionType.Nervous, "1" },
-                    { FacialExpressionType.Sigh, "0-0-0" },
-                })
+            1, new StorySceneData
+            {
+                Id = 1,
+                SceneName = "琴葉の休息",
+                PartId = 1,
+                ChapterId = 1,
+                SceneId = 1,
+                Range = "A3:O218",
+                CharacterScale = 1.0f,
+                PositionCorrection = new Vector3(0.0f, 0.0f, 0.0f),
+                PrerequisiteStoryId = null
+            }
         },
         {
-            2, new CharacterData(2, "マキ・幼少期 - 1", "2", 
-                Color.white, 1.00f,
-                new Dictionary<FacialExpressionType, string>
-                {
-                    { FacialExpressionType.Default, "A220:O298" },
-                    { FacialExpressionType.Nervous, "1.2" },
-                    { FacialExpressionType.Sigh, "180-60-0" },
-                })
+            2, new StorySceneData
+            {
+                Id = 2,
+                SceneName = "マキ・幼少期 - 1",
+                PartId = 2,
+                ChapterId = 1,
+                SceneId = 1,
+                Range = "A220:O298",
+                CharacterScale = 1.2f,
+                PositionCorrection = new Vector3(180.0f, 60.0f, 0.0f),
+                PrerequisiteStoryId = null
+            }
         },
         {
-            3, new CharacterData(3, "マキ・幼少期 - 2", "2", 
-                Color.white, 2.00f,
-                new Dictionary<FacialExpressionType, string>
-                {
-                    { FacialExpressionType.Default, "A300:O359" },
-                    { FacialExpressionType.Nervous, "1.2" },
-                    { FacialExpressionType.Sigh, "180-60-0" },
-                    { FacialExpressionType.Surprised, "2" },
-                })
+            3, new StorySceneData
+            {
+                Id = 3,
+                SceneName = "マキ・幼少期 - 2",
+                PartId = 2,
+                ChapterId = 1,
+                SceneId = 2,
+                Range = "A300:O359",
+                CharacterScale = 1.2f,
+                PositionCorrection = new Vector3(180.0f, 60.0f, 0.0f),
+                PrerequisiteStoryId = 2
+            }
         },
     };
 
     /// <summary>
-    /// IDからキャラクターデータを取得
+    /// IDからストーリーシーンデータを取得
     /// </summary>
-    public static CharacterData GetCharacter(int id)
+    public static StorySceneData GetScene(int id)
     {
-        return _characterData.GetValueOrDefault(id, null);
+        return _sceneData.GetValueOrDefault(id, null);
     }
 
     /// <summary>
-    /// フルネームからキャラクターデータを取得
+    /// シーン名からストーリーシーンデータを取得
     /// </summary>
-    public static CharacterData GetCharacterByName(string fullName)
+    public static StorySceneData GetSceneByName(string sceneName)
     {
-        foreach (var kvp in _characterData)
-        {
-            if (kvp.Value.FullName == fullName)
-                return kvp.Value;
-        }
-        return null;
+        return _sceneData.Values.FirstOrDefault(scene => scene.SceneName == sceneName);
     }
 
     /// <summary>
-    /// キャラクターの表情パスを取得
+    /// チャプターIDとシーンIDからストーリーシーンデータを取得
     /// </summary>
-    public static string GetExpressionPath(int characterId, FacialExpressionType expression)
+    public static StorySceneData GetScene(int chapterId, int sceneId)
     {
-        var character = GetCharacter(characterId);
-        if (character?.ExpressionPaths?.ContainsKey(expression) == true)
-        {
-            return character.ExpressionPaths[expression];
-        }
-        return null;
+        return _sceneData.Values.FirstOrDefault(scene => 
+            scene.ChapterId == chapterId && scene.SceneId == sceneId);
     }
 
     /// <summary>
-    /// 全キャラクターのIDリストを取得
+    /// 指定チャプターの全シーンを取得
     /// </summary>
-    public static IEnumerable<int> GetAllCharacterIds()
+    public static IEnumerable<StorySceneData> GetScenesByChapter(int chapterId)
     {
-        return _characterData.Keys;
+        return _sceneData.Values.Where(scene => scene.ChapterId == chapterId)
+                                .OrderBy(scene => scene.SceneId);
     }
 
     /// <summary>
-    /// 全キャラクターデータを取得
+    /// 指定パートの全シーンを取得
     /// </summary>
-    public static IEnumerable<CharacterData> GetAllCharacters()
+    public static IEnumerable<StorySceneData> GetScenesByPart(int partId)
     {
-        return _characterData.Values;
+        return _sceneData.Values.Where(scene => scene.PartId == partId)
+                                .OrderBy(scene => scene.ChapterId)
+                                .ThenBy(scene => scene.SceneId);
+    }
+
+    /// <summary>
+    /// 前提ストーリーが指定されているシーンを取得
+    /// </summary>
+    public static IEnumerable<StorySceneData> GetScenesWithPrerequisite(int prerequisiteStoryId)
+    {
+        return _sceneData.Values.Where(scene => scene.PrerequisiteStoryId == prerequisiteStoryId);
+    }
+
+    /// <summary>
+    /// 全ストーリーシーンのIDリストを取得
+    /// </summary>
+    public static IEnumerable<int> GetAllSceneIds()
+    {
+        return _sceneData.Keys;
+    }
+
+    /// <summary>
+    /// 全ストーリーシーンデータを取得
+    /// </summary>
+    public static IEnumerable<StorySceneData> GetAllScenes()
+    {
+        return _sceneData.Values.OrderBy(scene => scene.Id);
+    }
+
+    /// <summary>
+    /// シーンが実行可能かチェック（前提ストーリーの条件確認）
+    /// </summary>
+    public static bool CanExecuteScene(int sceneId, HashSet<int> completedStories)
+    {
+        var scene = GetScene(sceneId);
+        if (scene == null) return false;
+
+        // 前提ストーリーが指定されていない場合は実行可能
+        if (!scene.PrerequisiteStoryId.HasValue) return true;
+
+        // 前提ストーリーが完了している場合は実行可能
+        return completedStories.Contains(scene.PrerequisiteStoryId.Value);
     }
 }
