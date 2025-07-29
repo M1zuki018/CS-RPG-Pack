@@ -115,14 +115,8 @@ namespace CryStar.Story.Player
         /// </summary>
         private void HandleClickAutoPlay()
         {
-            _autoPlayController.IsAutoPlayMode = !_autoPlayController.IsAutoPlayMode;
-            _view.AutoPlayMode(_autoPlayController.IsAutoPlayMode);
-
-            if (!_autoPlayController.IsAutoPlayMode)
-            {
-                // オート再生をキャンセル
-                _autoPlayController.CancelAutoPlay();
-            }
+            bool isAutoPlay = _autoPlayController.HandleClickAutoPlay();
+            _view.AutoPlayMode(isAutoPlay);
         }
         
         /// <summary>
