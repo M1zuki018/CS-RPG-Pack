@@ -1,7 +1,7 @@
 namespace CryStar.Story.Enums
 {
     /// <summary>
-    /// Effectオーダーでできる演出の種類
+    /// Effectオーダーの種類
     /// </summary>
     public enum EffectOrderType
     {

@@ -1,7 +1,7 @@
 namespace CryStar.Story.Enums
 {
     /// <summary>
-    /// スプレッドシートの列定義
+    /// スプレッドシートの列定義の列挙型
     /// intに対応する列を読み込むため、スプレッドシートの列構成を元にintの値も設定
     /// </summary>
     public enum StoryDataColumnType
