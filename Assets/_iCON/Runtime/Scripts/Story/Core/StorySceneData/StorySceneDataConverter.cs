@@ -56,23 +56,22 @@ namespace CryStar.Story.Core
             {
                 var row = data[rowIndex];
 
-                return new OrderData
-                {
-                    PartId = GetIntValue(row, StoryDataColumn.PartId),
-                    ChapterId = GetIntValue(row, StoryDataColumn.ChapterId),
-                    SceneId = GetIntValue(row, StoryDataColumn.SceneId),
-                    OrderId = GetIntValue(row, StoryDataColumn.OrderId),
-                    OrderType = GetType<OrderType>(row, StoryDataColumn.OrderType),
-                    Sequence = GetType<SequenceType>(row, StoryDataColumn.Sequence),
-                    SpeakerId = GetIntValue(row, StoryDataColumn.SpeakerId),
-                    DialogText = GetStringValue(row, StoryDataColumn.DialogText),
-                    OverrideDisplayName = GetStringValue(row, StoryDataColumn.OverrideDisplayName),
-                    FilePath = GetStringValue(row, StoryDataColumn.FilePath),
-                    Position = GetType<CharacterPositionType>(row, StoryDataColumn.CharacterPositionType),
-                    FacialExpressionType = GetType<FacialExpressionType>(row, StoryDataColumn.FacialExpressionType),
-                    OverrideTextSpeed = GetFloatValue(row, StoryDataColumn.OverrideTextSpeed),
-                    Duration = GetFloatValue(row, StoryDataColumn.Duration)
-                };
+                return new OrderData(
+                    partId: GetIntValue(row, StoryDataColumn.PartId),
+                    chapterId: GetIntValue(row, StoryDataColumn.ChapterId),
+                    sceneId: GetIntValue(row, StoryDataColumn.SceneId),
+                    orderId: GetIntValue(row, StoryDataColumn.OrderId),
+                    orderType: GetType<OrderType>(row, StoryDataColumn.OrderType),
+                    sequence: GetType<SequenceType>(row, StoryDataColumn.Sequence),
+                    speakerId: GetIntValue(row, StoryDataColumn.SpeakerId),
+                    dialogText: GetStringValue(row, StoryDataColumn.DialogText),
+                    overrideDisplayName: GetStringValue(row, StoryDataColumn.OverrideDisplayName),
+                    filePath: GetStringValue(row, StoryDataColumn.FilePath),
+                    position: GetType<CharacterPositionType>(row, StoryDataColumn.CharacterPositionType),
+                    facialExpressionType: GetType<FacialExpressionType>(row, StoryDataColumn.FacialExpressionType),
+                    overrideTextSpeed: GetFloatValue(row, StoryDataColumn.OverrideTextSpeed),
+                    duration: GetFloatValue(row, StoryDataColumn.Duration)
+                );
             }
             catch (Exception ex)
             {

@@ -3,7 +3,7 @@ using UnityEngine;
 namespace CryStar.Story.Data
 {
     /// <summary>
-    /// ストーリーシーンデータクラス
+    /// ストーリーシーンデータ
     /// </summary>
     public class StorySceneData
     {
