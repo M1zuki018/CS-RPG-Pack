@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace CryStar.Story.Data
@@ -6,36 +5,89 @@ namespace CryStar.Story.Data
     /// <summary>
     /// ストーリーシーンデータクラス
     /// </summary>
-    [Serializable]
     public class StorySceneData
     {
-        /// <summary>シーンID</summary>
-        public int Id { get; set; }
+        #region Private Fields
 
-        /// <summary>シーン名</summary>
-        public string SceneName { get; set; }
+        private int _id;
+        private string _sceneName;
+        private int _partId;
+        private int _chapterId;
+        private int _sceneId;
+        private string _range;
+        private float _characterScale;
+        private Vector3 _positionCorrection;
+        private int? _prerequisiteStoryId;
 
-        /// <summary>パートID</summary>
-        public int PartId { get; set; }
+        #endregion
+        
+        /// <summary>
+        /// 管理ID
+        /// </summary>
+        public int Id => _id;
 
-        /// <summary>チャプターID</summary>
-        public int ChapterId { get; set; }
+        /// <summary>
+        /// シーン名
+        /// </summary>
+        public string SceneName => _sceneName;
 
-        /// <summary>シーンID（チャプター内）</summary>
-        public int SceneId { get; set; }
+        /// <summary>
+        /// パートID
+        /// </summary>
+        public int PartId => _partId;
 
-        /// <summary>範囲（セル範囲など）</summary>
-        public string Range { get; set; }
+        /// <summary>
+        /// チャプターID
+        /// </summary>
+        public int ChapterId => _chapterId;
 
-        /// <summary>立ち絵の拡大率</summary>
-        public float CharacterScale { get; set; }
+        /// <summary>
+        /// シーンID
+        /// </summary>
+        public int SceneId => _sceneId;
 
-        /// <summary>位置補正量</summary>
-        public Vector3 PositionCorrection { get; set; }
+        /// <summary>
+        /// データの読み取り範囲
+        /// </summary>
+        public string Range => _range;
 
-        /// <summary>前提ストーリーID（null可）</summary>
-        public int? PrerequisiteStoryId { get; set; }
+        /// <summary>
+        /// 立ち絵の拡大率
+        /// </summary>
+        public float CharacterScale => _characterScale;
 
+        /// <summary>
+        /// 位置補正量
+        /// </summary>
+        public Vector3 PositionCorrection => _positionCorrection;
+
+        /// <summary>
+        /// 前提ストーリーID（null可）
+        /// </summary>
+        public int? PrerequisiteStoryId => _prerequisiteStoryId;
+
+        /// <summary>
+        /// 前提ストーリーが設定されているか
+        /// </summary>
+        public bool HasPrerequisite => _prerequisiteStoryId.HasValue;
+
+        /// <summary>
+        /// ストーリーシーンデータを作成
+        /// </summary>
+        public StorySceneData(int id, string sceneName, int partId, int chapterId, int sceneId, 
+            string range, float characterScale, Vector3 positionCorrection, int? prerequisiteStoryId)
+        {
+            _id = id;
+            _sceneName = sceneName;
+            _partId = partId;
+            _chapterId = chapterId;
+            _sceneId = sceneId;
+            _range = range ?? string.Empty;
+            _characterScale = characterScale;
+            _positionCorrection = positionCorrection;
+            _prerequisiteStoryId = prerequisiteStoryId;
+        }
+        
         /// <summary>
         /// 文字列表現を取得
         /// </summary>

@@ -1,12 +1,12 @@
 // ============================================================================
 // AUTO GENERATED - DO NOT MODIFY
-// Generated at: 2025-07-29 00:08:33
+// Generated at: 2025-07-30 01:35:31
 // ============================================================================
 
 using System.Collections.Generic;
 using System.Linq;
-using CryStar.Story.Data;
 using UnityEngine;
+using CryStar.Story.Data;
 
 /// <summary>
 /// ストーリーシーン情報の定数クラス
@@ -16,46 +16,19 @@ public static class MasterStoryScene
     private static readonly Dictionary<int, StorySceneData> _sceneData = new Dictionary<int, StorySceneData>
     {
         {
-            1, new StorySceneData
-            {
-                Id = 1,
-                SceneName = "琴葉の休息",
-                PartId = 1,
-                ChapterId = 1,
-                SceneId = 1,
-                Range = "A3:O218",
-                CharacterScale = 1.0f,
-                PositionCorrection = new Vector3(0.0f, 0.0f, 0.0f),
-                PrerequisiteStoryId = null
-            }
+            1, new StorySceneData(1, "琴葉の休息", 1, 1, 1, 
+                "A3:O218", 1.0f, new Vector3(0.0f, 0.0f, 0.0f), null
+            )
         },
         {
-            2, new StorySceneData
-            {
-                Id = 2,
-                SceneName = "マキ・幼少期 - 1",
-                PartId = 2,
-                ChapterId = 1,
-                SceneId = 1,
-                Range = "A220:O298",
-                CharacterScale = 1.2f,
-                PositionCorrection = new Vector3(180.0f, 60.0f, 0.0f),
-                PrerequisiteStoryId = null
-            }
+            2, new StorySceneData(2, "マキ・幼少期 - 1", 2, 1, 1, 
+                "A220:O298", 1.2f, new Vector3(180.0f, 60.0f, 0.0f), null
+            )
         },
         {
-            3, new StorySceneData
-            {
-                Id = 3,
-                SceneName = "マキ・幼少期 - 2",
-                PartId = 2,
-                ChapterId = 1,
-                SceneId = 2,
-                Range = "A300:O359",
-                CharacterScale = 1.2f,
-                PositionCorrection = new Vector3(180.0f, 60.0f, 0.0f),
-                PrerequisiteStoryId = 2
-            }
+            3, new StorySceneData(3, "マキ・幼少期 - 2", 2, 1, 2, 
+                "A300:O359", 1.2f, new Vector3(180.0f, 60.0f, 0.0f), 2
+            )
         },
     };
 
@@ -78,7 +51,7 @@ public static class MasterStoryScene
     /// <summary>
     /// チャプターIDとシーンIDからストーリーシーンデータを取得
     /// </summary>
-    public static StorySceneData GetScene(int chapterId, int sceneId)
+    public static StorySceneData GetSceneById(int chapterId, int sceneId)
     {
         return _sceneData.Values.FirstOrDefault(scene => 
             scene.ChapterId == chapterId && scene.SceneId == sceneId);
@@ -142,3 +115,4 @@ public static class MasterStoryScene
         return completedStories.Contains(scene.PrerequisiteStoryId.Value);
     }
 }
+

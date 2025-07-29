@@ -65,30 +65,30 @@ public class StorySceneMasterGeneratorWindow : BaseMasterGeneratorWindow
             // 位置補正量をVector3に変換（例: "180-60-0" -> Vector3(180, 60, 0)）
             Vector3 positionVector = ParsePositionCorrection(positionCorrection);
 
-            sb.AppendLine($"        {{");
-            sb.AppendLine($"            {id}, new StorySceneData");
-            sb.AppendLine($"            {{");
-            sb.AppendLine($"                Id = {id},");
-            sb.AppendLine($"                SceneName = \"{sceneName}\",");
-            sb.AppendLine($"                PartId = {partId},");
-            sb.AppendLine($"                ChapterId = {chapterId},");
-            sb.AppendLine($"                SceneId = {sceneId},");
-            sb.AppendLine($"                Range = \"{range}\",");
-            sb.AppendLine($"                CharacterScale = {characterScale:F1}f,");
-            sb.AppendLine(
-                $"                PositionCorrection = new Vector3({positionVector.x:F1}f, {positionVector.y:F1}f, {positionVector.z:F1}f),");
+            sb.AppendLine("        {");
+            sb.Append($"            {id}, new StorySceneData(");
+            sb.Append($"{id}, ");
+            sb.Append($"\"{sceneName}\", ");
+            sb.Append($"{partId}, ");
+            sb.Append($"{chapterId}, ");
+            sb.Append($"{sceneId}, ");
+            sb.AppendLine();
+            sb.Append($"                \"{range}\", ");
+            sb.Append($"{characterScale:F1}f, ");
+            sb.Append($"new Vector3({positionVector.x:F1}f, {positionVector.y:F1}f, {positionVector.z:F1}f)");
 
             if (prerequisiteStory.HasValue)
             {
-                sb.AppendLine($"                PrerequisiteStoryId = {prerequisiteStory.Value}");
+                sb.Append($", {prerequisiteStory.Value}");
             }
             else
             {
-                sb.AppendLine($"                PrerequisiteStoryId = null");
+                sb.Append($", null");
             }
 
-            sb.AppendLine($"            }}");
-            sb.AppendLine($"        }},");
+            sb.AppendLine();
+            sb.AppendLine("            )");
+            sb.AppendLine("        },");
         }
 
         sb.AppendLine("    };");
