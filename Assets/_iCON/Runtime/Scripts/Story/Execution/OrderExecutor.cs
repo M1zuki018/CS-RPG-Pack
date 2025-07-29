@@ -6,7 +6,6 @@ using CryStar.Story.Enums;
 using CryStar.Story.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using iCON.System;
 using iCON.Utility;
 
 namespace CryStar.Story.Execution

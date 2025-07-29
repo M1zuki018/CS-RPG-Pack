@@ -3,7 +3,7 @@ using CryStar.Enums;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace iCON.System
+namespace CryStar.Story.Execution
 {
     /// <summary>
     /// ParticleSystemを管理するManager

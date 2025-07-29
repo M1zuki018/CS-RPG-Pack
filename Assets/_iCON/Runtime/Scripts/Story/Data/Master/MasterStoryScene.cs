@@ -5,6 +5,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CryStar.Story.Data;
 using UnityEngine;
 
 /// <summary>

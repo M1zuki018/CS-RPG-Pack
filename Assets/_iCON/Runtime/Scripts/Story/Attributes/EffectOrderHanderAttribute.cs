@@ -1,13 +1,13 @@
 using System;
 using CryStar.Story.Enums;
 
-namespace iCON.System
+namespace CryStar.Story.Attribute
 {
     /// <summary>
     /// エフェクトのハンドラーを自動登録するための属性
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public class EffectOrderHandlerAttribute : Attribute
+    public class EffectOrderHandlerAttribute : System.Attribute
     {
         /// <summary>
         /// エフェクトオーダーの種類
