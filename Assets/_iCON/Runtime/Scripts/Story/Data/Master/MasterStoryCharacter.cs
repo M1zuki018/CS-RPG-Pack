@@ -84,9 +84,9 @@ public static class MasterStoryCharacter
     public static string GetExpressionPath(int characterId, FacialExpressionType expression)
     {
         var character = GetCharacter(characterId);
-        if (character?.ExpressionPaths?.ContainsKey(expression) == true)
+        if (character.HasExpression(expression))
         {
-            return character.ExpressionPaths[expression];
+            return character.GetExpressionPath(expression);
         }
         return null;
     }
