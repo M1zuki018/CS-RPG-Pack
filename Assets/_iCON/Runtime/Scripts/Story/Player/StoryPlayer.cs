@@ -49,11 +49,6 @@ namespace CryStar.Story.Player
         /// UI非表示モード
         /// </summary>
         private bool _isImmerseMode = false;
-        
-        /// <summary>
-        /// オート再生モード
-        /// </summary>
-        private bool _autoPlayMode = false;
 
         /// <summary>
         /// 選択肢表示中などによる一時停止
@@ -82,7 +77,7 @@ namespace CryStar.Story.Player
                 return;
             }
             
-            if (_autoPlayMode && !_orderExecutor.IsExecuting && !_autoPlayController.IsAutoPlayReserved)
+            if (!_orderExecutor.IsExecuting && _autoPlayController.NotYetRequest)
             {
                 // オート再生のフラグを予約済みに切り替える
                 _autoPlayController.AutoPlay().Forget();
@@ -120,10 +115,10 @@ namespace CryStar.Story.Player
         /// </summary>
         private void HandleClickAutoPlay()
         {
-            _autoPlayMode = !_autoPlayMode;
-            _view.AutoPlayMode(_autoPlayMode);
+            _autoPlayController.IsAutoPlayMode = !_autoPlayController.IsAutoPlayMode;
+            _view.AutoPlayMode(_autoPlayController.IsAutoPlayMode);
 
-            if (!_autoPlayMode)
+            if (!_autoPlayController.IsAutoPlayMode)
             {
                 // オート再生をキャンセル
                 _autoPlayController.CancelAutoPlay();
