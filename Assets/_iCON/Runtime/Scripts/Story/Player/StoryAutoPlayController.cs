@@ -16,6 +16,11 @@ namespace CryStar.Story.Player
         private event Action _onAutoPlayTriggered;
         
         /// <summary>
+        /// オート再生モード
+        /// </summary>
+        private bool _isAutoPlayMode;
+        
+        /// <summary>
         /// オート再生開始予約済み
         /// </summary>
         private bool _isAutoPlayReserved = false;
@@ -29,6 +34,12 @@ namespace CryStar.Story.Player
         /// オート再生開始予約済み
         /// </summary>
         public bool IsAutoPlayReserved => _isAutoPlayReserved;
+        
+        /// <summary>
+        /// まだオート再生を予約されていない
+        /// NOTE: オート再生モードなのにまだ予約がない場合Trueになる
+        /// </summary>
+        public bool NotYetRequest => !_isAutoPlayReserved && _isAutoPlayMode;
 
         /// <summary>
         /// コンストラクタ
@@ -44,6 +55,9 @@ namespace CryStar.Story.Player
         public async UniTask AutoPlay()
         {
             _isAutoPlayReserved = true;
+            
+            // 念のためキャンセル処理を挟んでから始める
+            CancelAutoPlay();
             
             // 新しいCancellationTokenSourceを作成
             _cts = new CancellationTokenSource();
@@ -69,6 +83,21 @@ namespace CryStar.Story.Player
                 // 予約が実行されたのでフラグを戻す
                 _isAutoPlayReserved = false;
             }
+        }
+
+        /// <summary>
+        /// オート再生モードの切り替え処理
+        /// </summary>
+        public bool ToggleAutoPlayMode()
+        {
+            _isAutoPlayMode = !_isAutoPlayMode;
+            if (!_isAutoPlayMode)
+            {
+                // オート再生をキャンセル
+                CancelAutoPlay();
+            }
+            
+            return _isAutoPlayMode;
         }
         
         /// <summary>

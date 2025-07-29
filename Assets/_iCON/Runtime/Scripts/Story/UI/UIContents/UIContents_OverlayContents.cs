@@ -33,6 +33,11 @@ namespace iCON.UI
         [SerializeField]
         private Color _defaultButtonColor;
         
+        /// <summary>
+        /// View
+        /// </summary>
+        private StoryView _view;
+        
         #region Lifecycle
 
         private void OnDestroy()
@@ -44,6 +49,23 @@ namespace iCON.UI
 
         #endregion
 
+        /// <summary>
+        /// Setup
+        /// </summary>
+        public void Setup(StoryView view, Action skipAction, Action onImmersiveAction, Action onAutoPlayAction)
+        {
+            _view = view;
+            
+            // UI非表示ボタンを押した時の処理を登録
+            SetupImmerseButton(onImmersiveAction);
+            
+            // オート再生ボタン
+            SetupAutoPlayButton(onAutoPlayAction);
+            
+            // スキップボタン
+            SetupSkipButton(skipAction);
+        }
+        
         /// <summary>
         /// UI非表示ボタンのセットアップ
         /// </summary>
@@ -88,10 +110,5 @@ namespace iCON.UI
         {
             _autoPlayButton.image.color = isActive ? Color.gray : _defaultButtonColor;
         }
-        
-        #region Private Methods
-
-
-        #endregion
     }
 }

@@ -20,12 +20,6 @@ namespace CryStar.Story.Player
         private StoryView _view;
         
         /// <summary>
-        /// オーバーレイ
-        /// </summary>
-        [SerializeField]
-        private StoryOverlayController _overlayController;
-        
-        /// <summary>
         /// データの読み込みとオーダー取得を行う
         /// </summary>
         private StoryOrderProvider _orderProvider;
@@ -41,15 +35,25 @@ namespace CryStar.Story.Player
         private StoryAutoPlayController _autoPlayController;
 
         /// <summary>
+        /// 現在のストーリー位置
+        /// </summary>
+        private int _currentOrder = 0;
+        
+        /// <summary>
         /// ストーリー終了時のアクション
         /// NOTE: 初期化後すぐにストーリーが進まないようにDefaultはtrueにしておく
         /// </summary>
         private bool _isStoryComplete = true;
+        
+        /// <summary>
+        /// UI非表示モード
+        /// </summary>
+        private bool _isImmerseMode = false;
 
         /// <summary>
-        /// 現在のストーリー位置
+        /// 選択肢表示中などによる一時停止
         /// </summary>
-        private int _currentOrder = 0;
+        private bool _isStopRequested;
 
         #region Lifecycle
         
@@ -67,13 +71,13 @@ namespace CryStar.Story.Player
         /// </summary>
         private void Update()
         {
-            if (_overlayController.IsImmerseMode || _view.IsStopRequested || _isStoryComplete)
+            if (_isImmerseMode || _isStopRequested || _isStoryComplete)
             {
                 // UI非表示モード/選択肢表示中/既に読了していた場合は処理を行わない
                 return;
             }
             
-            if (_overlayController.AutoPlayMode && !_orderExecutor.IsExecuting && !_autoPlayController.IsAutoPlayReserved)
+            if (!_orderExecutor.IsExecuting && _autoPlayController.NotYetRequest)
             {
                 // オート再生のフラグを予約済みに切り替える
                 _autoPlayController.AutoPlay().Forget();
@@ -95,7 +99,7 @@ namespace CryStar.Story.Player
         }
         
         #endregion
-
+        
         /// <summary>
         /// ストーリー再生を開始する
         /// </summary>
@@ -194,15 +198,43 @@ namespace CryStar.Story.Player
         private void InitializeComponents()
         {
             _orderProvider = new StoryOrderProvider();
-            _orderExecutor = new OrderExecutor(_view, ExecuteChoiceBranch);
+            _orderExecutor = new OrderExecutor(_view, BranchOrResumeStory);
             _autoPlayController = new StoryAutoPlayController(ProcessNextOrder);
-            _overlayController.Setup(_view, _autoPlayController.CancelAutoPlay, MoveToEndOrder);
+            _view.InitializeChoice(PauseStoryProgress);
+            _view.SetupOverlay(SkipToEndOrder, ToggleImmerseMode, ToggleAutoPlayMode);
+        }
+
+        /// <summary>
+        /// UI非表示モードの切り替え
+        /// </summary>
+        private void ToggleImmerseMode()
+        {
+            // UI非表示状態かフラグを切り替える
+            _isImmerseMode = !_isImmerseMode;
+            _view.SetImmerseMode(_isImmerseMode);
+        }
+
+        /// <summary>
+        /// オート再生モードの切り替え
+        /// </summary>
+        private void ToggleAutoPlayMode()
+        {
+            bool isAutoPlay = _autoPlayController.ToggleAutoPlayMode();
+            _view.SetAutoPlayMode(isAutoPlay);
+        }
+        
+        /// <summary>
+        /// ストーリー進行の一時停止
+        /// </summary>
+        private void PauseStoryProgress()
+        {
+            _isStopRequested = true;
         }
         
         /// <summary>
         /// スキップ機能
         /// </summary>
-        private void MoveToEndOrder()
+        private void SkipToEndOrder()
         {
             // Endオーダーの1つ前のオーダーに移動
             _currentOrder = _orderProvider.GetOrderCount() - 1;
@@ -218,16 +250,16 @@ namespace CryStar.Story.Player
         }
 
         /// <summary>
-        /// 選択肢による分岐機能
+        /// 選択肢による分岐とストーリー再開機能
         /// </summary>
-        private void ExecuteChoiceBranch(int orderIndex = -1)
+        private void BranchOrResumeStory(int orderIndex = -1)
         {
             // オーダーのインデックスがデフォルトであれば現在の地点を
             // その他のインデックスの場合は引数で指定されたオーダーに移動する
             _currentOrder = orderIndex == -1 ? _currentOrder : orderIndex;
 
             // 一時停止解除
-            _view.IsStopRequested = false;
+            _isStopRequested = false;
             
             // オーダーを実行
             ProcessNextOrder();
