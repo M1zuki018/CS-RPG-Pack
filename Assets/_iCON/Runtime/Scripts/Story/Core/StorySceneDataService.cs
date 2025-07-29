@@ -7,31 +7,42 @@ namespace CryStar.Story.Core
     /// <summary>
     /// ストーリーのシーンデータの管理を統括するクラス
     /// </summary>
-    public class StorySceneDataService
+    public class StorySceneDataService : IStorySceneDataService
     {
         /// <summary>
         /// 読み取り
         /// </summary>
-        private readonly StorySceneDataRepository _repository = new();
+        private readonly IStorySceneDataRepository _repository;
         
         /// <summary>
         /// 変換
         /// </summary>
-        private readonly StorySceneDataConverter _converter = new();
+        private readonly IStorySceneDataConverter _converter;
         
         /// <summary>
         /// キャッシュ管理
         /// </summary>
-        private readonly StorySceneDataCache _cache = new();
+        private readonly IStorySceneDataCache _cache;
     
         /// <summary>
         /// 初期化済みか
         /// </summary>
         private bool _isInitialized = false;
         public bool IsInitialized => _isInitialized;
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public StorySceneDataService(IStorySceneDataRepository repository, IStorySceneDataConverter converter,
+            IStorySceneDataCache cache)
+        {
+            _repository = repository;
+            _converter = converter;
+            _cache = cache;
+        }
     
         /// <summary>
-        /// システム初期化
+        /// Initialize - ヘッダー行から変換マップを作成
         /// </summary>
         public async UniTask InitializeAsync(string spreadsheetName, string headerRange)
         {
