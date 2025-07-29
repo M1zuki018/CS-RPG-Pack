@@ -1,9 +1,10 @@
 using System.Threading;
+using CryStar.Story.Data;
+using CryStar.Story.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using iCON.UI;
 
-namespace iCON.System
+namespace CryStar.Story.Execution
 {
     /// <summary>
     /// 非同期対応のオーダーハンドラーインターフェース

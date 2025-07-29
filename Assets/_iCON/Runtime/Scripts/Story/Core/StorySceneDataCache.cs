@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using iCON.System;
+using CryStar.Story.Data;
 
 namespace CryStar.Story.Core
 {

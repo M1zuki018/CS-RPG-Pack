@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace iCON.UI
+namespace CryStar.Effects
 {
     /// <summary>
     /// キャンバスを揺らす

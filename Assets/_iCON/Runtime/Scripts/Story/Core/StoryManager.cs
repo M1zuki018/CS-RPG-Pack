@@ -1,5 +1,6 @@
 using System;
 using CryStar.Story.Constants;
+using CryStar.Story.Data;
 using CryStar.Story.Player;
 using Cysharp.Threading.Tasks;
 using iCON.Utility;

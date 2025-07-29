@@ -4,8 +4,9 @@
 // ============================================================================
 
 using System.Collections.Generic;
+using CryStar.Story.Data;
+using CryStar.Story.Enums;
 using UnityEngine;
-using iCON.System;
 
 /// <summary>
 /// ストーリーキャラクター情報の定数クラス

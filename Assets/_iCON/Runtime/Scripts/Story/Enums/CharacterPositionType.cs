@@ -1,4 +1,4 @@
-namespace iCON.Enums
+namespace CryStar.Story.Enums
 {
     /// <summary>
     /// ストーリー中のキャラクターの立ち位置の列挙型

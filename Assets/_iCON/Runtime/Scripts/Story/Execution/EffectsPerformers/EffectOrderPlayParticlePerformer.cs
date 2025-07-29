@@ -1,8 +1,10 @@
+using CryStar.Story.Attribute;
+using CryStar.Story.Data;
+using CryStar.Story.Enums;
+using CryStar.Story.UI;
 using DG.Tweening;
-using iCON.Enums;
-using iCON.System;
 
-namespace iCON.UI
+namespace CryStar.Story.Execution
 {
     /// <summary>
     /// PlayParticle - ParticleSystemでエフェクトを再生

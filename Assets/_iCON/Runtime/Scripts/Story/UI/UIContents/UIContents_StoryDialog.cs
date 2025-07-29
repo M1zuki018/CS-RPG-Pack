@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace iCON.UI
+namespace CryStar.Story.UI
 {
     /// <summary>
     /// UIContents ダイアログ

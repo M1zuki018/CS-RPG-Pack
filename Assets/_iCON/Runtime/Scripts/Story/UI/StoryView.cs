@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using CryStar.Attribute;
+using CryStar.Effects;
 using CryStar.Story.Constants;
+using CryStar.Story.Enums;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using iCON.Enums;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering;
 
-namespace iCON.UI
+namespace CryStar.Story.UI
 {
     /// <summary>
     /// Story View

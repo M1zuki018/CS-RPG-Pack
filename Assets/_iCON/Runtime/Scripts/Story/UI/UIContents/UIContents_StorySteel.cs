@@ -2,11 +2,10 @@ using System;
 using CryStar.Story.Constants;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using iCON.Constants;
 using iCON.Utility;
 using UnityEngine;
 
-namespace iCON.UI
+namespace CryStar.Story.UI
 {
     /// <summary>
     /// UIContents ストーリーのスチル表示を管理する

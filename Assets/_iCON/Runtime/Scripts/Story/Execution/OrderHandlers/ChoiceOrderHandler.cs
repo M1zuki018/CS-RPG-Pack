@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using CryStar.Story.Data;
+using CryStar.Story.Enums;
+using CryStar.Story.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using iCON.Enums;
-using iCON.UI;
+using iCON.System;
 
-namespace iCON.System
+namespace CryStar.Story.Execution
 {
     /// <summary>
     /// Choice - 選択肢表示

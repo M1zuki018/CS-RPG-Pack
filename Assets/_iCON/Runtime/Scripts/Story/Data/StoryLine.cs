@@ -1,6 +1,6 @@
 using System;
 
-namespace iCON.System
+namespace CryStar.Story.Data
 {
     /// <summary>
     /// ストーリーのデータを取得する際に必要なデータ

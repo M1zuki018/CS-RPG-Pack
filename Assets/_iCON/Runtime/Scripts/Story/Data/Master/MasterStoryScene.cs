@@ -5,8 +5,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CryStar.Story.Data;
 using UnityEngine;
-using iCON.System;
 
 /// <summary>
 /// ストーリーシーン情報の定数クラス

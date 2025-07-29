@@ -33,7 +33,7 @@ public class StorySceneMasterGeneratorWindow : BaseMasterGeneratorWindow
         sb.AppendLine("using System.Collections.Generic;");
         sb.AppendLine("using System.Linq;");
         sb.AppendLine("using UnityEngine;");
-        sb.AppendLine("using iCON.System;");
+        sb.AppendLine("using CryStar.Story.Data;");
         sb.AppendLine();
         sb.AppendLine("/// <summary>");
         sb.AppendLine("/// ストーリーシーン情報の定数クラス");

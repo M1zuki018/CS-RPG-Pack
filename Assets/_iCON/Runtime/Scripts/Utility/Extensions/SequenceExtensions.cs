@@ -1,5 +1,5 @@
+using CryStar.Story.Enums;
 using DG.Tweening;
-using iCON.Enums;
 
 /// <summary>
 /// シーケンスの拡張メソッド

@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
+using CryStar.Story.Data;
 using CryStar.Story.Enums;
-using iCON.Enums;
-using iCON.System;
 using UnityEngine;
 
 namespace CryStar.Story.Core

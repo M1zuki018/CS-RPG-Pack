@@ -2,7 +2,7 @@ using DG.Tweening;
 using iCON.Utility;
 using UnityEngine;
 
-namespace iCON.UI
+namespace CryStar.Story.UI
 {
     /// <summary>
     /// UIContents 名前つきのダイアログ

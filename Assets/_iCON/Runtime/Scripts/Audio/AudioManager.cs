@@ -4,7 +4,6 @@ using CryStar.Attribute;
 using CryStar.Story.Constants;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using iCON.Constants;
 using iCON.Extensions;
 using iCON.Utility;
 using UnityEngine;

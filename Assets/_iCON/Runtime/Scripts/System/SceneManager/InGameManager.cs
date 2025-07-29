@@ -1,11 +1,9 @@
-using System.Linq;
 using CryStar.Attribute;
 using CryStar.Enums;
 using CryStar.Story.Core;
 using Cysharp.Threading.Tasks;
 using iCON.UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace iCON.System
 {

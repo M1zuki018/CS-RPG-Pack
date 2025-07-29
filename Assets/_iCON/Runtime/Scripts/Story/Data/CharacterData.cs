@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using CryStar.Story.Enums;
 using UnityEngine;
 
-namespace iCON.System
+namespace CryStar.Story.Data
 {   
     /// <summary>
     /// キャラクターデータ

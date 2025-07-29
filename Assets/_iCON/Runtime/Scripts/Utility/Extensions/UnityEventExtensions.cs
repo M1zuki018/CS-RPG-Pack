@@ -1,5 +1,4 @@
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace iCON.Utility
 {

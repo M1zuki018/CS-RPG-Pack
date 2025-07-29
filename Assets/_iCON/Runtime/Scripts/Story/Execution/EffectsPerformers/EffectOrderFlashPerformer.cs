@@ -1,9 +1,11 @@
+using CryStar.Story.Attribute;
+using CryStar.Story.Data;
+using CryStar.Story.Enums;
+using CryStar.Story.UI;
 using DG.Tweening;
-using iCON.Enums;
-using iCON.System;
 using UnityEngine;
 
-namespace iCON.UI
+namespace CryStar.Story.Execution
 {
     /// <summary>
     /// Flash - フラッシュエフェクト

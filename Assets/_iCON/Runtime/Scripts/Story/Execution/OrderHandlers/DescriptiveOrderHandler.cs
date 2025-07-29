@@ -1,10 +1,11 @@
 using CryStar.Story.Constants;
+using CryStar.Story.Data;
+using CryStar.Story.Enums;
+using CryStar.Story.UI;
 using DG.Tweening;
-using iCON.Constants;
-using iCON.Enums;
-using iCON.UI;
+using iCON.System;
 
-namespace iCON.System
+namespace CryStar.Story.Execution
 {
     /// <summary>
     /// Descriptive - 地の文・説明文表示
