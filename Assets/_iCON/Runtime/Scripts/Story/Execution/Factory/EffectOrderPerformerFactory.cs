@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using CryStar.Story.Attribute;
+using CryStar.Story.Attributes;
 using CryStar.Story.Enums;
 using CryStar.Story.UI;
 using iCON.Utility;

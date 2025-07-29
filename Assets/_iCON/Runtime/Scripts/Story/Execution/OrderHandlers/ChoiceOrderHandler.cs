@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using CryStar.Story.Attribute;
+using CryStar.Story.Attributes;
 using CryStar.Story.Data;
 using CryStar.Story.Enums;
 using CryStar.Story.UI;
