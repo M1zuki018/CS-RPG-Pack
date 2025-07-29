@@ -45,6 +45,16 @@ namespace CryStar.Story.Player
         /// NOTE: 初期化後すぐにストーリーが進まないようにDefaultはtrueにしておく
         /// </summary>
         private bool _isStoryComplete = true;
+        
+        /// <summary>
+        /// UI非表示モード
+        /// </summary>
+        private bool _isImmerseMode = false;
+        
+        /// <summary>
+        /// オート再生モード
+        /// </summary>
+        private bool _autoPlayMode = false;
 
         /// <summary>
         /// 現在のストーリー位置
@@ -67,13 +77,13 @@ namespace CryStar.Story.Player
         /// </summary>
         private void Update()
         {
-            if (_overlayController.IsImmerseMode || _view.IsStopRequested || _isStoryComplete)
+            if (_isImmerseMode || _view.IsStopRequested || _isStoryComplete)
             {
                 // UI非表示モード/選択肢表示中/既に読了していた場合は処理を行わない
                 return;
             }
             
-            if (_overlayController.AutoPlayMode && !_orderExecutor.IsExecuting && !_autoPlayController.IsAutoPlayReserved)
+            if (_autoPlayMode && !_orderExecutor.IsExecuting && !_autoPlayController.IsAutoPlayReserved)
             {
                 // オート再生のフラグを予約済みに切り替える
                 _autoPlayController.AutoPlay().Forget();
@@ -96,6 +106,31 @@ namespace CryStar.Story.Player
         
         #endregion
 
+        /// <summary>
+        /// UI非表示モードの管理
+        /// </summary>
+        private void HandleClickImmersiveMode()
+        {
+            // UI非表示状態かフラグを切り替える
+            _isImmerseMode = !_isImmerseMode;
+            _overlayController.HandleClickImmerseButton(_isImmerseMode);
+        }
+
+        /// <summary>
+        /// オート再生モードの管理
+        /// </summary>
+        private void HandleClickAutoPlay()
+        {
+            _autoPlayMode = !_autoPlayMode;
+            _overlayController.HandleClickAutoPlayButton(_autoPlayMode);
+
+            if (!_autoPlayMode)
+            {
+                // オート再生をキャンセル
+                _autoPlayController.CancelAutoPlay();
+            }
+        }
+        
         /// <summary>
         /// ストーリー再生を開始する
         /// </summary>
@@ -196,7 +231,7 @@ namespace CryStar.Story.Player
             _orderProvider = new StoryOrderProvider();
             _orderExecutor = new OrderExecutor(_view, ExecuteChoiceBranch);
             _autoPlayController = new StoryAutoPlayController(ProcessNextOrder);
-            _overlayController.Setup(_view, _autoPlayController.CancelAutoPlay, MoveToEndOrder);
+            _overlayController.Setup(_view,MoveToEndOrder, HandleClickImmersiveMode, HandleClickAutoPlay);
         }
         
         /// <summary>

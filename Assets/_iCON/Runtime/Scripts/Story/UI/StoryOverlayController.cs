@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using iCON.UI;
 using UnityEngine;
 
@@ -22,43 +21,17 @@ namespace iCON.System
         private StoryView _view;
         
         /// <summary>
-        /// オート再生をキャンセルするアクション
-        /// </summary>
-        private Action _cancelAutoPlayAction;
-        
-        /// <summary>
-        /// UI非表示モード
-        /// </summary>
-        private bool _isImmerseMode = false;
-        
-        /// <summary>
-        /// オート再生モード
-        /// </summary>
-        private bool _autoPlayMode = false;
-        
-        /// <summary>
-        /// UI非表示モード
-        /// </summary>
-        public bool IsImmerseMode => _isImmerseMode;
-        
-        /// <summary>
-        /// オート再生モード
-        /// </summary>
-        public bool AutoPlayMode => _autoPlayMode;
-        
-        /// <summary>
         /// Setup
         /// </summary>
-        public void Setup(StoryView view, Action cancelAutoPlayAction, Action skipAction)
+        public void Setup(StoryView view, Action skipAction, Action onImmersiveAction, Action onAutoPlayAction)
         {
             _view = view;
-            _cancelAutoPlayAction = cancelAutoPlayAction;
             
-            // UI非表示ボタン
-            _overlayContents.SetupImmerseButton(HandleClickImmerseButton);
+            // UI非表示ボタンを押した時の処理を登録
+            _overlayContents.SetupImmerseButton(onImmersiveAction);
             
             // オート再生ボタン
-            _overlayContents.SetupAutoPlayButton(HandleClickAutoPlayButton);
+            _overlayContents.SetupAutoPlayButton(onAutoPlayAction);
             
             // スキップボタン
             _overlayContents.SetupSkipButton(skipAction);
@@ -67,15 +40,12 @@ namespace iCON.System
         /// <summary>
         /// UI非表示ボタンが押されたときの処理
         /// </summary>
-        private void HandleClickImmerseButton()
+        public void HandleClickImmerseButton(bool isImmersiveMode)
         {
-            // UI非表示状態かフラグを切り替える
-            _isImmerseMode = !_isImmerseMode;
-            
             // ボタンの色を変える
-            _overlayContents.ChangeImmerseButtonColor(_isImmerseMode);
+            _overlayContents.ChangeImmerseButtonColor(isImmersiveMode);
 
-            if (_isImmerseMode)
+            if (isImmersiveMode)
             {
                 // 非表示状態であれば、ダイアログを非表示にする
                 _view.HideDialog();
@@ -89,18 +59,10 @@ namespace iCON.System
         /// <summary>
         /// オート再生ボタンが押されたときの処理
         /// </summary>
-        private void HandleClickAutoPlayButton()
+        public void HandleClickAutoPlayButton(bool isAutoPlayMode)
         {
-            _autoPlayMode = !_autoPlayMode;
-
             // ボタンの色を変える
-            _overlayContents.ChangeAutoPlayButtonColor(_autoPlayMode);
-            
-            if (!_autoPlayMode)
-            {
-                // オートプレイをやめるアクションを実行
-                _cancelAutoPlayAction?.Invoke();
-            }
+            _overlayContents.ChangeAutoPlayButtonColor(isAutoPlayMode);
         }
     }
 }
