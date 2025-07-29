@@ -99,25 +99,6 @@ namespace CryStar.Story.Player
         }
         
         #endregion
-
-        /// <summary>
-        /// UI非表示モードの管理
-        /// </summary>
-        private void HandleClickImmersiveMode()
-        {
-            // UI非表示状態かフラグを切り替える
-            _isImmerseMode = !_isImmerseMode;
-            _view.ImmersiveMode(_isImmerseMode);
-        }
-
-        /// <summary>
-        /// オート再生モードの管理
-        /// </summary>
-        private void HandleClickAutoPlay()
-        {
-            bool isAutoPlay = _autoPlayController.HandleClickAutoPlay();
-            _view.AutoPlayMode(isAutoPlay);
-        }
         
         /// <summary>
         /// ストーリー再生を開始する
@@ -217,13 +198,35 @@ namespace CryStar.Story.Player
         private void InitializeComponents()
         {
             _orderProvider = new StoryOrderProvider();
-            _orderExecutor = new OrderExecutor(_view, ExecuteChoiceBranch);
+            _orderExecutor = new OrderExecutor(_view, BranchOrResumeStory);
             _autoPlayController = new StoryAutoPlayController(ProcessNextOrder);
-            _view.InitializeChoice(HandleStop);
-            _view.SetupOverlay(MoveToEndOrder, HandleClickImmersiveMode, HandleClickAutoPlay);
+            _view.InitializeChoice(PauseStoryProgress);
+            _view.SetupOverlay(SkipToEndOrder, ToggleImmerseMode, ToggleAutoPlayMode);
         }
 
-        private void HandleStop()
+        /// <summary>
+        /// UI非表示モードの切り替え
+        /// </summary>
+        private void ToggleImmerseMode()
+        {
+            // UI非表示状態かフラグを切り替える
+            _isImmerseMode = !_isImmerseMode;
+            _view.SetImmerseMode(_isImmerseMode);
+        }
+
+        /// <summary>
+        /// オート再生モードの切り替え
+        /// </summary>
+        private void ToggleAutoPlayMode()
+        {
+            bool isAutoPlay = _autoPlayController.ToggleAutoPlayMode();
+            _view.SetAutoPlayMode(isAutoPlay);
+        }
+        
+        /// <summary>
+        /// ストーリー進行の一時停止
+        /// </summary>
+        private void PauseStoryProgress()
         {
             _isStopRequested = true;
         }
@@ -231,7 +234,7 @@ namespace CryStar.Story.Player
         /// <summary>
         /// スキップ機能
         /// </summary>
-        private void MoveToEndOrder()
+        private void SkipToEndOrder()
         {
             // Endオーダーの1つ前のオーダーに移動
             _currentOrder = _orderProvider.GetOrderCount() - 1;
@@ -247,9 +250,9 @@ namespace CryStar.Story.Player
         }
 
         /// <summary>
-        /// 選択肢による分岐機能
+        /// 選択肢による分岐とストーリー再開機能
         /// </summary>
-        private void ExecuteChoiceBranch(int orderIndex = -1)
+        private void BranchOrResumeStory(int orderIndex = -1)
         {
             // オーダーのインデックスがデフォルトであれば現在の地点を
             // その他のインデックスの場合は引数で指定されたオーダーに移動する

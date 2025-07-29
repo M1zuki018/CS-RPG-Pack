@@ -269,7 +269,7 @@ namespace iCON.UI
         /// <summary>
         /// UI非表示モード
         /// </summary>
-        public void ImmersiveMode(bool isImmersive)
+        public void SetImmerseMode(bool isImmersive)
         {
             // ボタンの色を変える
             _overlay.ChangeImmerseButtonColor(isImmersive);
@@ -287,7 +287,7 @@ namespace iCON.UI
         /// <summary>
         /// オート再生状態に変更
         /// </summary>
-        public void AutoPlayMode(bool isAutoPlay)
+        public void SetAutoPlayMode(bool isAutoPlay)
         {
             // ボタンの色を変える
             _overlay.ChangeAutoPlayButtonColor(isAutoPlay);

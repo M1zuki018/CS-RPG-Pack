@@ -88,7 +88,7 @@ namespace CryStar.Story.Player
         /// <summary>
         /// オート再生モードの切り替え処理
         /// </summary>
-        public bool HandleClickAutoPlay()
+        public bool ToggleAutoPlayMode()
         {
             _isAutoPlayMode = !_isAutoPlayMode;
             if (!_isAutoPlayMode)
