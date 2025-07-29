@@ -35,6 +35,11 @@ namespace CryStar.Story.Player
         private StoryAutoPlayController _autoPlayController;
 
         /// <summary>
+        /// 現在のストーリー位置
+        /// </summary>
+        private int _currentOrder = 0;
+        
+        /// <summary>
         /// ストーリー終了時のアクション
         /// NOTE: 初期化後すぐにストーリーが進まないようにDefaultはtrueにしておく
         /// </summary>
@@ -51,9 +56,9 @@ namespace CryStar.Story.Player
         private bool _autoPlayMode = false;
 
         /// <summary>
-        /// 現在のストーリー位置
+        /// 選択肢表示中などによる一時停止
         /// </summary>
-        private int _currentOrder = 0;
+        private bool _isStopRequested;
 
         #region Lifecycle
         
@@ -71,7 +76,7 @@ namespace CryStar.Story.Player
         /// </summary>
         private void Update()
         {
-            if (_isImmerseMode || _view.IsStopRequested || _isStoryComplete)
+            if (_isImmerseMode || _isStopRequested || _isStoryComplete)
             {
                 // UI非表示モード/選択肢表示中/既に読了していた場合は処理を行わない
                 return;
@@ -225,7 +230,13 @@ namespace CryStar.Story.Player
             _orderProvider = new StoryOrderProvider();
             _orderExecutor = new OrderExecutor(_view, ExecuteChoiceBranch);
             _autoPlayController = new StoryAutoPlayController(ProcessNextOrder);
+            _view.InitializeChoice(HandleStop);
             _view.SetupOverlay(MoveToEndOrder, HandleClickImmersiveMode, HandleClickAutoPlay);
+        }
+
+        private void HandleStop()
+        {
+            _isStopRequested = true;
         }
         
         /// <summary>
@@ -256,7 +267,7 @@ namespace CryStar.Story.Player
             _currentOrder = orderIndex == -1 ? _currentOrder : orderIndex;
 
             // 一時停止解除
-            _view.IsStopRequested = false;
+            _isStopRequested = false;
             
             // オーダーを実行
             ProcessNextOrder();

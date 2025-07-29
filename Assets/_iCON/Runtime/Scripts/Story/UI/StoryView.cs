@@ -4,9 +4,7 @@ using CryStar.Attribute;
 using CryStar.Story.Constants;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using iCON.Constants;
 using iCON.Enums;
-using iCON.System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering;
@@ -72,8 +70,6 @@ namespace iCON.UI
         /// </summary>
         [SerializeField, HighlightIfNull]
         private Volume _volume;
-        
-        public bool IsStopRequested = false;
         
         /// <summary>
         /// 会話テキストを更新する
@@ -244,11 +240,19 @@ namespace iCON.UI
         }
 
         /// <summary>
+        /// 選択肢クラスの初期化
+        /// 選択肢を表示した時に一時的に進行しないようにする処理を渡す
+        /// </summary>
+        public void InitializeChoice(Action onStop)
+        {
+            _choice.Initialize(onStop);
+        }
+
+        /// <summary>
         /// 選択肢を表示する
         /// </summary>
         public void SetupChoice(IReadOnlyList<UIContents_Choice.ViewData> viewDataList, float duration = 0)
         {
-            IsStopRequested = true;
             _choice.Setup(viewDataList);
         }
 

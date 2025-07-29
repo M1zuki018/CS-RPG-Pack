@@ -21,6 +21,11 @@ namespace iCON.UI
         /// </summary>
         private CanvasGroup _canvasGroup;
         
+        /// <summary>
+        /// 再生一時停止のコールバック
+        /// </summary>
+        private Action _onStopAction;
+        
         #region Lifecycle
 
         private void Awake()
@@ -29,13 +34,29 @@ namespace iCON.UI
             SetVisibility(false);
         }
 
+        private void OnDestroy()
+        {
+            _onStopAction = null;
+        }
+
         #endregion
+
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        public void Initialize(Action onStopAction)
+        {
+            _onStopAction = onStopAction;
+        }
 
         /// <summary>
         /// Setup
         /// </summary>
         public void Setup(IReadOnlyList<ViewData> choiceViewDataList)
         {
+            // 一時停止
+            _onStopAction?.Invoke();
+            
             foreach (var viewData in choiceViewDataList)
             {
                 // 選択肢のボタンを子オブジェクトに生成
