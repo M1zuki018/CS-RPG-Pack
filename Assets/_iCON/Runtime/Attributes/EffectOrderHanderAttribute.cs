@@ -1,5 +1,5 @@
 using System;
-using iCON.Enums;
+using CryStar.Story.Enums;
 
 namespace iCON.System
 {

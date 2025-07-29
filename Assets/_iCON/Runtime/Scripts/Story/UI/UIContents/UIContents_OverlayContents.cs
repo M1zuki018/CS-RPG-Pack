@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace iCON.UI
+namespace CryStar.Story.UI
 {
     /// <summary>
     /// UIContents ストーリー画面のオーバーレイ上のUIを管理

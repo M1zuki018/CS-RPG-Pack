@@ -1,4 +1,4 @@
-namespace iCON.System
+namespace CryStar.Story.Enums
 {
     /// <summary>
     /// キャラクターの表情差分の列挙型

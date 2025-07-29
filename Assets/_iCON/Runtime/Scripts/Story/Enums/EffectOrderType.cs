@@ -1,4 +1,4 @@
-namespace iCON.Enums
+namespace CryStar.Story.Enums
 {
     /// <summary>
     /// Effectオーダーでできる演出の種類

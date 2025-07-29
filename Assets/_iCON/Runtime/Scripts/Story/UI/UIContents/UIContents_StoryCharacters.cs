@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using CryStar.Story.Data;
+using CryStar.Story.Enums;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using iCON.Enums;
 using UnityEngine;
 
-namespace iCON.UI
+namespace CryStar.Story.UI
 {
     /// <summary>
     /// UIContents ストーリーのキャラクター画像管理

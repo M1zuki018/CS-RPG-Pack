@@ -1,7 +1,7 @@
 using System;
-using iCON.Enums;
+using CryStar.Story.Enums;
 
-namespace iCON.System
+namespace CryStar.Story.Data
 {
     /// <summary>
     /// オーダーデータ

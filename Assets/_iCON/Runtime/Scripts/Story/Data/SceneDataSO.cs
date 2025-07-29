@@ -2,7 +2,7 @@ using System.Linq;
 using CryStar.Attribute;
 using UnityEngine;
 
-namespace iCON.System
+namespace CryStar.Story.Data
 {
     /// <summary>
     /// ストーリーを実行するために必要なデータを設定するためのスクリプタブルオブジェクト

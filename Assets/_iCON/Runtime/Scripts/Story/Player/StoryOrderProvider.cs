@@ -1,8 +1,6 @@
   using System.Collections.Generic;
-  using CryStar.Story.Core;
-  using Cysharp.Threading.Tasks;
-  using iCON.Enums;
-  using iCON.System;
+  using CryStar.Story.Data;
+  using CryStar.Story.Enums;
 
   namespace CryStar.Story.Player
   {

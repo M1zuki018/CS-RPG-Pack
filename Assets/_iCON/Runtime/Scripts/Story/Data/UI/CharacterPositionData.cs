@@ -1,10 +1,10 @@
 using System;
-using iCON.Enums;
+using CryStar.Story.Enums;
 using iCON.Utility;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace iCON.UI
+namespace CryStar.Story.Data
 {
     /// <summary>
     /// ストーリー演出用のキャラクター配置データ

@@ -1,4 +1,4 @@
-namespace iCON.System
+namespace CryStar.Story.Enums
 {
     /// <summary>
     /// ストーリー再生状態

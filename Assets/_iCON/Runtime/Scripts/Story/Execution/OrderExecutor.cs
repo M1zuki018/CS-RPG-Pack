@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using CryStar.Story.Data;
+using CryStar.Story.Enums;
+using CryStar.Story.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using iCON.Enums;
-using iCON.Extensions;
-using iCON.UI;
+using iCON.System;
 using iCON.Utility;
 
-namespace iCON.System
+namespace CryStar.Story.Execution
 {
     /// <summary>
     /// ストーリーのオーダーを実行するクラス

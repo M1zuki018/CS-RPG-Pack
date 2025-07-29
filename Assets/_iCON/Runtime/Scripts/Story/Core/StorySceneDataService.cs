@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using CryStar.Story.Data;
 using Cysharp.Threading.Tasks;
-using iCON.System;
 
 namespace CryStar.Story.Core
 {

@@ -1,4 +1,4 @@
-namespace iCON.Enums
+namespace CryStar.Story.Enums
 {
     /// <summary>
     /// Story Orderの連結を指定する列挙型

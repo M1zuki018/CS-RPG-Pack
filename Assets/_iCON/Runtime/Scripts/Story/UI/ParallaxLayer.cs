@@ -2,7 +2,7 @@ using System;
 using CryStar.Attribute;
 using UnityEngine;
 
-namespace iCON.UI
+namespace CryStar.Story.UI
 {
     [Serializable]
     public class ParallaxLayer

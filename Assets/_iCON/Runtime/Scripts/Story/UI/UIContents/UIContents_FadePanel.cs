@@ -2,7 +2,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace iCON.UI
+namespace CryStar.Story.UI
 {
     /// <summary>
     /// UIContents フェードパネル

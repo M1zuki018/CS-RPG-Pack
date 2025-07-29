@@ -1,4 +1,4 @@
-using iCON.System;
+using CryStar.Story.UI;
 using UnityEngine;
 
 public class EffectsManager : MonoBehaviour
