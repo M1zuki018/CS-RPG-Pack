@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CryStar.Attribute;
+using CryStar.Effects;
 using CryStar.Story.Constants;
 using CryStar.Story.Enums;
 using Cysharp.Threading.Tasks;

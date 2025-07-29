@@ -3,7 +3,7 @@ using System.Linq;
 using CryStar.Attribute;
 using UnityEngine;
 
-namespace CryStar.Story.UI
+namespace CryStar.Effects
 {
     /// <summary>
     /// タイトル画面でマウスの動きに合わせて傾いて見えるような演出

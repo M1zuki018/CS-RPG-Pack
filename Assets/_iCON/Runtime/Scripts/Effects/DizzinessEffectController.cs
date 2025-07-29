@@ -7,7 +7,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Extensions;
 
-namespace CryStar.Story.UI
+namespace CryStar.Effects
 {
     /// <summary>
     /// めまいの演出を行うクラス

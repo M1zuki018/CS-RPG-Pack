@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace CryStar.Story.UI
+namespace CryStar.Effects
 {
     /// <summary>
     /// キャンバスを揺らす
