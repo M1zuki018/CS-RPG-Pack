@@ -120,9 +120,9 @@ public class StoryCharacterMasterGeneratorWindow : BaseMasterGeneratorWindow
         sb.AppendLine("    public static string GetExpressionPath(int characterId, FacialExpressionType expression)");
         sb.AppendLine("    {");
         sb.AppendLine("        var character = GetCharacter(characterId);");
-        sb.AppendLine("        if (character?.ExpressionPaths?.ContainsKey(expression) == true)");
+        sb.AppendLine("        if (character.HasExpression(expression))");
         sb.AppendLine("        {");
-        sb.AppendLine("            return character.ExpressionPaths[expression];");
+        sb.AppendLine("            return character.GetExpressionPath(expression);");
         sb.AppendLine("        }");
         sb.AppendLine("        return null;");
         sb.AppendLine("    }");
