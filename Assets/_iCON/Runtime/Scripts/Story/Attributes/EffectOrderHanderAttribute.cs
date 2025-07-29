@@ -1,7 +1,7 @@
 using System;
 using CryStar.Story.Enums;
 
-namespace CryStar.Story.Attribute
+namespace CryStar.Story.Attributes
 {
     /// <summary>
     /// エフェクトのハンドラーを自動登録するための属性
