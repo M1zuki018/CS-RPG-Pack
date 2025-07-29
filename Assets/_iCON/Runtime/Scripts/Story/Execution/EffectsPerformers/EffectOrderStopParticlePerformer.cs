@@ -9,7 +9,7 @@ namespace CryStar.Story.Execution
     /// <summary>
     /// StopParticle - ParticleSystemのエフェクトを停止
     /// </summary>
-    [EffectOrderHandler(EffectOrderType.StopParticle)]
+    [EffectPerformer(EffectOrderType.StopParticle)]
     public class EffectOrderStopParticlePerformer : EffectOrderPerformerBase
     {
         /// <summary>

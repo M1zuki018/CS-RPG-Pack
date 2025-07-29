@@ -10,7 +10,7 @@ namespace CryStar.Story.Execution
     /// <summary>
     /// Flash - フラッシュエフェクト
     /// </summary>
-    [EffectOrderHandler(EffectOrderType.Flash)]
+    [EffectPerformer(EffectOrderType.Flash)]
     public class EffectOrderFlashPerformer : EffectOrderPerformerBase
     {
         public override EffectOrderType SupportedEffectType => EffectOrderType.Flash;

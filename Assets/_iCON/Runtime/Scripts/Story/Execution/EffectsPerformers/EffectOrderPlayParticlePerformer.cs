@@ -9,7 +9,7 @@ namespace CryStar.Story.Execution
     /// <summary>
     /// PlayParticle - ParticleSystemでエフェクトを再生
     /// </summary>
-    [EffectOrderHandler(EffectOrderType.PlayParticle)]
+    [EffectPerformer(EffectOrderType.PlayParticle)]
     public class EffectOrderPlayParticlePerformer : EffectOrderPerformerBase
     {
         /// <summary>
