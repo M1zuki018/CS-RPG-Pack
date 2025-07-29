@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using CryStar.Story.Attribute;
 using CryStar.Story.Data;
 using CryStar.Story.Enums;
 using CryStar.Story.UI;
 using DG.Tweening;
-using iCON.System;
 
 namespace CryStar.Story.Execution
 {

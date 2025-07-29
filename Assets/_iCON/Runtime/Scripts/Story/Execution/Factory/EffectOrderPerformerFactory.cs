@@ -34,12 +34,12 @@ namespace CryStar.Story.Execution
                         .Where(type => typeof(EffectOrderPerformerBase).IsAssignableFrom(type) 
                                       && !type.IsInterface 
                                       && !type.IsAbstract
-                                      && type.GetCustomAttribute<EffectOrderHandlerAttribute>() != null)
+                                      && type.GetCustomAttribute<EffectPerformerAttribute>() != null)
                         .ToArray();
 
                     foreach (var type in handlerTypes)
                     {
-                        var attribute = type.GetCustomAttribute<EffectOrderHandlerAttribute>();
+                        var attribute = type.GetCustomAttribute<EffectPerformerAttribute>();
                         if (attribute != null)
                         {
                             _handlerTypes[attribute.EffectType] = type;

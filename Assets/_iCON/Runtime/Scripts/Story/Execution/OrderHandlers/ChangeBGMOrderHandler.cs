@@ -1,3 +1,4 @@
+using CryStar.Story.Attribute;
 using CryStar.Story.Data;
 using CryStar.Story.Enums;
 using CryStar.Story.UI;
