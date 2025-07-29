@@ -1,9 +1,11 @@
 using CryStar.Attribute;
 using CryStar.Enums;
 using CryStar.Story.Core;
+using CryStar.Story.Orchestrators;
 using Cysharp.Threading.Tasks;
 using iCON.UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace iCON.System
 {
@@ -13,10 +15,10 @@ namespace iCON.System
     public class InGameManager : ViewBase
     {
         /// <summary>
-        /// ストーリーマネージャー
+        /// ストーリーオーケストレーター
         /// </summary>
         [SerializeField, HighlightIfNull]
-        private StoryManager _storyManager;
+        private StoryOrchestrator _storyOrchestrator;
 
         [SerializeField]
         private PackSample_CanvasController_StorySelect _canvasController;
@@ -28,12 +30,12 @@ namespace iCON.System
             ServiceLocator.Resister(this, ServiceType.Local);
             
             // ストーリー再生時以外はゲームオブジェクトを非アクティブにしておく
-            _storyManager.gameObject.SetActive(false);
+            _storyOrchestrator.gameObject.SetActive(false);
         }
 
         private async void Update()
         {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.F8))
+            if (Input.GetKeyDown(KeyCode.F8))
             {
                 await ServiceLocator.GetGlobal<SceneLoader>().LoadSceneAsync(new SceneTransitionData(SceneType.Title));
             }
@@ -41,11 +43,11 @@ namespace iCON.System
         
         public void PlayStory(int storyId)
         {
-            _storyManager.gameObject.SetActive(true);
-            _storyManager.PlayStoryAsync(storyId,
+            _storyOrchestrator.gameObject.SetActive(true);
+            _storyOrchestrator.PlayStoryAsync(storyId,
                 () =>
                 {
-                    _storyManager.gameObject.SetActive(false);
+                    _storyOrchestrator.gameObject.SetActive(false);
                     _canvasController.Setup();
                 }).Forget();
         }

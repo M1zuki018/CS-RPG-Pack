@@ -1,17 +1,18 @@
 using System;
 using CryStar.Story.Constants;
+using CryStar.Story.Core;
 using CryStar.Story.Data;
 using CryStar.Story.Player;
 using Cysharp.Threading.Tasks;
 using iCON.Utility;
 using UnityEngine;
 
-namespace CryStar.Story.Core
+namespace CryStar.Story.Orchestrators
 {
     /// <summary>
-    /// Storyシステムを管理するクラス
+    /// Story Orchestrator
     /// </summary>
-    public class StoryManager : ViewBase
+    public class StoryOrchestrator : ViewBase, IStoryOrchestrator
     {
         /// <summary>
         /// ストーリー再生用クラス
@@ -22,7 +23,7 @@ namespace CryStar.Story.Core
         /// <summary>
         /// マスタデータを読み取りストーリー再生可能なデータに整えるためのクラス
         /// </summary>
-        private StorySceneDataService _sceneDataService = new StorySceneDataService();
+        private IStorySceneDataService _sceneDataService = StorySceneDataServiceFactory.Create();
         
         #region Life cycle
 

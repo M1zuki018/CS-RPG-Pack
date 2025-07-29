@@ -7,7 +7,7 @@ namespace CryStar.Story.Core
     /// <summary>
     /// スプレッドシートとの接続を行いデータを取得する
     /// </summary>
-    public class StorySceneDataRepository
+    public class StorySceneDataRepository : IStorySceneDataRepository
     {
         /// <summary>
         /// 初期化済みか
@@ -15,7 +15,7 @@ namespace CryStar.Story.Core
         private bool _isInitialized = false;
 
         /// <summary>
-        /// Setup
+        /// ヘッダー行の読み込みを行う
         /// </summary>
         public async UniTask<IList<IList<object>>> InitializeAsync(string spreadsheetName, string headerRange)
         {

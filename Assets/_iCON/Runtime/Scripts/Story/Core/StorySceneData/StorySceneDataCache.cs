@@ -6,7 +6,7 @@ namespace CryStar.Story.Core
     /// <summary>
     /// StorySceneDataのキャッシュ管理を行う
     /// </summary>
-    public class StorySceneDataCache
+    public class StorySceneDataCache : IStorySceneDataCache
     {
         private readonly Dictionary<int, List<OrderData>> _cache = new();
 

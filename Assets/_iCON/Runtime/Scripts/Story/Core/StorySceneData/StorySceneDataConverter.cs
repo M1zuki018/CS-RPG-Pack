@@ -9,7 +9,7 @@ namespace CryStar.Story.Core
     /// <summary>
     /// ストーリーのデータをゲーム内で使用できる形に変換するロジックをまとめたクラス
     /// </summary>
-    public class StorySceneDataConverter
+    public class StorySceneDataConverter : IStorySceneDataConverter
     {
         private Dictionary<string, int> _columnIndexMap = new();
         private bool _isInitialized = false;
