@@ -3,7 +3,7 @@ namespace CryStar.Story.Enums
     /// <summary>
     /// スプレッドシートの列定義
     /// </summary>
-    public enum StoryDataColumn
+    public enum StoryDataColumnType
     {
         PartId = 0,
         ChapterId = 1,
