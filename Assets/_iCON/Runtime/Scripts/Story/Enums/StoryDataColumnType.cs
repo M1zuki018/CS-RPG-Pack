@@ -2,6 +2,7 @@ namespace CryStar.Story.Enums
 {
     /// <summary>
     /// スプレッドシートの列定義
+    /// intに対応する列を読み込むため、スプレッドシートの列構成を元にintの値も設定
     /// </summary>
     public enum StoryDataColumnType
     {
@@ -14,8 +15,8 @@ namespace CryStar.Story.Enums
         SpeakerId = 6,
         DialogText = 7,
         OverrideDisplayName = 8,
-        CharacterPositionType = 10,
-        FacialExpressionType = 11,
+        CharacterPosition = 10,
+        FacialExpression = 11,
         OverrideTextSpeed = 12,
         Duration = 13,
         FilePath = 14,

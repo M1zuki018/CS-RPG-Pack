@@ -67,8 +67,8 @@ namespace CryStar.Story.Core
                     dialogText: GetStringValue(row, StoryDataColumnType.DialogText),
                     overrideDisplayName: GetStringValue(row, StoryDataColumnType.OverrideDisplayName),
                     filePath: GetStringValue(row, StoryDataColumnType.FilePath),
-                    position: GetType<CharacterPositionType>(row, StoryDataColumnType.CharacterPositionType),
-                    facialExpressionType: GetType<FacialExpressionType>(row, StoryDataColumnType.FacialExpressionType),
+                    position: GetType<CharacterPositionType>(row, StoryDataColumnType.CharacterPosition),
+                    facialExpressionType: GetType<FacialExpressionType>(row, StoryDataColumnType.FacialExpression),
                     overrideTextSpeed: GetFloatValue(row, StoryDataColumnType.OverrideTextSpeed),
                     duration: GetFloatValue(row, StoryDataColumnType.Duration)
                 );
