@@ -121,6 +121,9 @@ namespace CryStar.Story.Data
         /// </summary>
         public CharacterData CharacterData => MasterStoryCharacter.GetCharacter(_speakerId);
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public OrderData(
             int partId, int chapterId, int sceneId, int orderId,
             OrderType orderType, SequenceType sequence, int speakerId,
