@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CryStar.Attribute;
 using CryStar.Story.Constants;
@@ -5,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Constants;
 using iCON.Enums;
+using iCON.System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering;
@@ -52,6 +54,12 @@ namespace iCON.UI
         /// </summary>
         [SerializeField, HighlightIfNull]
         private UIContents_Choice _choice;
+        
+        /// <summary>
+        /// オーバーレイ管理クラス
+        /// </summary>
+        [SerializeField, HighlightIfNull]
+        private UIContents_OverlayContents _overlay;
         
         /// <summary>
         /// キャンバスを揺らすクラス
@@ -244,6 +252,45 @@ namespace iCON.UI
             _choice.Setup(viewDataList);
         }
 
+        #region オーバーレイ
+
+        /// <summary>
+        /// オーバーレイのSetup
+        /// </summary>
+        public void SetupOverlay(Action skipAction, Action onImmersiveAction, Action onAutoPlayAction)
+        {
+            _overlay.Setup(this, skipAction, onImmersiveAction, onAutoPlayAction);
+        }
+
+        /// <summary>
+        /// UI非表示モード
+        /// </summary>
+        public void ImmersiveMode(bool isImmersive)
+        {
+            // ボタンの色を変える
+            _overlay.ChangeImmerseButtonColor(isImmersive);
+            if (isImmersive)
+            {
+                // 非表示状態であれば、ダイアログを非表示にする
+                HideDialog();
+            }
+            else
+            {
+                ShowDialog();
+            }
+        }
+
+        /// <summary>
+        /// オート再生状態に変更
+        /// </summary>
+        public void AutoPlayMode(bool isAutoPlay)
+        {
+            // ボタンの色を変える
+            _overlay.ChangeAutoPlayButtonColor(isAutoPlay);
+        }
+
+        #endregion
+        
         /// <summary>
         /// カメラシェイク
         /// </summary>

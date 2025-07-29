@@ -20,12 +20,6 @@ namespace CryStar.Story.Player
         private StoryView _view;
         
         /// <summary>
-        /// オーバーレイ
-        /// </summary>
-        [SerializeField]
-        private StoryOverlayController _overlayController;
-        
-        /// <summary>
         /// データの読み込みとオーダー取得を行う
         /// </summary>
         private StoryOrderProvider _orderProvider;
@@ -113,7 +107,7 @@ namespace CryStar.Story.Player
         {
             // UI非表示状態かフラグを切り替える
             _isImmerseMode = !_isImmerseMode;
-            _overlayController.HandleClickImmerseButton(_isImmerseMode);
+            _view.ImmersiveMode(_isImmerseMode);
         }
 
         /// <summary>
@@ -122,7 +116,7 @@ namespace CryStar.Story.Player
         private void HandleClickAutoPlay()
         {
             _autoPlayMode = !_autoPlayMode;
-            _overlayController.HandleClickAutoPlayButton(_autoPlayMode);
+            _view.AutoPlayMode(_autoPlayMode);
 
             if (!_autoPlayMode)
             {
@@ -231,7 +225,7 @@ namespace CryStar.Story.Player
             _orderProvider = new StoryOrderProvider();
             _orderExecutor = new OrderExecutor(_view, ExecuteChoiceBranch);
             _autoPlayController = new StoryAutoPlayController(ProcessNextOrder);
-            _overlayController.Setup(_view,MoveToEndOrder, HandleClickImmersiveMode, HandleClickAutoPlay);
+            _view.SetupOverlay(MoveToEndOrder, HandleClickImmersiveMode, HandleClickAutoPlay);
         }
         
         /// <summary>
