@@ -88,10 +88,5 @@ namespace iCON.UI
         {
             _autoPlayButton.image.color = isActive ? Color.gray : _defaultButtonColor;
         }
-        
-        #region Private Methods
-
-
-        #endregion
     }
 }
