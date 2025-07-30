@@ -57,20 +57,20 @@ namespace CryStar.Story.Core
                 var row = data[rowIndex];
 
                 return new OrderData(
-                    partId: GetIntValue(row, StoryDataColumn.PartId),
-                    chapterId: GetIntValue(row, StoryDataColumn.ChapterId),
-                    sceneId: GetIntValue(row, StoryDataColumn.SceneId),
-                    orderId: GetIntValue(row, StoryDataColumn.OrderId),
-                    orderType: GetType<OrderType>(row, StoryDataColumn.OrderType),
-                    sequence: GetType<SequenceType>(row, StoryDataColumn.Sequence),
-                    speakerId: GetIntValue(row, StoryDataColumn.SpeakerId),
-                    dialogText: GetStringValue(row, StoryDataColumn.DialogText),
-                    overrideDisplayName: GetStringValue(row, StoryDataColumn.OverrideDisplayName),
-                    filePath: GetStringValue(row, StoryDataColumn.FilePath),
-                    position: GetType<CharacterPositionType>(row, StoryDataColumn.CharacterPositionType),
-                    facialExpressionType: GetType<FacialExpressionType>(row, StoryDataColumn.FacialExpressionType),
-                    overrideTextSpeed: GetFloatValue(row, StoryDataColumn.OverrideTextSpeed),
-                    duration: GetFloatValue(row, StoryDataColumn.Duration)
+                    partId: GetIntValue(row, StoryDataColumnType.PartId),
+                    chapterId: GetIntValue(row, StoryDataColumnType.ChapterId),
+                    sceneId: GetIntValue(row, StoryDataColumnType.SceneId),
+                    orderId: GetIntValue(row, StoryDataColumnType.OrderId),
+                    orderType: GetType<OrderType>(row, StoryDataColumnType.OrderType),
+                    sequence: GetType<SequenceType>(row, StoryDataColumnType.Sequence),
+                    speakerId: GetIntValue(row, StoryDataColumnType.SpeakerId),
+                    dialogText: GetStringValue(row, StoryDataColumnType.DialogText),
+                    overrideDisplayName: GetStringValue(row, StoryDataColumnType.OverrideDisplayName),
+                    filePath: GetStringValue(row, StoryDataColumnType.FilePath),
+                    position: GetType<CharacterPositionType>(row, StoryDataColumnType.CharacterPosition),
+                    facialExpressionType: GetType<FacialExpressionType>(row, StoryDataColumnType.FacialExpression),
+                    overrideTextSpeed: GetFloatValue(row, StoryDataColumnType.OverrideTextSpeed),
+                    duration: GetFloatValue(row, StoryDataColumnType.Duration)
                 );
             }
             catch (Exception ex)
@@ -103,7 +103,7 @@ namespace CryStar.Story.Core
         /// <summary>
         /// 指定された列から文字列値を取得
         /// </summary>
-        private string GetStringValue(IList<object> row, StoryDataColumn column)
+        private string GetStringValue(IList<object> row, StoryDataColumnType column)
         {
             string columnName = column.ToString();
             if (_columnIndexMap.TryGetValue(columnName, out int columnIndex))
@@ -126,7 +126,7 @@ namespace CryStar.Story.Core
         /// <summary>
         /// 指定された列からEnum値を取得
         /// </summary>
-        private T GetType<T>(IList<object> row, StoryDataColumn column) where T : struct, Enum
+        private T GetType<T>(IList<object> row, StoryDataColumnType column) where T : struct, Enum
         {
             string stringValue = GetStringValue(row, column);
             
@@ -146,7 +146,7 @@ namespace CryStar.Story.Core
         /// <summary>
         /// 指定された列から整数値を取得
         /// </summary>
-        private int GetIntValue(IList<object> row, StoryDataColumn column)
+        private int GetIntValue(IList<object> row, StoryDataColumnType column)
         {
             string stringValue = GetStringValue(row, column);
             
@@ -166,7 +166,7 @@ namespace CryStar.Story.Core
         /// <summary>
         /// 指定された列からfloat値を取得
         /// </summary>
-        private float GetFloatValue(IList<object> row, StoryDataColumn column)
+        private float GetFloatValue(IList<object> row, StoryDataColumnType column)
         {
             string stringValue = GetStringValue(row, column);
             
