@@ -1,5 +1,6 @@
 using System;
 using CryStar.Story.Constants;
+using CryStar.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Utility;
@@ -10,7 +11,7 @@ namespace CryStar.Story.UI
     /// <summary>
     /// UIContents ストーリーの背景
     /// </summary>
-    public class UIContents_StoryBackground : MonoBehaviour
+    public class UIContents_StoryBackground : UIContentsBase
     {
         /// <summary>
         /// 背景画像
@@ -28,14 +29,10 @@ namespace CryStar.Story.UI
         /// </summary>
         private int NextImageIndex => (_activeImageIndex + 1) % _bgImages.Length;
 
-        #region Lifecycle
-
-        private void Awake()
+        public override void Initialize()
         {
             InitializeBackgroundImages();
         }
-
-        #endregion
 
         /// <summary>
         /// ファイル名を元に画像を変更する

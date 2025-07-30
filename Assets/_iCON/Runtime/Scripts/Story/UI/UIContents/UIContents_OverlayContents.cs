@@ -1,4 +1,5 @@
 using System;
+using CryStar.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,7 @@ namespace CryStar.Story.UI
     /// <summary>
     /// UIContents ストーリー画面のオーバーレイ上のUIを管理
     /// </summary>
-    public class UIContents_OverlayContents : MonoBehaviour
+    public class UIContents_OverlayContents : UIContentsBase
     {
         /// <summary>
         /// UI非表示ボタン
@@ -33,13 +34,11 @@ namespace CryStar.Story.UI
         [SerializeField]
         private Color _defaultButtonColor;
         
-        /// <summary>
-        /// View
-        /// </summary>
-        private StoryView _view;
-        
         #region Lifecycle
 
+        // 特に初期化処理はなし
+        public override void Initialize() { }
+        
         private void OnDestroy()
         {
             _immersedButton.onClick.RemoveAllListeners();
@@ -52,10 +51,8 @@ namespace CryStar.Story.UI
         /// <summary>
         /// Setup
         /// </summary>
-        public void Setup(StoryView view, Action skipAction, Action onImmersiveAction, Action onAutoPlayAction)
+        public void Setup(Action skipAction, Action onImmersiveAction, Action onAutoPlayAction)
         {
-            _view = view;
-            
             // UI非表示ボタンを押した時の処理を登録
             SetupImmerseButton(onImmersiveAction);
             
