@@ -1,3 +1,4 @@
+using CryStar.UI;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ namespace CryStar.Story.UI
     /// UIContents フェードパネル
     /// </summary>
     [RequireComponent(typeof(Image))]
-    public class UIContents_FadePanel : MonoBehaviour
+    public class UIContents_FadePanel : UIContentsBase, IFadeable
     {
         /// <summary>
         /// デフォルトの色
@@ -33,7 +34,7 @@ namespace CryStar.Story.UI
         /// <summary>
         /// パネルが表示状態かどうか
         /// </summary>
-        public bool IsVisible => Alpha > 0f;
+        bool IVisibilityControllable.IsVisible => Alpha > 0f;
 
         /// <summary>
         /// 現在のパネルカラー
@@ -69,7 +70,7 @@ namespace CryStar.Story.UI
             
             return _currentTween;
         }
-
+        
         /// <summary>
         /// フェードイン
         /// </summary>
@@ -121,9 +122,9 @@ namespace CryStar.Story.UI
         /// <summary>
         /// 表示/非表示を即座に切り替え
         /// </summary>
-        public void SetVisible(bool visible)
+        public void SetVisibility(bool isVisible)
         {
-            SetAlpha(visible ? 1f : 0f);
+            SetAlpha(isVisible ? 1f : 0f);
         }
 
         /// <summary>
@@ -160,9 +161,24 @@ namespace CryStar.Story.UI
         /// <summary>
         /// 初期化処理
         /// </summary>
-        private void Initialize()
+        public override void Initialize()
         {
             SetColorWithAlpha(_defaultColor, _startVisible ? 1f : 0f);
+        }
+        
+        Tween IFadeable.FadeIn(float duration)
+        {
+            return FadeIn(duration);
+        }
+
+        Tween IFadeable.FadeOut(float duration)
+        {
+            return FadeOut(duration);
+        }
+
+        Tween IFadeable.FadeToAlpha(float targetAlpha, float duration)
+        {
+            return FadeToAlpha(targetAlpha, duration);
         }
 
         #endregion
