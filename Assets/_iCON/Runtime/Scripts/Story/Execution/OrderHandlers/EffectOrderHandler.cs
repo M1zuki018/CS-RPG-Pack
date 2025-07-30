@@ -25,7 +25,7 @@ namespace CryStar.Story.Execution
         /// </summary>
         public void SetupPerformerCache(StoryView view)
         {
-            _performers = EffectOrderPerformerFactory.CreateAllHandlers(view);
+            _performers = EffectPerformerFactory.CreateAllHandlers(view);
         }
         
         public override Tween HandleOrder(OrderData data, StoryView view)
