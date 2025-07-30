@@ -6,7 +6,7 @@ using iCON.Utility;
 namespace CryStar.Story.Player
 {
     /// <summary>
-    /// ストーリーの進行位置とオーダー取得を管理
+    /// ストーリーの進行管理と進行状況を元にオーダー取得を行うクラス
     /// </summary>
     public class StoryNavigator : IDisposable
     {
