@@ -1,3 +1,4 @@
+using CryStar.Story.Constants;
 using DG.Tweening;
 using UnityEngine;
 
@@ -40,7 +41,7 @@ namespace CryStar.UI
         /// <summary>
         /// フェードイン
         /// </summary>
-        public virtual Tween FadeIn(float duration, Ease ease = Ease.Linear)
+        public virtual Tween FadeIn(float duration, Ease ease = KStoryPresentation.FADE_EASE)
         {
             return FadeToAlpha(1, duration, ease);
         }
@@ -48,7 +49,7 @@ namespace CryStar.UI
         /// <summary>
         /// フェードアウト
         /// </summary>
-        public virtual Tween FadeOut(float duration, Ease ease = Ease.Linear)
+        public virtual Tween FadeOut(float duration, Ease ease = KStoryPresentation.FADE_EASE)
         {
             return FadeToAlpha(0, duration, ease);
         }
@@ -56,7 +57,7 @@ namespace CryStar.UI
         /// <summary>
         /// 指定したアルファ値までフェード
         /// </summary>
-        public virtual Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = Ease.Linear)
+        public virtual Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = KStoryPresentation.FADE_EASE)
         {
             return _canvasGroup.DOFade(targetAlpha, duration).SetEase(ease);
         }

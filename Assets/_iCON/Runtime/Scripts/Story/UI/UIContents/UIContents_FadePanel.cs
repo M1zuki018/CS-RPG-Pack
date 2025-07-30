@@ -1,3 +1,4 @@
+using CryStar.Story.Constants;
 using CryStar.UI;
 using DG.Tweening;
 using UnityEngine;
@@ -57,7 +58,7 @@ namespace CryStar.Story.UI
         /// <summary>
         /// フェードイン/アウトアニメーション
         /// </summary>
-        public Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = Ease.Linear)
+        public Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = KStoryPresentation.FADE_EASE)
         {
             targetAlpha = Mathf.Clamp01(targetAlpha);
             
@@ -70,7 +71,7 @@ namespace CryStar.Story.UI
         /// <summary>
         /// フェードイン
         /// </summary>
-        public Tween FadeIn(float duration, Ease ease = Ease.Linear)
+        public Tween FadeIn(float duration, Ease ease = KStoryPresentation.FADE_EASE)
         {
             return FadeToAlpha(0f, duration, ease);
         }
@@ -78,7 +79,7 @@ namespace CryStar.Story.UI
         /// <summary>
         /// フェードアウト
         /// </summary>
-        public Tween FadeOut(float duration, Ease ease = Ease.Linear)
+        public Tween FadeOut(float duration, Ease ease = KStoryPresentation.FADE_EASE)
         {
             return FadeToAlpha(1f, duration, ease);
         }

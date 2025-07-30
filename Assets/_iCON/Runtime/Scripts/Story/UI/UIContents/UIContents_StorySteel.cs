@@ -68,7 +68,7 @@ namespace CryStar.Story.UI
         /// <summary>
         /// フェードイン
         /// </summary>
-        public override Tween FadeIn(float duration, Ease ease = Ease.Linear)
+        public override Tween FadeIn(float duration, Ease ease = KStoryPresentation.FADE_EASE)
         {
             if (!IsVisible)
             {
@@ -89,7 +89,7 @@ namespace CryStar.Story.UI
         /// <summary>
         /// フェードアウト
         /// </summary>
-        public override Tween FadeOut(float duration, Ease ease = Ease.Linear)
+        public override Tween FadeOut(float duration, Ease ease = KStoryPresentation.FADE_EASE)
         {
             return _steelImages[_activeImageIndex].DOFade(0, duration)
                 .SetEase(ease);
@@ -98,7 +98,7 @@ namespace CryStar.Story.UI
         /// <summary>
         /// 指定したアルファ値までフェード
         /// </summary>
-        public override Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = Ease.Linear)
+        public override Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = KStoryPresentation.FADE_EASE)
         {
             return _steelImages[_activeImageIndex].DOFade(targetAlpha, duration)
                 .SetEase(ease);

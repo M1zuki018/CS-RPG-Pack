@@ -1,3 +1,4 @@
+using CryStar.Story.Constants;
 using DG.Tweening;
 
 namespace CryStar.UI
@@ -7,8 +8,8 @@ namespace CryStar.UI
     /// </summary>
     public interface IFadeable : IVisibilityControllable
     {
-        Tween FadeIn(float duration, Ease ease = Ease.Linear);
-        Tween FadeOut(float duration, Ease ease = Ease.Linear);
-        Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = Ease.Linear);
+        Tween FadeIn(float duration, Ease ease = KStoryPresentation.FADE_EASE);
+        Tween FadeOut(float duration, Ease ease = KStoryPresentation.FADE_EASE);
+        Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = KStoryPresentation.FADE_EASE);
     }
 }
