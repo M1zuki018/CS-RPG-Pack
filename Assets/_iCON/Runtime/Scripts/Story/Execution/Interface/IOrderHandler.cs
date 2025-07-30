@@ -11,7 +11,7 @@ namespace CryStar.Story.Execution
     public interface IOrderHandler
     {
         /// <summary>
-        /// このハンドラーがサポートするオーダータイプ
+        /// このハンドラが担当するオーダーの種類
         /// </summary>
         OrderType SupportedOrderType { get; }
         
