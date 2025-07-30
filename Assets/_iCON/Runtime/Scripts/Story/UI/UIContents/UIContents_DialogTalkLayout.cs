@@ -7,6 +7,7 @@ namespace CryStar.Story.UI
 {
     /// <summary>
     /// UIContents 名前つきのダイアログ
+    /// ベースクラス内でCanvasGroupでのフェード処理にも対応している
     /// </summary>
     public class UIContents_DialogTalkLayout : UIContentsCanvasGroupBase, ITalkLayout
     {
@@ -27,10 +28,29 @@ namespace CryStar.Story.UI
         /// </summary>
         private bool _isInitialized;
 
+        /// <summary>
+        /// 初期化処理
+        /// </summary>
         public override void Initialize()
         {
             base.Initialize();
-            InitializeComponents();
+            
+            // エラーがあるか、この変数に記録する
+            bool hasError = false;
+            
+            if (_name == null)
+            {
+                LogUtility.Error($"_name が null です。割り当てを行ってください", LogCategory.UI, this);
+                hasError = true;
+            }
+
+            if (_dialog == null)
+            {
+                LogUtility.Error($"_dialog が null です。割り当てを行ってください", LogCategory.UI, this);
+                hasError = true;
+            }
+            
+            _isInitialized = !hasError;
         }
 
         /// <summary>
@@ -95,38 +115,7 @@ namespace CryStar.Story.UI
         {
             SetTalk(string.Empty, string.Empty);
         }
-
-        #region Private Methods
-
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        private void InitializeComponents()
-        {
-            // エラーがあるか、この変数に記録する
-            bool hasError = false;
-            
-            if (_name == null)
-            {
-                LogUtility.Error($"_name が null です。割り当てを行ってください", LogCategory.UI, this);
-                hasError = true;
-            }
-
-            if (_dialog == null)
-            {
-                LogUtility.Error($"_dialog が null です。割り当てを行ってください", LogCategory.UI, this);
-                hasError = true;
-            }
-            
-            _canvasGroup = GetComponent<CanvasGroup>();
-            _isInitialized = !hasError;
-        }
-
-        #endregion
         
-        public Tween SetText(string text, float duration = 0)
-        {
-            return null;
-        }
+        public Tween SetText(string text, float duration = 0) => SetDialog(text, duration);
     }
 }
