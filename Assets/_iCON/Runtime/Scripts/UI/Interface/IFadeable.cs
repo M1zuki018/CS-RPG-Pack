@@ -7,8 +7,8 @@ namespace CryStar.UI
     /// </summary>
     public interface IFadeable : IVisibilityControllable
     {
-        Tween FadeIn(float duration);
-        Tween FadeOut(float duration);
-        Tween FadeToAlpha(float targetAlpha, float duration);
+        Tween FadeIn(float duration, Ease ease = Ease.Linear);
+        Tween FadeOut(float duration, Ease ease = Ease.Linear);
+        Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = Ease.Linear);
     }
 }
