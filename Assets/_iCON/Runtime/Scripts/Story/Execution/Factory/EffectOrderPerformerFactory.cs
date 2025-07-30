@@ -31,7 +31,7 @@ namespace CryStar.Story.Execution
                 try
                 {
                     var handlerTypes = assembly.GetTypes()
-                        .Where(type => typeof(EffectOrderPerformerBase).IsAssignableFrom(type) 
+                        .Where(type => typeof(EffectPerformerBase).IsAssignableFrom(type) 
                                       && !type.IsInterface 
                                       && !type.IsAbstract
                                       && type.GetCustomAttribute<EffectPerformerAttribute>() != null)
@@ -60,7 +60,7 @@ namespace CryStar.Story.Execution
         /// <summary>
         /// ハンドラーを作成
         /// </summary>
-        public static EffectOrderPerformerBase CreateHandler(EffectOrderType orderType, params object[] constructorArgs)
+        public static EffectPerformerBase CreateHandler(EffectOrderType orderType, params object[] constructorArgs)
         {
             if (!_isInitialized)
             {
@@ -74,7 +74,7 @@ namespace CryStar.Story.Execution
 
             try
             {
-                return (EffectOrderPerformerBase)Activator.CreateInstance(handlerType, constructorArgs);
+                return (EffectPerformerBase)Activator.CreateInstance(handlerType, constructorArgs);
             }
             catch (Exception ex)
             {
@@ -86,14 +86,14 @@ namespace CryStar.Story.Execution
         /// <summary>
         /// 全てのハンドラーを作成
         /// </summary>
-        public static Dictionary<EffectOrderType, EffectOrderPerformerBase> CreateAllHandlers(StoryView view)
+        public static Dictionary<EffectOrderType, EffectPerformerBase> CreateAllHandlers(StoryView view)
         {
             if (!_isInitialized)
             {
                 Initialize();
             }
 
-            var handlers = new Dictionary<EffectOrderType, EffectOrderPerformerBase>();
+            var handlers = new Dictionary<EffectOrderType, EffectPerformerBase>();
 
             foreach (var kvp in _handlerTypes)
             {
@@ -102,7 +102,7 @@ namespace CryStar.Story.Execution
 
                 try
                 {
-                    EffectOrderPerformerBase handler = null;
+                    EffectPerformerBase handler = null;
 
                     // コンストラクタの型に応じて適切な引数を渡す
                     var constructors = handlerType.GetConstructors();
@@ -121,11 +121,11 @@ namespace CryStar.Story.Execution
                                 args.Add(null); // デフォルト値
                         }
 
-                        handler = (EffectOrderPerformerBase)Activator.CreateInstance(handlerType, args.ToArray());
+                        handler = (EffectPerformerBase)Activator.CreateInstance(handlerType, args.ToArray());
                     }
                     else
                     {
-                        handler = (EffectOrderPerformerBase)Activator.CreateInstance(handlerType);
+                        handler = (EffectPerformerBase)Activator.CreateInstance(handlerType);
                     }
 
                     if (handler != null)

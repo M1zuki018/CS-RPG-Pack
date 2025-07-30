@@ -16,7 +16,7 @@ namespace CryStar.Story.Execution
         /// <summary>
         /// 各エフェクトの列挙型と処理を行うPerformerのインスタンスのkvp
         /// </summary>
-        private Dictionary<EffectOrderType, EffectOrderPerformerBase> _performers;
+        private Dictionary<EffectOrderType, EffectPerformerBase> _performers;
         
         public override OrderType SupportedOrderType => OrderType.Effect;
 

@@ -6,9 +6,9 @@ using DG.Tweening;
 namespace CryStar.Story.Execution
 {
     /// <summary>
-    /// エフェクトオーダーを受けて演出するベースクラス
+    /// エフェクトの演出を実行するFactory用のベースクラス
     /// </summary>
-    public abstract class EffectOrderPerformerBase
+    public abstract class EffectPerformerBase
     {
         public abstract EffectOrderType SupportedEffectType { get; }
         public abstract Tween HandlePerformance(OrderData data, StoryView view);

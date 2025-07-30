@@ -11,7 +11,7 @@ namespace CryStar.Story.Execution
     /// Dizziness - めまいエフェクト
     /// </summary>
     [EffectPerformer(EffectOrderType.Dizziness)]
-    public class EffectOrderDizzinessPerformer : EffectOrderPerformerBase
+    public class DizzinessEffectPerformer : EffectPerformerBase
     {
         public override EffectOrderType SupportedEffectType => EffectOrderType.Dizziness;
         
