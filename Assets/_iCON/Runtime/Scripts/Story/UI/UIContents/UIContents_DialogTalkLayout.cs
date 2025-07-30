@@ -1,3 +1,4 @@
+using CryStar.UI;
 using DG.Tweening;
 using iCON.Utility;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace CryStar.Story.UI
     /// UIContents 名前つきのダイアログ
     /// </summary>
     [RequireComponent(typeof(CanvasGroup))]
-    public class UIContents_DialogTalkLayout : MonoBehaviour
+    public class UIContents_DialogTalkLayout : UIContentsBase, ITalkLayout
     {
         /// <summary>
         /// 名前のText
@@ -36,20 +37,16 @@ namespace CryStar.Story.UI
         /// 現在表示されているかどうか
         /// </summary>
         public bool IsVisible => _canvasGroup != null && _canvasGroup.alpha > 0f;
-        
-        #region Lifecycle
 
-        private void Awake()
+        public override void Initialize()
         {
             InitializeComponents();
         }
 
-        #endregion
-
         /// <summary>
         /// 表示テキストを変更する
         /// </summary>
-        public Tween SetText(string name, string dialog, float duration = 0)
+        public Tween SetTalk(string name, string dialog, float duration = 0)
         {
             if (!_isInitialized)
             {
@@ -65,7 +62,7 @@ namespace CryStar.Story.UI
             SetName(name);
             return SetDialog(dialog, duration);
         }
-        
+
         /// <summary>
         /// 名前のみを設定する
         /// </summary>
@@ -100,13 +97,13 @@ namespace CryStar.Story.UI
             _dialog.text = string.Empty;
             return _dialog.DOText(dialog ?? string.Empty, duration).SetEase(Ease.Linear);
         }
-        
+
         /// <summary>
         /// テキストをクリアする
         /// </summary>
         public void ClearText()
         {
-            SetText(string.Empty, string.Empty);
+            SetTalk(string.Empty, string.Empty);
         }
 
         /// <summary>
@@ -146,5 +143,10 @@ namespace CryStar.Story.UI
         }
 
         #endregion
+        
+        public Tween SetText(string text, float duration = 0)
+        {
+            return null;
+        }
     }
 }
