@@ -49,12 +49,12 @@ namespace CryStar.Story.Execution
         /// <summary>
         /// DialogTextに入力されている文字列から選択肢のViewDataリストを作成する
         /// </summary>
-        private List<UIContents_Choice.ViewData> CreateChoiceViewDataList(string dialogText, StoryView view)
+        private List<ChoiceViewData> CreateChoiceViewDataList(string dialogText, StoryView view)
         {
             // 入力されている文字列を分割
             var lineTexts = dialogText.Split(LINE_SPLIT);
             
-            var viewDataList = new List<UIContents_Choice.ViewData>();
+            var viewDataList = new List<ChoiceViewData>();
             
             for (int i = 0; i < lineTexts.Length; i++)
             {
@@ -70,7 +70,7 @@ namespace CryStar.Story.Execution
                     throw new FormatException($"オーダーID '{orderIdText}' を整数に変換できません");
                 }
                 
-                viewDataList.Add(new UIContents_Choice.ViewData(
+                viewDataList.Add(new ChoiceViewData(
                     buttonText, 
                     () =>
                     {

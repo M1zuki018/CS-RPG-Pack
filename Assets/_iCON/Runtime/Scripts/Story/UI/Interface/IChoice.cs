@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CryStar.Story.Data;
 
 namespace CryStar.Story.UI
 {
@@ -16,6 +17,6 @@ namespace CryStar.Story.UI
         /// <summary>
         /// 選択肢の表示を行う
         /// </summary>
-        public void ShowChoices(IReadOnlyList<UIContents_Choice.ViewData> choiceViewDataList);
+        public void ShowChoices(IReadOnlyList<ChoiceViewData> choiceViewDataList);
     }
 }

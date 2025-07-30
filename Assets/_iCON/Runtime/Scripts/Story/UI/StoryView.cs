@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CryStar.Attribute;
 using CryStar.Effects;
 using CryStar.Story.Constants;
+using CryStar.Story.Data;
 using CryStar.Story.Enums;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -252,7 +253,7 @@ namespace CryStar.Story.UI
         /// <summary>
         /// 選択肢を表示する
         /// </summary>
-        public void ShowChoices(IReadOnlyList<UIContents_Choice.ViewData> viewDataList, float duration = 0)
+        public void ShowChoices(IReadOnlyList<ChoiceViewData> viewDataList, float duration = 0)
         {
             _choice.ShowChoices(viewDataList);
         }
