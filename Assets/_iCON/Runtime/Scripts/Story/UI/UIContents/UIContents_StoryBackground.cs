@@ -11,7 +11,7 @@ namespace CryStar.Story.UI
     /// <summary>
     /// UIContents ストーリーの背景
     /// </summary>
-    public class UIContentsBackgroundController : UIContentsFadeableBase, IBackgroundController
+    public class UIContents_StoryBackground : UIContentsFadeableBase, IBackgroundController
     {
         /// <summary>
         /// 背景画像
