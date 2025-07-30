@@ -82,7 +82,7 @@ namespace CryStar.Story.UI
             if (!_dialog.IsVisible)
             {
                 // ダイアログのオブジェクトが非表示だったら表示する
-                _dialog.Show(duration / 10);
+                _dialog.FadeIn(duration / 10);
             }
 
             return tween;
@@ -112,7 +112,7 @@ namespace CryStar.Story.UI
         {
             if (!_dialog.IsVisible)
             {
-                _dialog.Show(KStoryPresentation.DIALOG_FADE_DURATION);
+                _dialog.FadeIn(KStoryPresentation.DIALOG_FADE_DURATION);
             }
             
             return _dialog.SetDescription(description, duration);
@@ -123,7 +123,7 @@ namespace CryStar.Story.UI
         /// </summary>
         public Tween ShowDialog(float duration = 0)
         {
-            return _dialog.Show(duration);
+            return _dialog.FadeIn(duration);
         }
         
         /// <summary>
@@ -131,7 +131,7 @@ namespace CryStar.Story.UI
         /// </summary>
         public Tween HideDialog(float duration = 0)
         {
-            return _dialog.Hide(duration);
+            return _dialog.FadeOut(duration);
         }
 
         /// <summary>
