@@ -18,7 +18,7 @@ namespace CryStar.Story.Factory
         /// </summary>
         public static void Initialize()
         {
-            UnifiedHandlerFactory<OrderHandlerBase, OrderType, OrderHandlerAttribute>.Initialize();
+            HandlerFactoryBase<OrderHandlerBase, OrderType, OrderHandlerAttribute>.Initialize();
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace CryStar.Story.Factory
         /// </summary>
         public static OrderHandlerBase CreateHandler(OrderType orderType, params object[] constructorArgs)
         {
-            return UnifiedHandlerFactory<OrderHandlerBase, OrderType, OrderHandlerAttribute>.CreateHandler(orderType,
+            return HandlerFactoryBase<OrderHandlerBase, OrderType, OrderHandlerAttribute>.CreateHandler(orderType,
                 constructorArgs);
         }
 
@@ -35,7 +35,7 @@ namespace CryStar.Story.Factory
         /// </summary>
         public static Dictionary<OrderType, OrderHandlerBase> CreateAllHandlers(StoryView storyView, Action endAction)
         {
-            return UnifiedHandlerFactory<OrderHandlerBase, OrderType, OrderHandlerAttribute>
+            return HandlerFactoryBase<OrderHandlerBase, OrderType, OrderHandlerAttribute>
                 .CreateAllHandlers(type => BuildConstructorArguments(type, storyView, endAction));
         }
 
@@ -44,7 +44,7 @@ namespace CryStar.Story.Factory
         /// </summary>
         public static int GetRegisteredHandlerCount()
         {
-            return UnifiedHandlerFactory<OrderHandlerBase, OrderType, OrderHandlerAttribute>
+            return HandlerFactoryBase<OrderHandlerBase, OrderType, OrderHandlerAttribute>
                 .GetRegisteredHandlerCount();
         }
 
@@ -53,7 +53,7 @@ namespace CryStar.Story.Factory
         /// </summary>
         public static bool IsHandlerRegistered(OrderType orderType)
         {
-            return UnifiedHandlerFactory<OrderHandlerBase, OrderType, OrderHandlerAttribute>
+            return HandlerFactoryBase<OrderHandlerBase, OrderType, OrderHandlerAttribute>
                 .IsHandlerRegistered(orderType);
         }
 

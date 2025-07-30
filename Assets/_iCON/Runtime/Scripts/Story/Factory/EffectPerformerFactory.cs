@@ -18,7 +18,7 @@ namespace CryStar.Story.Factory
         /// </summary>
         public static void Initialize()
         {
-            UnifiedHandlerFactory<EffectPerformerBase, EffectOrderType, EffectPerformerAttribute>.Initialize();
+            HandlerFactoryBase<EffectPerformerBase, EffectOrderType, EffectPerformerAttribute>.Initialize();
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace CryStar.Story.Factory
         /// </summary>
         public static EffectPerformerBase CreateHandler(EffectOrderType effectType, params object[] constructorArgs)
         {
-            return UnifiedHandlerFactory<EffectPerformerBase, EffectOrderType, EffectPerformerAttribute>.CreateHandler(
+            return HandlerFactoryBase<EffectPerformerBase, EffectOrderType, EffectPerformerAttribute>.CreateHandler(
                 effectType, constructorArgs);
         }
 
@@ -38,7 +38,7 @@ namespace CryStar.Story.Factory
             if (storyView == null)
                 throw new ArgumentNullException(nameof(storyView), "StoryViewは必須パラメータです");
 
-            return UnifiedHandlerFactory<EffectPerformerBase, EffectOrderType, EffectPerformerAttribute>
+            return HandlerFactoryBase<EffectPerformerBase, EffectOrderType, EffectPerformerAttribute>
                 .CreateAllHandlers(type => BuildConstructorArguments(type, storyView));
         }
 
@@ -47,7 +47,7 @@ namespace CryStar.Story.Factory
         /// </summary>
         public static int GetRegisteredHandlerCount()
         {
-            return UnifiedHandlerFactory<EffectPerformerBase, EffectOrderType, EffectPerformerAttribute>
+            return HandlerFactoryBase<EffectPerformerBase, EffectOrderType, EffectPerformerAttribute>
                 .GetRegisteredHandlerCount();
         }
 
@@ -56,7 +56,7 @@ namespace CryStar.Story.Factory
         /// </summary>
         public static bool IsHandlerRegistered(EffectOrderType effectType)
         {
-            return UnifiedHandlerFactory<EffectPerformerBase, EffectOrderType, EffectPerformerAttribute>
+            return HandlerFactoryBase<EffectPerformerBase, EffectOrderType, EffectPerformerAttribute>
                 .IsHandlerRegistered(effectType);
         }
 

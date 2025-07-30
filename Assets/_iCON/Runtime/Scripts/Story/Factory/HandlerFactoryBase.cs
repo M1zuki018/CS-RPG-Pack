@@ -7,13 +7,13 @@ using iCON.Utility;
 namespace CryStar.Story.Factory
 {
     /// <summary>
-    /// 汎用ハンドラーファクトリ
+    /// ハンドラーファクトリのベースクラス
     /// 異なるタイプのハンドラーを統一的に管理・生成する
     /// </summary>
     /// <typeparam name="THandler">ハンドラーのベース型</typeparam>
     /// <typeparam name="TEnum">ハンドラータイプを表すEnum型</typeparam>
     /// <typeparam name="TAttribute">ハンドラーに付与される属性型</typeparam>
-    public static class UnifiedHandlerFactory<THandler, TEnum, TAttribute>
+    public static class HandlerFactoryBase<THandler, TEnum, TAttribute>
         where THandler : class, IHandlerBase
         where TEnum : struct, Enum
         where TAttribute : System.Attribute, IHandlerAttribute<TEnum>
