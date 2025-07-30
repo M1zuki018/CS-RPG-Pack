@@ -1,5 +1,6 @@
 using CryStar.Story.Data;
 using CryStar.Story.Enums;
+using CryStar.Story.Factory;
 using CryStar.Story.UI;
 using DG.Tweening;
 
@@ -9,7 +10,7 @@ namespace CryStar.Story.Execution
     /// ストーリー中の特定のエフェクト演出を処理するための基底クラス
     /// NOTE: このクラスを継承することで、新しいエフェクト演出を簡単に追加できます
     /// </summary>
-    public abstract class EffectPerformerBase : IEffectPerformer
+    public abstract class EffectPerformerBase : IHandlerBase, IEffectPerformer
     {
         /// <summary>
         /// このハンドラが担当するエフェクトの種類

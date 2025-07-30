@@ -1,5 +1,6 @@
 using CryStar.Story.Data;
 using CryStar.Story.Enums;
+using CryStar.Story.Factory;
 using CryStar.Story.UI;
 using DG.Tweening;
 
@@ -9,7 +10,7 @@ namespace CryStar.Story.Execution
     /// ストーリーの命令（オーダー）を処理するための基底クラス
     /// NOTE: このクラスを継承することで、新しい種類の命令を処理するハンドラを定義できます
     /// </summary>
-    public abstract class OrderHandlerBase : IOrderHandler
+    public abstract class OrderHandlerBase : IHandlerBase, IOrderHandler
     {
         /// <summary>
         /// このハンドラが担当するオーダーの種類
