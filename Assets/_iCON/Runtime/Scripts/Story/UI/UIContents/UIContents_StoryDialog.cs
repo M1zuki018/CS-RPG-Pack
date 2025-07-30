@@ -6,8 +6,10 @@ namespace CryStar.Story.UI
 {
     /// <summary>
     /// UIContents ダイアログ
+    /// 会話ダイアログと地の文ダイアログのそれぞれのUIContentsの参照を持っている
+    /// ベースクラス内でCanvasGroupでのフェード処理にも対応している
     /// </summary>
-    public class UIContents_StoryDialog : UIContentsCanvasGroupBase, IDialog
+    public class UIContents_StoryDialog : UIContentsCanvasGroupBase, IDialogController
     {
         /// <summary>
         /// 名前の表示を行わないパターンのレイアウトがあるオブジェクト
