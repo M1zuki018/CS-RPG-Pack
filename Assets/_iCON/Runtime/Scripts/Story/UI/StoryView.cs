@@ -155,7 +155,7 @@ namespace CryStar.Story.UI
         /// </summary>
         public void FadePanelSetVisible(bool visible)
         {
-            _fadePanel.SetVisible(visible);
+            _fadePanel.SetVisibility(visible);
         }
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace CryStar.Story.UI
         /// </summary>
         public void SetupOverlay(Action skipAction, Action onImmersiveAction, Action onAutoPlayAction)
         {
-            _overlay.Setup(this, skipAction, onImmersiveAction, onAutoPlayAction);
+            _overlay.Setup(skipAction, onImmersiveAction, onAutoPlayAction);
         }
 
         /// <summary>
