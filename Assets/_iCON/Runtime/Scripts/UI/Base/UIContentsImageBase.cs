@@ -9,8 +9,7 @@ namespace CryStar.UI
     /// Imageを利用するUIContentsのベースクラス
     /// </summary>
     [RequireComponent(typeof(Image))]
-    public abstract class UIContentsImageBase : UIContentsBase, IFadeable, IColorControllable, 
-        IAlphaControllable, IAnimationControllable
+    public abstract class UIContentsImageBase : UIContentsFadeableBase, IColorControllable, IAnimationControllable
     {
         /// <summary>
         /// Imageコンポーネント
@@ -25,7 +24,7 @@ namespace CryStar.UI
         /// <summary>
         /// Imageが表示状態か
         /// </summary>
-        public bool IsVisible => _image != null && _image.enabled && _image.color.a > 0;
+        public override bool IsVisible => _image != null && _image.enabled && _image.color.a > 0;
         
         /// <summary>
         /// アニメーション中か
@@ -35,7 +34,7 @@ namespace CryStar.UI
         /// <summary>
         /// Imageの透明度
         /// </summary>
-        public float Alpha => _image != null ? _image.color.a : 0;
+        public override float Alpha => _image != null ? _image.color.a : 0;
         
         /// <summary>
         /// Imageの色
@@ -57,31 +56,15 @@ namespace CryStar.UI
         /// <summary>
         /// 表示/非表示を即座に切り替える
         /// </summary>
-        public void SetVisibility(bool isVisible)
+        public override void SetVisibility(bool isVisible)
         {
             SetAlpha(isVisible ? 1f : 0f);
         }
 
         /// <summary>
-        /// フェードイン
-        /// </summary>
-        public Tween FadeIn(float duration, Ease ease = KStoryPresentation.FADE_EASE)
-        {
-            return FadeToAlpha(1f, duration, ease);
-        }
-
-        /// <summary>
-        /// フェードアウト
-        /// </summary>
-        public Tween FadeOut(float duration, Ease ease = KStoryPresentation.FADE_EASE)
-        {
-            return FadeToAlpha(1f, duration, ease);
-        }
-
-        /// <summary>
         /// 終わりの透明度を指定してフェードアニメーションを実行する
         /// </summary>
-        public Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = KStoryPresentation.FADE_EASE)
+        public override Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = KStoryPresentation.FADE_EASE)
         {
             targetAlpha = Mathf.Clamp01(targetAlpha);
             
@@ -94,7 +77,7 @@ namespace CryStar.UI
         /// <summary>
         /// 即座にアルファ値を設定
         /// </summary>
-        public void SetAlpha(float alpha)
+        public override void SetAlpha(float alpha)
         {
             _currentTween?.Kill();
             
