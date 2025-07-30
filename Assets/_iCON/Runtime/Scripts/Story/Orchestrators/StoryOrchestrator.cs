@@ -2,6 +2,7 @@ using System;
 using CryStar.Story.Constants;
 using CryStar.Story.Core;
 using CryStar.Story.Data;
+using CryStar.Story.Initialization;
 using CryStar.Story.Player;
 using Cysharp.Threading.Tasks;
 using iCON.Utility;
@@ -26,6 +27,13 @@ namespace CryStar.Story.Orchestrators
         private IStorySceneDataService _sceneDataService = StorySceneDataServiceFactory.Create();
         
         #region Life cycle
+
+        public override UniTask OnAwake()
+        {
+            // 念のためストーリーシステムが初期化されていることを確認する
+            StorySystemInitializer.Initialize();
+            return base.OnAwake();
+        }
 
         private void OnDestroy()
         {
