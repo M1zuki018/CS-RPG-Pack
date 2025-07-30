@@ -68,7 +68,7 @@ namespace CryStar.Story.UI
         /// <summary>
         /// フェードイン
         /// </summary>
-        public override Tween FadeIn(float duration)
+        public override Tween FadeIn(float duration, Ease ease = Ease.Linear)
         {
             if (!IsVisible)
             {
@@ -77,7 +77,7 @@ namespace CryStar.Story.UI
             }
             
             return _steelImages[_activeImageIndex].DOFade(1, duration)
-                .SetEase(KStoryPresentation.FADE_EASE)
+                .SetEase(ease)
                 .OnComplete(() =>
                 {
                     // 前面のスチルが表示されたら、裏面のスチルの透明度をゼロにしておく
@@ -89,19 +89,19 @@ namespace CryStar.Story.UI
         /// <summary>
         /// フェードアウト
         /// </summary>
-        public override Tween FadeOut(float duration)
+        public override Tween FadeOut(float duration, Ease ease = Ease.Linear)
         {
             return _steelImages[_activeImageIndex].DOFade(0, duration)
-                .SetEase(KStoryPresentation.FADE_EASE);
+                .SetEase(ease);
         }
 
         /// <summary>
         /// 指定したアルファ値までフェード
         /// </summary>
-        public override Tween FadeToAlpha(float targetAlpha, float duration)
+        public override Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = Ease.Linear)
         {
             return _steelImages[_activeImageIndex].DOFade(targetAlpha, duration)
-                .SetEase(KStoryPresentation.FADE_EASE);
+                .SetEase(ease);
         }
         
         /// <summary>

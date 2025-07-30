@@ -8,7 +8,6 @@ namespace CryStar.Story.UI
     /// <summary>
     /// UIContents フェードパネル
     /// </summary>
-    [RequireComponent(typeof(Image))]
     public class UIContents_FadePanel : UIContentsBase, IFadeable
     {
         /// <summary>
@@ -58,9 +57,6 @@ namespace CryStar.Story.UI
         /// <summary>
         /// フェードイン/アウトアニメーション
         /// </summary>
-        /// <param name="targetAlpha">目標アルファ値 (0-1)</param>
-        /// <param name="duration">アニメーション時間</param>
-        /// <param name="ease">イージング</param>
         public Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = Ease.Linear)
         {
             targetAlpha = Mathf.Clamp01(targetAlpha);
@@ -166,21 +162,6 @@ namespace CryStar.Story.UI
             SetColorWithAlpha(_defaultColor, _startVisible ? 1f : 0f);
         }
         
-        Tween IFadeable.FadeIn(float duration)
-        {
-            return FadeIn(duration);
-        }
-
-        Tween IFadeable.FadeOut(float duration)
-        {
-            return FadeOut(duration);
-        }
-
-        Tween IFadeable.FadeToAlpha(float targetAlpha, float duration)
-        {
-            return FadeToAlpha(targetAlpha, duration);
-        }
-
         #endregion
     }
    

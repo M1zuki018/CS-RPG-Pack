@@ -40,25 +40,25 @@ namespace CryStar.UI
         /// <summary>
         /// フェードイン
         /// </summary>
-        public virtual Tween FadeIn(float duration)
+        public virtual Tween FadeIn(float duration, Ease ease = Ease.Linear)
         {
-            return _canvasGroup.DOFade(1, duration);
+            return FadeToAlpha(1, duration, ease);
         }
 
         /// <summary>
         /// フェードアウト
         /// </summary>
-        public virtual Tween FadeOut(float duration)
+        public virtual Tween FadeOut(float duration, Ease ease = Ease.Linear)
         {
-            return _canvasGroup.DOFade(0, duration);
+            return FadeToAlpha(0, duration, ease);
         }
 
         /// <summary>
         /// 指定したアルファ値までフェード
         /// </summary>
-        public virtual Tween FadeToAlpha(float targetAlpha, float duration)
+        public virtual Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = Ease.Linear)
         {
-            return _canvasGroup.DOFade(targetAlpha, duration);
+            return _canvasGroup.DOFade(targetAlpha, duration).SetEase(ease);
         }
     }
 }
