@@ -11,7 +11,7 @@ namespace CryStar.Story.UI
     /// <summary>
     /// UIContents ストーリーの背景
     /// </summary>
-    public class UIContents_StoryBackground : UIContentsBase
+    public class UIContents_StoryBackground : UIContentsFadeableBase, IImageControllable
     {
         /// <summary>
         /// 背景画像
@@ -28,7 +28,25 @@ namespace CryStar.Story.UI
         /// 次に使用する背景画像のインデックス
         /// </summary>
         private int NextImageIndex => (_activeImageIndex + 1) % _bgImages.Length;
+        
+        /// <summary>
+        /// 現在アクティブな背景画像
+        /// </summary>
+        private CustomImage ActiveImage => _bgImages[_activeImageIndex];
 
+        /// <summary>
+        /// 透明度
+        /// </summary>
+        public override float Alpha => ActiveImage?.color.a ?? 0f;
+        
+        /// <summary>
+        /// 表示中か
+        /// </summary>
+        public override bool IsVisible => Alpha > 0;
+
+        /// <summary>
+        /// 初期化
+        /// </summary>
         public override void Initialize()
         {
             InitializeBackgroundImages();
@@ -60,18 +78,31 @@ namespace CryStar.Story.UI
         /// <summary>
         /// フェードイン
         /// </summary>
-        public Tween FadeIn(float duration)
+        public override Tween FadeIn(float duration, Ease ease = KStoryPresentation.FADE_EASE)
         {
-            return _bgImages[_activeImageIndex].DOFade(1, duration)
-                .SetEase(KStoryPresentation.FADE_EASE)
+            _currentTween?.Kill();
+            _currentTween = FadeToAlpha(1, duration, ease)
                 .OnComplete(() =>
                 {
                     // 前面のオブジェクトが表示されたら、裏面のオブジェクトの透明度をゼロにしておく
                     int prevIndex = _activeImageIndex == 0 ? _bgImages.Length - 1 : _activeImageIndex - 1;
                     _bgImages[prevIndex].Hide();
                 });
+            
+            return _currentTween;
         }
-
+        
+        /// <summary>
+        /// 透明度を指定してフェード処理を行う
+        /// </summary>
+        public override Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = KStoryPresentation.FADE_EASE)
+        {
+            _currentTween?.Kill();
+            _currentTween = _bgImages[_activeImageIndex].DOFade(targetAlpha, duration).SetEase(ease);
+            
+            return _currentTween;
+        }
+        
         #region Private Method
 
         /// <summary>
@@ -90,5 +121,9 @@ namespace CryStar.Story.UI
         }
 
         #endregion
+        
+        public override void SetAlpha(float alpha) { }
+        
+        public override void SetVisibility(bool isVisible) { }
     }
 }
