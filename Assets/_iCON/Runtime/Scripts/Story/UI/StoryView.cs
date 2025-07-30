@@ -244,17 +244,17 @@ namespace CryStar.Story.UI
         /// 選択肢クラスの初期化
         /// 選択肢を表示した時に一時的に進行しないようにする処理を渡す
         /// </summary>
-        public void InitializeChoice(Action onStop)
+        public void SetupChoice(Action onStop)
         {
-            _choice.Initialize(onStop);
+            _choice.Setup(onStop);
         }
 
         /// <summary>
         /// 選択肢を表示する
         /// </summary>
-        public void SetupChoice(IReadOnlyList<UIContents_Choice.ViewData> viewDataList, float duration = 0)
+        public void ShowChoices(IReadOnlyList<UIContents_Choice.ViewData> viewDataList, float duration = 0)
         {
-            _choice.Setup(viewDataList);
+            _choice.ShowChoices(viewDataList);
         }
 
         #region オーバーレイ

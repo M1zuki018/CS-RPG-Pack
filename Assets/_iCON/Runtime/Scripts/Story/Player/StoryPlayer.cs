@@ -120,7 +120,7 @@ namespace CryStar.Story.Player
             _orderExecutor = new OrderExecutor(_view, HandleBranchOrResume);
 
             // ビューの初期化
-            _view.InitializeChoice(HandleChoicePause);
+            _view.SetupChoice(HandleChoicePause);
             _view.SetupOverlay(HandleSkip, HandleImmerseModeToggle, HandleAutoPlayToggle);
         }
         

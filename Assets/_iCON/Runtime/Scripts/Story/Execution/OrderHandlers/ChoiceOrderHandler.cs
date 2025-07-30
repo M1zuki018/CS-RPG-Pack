@@ -33,7 +33,7 @@ namespace CryStar.Story.Execution
         public override Tween HandleOrder(OrderData data, StoryView view)
         {
             var viewDataList = CreateChoiceViewDataList(data.DialogText, view);
-            view.SetupChoice(viewDataList);
+            view.ShowChoices(viewDataList);
 
             return null;
         }
