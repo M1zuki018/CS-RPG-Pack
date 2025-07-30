@@ -11,12 +11,12 @@ namespace CryStar.Story.Execution
     public interface IEffectPerformer
     {
         /// <summary>
-        /// このパフォーマーがサポートするエフェクトタイプ
+        /// このハンドラが担当するエフェクトの種類
         /// </summary>
         EffectOrderType SupportedEffectType { get; }
         
         /// <summary>
-        /// 演出を実行する
+        /// エフェクトの演出を実行
         /// </summary>
         Tween HandlePerformance(OrderData data, StoryView view);
     }
