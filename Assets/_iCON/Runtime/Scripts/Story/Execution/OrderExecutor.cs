@@ -95,7 +95,7 @@ namespace CryStar.Story.Execution
         /// <summary>
         /// オーダーを実行する
         /// </summary>
-        public async UniTask Execute(List<OrderData> orders)
+        public async UniTask Execute(IReadOnlyList<OrderData> orders)
         {
             try
             {

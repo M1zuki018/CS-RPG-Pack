@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CryStar.Story.Data;
+using CryStar.Story.Enums;
 using CryStar.Story.Execution;
 using CryStar.Story.UI;
 using Cysharp.Threading.Tasks;
@@ -21,40 +22,29 @@ namespace CryStar.Story.Player
         private StoryView _view;
         
         /// <summary>
-        /// データの読み込みとオーダー取得を行う
+        /// ストーリーの再生の状態を管理するステートマシン
         /// </summary>
-        private StoryOrderProvider _orderProvider;
+        private StoryPlayerStateMachine _stateMachine;
         
         /// <summary>
-        /// オーダーを実行する
+        /// 入力処理の監視を担当
+        /// </summary>
+        private StoryInputHandler _inputHandler;
+        
+        /// <summary>
+        /// ストーリーの進行位置とオーダー取得を担当
+        /// </summary>
+        private StoryNavigator _navigator;
+        
+        /// <summary>
+        /// オートプレイ、UI非表示などのモード管理を担当
+        /// </summary>
+        private StoryModeController _modeController;
+        
+        /// <summary>
+        /// オーダー実行担当
         /// </summary>
         private OrderExecutor _orderExecutor;
-        
-        /// <summary>
-        /// オート再生を担当
-        /// </summary>
-        private StoryAutoPlayController _autoPlayController;
-
-        /// <summary>
-        /// 現在のストーリー位置
-        /// </summary>
-        private int _currentOrder = 0;
-        
-        /// <summary>
-        /// ストーリー終了時のアクション
-        /// NOTE: 初期化後すぐにストーリーが進まないようにDefaultはtrueにしておく
-        /// </summary>
-        private bool _isStoryComplete = true;
-        
-        /// <summary>
-        /// UI非表示モード
-        /// </summary>
-        private bool _isImmerseMode = false;
-
-        /// <summary>
-        /// 選択肢表示中などによる一時停止
-        /// </summary>
-        private bool _isStopRequested;
 
         #region Lifecycle
         
@@ -72,21 +62,13 @@ namespace CryStar.Story.Player
         /// </summary>
         private void Update()
         {
-            if (_isImmerseMode || _isStopRequested || _isStoryComplete)
-            {
-                // UI非表示モード/選択肢表示中/既に読了していた場合は処理を行わない
-                return;
-            }
+            // 入力を監視
+            _inputHandler.HandleInput();
             
-            if (!_orderExecutor.IsExecuting && _autoPlayController.NotYetRequest)
+            if (_stateMachine.IsPlaying)
             {
-                // オート再生のフラグを予約済みに切り替える
-                _autoPlayController.AutoPlay().Forget();
-            }
-            
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                ProcessNextOrder();
+                // ストーリー再生中のみ、オートモードの監視を行う
+                _modeController.HandleAutoPlay(_orderExecutor.IsExecuting);
             }
         }
         
@@ -95,8 +77,10 @@ namespace CryStar.Story.Player
         /// </summary>
         private void OnDestroy()
         {
-            _orderExecutor.Dispose();
-            _autoPlayController.Dispose();
+            _inputHandler?.Dispose();
+            _navigator?.Dispose();
+            _orderExecutor?.Dispose();
+            _modeController?.Dispose();
         }
         
         #endregion
@@ -106,164 +90,160 @@ namespace CryStar.Story.Player
         /// </summary>
         public void PlayStory(StorySceneData sceneData, IReadOnlyList<OrderData> orders, Action endAction)
         {
-            _orderProvider.Setup(orders);
-            
-            // ストーリーの進行位置をリセット
-            _currentOrder = 0;
-            
+            // 各コンポーネントのセットアップ
+            _navigator.Setup(orders);
             _orderExecutor.Setup(() =>
             {
                 endAction?.Invoke();
-                _isStoryComplete = true;
+                _stateMachine.ResetStory();
             });
-            
-            // キャラクター立ち絵のSetup
+
+            // ビューのセットアップ
             _view.SetupCharacter(sceneData.CharacterScale, sceneData.PositionCorrection);
-            
-            // ストーリー読了フラグをfalseにして、再生できるようにする
-            _isStoryComplete = false;
+
+            // ストーリー開始
+            _stateMachine.StartStory();
         }
 
-        #region Orderの進行処理
-
-        /// <summary>
-        /// 次のオーダーに進む
-        /// </summary>
-        private void ProcessNextOrder()
-        {
-            if (_autoPlayController.IsAutoPlayReserved)
-            {
-                // オート再生中に手動でオーダーを進めた場合、オート再生の予約をキャンセルする
-                _autoPlayController.CancelAutoPlay();
-            }
-            
-            if (_orderExecutor.IsExecuting)
-            {
-                // オーダーが実行中であれば演出をスキップする
-                _orderExecutor.Skip();
-            }
-            else
-            {
-                // 次のオーダー群を実行
-                ExecuteNextOrderSequence();
-            }
-        }
-
-        /// <summary>
-        /// 次のオーダーシーケンスを実行
-        /// </summary>
-        private void ExecuteNextOrderSequence()
-        {
-            // オーダーを取得し、進行位置も更新する
-            var orders = GetContinuousOrdersAndAdvance();
-            
-            if (orders.Count > 0)
-            {
-                // オーダーリストを実行
-                ExecuteOrders(orders);
-            }
-            else
-            {
-                // オーダーが取得できない場合はログを出す
-                LogUtility.Error("次のオーダーが見つかりません", LogCategory.System);
-            }
-        }
+        #region Private Methods
         
-        /// <summary>
-        /// 連続オーダーを取得し進行位置を更新する
-        /// </summary>
-        private List<OrderData> GetContinuousOrdersAndAdvance()
-        {
-            // 指定位置からAppendが出現するまでの連続オーダーを取得
-            var orders = _orderProvider.GetContinuousOrdersFrom(_currentOrder);
-            
-            // オーダーの位置を変更
-            _currentOrder += orders.Count;
-            
-            return orders;
-        }
-        
-        /// <summary>
-        /// オーダーリストを実行
-        /// </summary>
-        private void ExecuteOrders(List<OrderData> orders)
-        {
-            _orderExecutor.Execute(orders).Forget();
-        }
-        
-        #endregion
-
         /// <summary>
         /// 各コンポーネントの初期化
         /// </summary>
         private void InitializeComponents()
         {
-            _orderProvider = new StoryOrderProvider();
-            _orderExecutor = new OrderExecutor(_view, BranchOrResumeStory);
-            _autoPlayController = new StoryAutoPlayController(ProcessNextOrder);
-            _view.InitializeChoice(PauseStoryProgress);
-            _view.SetupOverlay(SkipToEndOrder, ToggleImmerseMode, ToggleAutoPlayMode);
-        }
+            // 各専門コンポーネントの初期化
+            _stateMachine = new StoryPlayerStateMachine(OnStateChanged);
+            _inputHandler = new StoryInputHandler(_stateMachine, ProcessNextOrder);
+            _navigator = new StoryNavigator(HandleComplete);
+            _modeController = new StoryModeController(ProcessNextOrder, _view.SetImmerseMode, _view.SetAutoPlayMode);
+            _orderExecutor = new OrderExecutor(_view, HandleBranchOrResume);
 
-        /// <summary>
-        /// UI非表示モードの切り替え
-        /// </summary>
-        private void ToggleImmerseMode()
-        {
-            // UI非表示状態かフラグを切り替える
-            _isImmerseMode = !_isImmerseMode;
-            _view.SetImmerseMode(_isImmerseMode);
-        }
-
-        /// <summary>
-        /// オート再生モードの切り替え
-        /// </summary>
-        private void ToggleAutoPlayMode()
-        {
-            bool isAutoPlay = _autoPlayController.ToggleAutoPlayMode();
-            _view.SetAutoPlayMode(isAutoPlay);
+            // ビューの初期化
+            _view.InitializeChoice(HandleChoicePause);
+            _view.SetupOverlay(HandleSkip, HandleImmerseModeToggle, HandleAutoPlayToggle);
         }
         
         /// <summary>
-        /// ストーリー進行の一時停止
+        /// 次のオーダーを実行する
         /// </summary>
-        private void PauseStoryProgress()
+        private void ProcessNextOrder()
         {
-            _isStopRequested = true;
+            if (!_stateMachine.CanProcessInput)
+            {
+                // 入力を受け付けない状態であればreturn
+                return;
+            }
+
+            // オート再生がリクエストされていたらキャンセル
+            _modeController.CancelAutoPlayIfRequested();
+
+            if (_orderExecutor.IsExecuting)
+            {
+                // 実行中であればスキップ
+                _orderExecutor.Skip();
+            }
+            else
+            {
+                // 実行中でなければ次のオーダー群の実行を行う
+                ExecuteNextOrderSequence();
+            }
+        }
+
+        /// <summary>
+        /// 次のオーダーの実行を行う
+        /// </summary>
+        private void ExecuteNextOrderSequence()
+        {
+            var orders = _navigator.GetNextOrderSequence();
+            
+            if (orders.Count > 0)
+            {
+                _orderExecutor.Execute(orders).Forget();
+            }
+            else
+            {
+                LogUtility.Error("次のオーダーが見つかりません", LogCategory.System);
+            }
         }
         
         /// <summary>
-        /// スキップ機能
+        /// ステートが切り替わった時のイベント
         /// </summary>
-        private void SkipToEndOrder()
+        private void OnStateChanged(PlaybackStateType oldState, PlaybackStateType newState)
         {
-            // Endオーダーの1つ前のオーダーに移動
-            _currentOrder = _orderProvider.GetOrderCount() - 1;
+            LogUtility.Verbose($"Story ステート変更: {oldState} -> {newState}", LogCategory.System);
+        }
+
+        /// <summary>
+        /// 選択肢表示中はポーズ状態にする
+        /// </summary>
+        private void HandleChoicePause()
+        {
+            _stateMachine.PauseStory();
+        }
+
+        /// <summary>
+        /// 選択肢の分岐処理とストーリー再開を行う
+        /// </summary>
+        private void HandleBranchOrResume(int orderIndex = -1)
+        {
+            if (orderIndex != -1)
+            {
+                // 分岐したオーダーに遷移する
+                _navigator.JumpToOrder(orderIndex);
+            }
+
+            // ポーズ状態を解除
+            _stateMachine.ResumeStory();
+            
+            // 次のオーダーを実行
+            ProcessNextOrder();
+        }
+
+        /// <summary>
+        /// ストーリースキップ処理
+        /// </summary>
+        private void HandleSkip()
+        {
+            // 最後のオーダーへジャンプ
+            _navigator.JumpToEnd();
             
             if (_orderExecutor.IsExecuting)
             {
-                // オーダーが実行中であれば演出をスキップする
+                // ストーリーが実行中であれば強制的にスキップする
                 _orderExecutor.Skip();
             }
             
-            // すぐにEndオーダーを実行
+            // 最後のオーダーを実行する
             ExecuteNextOrderSequence();
         }
 
         /// <summary>
-        /// 選択肢による分岐とストーリー再開機能
+        /// UI非表示モードに変更する
         /// </summary>
-        private void BranchOrResumeStory(int orderIndex = -1)
+        private void HandleImmerseModeToggle()
         {
-            // オーダーのインデックスがデフォルトであれば現在の地点を
-            // その他のインデックスの場合は引数で指定されたオーダーに移動する
-            _currentOrder = orderIndex == -1 ? _currentOrder : orderIndex;
-
-            // 一時停止解除
-            _isStopRequested = false;
-            
-            // オーダーを実行
-            ProcessNextOrder();
+            _stateMachine.ToggleImmerseMode();
+            _modeController.ToggleImmerseMode();
         }
+
+        /// <summary>
+        /// オート再生モードに変更する
+        /// </summary>
+        private void HandleAutoPlayToggle()
+        {
+            _modeController.ToggleAutoPlayMode();
+        }
+
+        /// <summary>
+        /// ストーリー再生終了
+        /// </summary>
+        private void HandleComplete()
+        {
+            _stateMachine.CompleteStory();
+        }
+        
+        #endregion
     }
 }
