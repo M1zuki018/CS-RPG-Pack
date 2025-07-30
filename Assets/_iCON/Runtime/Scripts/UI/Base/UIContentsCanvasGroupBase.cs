@@ -56,7 +56,9 @@ namespace CryStar.UI
         /// </summary>
         public override Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = KStoryPresentation.FADE_EASE)
         {
-            return _canvasGroup.DOFade(targetAlpha, duration).SetEase(ease);
+            _currentTween?.Kill();
+            _currentTween = _canvasGroup.DOFade(targetAlpha, duration).SetEase(ease);
+            return _currentTween;
         }
     }
 }
