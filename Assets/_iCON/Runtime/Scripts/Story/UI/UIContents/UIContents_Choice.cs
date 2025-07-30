@@ -8,7 +8,7 @@ namespace CryStar.Story.UI
     /// <summary>
     /// UIContents 選択肢表示
     /// </summary>
-    public class UIContents_Choice : UIContentsCanvasGroupBase
+    public class UIContents_Choice : UIContentsCanvasGroupBase, IChoice
     {
         /// <summary>
         /// 選択肢のボタンのプレハブ
@@ -21,8 +21,6 @@ namespace CryStar.Story.UI
         /// </summary>
         private Action _onStopAction;
         
-        #region Lifecycle
-
         public override void Initialize()
         {
             base.Initialize();
@@ -34,20 +32,18 @@ namespace CryStar.Story.UI
             _onStopAction = null;
         }
 
-        #endregion
-
         /// <summary>
-        /// Initialize
+        /// Setup
         /// </summary>
-        public void Initialize(Action onStopAction)
+        public void Setup(Action onStopAction)
         {
             _onStopAction = onStopAction;
         }
 
         /// <summary>
-        /// Setup
+        /// 選択肢の表示を行う
         /// </summary>
-        public void Setup(IReadOnlyList<ViewData> choiceViewDataList)
+        public void ShowChoices(IReadOnlyList<ViewData> choiceViewDataList)
         {
             // 一時停止
             _onStopAction?.Invoke();
