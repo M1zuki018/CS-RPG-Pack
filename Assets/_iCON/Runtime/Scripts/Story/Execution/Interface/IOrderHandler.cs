@@ -16,7 +16,7 @@ namespace CryStar.Story.Execution
         OrderType SupportedOrderType { get; }
         
         /// <summary>
-        /// オーダーを実行する（型安全なバージョン）
+        /// オーダーを実行する
         /// </summary>
         Tween HandleOrder(OrderData data, StoryView view);
     }
