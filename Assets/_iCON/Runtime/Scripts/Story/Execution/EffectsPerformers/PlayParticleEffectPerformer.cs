@@ -7,17 +7,17 @@ using DG.Tweening;
 namespace CryStar.Story.Execution
 {
     /// <summary>
-    /// StopParticle - ParticleSystemのエフェクトを停止
+    /// PlayParticle - ParticleSystemでエフェクトを再生
     /// </summary>
-    [EffectPerformer(EffectOrderType.StopParticle)]
-    public class EffectStopParticlePerformer : EffectPerformerBase
+    [EffectPerformer(EffectOrderType.PlayParticle)]
+    public class PlayParticleEffectPerformer : EffectPerformerBase
     {
         /// <summary>
         /// ParticleManager
         /// </summary>
         private ParticleManager _particleManager;
         
-        public override EffectOrderType SupportedEffectType => EffectOrderType.StopParticle;
+        public override EffectOrderType SupportedEffectType => EffectOrderType.PlayParticle;
         
         public override Tween HandlePerformance(OrderData data, StoryView view)
         {
@@ -28,7 +28,7 @@ namespace CryStar.Story.Execution
             }
             
             // NOTE: 配列のインデックスとして扱うために-1してゼロオリジンに変換
-            _particleManager.StopParticle((int)data.OverrideTextSpeed - 1);
+            _particleManager.PlayParticle((int)data.OverrideTextSpeed - 1);
             return null;
         }
     }
