@@ -3,10 +3,10 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-namespace CryStar.CryStar.UI
+namespace CryStar.Story.UI
 {
     /// <summary>
-    /// キャラクター画像制御
+    /// キャラクターの画像制御を行うUIContentsが継承すべきインターフェース
     /// </summary>
     public interface ICharacterController
     {

@@ -1,6 +1,7 @@
+using CryStar.UI;
 using DG.Tweening;
 
-namespace CryStar.UI
+namespace CryStar.Story.UI
 {
     /// <summary>
     /// 名前付きダイアログのUIContentsが継承すべきインターフェース

@@ -1,14 +1,9 @@
 using CryStar.UI;
-using Cysharp.Threading.Tasks;
-using DG.Tweening;
 
 namespace CryStar.Story.UI
 {
     /// <summary>
-    /// スチル制御機能
+    /// スチル制御を行うクラスが継承すべきインターフェース
     /// </summary>
-    public interface ISteelController : IImageControllable, IFadeable
-    {
-        // 追加はなし
-    }
+    public interface ISteelController : IImageControllable, IFadeable { }
 }

@@ -1,6 +1,6 @@
 using DG.Tweening;
 
-namespace CryStar.UI
+namespace CryStar.Story.UI
 {
     /// <summary>
     /// ストーリーの会話ダイアログと地の文ダイアログの両方を統括して管理するクラスが継承すべきインターフェース
