@@ -1,3 +1,4 @@
+using CryStar.UI;
 using DG.Tweening;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace CryStar.Story.UI
     /// UIContents ダイアログ
     /// </summary>
     [RequireComponent(typeof(CanvasGroup))]
-    public class UIContents_StoryDialog : MonoBehaviour
+    public class UIContents_StoryDialog : UIContentsBase, IDialog
     {
         /// <summary>
         /// 名前の表示を行わないパターンのレイアウトがあるオブジェクト
@@ -31,22 +32,33 @@ namespace CryStar.Story.UI
         /// </summary>
         public bool IsVisible => _canvasGroup != null && _canvasGroup.alpha > 0;
 
-        #region Lifecycle
+        #region 会話ダイアログ
 
-        private void Start()
+        /// <summary>
+        /// 会話ダイアログのテキストを書き換える
+        /// </summary>
+        public Tween SetTalk(string name, string dialog, float duration = 0)
         {
-            _canvasGroup = GetComponent<CanvasGroup>();
+            if (_descriptionLayout.IsVisible)
+            {
+                // 地の文ダイアログが表示されていたら非表示にする
+                _descriptionLayout.SetVisibility(false);
+            }
             
-            Hide(0);
-            
-            // 非表示にする・テキストをクリアする
-            _talkLayout.SetVisibility(false);
+            return _talkLayout.SetTalk(name, dialog, duration);
+        }
+        
+        /// <summary>
+        /// 会話ダイアログをリセット
+        /// </summary>
+        public void ResetTalk()
+        {
             _talkLayout.ClearText();
-            _descriptionLayout.SetVisibility(false);
-            _descriptionLayout.ClearText();
         }
 
         #endregion
+
+        #region 地の文ダイアログ
 
         /// <summary>
         /// 地の文ダイアログのテキストを書き換える
@@ -63,64 +75,65 @@ namespace CryStar.Story.UI
         }
         
         /// <summary>
-        /// 会話ダイアログのテキストを書き換える
-        /// </summary>
-        public Tween SetTalk(string name, string dialog, float duration = 0)
-        {
-            if (_descriptionLayout.IsVisible)
-            {
-                // 地の文ダイアログが表示されていたら非表示にする
-                _descriptionLayout.SetVisibility(false);
-            }
-            
-            return _talkLayout.SetText(name, dialog, duration);
-        }
-
-        /// <summary>
         /// 地の文ダイアログをリセット
         /// </summary>
         public void ResetDescription()
         {
             _descriptionLayout.ClearText();
         }
-        
-        /// <summary>
-        /// 会話ダイアログをリセット
-        /// </summary>
-        public void ResetTalk()
-        {
-            _talkLayout.ClearText();
-        }
+
+        #endregion
         
         /// <summary>
         /// ダイアログを表示する
         /// </summary>
-        public Tween Show(float duration)
+        public Tween FadeIn(float duration)
         {
-            return SetVisibility(true, duration);
+            if (!IsVisible)
+            {
+                SetVisibility(true);
+            }
+
+            return _canvasGroup.DOFade(1, duration);
         }
-        
+
         /// <summary>
         /// ダイアログを非表示にする
         /// </summary>
-        public Tween Hide(float duration)
+        public Tween FadeOut(float duration)
         {
-            return SetVisibility(false, duration);
-        }
-
-        #region Private Methods
-
-        /// <summary>
-        /// 自身の表示状態を設定する
-        /// </summary>
-        private Tween SetVisibility(bool isActive, float duration)
-        {
-            _canvasGroup.interactable = isActive;
-            _canvasGroup.blocksRaycasts = isActive;
-            
-            return _canvasGroup.DOFade(isActive ? 1 : 0, duration);
+            return _canvasGroup.DOFade(0, duration);
         }
         
-        #endregion
+        /// <summary>
+        /// 指定したアルファ値までフェード
+        /// </summary>
+        public Tween FadeToAlpha(float targetAlpha, float duration)
+        {
+            return _canvasGroup.DOFade(targetAlpha, duration);
+        }
+        
+        /// <summary>
+        /// 表示/非表示を切り替える
+        /// </summary>
+        public void SetVisibility(bool isVisible)
+        {
+            _canvasGroup.alpha = isVisible ? 1 : 0;
+            _canvasGroup.interactable = isVisible;
+            _canvasGroup.blocksRaycasts = isVisible;
+        }
+        
+        public override void Initialize()
+        {
+            _canvasGroup = GetComponent<CanvasGroup>();
+            
+            SetVisibility(false);
+            
+            // 非表示にする・テキストをクリアする
+            _talkLayout.SetVisibility(false);
+            _talkLayout.ClearText();
+            _descriptionLayout.SetVisibility(false);
+            _descriptionLayout.ClearText();
+        }
     }
 }
