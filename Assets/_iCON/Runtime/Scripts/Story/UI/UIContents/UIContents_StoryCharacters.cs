@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using CryStar.CryStar.UI;
 using CryStar.Story.Data;
 using CryStar.Story.Enums;
 using CryStar.UI;
@@ -12,7 +13,7 @@ namespace CryStar.Story.UI
     /// <summary>
     /// UIContents ストーリーのキャラクター画像管理
     /// </summary>
-    public class UIContents_StoryCharacters : UIContentsBase
+    public class UIContents_StoryCharacters : UIContentsBase, ICharacterController
     {
         /// <summary>
         /// 各立ち位置のキャラクター表示データ配列
