@@ -42,7 +42,7 @@ namespace CryStar.Story.UI
                 
                 // NOTE: アルファ値を1にしてしまうとその後ろが見えなくなってしまうので、1までは上げないようにする
                 .Append(FadeToAlpha(0.5f, duration * 0.3f, Ease.InQuart))
-                .Append(FadeIn(duration * 0.7f, Ease.OutSine))
+                .Append(FadeOut(duration * 0.7f, Ease.OutSine))
                 
                 // NOTE: デフォルトの色に戻しておく
                 .OnComplete(() => SetColorWithAlpha(_defaultColor, 0));

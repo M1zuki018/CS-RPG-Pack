@@ -140,7 +140,8 @@ namespace CryStar.Story.UI
         /// </summary>
         public Tween FadeIn(float duration)
         {
-            return _fadePanel.FadeIn(duration);
+            // パネルは非表示にする
+            return _fadePanel.FadeOut(duration);
         }
 
         /// <summary>
@@ -148,7 +149,8 @@ namespace CryStar.Story.UI
         /// </summary>
         public Tween FadeOut(float duration)
         {
-            return _fadePanel.FadeOut(duration);
+            // パネルを表示する
+            return _fadePanel.FadeIn(duration);
         }
 
         /// <summary>
