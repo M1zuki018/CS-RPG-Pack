@@ -1,3 +1,4 @@
+using System;
 using CryStar.Story.Constants;
 using DG.Tweening;
 
@@ -6,8 +7,10 @@ namespace CryStar.UI
     /// <summary>
     /// フェード機能を持つUIContentsのベースクラス
     /// </summary>
-    public abstract class UIContentsFadeableBase : UIContentsBase, IFadeable, IAlphaControllable
+    public abstract class UIContentsFadeableBase : UIContentsBase, IFadeable, IAlphaControllable, IAnimationControllable
     {
+        protected Tween _currentTween;
+        
         /// <summary>
         /// 透明度
         /// </summary>
@@ -19,9 +22,22 @@ namespace CryStar.UI
         public abstract bool IsVisible { get; }
 
         /// <summary>
+        /// アニメーション中か
+        /// </summary>
+        public bool IsAnimating => _currentTween != null && _currentTween.IsActive();
+        
+        /// <summary>
         /// 表示/非表示を即座に切り替え
         /// </summary>
         public abstract void SetVisibility(bool isVisible);
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        protected override void Dispose()
+        {
+            StopAnimation();
+        }
 
         /// <summary>
         /// フェードイン
@@ -48,5 +64,14 @@ namespace CryStar.UI
         /// 指定したアルファ値までフェード（派生クラスで実装）
         /// </summary>
         public abstract Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = KStoryPresentation.FADE_EASE);
+        
+        /// <summary>
+        /// 現在のアニメーションを停止
+        /// </summary>
+        public void StopAnimation()
+        {
+            _currentTween?.Kill();
+            _currentTween = null;
+        }
     }
 }
