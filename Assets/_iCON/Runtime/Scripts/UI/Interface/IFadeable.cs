@@ -1,15 +1,25 @@
-using CryStar.Story.Constants;
 using DG.Tweening;
 
 namespace CryStar.UI
 {
     /// <summary>
-    /// フェード機能を持つUIContents
+    /// フェード機能を持つUIContentsが継承すべきインターフェース
     /// </summary>
     public interface IFadeable : IVisibilityControllable
     {
-        Tween FadeIn(float duration, Ease ease = KStoryPresentation.FADE_EASE);
-        Tween FadeOut(float duration, Ease ease = KStoryPresentation.FADE_EASE);
-        Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = KStoryPresentation.FADE_EASE);
+        /// <summary>
+        /// フェードイン
+        /// </summary>
+        Tween FadeIn(float duration, Ease ease = Ease.Linear);
+        
+        /// <summary>
+        /// フェードアウト
+        /// </summary>
+        Tween FadeOut(float duration, Ease ease = Ease.Linear);
+        
+        /// <summary>
+        /// 指定した透明度にフェードを行う
+        /// </summary>
+        Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = Ease.Linear);
     }
 }
