@@ -18,7 +18,7 @@ namespace CryStar.Story.Execution
 
         /// <summary>
         /// エフェクトの演出を実行
-        /// NOTE: 継承クラスで具体的な処理を実装する必要があります。
+        /// NOTE: 継承クラスで具体的な処理を実装する必要があります
         /// </summary>
         /// <param name="data">命令のデータ</param>
         /// <param name="view">ストーリー表示用のUI</param>
