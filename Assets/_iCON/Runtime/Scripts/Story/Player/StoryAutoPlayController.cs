@@ -31,6 +31,11 @@ namespace CryStar.Story.Player
         private CancellationTokenSource _cts = new CancellationTokenSource();
         
         /// <summary>
+        /// オート再生モード
+        /// </summary>
+        public bool IsAutoPlayMode => _isAutoPlayMode;
+        
+        /// <summary>
         /// オート再生開始予約済み
         /// </summary>
         public bool IsAutoPlayReserved => _isAutoPlayReserved;
