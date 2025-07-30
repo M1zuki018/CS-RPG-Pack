@@ -1,3 +1,4 @@
+using CryStar.UI;
 using DG.Tweening;
 using iCON.Utility;
 using UnityEngine;
@@ -6,9 +7,9 @@ namespace CryStar.Story.UI
 {
     /// <summary>
     /// UIContents 名前なしの地の文のダイアログ
+    /// ベースクラス内でCanvasGroupでのフェード処理にも対応している
     /// </summary>
-    [RequireComponent(typeof(CanvasGroup))]
-    public class UIContents_DialogDescriptionLayout : MonoBehaviour
+    public class UIContents_DialogDescriptionLayout : UIContentsCanvasGroupBase, IDescriptionLayout
     {
         /// <summary>
         /// 地の文のText
@@ -17,28 +18,28 @@ namespace CryStar.Story.UI
         private CustomText _description;
         
         /// <summary>
-        /// CanvasGroup
-        /// </summary>
-        private CanvasGroup _canvasGroup;
-
-        /// <summary>
         /// 初期化済みか
         /// </summary>
         private bool _isInitialized;
         
         /// <summary>
-        /// 現在表示されているかどうか
+        /// 初期化処理
         /// </summary>
-        public bool IsVisible => _canvasGroup != null && _canvasGroup.alpha > 0f;
-
-        #region Lifecycle
-
-        private void Awake()
+        public override void Initialize()
         {
-            InitializeComponents();
+            base.Initialize();
+            
+            // エラーがあるか、この変数に記録する
+            bool hasError = false;
+            
+            if (_description == null)
+            {
+                LogUtility.Error($"_description が null です。割り当てを行ってください", LogCategory.UI, this);
+                hasError = true;
+            }
+            
+            _isInitialized = !hasError;
         }
-
-        #endregion
 
         /// <summary>
         /// 表示テキストを変更する
@@ -50,7 +51,7 @@ namespace CryStar.Story.UI
                 // NOTE: 初期化が正しく行われていない場合はコンポーネントがnullになるためreturnしておく
                 return null;    
             }
-
+            
             if (!IsVisible)
             {
                 SetVisibility(true);
@@ -68,37 +69,5 @@ namespace CryStar.Story.UI
         {
             SetText(string.Empty);
         }
-        
-        /// <summary>
-        /// 表示状態を設定する
-        /// </summary>
-        public void SetVisibility(bool isActive)
-        {
-            _canvasGroup.alpha = isActive ? 1 : 0;
-            _canvasGroup.interactable = isActive;
-            _canvasGroup.blocksRaycasts = isActive;
-        }
-
-        #region Private Methods
-
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        private void InitializeComponents()
-        {
-            // エラーがあるか、この変数に記録する
-            bool hasError = false;
-
-            if (_description == null)
-            {
-                LogUtility.Error($"_description が null です。割り当てを行ってください", LogCategory.UI, this);
-                hasError = true;
-            }
-            
-            _canvasGroup = GetComponent<CanvasGroup>();
-            _isInitialized = !hasError;
-        }
-
-        #endregion
     }
 }

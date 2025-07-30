@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CryStar.Story.Data;
 using CryStar.Story.Enums;
+using CryStar.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace CryStar.Story.UI
     /// <summary>
     /// UIContents ストーリーのキャラクター画像管理
     /// </summary>
-    public class UIContents_StoryCharacters : MonoBehaviour
+    public class UIContents_StoryCharacters : UIContentsBase, ICharacterController
     {
         /// <summary>
         /// 各立ち位置のキャラクター表示データ配列
@@ -24,18 +25,6 @@ namespace CryStar.Story.UI
         /// </summary>
         private Dictionary<CharacterPositionType, CharacterPositionData> _positionCache;
         
-        #region Lifecycle
-
-        /// <summary>
-        /// Awake
-        /// </summary>
-        private void Awake()
-        {
-            Initialize();
-        }
-
-        #endregion
-
         /// <summary>
         /// 全キャラクターの位置とスケールを一括設定
         /// </summary>
@@ -185,7 +174,7 @@ namespace CryStar.Story.UI
         /// <summary>
         /// 初期化処理
         /// </summary>
-        private void Initialize()
+        public override void Initialize()
         {
             InitializePositionCache();
             InitializeCharacterPositions();

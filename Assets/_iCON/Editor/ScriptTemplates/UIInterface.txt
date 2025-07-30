@@ -1,0 +1,10 @@
+namespace CryStar.UI
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public interface {ClassName}
+    {
+
+    }
+}

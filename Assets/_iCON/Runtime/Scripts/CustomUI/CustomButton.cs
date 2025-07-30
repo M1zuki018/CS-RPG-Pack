@@ -81,5 +81,13 @@ public class CustomButton : Button
     {
         onClick.SafeAddListener(() => onClickAction?.Invoke());
     }
+
+    /// <summary>
+    /// アクティブ状態を切り替える
+    /// </summary>
+    public void SetActive(bool isActive)
+    {
+        gameObject.SetActive(isActive);
+    }
 }
 

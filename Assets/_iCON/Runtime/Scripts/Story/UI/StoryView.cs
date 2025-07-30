@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CryStar.Attribute;
 using CryStar.Effects;
 using CryStar.Story.Constants;
+using CryStar.Story.Data;
 using CryStar.Story.Enums;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -82,7 +83,7 @@ namespace CryStar.Story.UI
             if (!_dialog.IsVisible)
             {
                 // ダイアログのオブジェクトが非表示だったら表示する
-                _dialog.Show(duration / 10);
+                _dialog.FadeIn(duration / 10);
             }
 
             return tween;
@@ -112,7 +113,7 @@ namespace CryStar.Story.UI
         {
             if (!_dialog.IsVisible)
             {
-                _dialog.Show(KStoryPresentation.DIALOG_FADE_DURATION);
+                _dialog.FadeIn(KStoryPresentation.DIALOG_FADE_DURATION);
             }
             
             return _dialog.SetDescription(description, duration);
@@ -123,7 +124,7 @@ namespace CryStar.Story.UI
         /// </summary>
         public Tween ShowDialog(float duration = 0)
         {
-            return _dialog.Show(duration);
+            return _dialog.FadeIn(duration);
         }
         
         /// <summary>
@@ -131,7 +132,7 @@ namespace CryStar.Story.UI
         /// </summary>
         public Tween HideDialog(float duration = 0)
         {
-            return _dialog.Hide(duration);
+            return _dialog.FadeOut(duration);
         }
 
         /// <summary>
@@ -139,7 +140,8 @@ namespace CryStar.Story.UI
         /// </summary>
         public Tween FadeIn(float duration)
         {
-            return _fadePanel.FadeIn(duration);
+            // パネルは非表示にする
+            return _fadePanel.FadeOut(duration);
         }
 
         /// <summary>
@@ -147,7 +149,8 @@ namespace CryStar.Story.UI
         /// </summary>
         public Tween FadeOut(float duration)
         {
-            return _fadePanel.FadeOut(duration);
+            // パネルを表示する
+            return _fadePanel.FadeIn(duration);
         }
 
         /// <summary>
@@ -155,7 +158,7 @@ namespace CryStar.Story.UI
         /// </summary>
         public void FadePanelSetVisible(bool visible)
         {
-            _fadePanel.SetVisible(visible);
+            _fadePanel.SetVisibility(visible);
         }
 
         /// <summary>
@@ -244,17 +247,17 @@ namespace CryStar.Story.UI
         /// 選択肢クラスの初期化
         /// 選択肢を表示した時に一時的に進行しないようにする処理を渡す
         /// </summary>
-        public void InitializeChoice(Action onStop)
+        public void SetupChoice(Action onStop)
         {
-            _choice.Initialize(onStop);
+            _choice.Setup(onStop);
         }
 
         /// <summary>
         /// 選択肢を表示する
         /// </summary>
-        public void SetupChoice(IReadOnlyList<UIContents_Choice.ViewData> viewDataList, float duration = 0)
+        public void ShowChoices(IReadOnlyList<ChoiceViewData> viewDataList, float duration = 0)
         {
-            _choice.Setup(viewDataList);
+            _choice.ShowChoices(viewDataList);
         }
 
         #region オーバーレイ
@@ -264,7 +267,7 @@ namespace CryStar.Story.UI
         /// </summary>
         public void SetupOverlay(Action skipAction, Action onImmersiveAction, Action onAutoPlayAction)
         {
-            _overlay.Setup(this, skipAction, onImmersiveAction, onAutoPlayAction);
+            _overlay.Setup(skipAction, onImmersiveAction, onAutoPlayAction);
         }
 
         /// <summary>

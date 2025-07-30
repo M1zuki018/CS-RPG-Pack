@@ -1,3 +1,4 @@
+using CryStar.UI;
 using DG.Tweening;
 using iCON.Utility;
 using UnityEngine;
@@ -6,9 +7,9 @@ namespace CryStar.Story.UI
 {
     /// <summary>
     /// UIContents 名前つきのダイアログ
+    /// ベースクラス内でCanvasGroupでのフェード処理にも対応している
     /// </summary>
-    [RequireComponent(typeof(CanvasGroup))]
-    public class UIContents_DialogTalkLayout : MonoBehaviour
+    public class UIContents_DialogTalkLayout : UIContentsCanvasGroupBase, ITalkLayout
     {
         /// <summary>
         /// 名前のText
@@ -21,35 +22,41 @@ namespace CryStar.Story.UI
         /// </summary>
         [SerializeField] 
         private CustomText _dialog;
-        
-        /// <summary>
-        /// CanvasGroup
-        /// </summary>
-        private CanvasGroup _canvasGroup;
 
         /// <summary>
         /// 初期化済みか
         /// </summary>
         private bool _isInitialized;
-        
+
         /// <summary>
-        /// 現在表示されているかどうか
+        /// 初期化処理
         /// </summary>
-        public bool IsVisible => _canvasGroup != null && _canvasGroup.alpha > 0f;
-        
-        #region Lifecycle
-
-        private void Awake()
+        public override void Initialize()
         {
-            InitializeComponents();
-        }
+            base.Initialize();
+            
+            // エラーがあるか、この変数に記録する
+            bool hasError = false;
+            
+            if (_name == null)
+            {
+                LogUtility.Error($"_name が null です。割り当てを行ってください", LogCategory.UI, this);
+                hasError = true;
+            }
 
-        #endregion
+            if (_dialog == null)
+            {
+                LogUtility.Error($"_dialog が null です。割り当てを行ってください", LogCategory.UI, this);
+                hasError = true;
+            }
+            
+            _isInitialized = !hasError;
+        }
 
         /// <summary>
         /// 表示テキストを変更する
         /// </summary>
-        public Tween SetText(string name, string dialog, float duration = 0)
+        public Tween SetTalk(string name, string dialog, float duration = 0)
         {
             if (!_isInitialized)
             {
@@ -65,7 +72,7 @@ namespace CryStar.Story.UI
             SetName(name);
             return SetDialog(dialog, duration);
         }
-        
+
         /// <summary>
         /// 名前のみを設定する
         /// </summary>
@@ -100,51 +107,15 @@ namespace CryStar.Story.UI
             _dialog.text = string.Empty;
             return _dialog.DOText(dialog ?? string.Empty, duration).SetEase(Ease.Linear);
         }
-        
+
         /// <summary>
         /// テキストをクリアする
         /// </summary>
         public void ClearText()
         {
-            SetText(string.Empty, string.Empty);
+            SetTalk(string.Empty, string.Empty);
         }
-
-        /// <summary>
-        /// 表示状態を設定する
-        /// </summary>
-        public void SetVisibility(bool isActive)
-        {
-            _canvasGroup.alpha = isActive ? 1 : 0;
-            _canvasGroup.interactable = isActive;
-            _canvasGroup.blocksRaycasts = isActive;
-        }
-
-        #region Private Methods
-
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        private void InitializeComponents()
-        {
-            // エラーがあるか、この変数に記録する
-            bool hasError = false;
-            
-            if (_name == null)
-            {
-                LogUtility.Error($"_name が null です。割り当てを行ってください", LogCategory.UI, this);
-                hasError = true;
-            }
-
-            if (_dialog == null)
-            {
-                LogUtility.Error($"_dialog が null です。割り当てを行ってください", LogCategory.UI, this);
-                hasError = true;
-            }
-            
-            _canvasGroup = GetComponent<CanvasGroup>();
-            _isInitialized = !hasError;
-        }
-
-        #endregion
+        
+        public Tween SetText(string text, float duration = 0) => SetDialog(text, duration);
     }
 }

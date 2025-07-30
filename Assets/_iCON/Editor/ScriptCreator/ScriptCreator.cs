@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public static class ScriptCreator
 {
-    private static readonly string _templateFolderPath = "Assets/iCON/ScriptTemplates"; // スクリプトテンプレートが置かれているフォルダ
+    private static readonly string _templateFolderPath = "Assets/_iCON/Editor/ScriptTemplates"; // スクリプトテンプレートが置かれているフォルダ
     
     public static void CreateScript(string savePath, string scriptName, int templateIndex, string[] templates)
     {
