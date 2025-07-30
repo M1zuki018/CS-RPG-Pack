@@ -6,9 +6,9 @@ using DG.Tweening;
 namespace CryStar.Story.Execution
 {
     /// <summary>
-    /// オーダーを実行するHandlerのベースクラス
+    /// オーダーを実行するFactory用のベースクラス
     /// </summary>
-    public abstract class OrderHandlerBase
+    public abstract class OrderHandlerBase : IOrderHandler
     {
         public abstract OrderType SupportedOrderType { get; }
         public abstract Tween HandleOrder(OrderData data, StoryView view);
