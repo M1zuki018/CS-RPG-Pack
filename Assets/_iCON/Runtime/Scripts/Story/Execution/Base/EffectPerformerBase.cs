@@ -8,7 +8,7 @@ namespace CryStar.Story.Execution
     /// <summary>
     /// エフェクトの演出を実行するFactory用のベースクラス
     /// </summary>
-    public abstract class EffectPerformerBase
+    public abstract class EffectPerformerBase : IEffectPerformer
     {
         public abstract EffectOrderType SupportedEffectType { get; }
         public abstract Tween HandlePerformance(OrderData data, StoryView view);
