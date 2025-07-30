@@ -1,5 +1,6 @@
 using System;
 using CryStar.UI;
+using iCON.Utility;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,9 +12,21 @@ namespace CryStar.Story.UI
     public class UIContents_OverlayContents : UIContentsBase
     {
         /// <summary>
-        /// UI非表示ボタン
+        /// ボタンのデフォルト色
+        /// </summary>
+        [Header("カラー設定"), SerializeField]
+        private Color _defaultColor;
+        
+        /// <summary>
+        /// ボタンの選択中の色
         /// </summary>
         [SerializeField]
+        private Color _activeColor = Color.gray;
+        
+        /// <summary>
+        /// UI非表示ボタン
+        /// </summary>
+        [Header("ボタンの参照"), SerializeField]
         private Button _immersedButton;
 
         /// <summary>
@@ -28,68 +41,27 @@ namespace CryStar.Story.UI
         [SerializeField]
         private Button _skipButton;
         
-        /// <summary>
-        /// ボタンのデフォルト色
-        /// </summary>
-        [SerializeField]
-        private Color _defaultButtonColor;
-        
-        #region Lifecycle
-
         // 特に初期化処理はなし
         public override void Initialize() { }
         
         private void OnDestroy()
         {
-            _immersedButton.onClick.RemoveAllListeners();
-            _autoPlayButton.onClick.RemoveAllListeners();
-            _skipButton.onClick.RemoveAllListeners();
+            ClearAllListeners();
         }
-
-        #endregion
 
         /// <summary>
         /// Setup
         /// </summary>
         public void Setup(Action skipAction, Action onImmersiveAction, Action onAutoPlayAction)
         {
-            // UI非表示ボタンを押した時の処理を登録
-            SetupImmerseButton(onImmersiveAction);
+            // スキップボタンを押した時の処理を登録
+            SetupButton(_skipButton, skipAction);
+            
+            // UI非表示ボタン
+            SetupButton(_immersedButton, onImmersiveAction);
             
             // オート再生ボタン
-            SetupAutoPlayButton(onAutoPlayAction);
-            
-            // スキップボタン
-            SetupSkipButton(skipAction);
-        }
-        
-        /// <summary>
-        /// UI非表示ボタンのセットアップ
-        /// </summary>
-        public void SetupImmerseButton(Action action)
-        {
-            // NOTE: 非表示になったときはダイアログを非表示に・ストーリーが進行しないようにする
-            _immersedButton.onClick.RemoveAllListeners();
-            _immersedButton.onClick.AddListener(() => action?.Invoke());
-        }
-
-        /// <summary>
-        /// オート再生ボタンのセットアップ
-        /// </summary>
-        public void SetupAutoPlayButton(Action action)
-        {
-            _autoPlayButton.onClick.RemoveAllListeners();
-            _autoPlayButton.onClick.AddListener(() => action?.Invoke());
-        }
-
-        /// <summary>
-        /// スキップボタンのセットアップ
-        /// </summary>
-        /// <param name="action"></param>
-        public void SetupSkipButton(Action action)
-        {
-            _skipButton.onClick.RemoveAllListeners();
-            _skipButton.onClick.AddListener(() => action?.Invoke());
+            SetupButton(_autoPlayButton, onAutoPlayAction);
         }
 
         /// <summary>
@@ -97,7 +69,7 @@ namespace CryStar.Story.UI
         /// </summary>
         public void ChangeImmerseButtonColor(bool isActive)
         {
-            _immersedButton.image.color = isActive ? Color.gray : _defaultButtonColor;
+            ChangeButtonActive(_immersedButton, isActive);
         }
 
         /// <summary>
@@ -105,7 +77,43 @@ namespace CryStar.Story.UI
         /// </summary>
         public void ChangeAutoPlayButtonColor(bool isActive)
         {
-            _autoPlayButton.image.color = isActive ? Color.gray : _defaultButtonColor;
+            ChangeButtonActive(_autoPlayButton, isActive);
         }
+
+        #region Private Methods
+        
+        /// <summary>
+        /// ボタンのonClickイベントに安全に処理を追加する
+        /// </summary>
+        private void SetupButton(Button button, Action onClick)
+        {
+            button.onClick.SafeAddListener(() => onClick?.Invoke());
+        }
+
+        /// <summary>
+        /// ボタンの状態（色）を変更する
+        /// </summary>
+        private void ChangeButtonActive(Button button, bool isActive)
+        {
+            if (button?.image == null)
+            {
+                // ボタンのImageの参照がない場合はreturn
+                return;
+            }
+            
+            button.image.color = isActive ? _activeColor : _defaultColor;
+        }
+
+        /// <summary>
+        /// 全リスナーをクリア
+        /// </summary>
+        private void ClearAllListeners()
+        {
+            _immersedButton.onClick.RemoveAllListeners();
+            _autoPlayButton.onClick.RemoveAllListeners();
+            _skipButton.onClick.RemoveAllListeners();
+        }
+        
+        #endregion
     }
 }
