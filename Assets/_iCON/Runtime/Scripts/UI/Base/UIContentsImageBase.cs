@@ -9,7 +9,7 @@ namespace CryStar.UI
     /// Imageを利用するUIContentsのベースクラス
     /// </summary>
     [RequireComponent(typeof(Image))]
-    public abstract class UIContentsImageBase : UIContentsFadeableBase, IColorControllable, IAnimationControllable
+    public abstract class UIContentsImageBase : UIContentsFadeableBase, IColorControllable
     {
         /// <summary>
         /// Imageコンポーネント
@@ -17,19 +17,9 @@ namespace CryStar.UI
         protected Image _image;
         
         /// <summary>
-        /// Tween
-        /// </summary>
-        protected Tween _currentTween;
-        
-        /// <summary>
         /// Imageが表示状態か
         /// </summary>
         public override bool IsVisible => _image != null && _image.enabled && _image.color.a > 0;
-        
-        /// <summary>
-        /// アニメーション中か
-        /// </summary>
-        public bool IsAnimating => _currentTween != null && _currentTween.IsActive();
         
         /// <summary>
         /// Imageの透明度
@@ -106,15 +96,6 @@ namespace CryStar.UI
         {
             color.a = _image.color.a;
             _image.color = color;
-        }
-
-        /// <summary>
-        /// 現在のアニメーションを停止
-        /// </summary>
-        public void StopAnimation()
-        {
-            _currentTween?.Kill();
-            _currentTween = null;
         }
     }
 }
