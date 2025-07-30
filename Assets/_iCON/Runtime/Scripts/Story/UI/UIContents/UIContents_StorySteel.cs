@@ -1,5 +1,6 @@
 using System;
 using CryStar.Story.Constants;
+using CryStar.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Utility;
@@ -11,7 +12,7 @@ namespace CryStar.Story.UI
     /// UIContents ストーリーのスチル表示を管理する
     /// </summary>
     [RequireComponent(typeof(CanvasGroup))]
-    public class UIContents_StorySteel : MonoBehaviour
+    public class UIContents_StorySteel : UIContentsBase, ISteelController
     {
         /// <summary>
         /// スチル画像
@@ -38,10 +39,11 @@ namespace CryStar.Story.UI
         /// 現在表示中かどうか
         /// </summary>
         public bool IsVisible => _canvasGroup != null && _canvasGroup.alpha > 0;
-        
-        #region Lifecycle
 
-        private void Awake()
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        public override void Initialize()
         {
             InitializeSteelImages();
             _canvasGroup = GetComponent<CanvasGroup>();
@@ -49,9 +51,7 @@ namespace CryStar.Story.UI
             // 初期状態で非表示にしておく
             SetVisibility(false);
         }
-
-        #endregion
-
+        
         /// <summary>
         /// ファイル名を元に画像を変更する
         /// </summary>
@@ -82,7 +82,8 @@ namespace CryStar.Story.UI
         {
             if (!IsVisible)
             {
-                Show();
+                // 表示
+                SetVisibility(true);
             }
             
             return _steelImages[_activeImageIndex].DOFade(1, duration)
@@ -105,19 +106,31 @@ namespace CryStar.Story.UI
         }
 
         /// <summary>
-        /// 表示
+        /// 指定したアルファ値までフェード
         /// </summary>
-        public void Show()
+        public Tween FadeToAlpha(float targetAlpha, float duration)
         {
-            SetVisibility(true);
+            return _steelImages[_activeImageIndex].DOFade(targetAlpha, duration)
+                .SetEase(KStoryPresentation.FADE_EASE);
         }
         
         /// <summary>
-        /// 非表示
+        /// 表示状態を設定する
         /// </summary>
-        public void Hide()
+        public void SetVisibility(bool isActive)
         {
-            SetVisibility(false);
+            _canvasGroup.alpha = isActive ? 1 : 0;
+            _canvasGroup.interactable = isActive;
+            _canvasGroup.blocksRaycasts = isActive;
+
+            if (!isActive)
+            {
+                foreach (var steel in _steelImages)
+                {
+                    // キャンバスを非表示にする時は各画像も非表示にする
+                    steel.Hide();
+                }
+            }
         }
         
         #region Private Methods
@@ -133,25 +146,6 @@ namespace CryStar.Story.UI
                 {
                     // 配列がnullなら子オブジェクトから取得する
                     _steelImages[i] = transform.GetChild(i).GetComponent<CustomImage>();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// 表示状態を設定する
-        /// </summary>
-        private void SetVisibility(bool isActive)
-        {
-            _canvasGroup.alpha = isActive ? 1 : 0;
-            _canvasGroup.interactable = isActive;
-            _canvasGroup.blocksRaycasts = isActive;
-
-            if (!isActive)
-            {
-                foreach (var steel in _steelImages)
-                {
-                    // キャンバスを非表示にする時は各画像も非表示にする
-                    steel.Hide();
                 }
             }
         }
