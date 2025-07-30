@@ -1,4 +1,3 @@
-using CryStar.Effects;
 using CryStar.Story.Attributes;
 using CryStar.Story.Data;
 using CryStar.Story.Enums;
@@ -11,13 +10,14 @@ namespace CryStar.Story.Execution
     /// Dizziness - めまいエフェクト
     /// </summary>
     [EffectPerformer(EffectOrderType.Dizziness)]
-    public class EffectOrderDizzinessPerformer : EffectOrderPerformerBase
+    public class DizzinessEffectPerformer : ManagerAccessPerformerBase
     {
         public override EffectOrderType SupportedEffectType => EffectOrderType.Dizziness;
         
         public override Tween HandlePerformance(OrderData data, StoryView view)
         {
-            EffectsManager.Instance.DizzinessEffect((int)data.OverrideTextSpeed == 1);
+            EnsureEffectManager();
+            EffectManager.DizzinessEffect((int)data.OverrideTextSpeed == 1);
             return null;
         }
     }

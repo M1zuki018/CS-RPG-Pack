@@ -1,16 +1,17 @@
+using CryStar.Enums;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace CryStar.Effects
 {
-    public class EffectsManager : MonoBehaviour
+    public class EffectManager : ViewBase
     {
-        // TODO: 仮実装
-        public static EffectsManager Instance;
         [SerializeField] private DizzinessEffectController _dizzinessEffectController;
 
-        private void Awake()
+        public override UniTask OnAwake()
         {
-            Instance = this;
+            ServiceLocator.Resister(this, ServiceType.Local);
+            return base.OnAwake();
         }
 
         /// <summary>

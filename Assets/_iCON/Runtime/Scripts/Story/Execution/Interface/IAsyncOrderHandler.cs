@@ -12,7 +12,7 @@ namespace CryStar.Story.Execution
     public interface IAsyncOrderHandler
     {
         /// <summary>
-        /// 非同期でオーダーを処理する
+        /// 非同期的に命令を実行
         /// </summary>
         UniTask<Tween> HandleOrderAsync(OrderData data, StoryView view, CancellationToken cancellationToken);
     }

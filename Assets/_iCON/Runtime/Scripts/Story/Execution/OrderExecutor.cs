@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using CryStar.Story.Data;
 using CryStar.Story.Enums;
+using CryStar.Story.Factory;
 using CryStar.Story.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using CryStar.Story.Attributes;
 using CryStar.Story.Data;
 using CryStar.Story.Enums;
+using CryStar.Story.Factory;
 using CryStar.Story.UI;
 using DG.Tweening;
 
@@ -16,7 +17,7 @@ namespace CryStar.Story.Execution
         /// <summary>
         /// 各エフェクトの列挙型と処理を行うPerformerのインスタンスのkvp
         /// </summary>
-        private Dictionary<EffectOrderType, EffectOrderPerformerBase> _performers;
+        private Dictionary<EffectOrderType, EffectPerformerBase> _performers;
         
         public override OrderType SupportedOrderType => OrderType.Effect;
 
@@ -25,7 +26,7 @@ namespace CryStar.Story.Execution
         /// </summary>
         public void SetupPerformerCache(StoryView view)
         {
-            _performers = EffectOrderPerformerFactory.CreateAllHandlers(view);
+            _performers = EffectPerformerFactory.CreateAllHandlers(view);
         }
         
         public override Tween HandleOrder(OrderData data, StoryView view)
