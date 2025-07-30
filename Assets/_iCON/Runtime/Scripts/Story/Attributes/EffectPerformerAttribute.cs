@@ -1,5 +1,7 @@
 using System;
 using CryStar.Story.Enums;
+using CryStar.Story.Execution;
+using CryStar.Story.Factory;
 
 namespace CryStar.Story.Attributes
 {
@@ -7,12 +9,12 @@ namespace CryStar.Story.Attributes
     /// エフェクトのハンドラーを自動登録するための属性
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public class EffectPerformerAttribute : System.Attribute
+    public class EffectPerformerAttribute : System.Attribute, IHandlerAttribute<EffectOrderType>
     {
         /// <summary>
         /// エフェクトオーダーの種類
         /// </summary>
-        public EffectOrderType EffectType { get; }
+        public EffectOrderType HandlerType { get; }
         
         /// <summary>
         /// ハンドラーの優先度（低い値ほど優先される、デフォルト: 0）
@@ -27,9 +29,9 @@ namespace CryStar.Story.Attributes
         /// <summary>
         /// エフェクトパフォーマー属性の初期化
         /// </summary>
-        public EffectPerformerAttribute(EffectOrderType effectType)
+        public EffectPerformerAttribute(EffectOrderType handlerType)
         {
-            EffectType = effectType;
+            HandlerType = handlerType;
         }
     }
 }
