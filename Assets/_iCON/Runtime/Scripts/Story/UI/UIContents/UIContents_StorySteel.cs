@@ -11,19 +11,13 @@ namespace CryStar.Story.UI
     /// <summary>
     /// UIContents ストーリーのスチル表示を管理する
     /// </summary>
-    [RequireComponent(typeof(CanvasGroup))]
-    public class UIContents_StorySteel : UIContentsBase, ISteelController
+    public class UIContents_StorySteel : UIContentsCanvasGroupBase, ISteelController
     {
         /// <summary>
         /// スチル画像
         /// </summary>
         [SerializeField] 
         private CustomImage[] _steelImages = new CustomImage[2];
-        
-        /// <summary>
-        /// CanvasGroup
-        /// </summary>
-        private CanvasGroup _canvasGroup;
 
         /// <summary>
         /// 現在アクティブなスチル画像のインデックス
@@ -36,17 +30,13 @@ namespace CryStar.Story.UI
         private int NextSteelIndex => (_activeImageIndex + 1) % _steelImages.Length;
         
         /// <summary>
-        /// 現在表示中かどうか
-        /// </summary>
-        public bool IsVisible => _canvasGroup != null && _canvasGroup.alpha > 0;
-
-        /// <summary>
         /// 初期化
         /// </summary>
         public override void Initialize()
         {
+            base.Initialize();
+            
             InitializeSteelImages();
-            _canvasGroup = GetComponent<CanvasGroup>();
             
             // 初期状態で非表示にしておく
             SetVisibility(false);
@@ -78,7 +68,7 @@ namespace CryStar.Story.UI
         /// <summary>
         /// フェードイン
         /// </summary>
-        public Tween FadeIn(float duration)
+        public override Tween FadeIn(float duration)
         {
             if (!IsVisible)
             {
@@ -99,7 +89,7 @@ namespace CryStar.Story.UI
         /// <summary>
         /// フェードアウト
         /// </summary>
-        public Tween FadeOut(float duration)
+        public override Tween FadeOut(float duration)
         {
             return _steelImages[_activeImageIndex].DOFade(0, duration)
                 .SetEase(KStoryPresentation.FADE_EASE);
@@ -108,7 +98,7 @@ namespace CryStar.Story.UI
         /// <summary>
         /// 指定したアルファ値までフェード
         /// </summary>
-        public Tween FadeToAlpha(float targetAlpha, float duration)
+        public override Tween FadeToAlpha(float targetAlpha, float duration)
         {
             return _steelImages[_activeImageIndex].DOFade(targetAlpha, duration)
                 .SetEase(KStoryPresentation.FADE_EASE);
@@ -117,11 +107,9 @@ namespace CryStar.Story.UI
         /// <summary>
         /// 表示状態を設定する
         /// </summary>
-        public void SetVisibility(bool isActive)
+        public override void SetVisibility(bool isActive)
         {
-            _canvasGroup.alpha = isActive ? 1 : 0;
-            _canvasGroup.interactable = isActive;
-            _canvasGroup.blocksRaycasts = isActive;
+            base.SetVisibility(isActive);
 
             if (!isActive)
             {

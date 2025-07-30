@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CryStar.UI;
 using UnityEngine;
 
 namespace CryStar.Story.UI
@@ -7,19 +8,13 @@ namespace CryStar.Story.UI
     /// <summary>
     /// UIContents 選択肢表示
     /// </summary>
-    [RequireComponent(typeof(CanvasGroup))]
-    public class UIContents_Choice : MonoBehaviour
+    public class UIContents_Choice : UIContentsCanvasGroupBase
     {
         /// <summary>
         /// 選択肢のボタンのプレハブ
         /// </summary>
         [SerializeField] 
         private CustomButton _choiceButtonPrefab;
-
-        /// <summary>
-        /// CanvasGroup
-        /// </summary>
-        private CanvasGroup _canvasGroup;
         
         /// <summary>
         /// 再生一時停止のコールバック
@@ -28,9 +23,9 @@ namespace CryStar.Story.UI
         
         #region Lifecycle
 
-        private void Awake()
+        public override void Initialize()
         {
-            _canvasGroup = GetComponent<CanvasGroup>();
+            base.Initialize();
             SetVisibility(false);
         }
 
@@ -73,20 +68,6 @@ namespace CryStar.Story.UI
 
             SetVisibility(true);
         }
-
-        #region Private Methods
-
-        /// <summary>
-        /// 選択肢の表示/非表示を切り替える
-        /// </summary>
-        private void SetVisibility(bool isActive)
-        {
-            _canvasGroup.alpha = isActive ? 1 : 0;
-            _canvasGroup.interactable = isActive;
-            _canvasGroup.blocksRaycasts = isActive;
-        }
-
-        #endregion
         
         /// <summary>
         /// 選択肢表示のためのViewData
@@ -97,7 +78,7 @@ namespace CryStar.Story.UI
             /// 表示する文字列
             /// </summary>
             public string Message;
-            
+
             /// <summary>
             /// クリックした時のAction
             /// </summary>
