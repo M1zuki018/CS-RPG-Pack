@@ -16,7 +16,7 @@ namespace CryStar.Story.Execution
         
         public override Tween HandlePerformance(OrderData data, StoryView view)
         {
-            EnsureManager();
+            EnsureEffectManager();
             EffectManager.DizzinessEffect((int)data.OverrideTextSpeed == 1);
             return null;
         }

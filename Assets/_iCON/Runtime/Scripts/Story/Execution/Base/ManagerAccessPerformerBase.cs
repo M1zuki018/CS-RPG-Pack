@@ -1,7 +1,6 @@
 using CryStar.Effects;
 using CryStar.Story.Data;
 using CryStar.Story.Enums;
-using CryStar.Story.Execution;
 using CryStar.Story.UI;
 using DG.Tweening;
 
@@ -23,9 +22,9 @@ namespace CryStar.Story.Execution
         public override EffectOrderType SupportedEffectType { get; }
 
         /// <summary>
-        /// 初回実行時に各種Managerの参照をServiceLocatorから取得する
+        /// 初回実行時にEffectManagerの参照をServiceLocatorから取得する
         /// </summary>
-        protected void EnsureManager()
+        protected void EnsureEffectManager()
         {
             EffectManager ??= ServiceLocator.GetLocal<EffectManager>();
         }
