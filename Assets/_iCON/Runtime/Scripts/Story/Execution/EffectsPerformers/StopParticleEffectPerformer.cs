@@ -10,25 +10,16 @@ namespace CryStar.Story.Execution
     /// StopParticle - ParticleSystemのエフェクトを停止
     /// </summary>
     [EffectPerformer(EffectOrderType.StopParticle)]
-    public class StopParticleEffectPerformer : EffectPerformerBase
+    public class StopParticleEffectPerformer : ParticleAccessPerformerBase
     {
-        /// <summary>
-        /// ParticleManager
-        /// </summary>
-        private ParticleManager _particleManager;
-        
         public override EffectOrderType SupportedEffectType => EffectOrderType.StopParticle;
         
         public override Tween HandlePerformance(OrderData data, StoryView view)
         {
-            if (_particleManager == null)
-            {
-                // 参照がない場合、サービスロケーターから取得する
-                _particleManager = ServiceLocator.GetLocal<ParticleManager>();
-            }
+            EnsureParticleManager();
             
             // NOTE: 配列のインデックスとして扱うために-1してゼロオリジンに変換
-            _particleManager.StopParticle((int)data.OverrideTextSpeed - 1);
+            ParticleManager.StopParticle((int)data.OverrideTextSpeed - 1);
             return null;
         }
     }
