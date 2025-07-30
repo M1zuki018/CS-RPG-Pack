@@ -8,7 +8,7 @@ namespace CryStar.UI
     /// CanvasGroupを利用するUIContentsクラスのベースクラス
     /// </summary>
     [RequireComponent(typeof(CanvasGroup))]
-    public abstract class UIContentsCanvasGroupBase : UIContentsBase, IFadeable
+    public abstract class UIContentsCanvasGroupBase : UIContentsFadeableBase
     {
         /// <summary>
         /// CanvasGroup
@@ -16,9 +16,14 @@ namespace CryStar.UI
         protected CanvasGroup _canvasGroup;
         
         /// <summary>
+        /// 透明度
+        /// </summary>
+        public override float Alpha => _canvasGroup.alpha;
+        
+        /// <summary>
         /// 現在表示されているか
         /// </summary>
-        public bool IsVisible => _canvasGroup != null && _canvasGroup.alpha > 0;
+        public override bool IsVisible => _canvasGroup != null && _canvasGroup.alpha > 0;
 
         /// <summary>
         /// 初期化処理
@@ -31,7 +36,7 @@ namespace CryStar.UI
         /// <summary>
         /// 表示状態を設定する
         /// </summary>
-        public virtual void SetVisibility(bool isVisible)
+        public override void SetVisibility(bool isVisible)
         {
             _canvasGroup.alpha = isVisible ? 1 : 0;
             _canvasGroup.interactable = isVisible;
@@ -39,25 +44,17 @@ namespace CryStar.UI
         }
 
         /// <summary>
-        /// フェードイン
+        /// 即座にアルファ値を設定
         /// </summary>
-        public virtual Tween FadeIn(float duration, Ease ease = KStoryPresentation.FADE_EASE)
+        public override void SetAlpha(float alpha)
         {
-            return FadeToAlpha(1, duration, ease);
+            _canvasGroup.alpha = alpha;   
         }
-
-        /// <summary>
-        /// フェードアウト
-        /// </summary>
-        public virtual Tween FadeOut(float duration, Ease ease = KStoryPresentation.FADE_EASE)
-        {
-            return FadeToAlpha(0, duration, ease);
-        }
-
+        
         /// <summary>
         /// 指定したアルファ値までフェード
         /// </summary>
-        public virtual Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = KStoryPresentation.FADE_EASE)
+        public override Tween FadeToAlpha(float targetAlpha, float duration, Ease ease = KStoryPresentation.FADE_EASE)
         {
             return _canvasGroup.DOFade(targetAlpha, duration).SetEase(ease);
         }
