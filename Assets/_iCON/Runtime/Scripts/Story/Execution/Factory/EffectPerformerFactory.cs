@@ -128,6 +128,12 @@ namespace CryStar.Story.Execution
 
             foreach (var assembly in assemblies)
             {
+                if (ShouldSkipAssembly(assembly))
+                {
+                    // システムアセンブリをスキップして処理を高速化
+                    continue;
+                }
+                
                 // EffectPerformerを見つける
                 var discoveredCount = ProcessAssembly(assembly);
                 totalDiscovered += discoveredCount;
@@ -153,6 +159,30 @@ namespace CryStar.Story.Execution
                 LogUtility.Error($"アセンブリの取得に失敗: {ex.Message}", LogCategory.System);
                 return Array.Empty<Assembly>();
             }
+        }
+        
+        /// <summary>
+        /// 処理をスキップすべきアセンブリかどうかを判定する
+        /// システムアセンブリや外部ライブラリをスキップしてパフォーマンスを向上
+        /// </summary>
+        private static bool ShouldSkipAssembly(Assembly assembly)
+        {
+            var assemblyName = assembly.GetName().Name;
+            
+            // システムアセンブリをスキップ
+            var systemPrefixes = new[]
+            {
+                "System.",
+                "Microsoft.",
+                "Unity.",
+                "UnityEngine.",
+                "UnityEditor.",
+                "mscorlib",
+                "netstandard"
+            };
+
+            return systemPrefixes.Any(prefix => assemblyName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                   || assembly.GlobalAssemblyCache; // GACアセンブリもスキップ
         }
 
         /// <summary>
