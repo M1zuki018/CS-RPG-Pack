@@ -21,7 +21,6 @@ public class GameSettings : ScriptableObject
     [Header("環境設定")] 
     [SerializeField] private LanguageType _textLanguage = LanguageType.Japanese;
     [SerializeField] private LanguageType _voiceLanguage = LanguageType.Japanese;
-    [SerializeField] private ScenarioSpeedType _scenarioSpeed = ScenarioSpeedType.Default;
     [SerializeField] private bool _useAuto = true;
     
     public event Action<LanguageType> OnTextLanguageChanged;
@@ -154,15 +153,6 @@ public class GameSettings : ScriptableObject
     }
 
     /// <summary>
-    /// シナリオ表示速度
-    /// </summary>
-    public ScenarioSpeedType ScenarioSpeed
-    {
-        get => GetPrefsValue(nameof(ScenarioSpeed), _scenarioSpeed);
-        set => SetPrefsValue(nameof(ScenarioSpeed), value);
-    }
-
-    /// <summary>
     /// 自動再生の使用
     /// </summary>
     public bool UseAuto
@@ -218,7 +208,6 @@ public class GameSettings : ScriptableObject
         VoiceVolume = _voiceVolume;
         TextLanguage = _textLanguage;
         VoiceLanguage = _voiceLanguage;
-        ScenarioSpeed = _scenarioSpeed;
         UseAuto = _useAuto;
         PlayerData.LevelReset();
     }
