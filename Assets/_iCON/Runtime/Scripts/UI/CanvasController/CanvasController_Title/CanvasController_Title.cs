@@ -1,5 +1,6 @@
 using System;
 using CryStar.Attribute;
+using CryStar.Core;
 using Cysharp.Threading.Tasks;
 using iCON.System;
 using UnityEngine;

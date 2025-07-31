@@ -1,4 +1,3 @@
-using System;
 using CryStar.Story.Constants;
 using DG.Tweening;
 

@@ -1,5 +1,5 @@
 using CryStar.Core;
-using CryStar.Enums;
+using CryStar.Core.Enums;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -11,7 +11,7 @@ namespace CryStar.Effects
 
         public override UniTask OnAwake()
         {
-            ServiceLocator.Resister(this, ServiceType.Local);
+            ServiceLocator.Register(this, ServiceType.Local);
             return base.OnAwake();
         }
 

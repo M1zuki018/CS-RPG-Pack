@@ -1,6 +1,5 @@
 using System;
 using CryStar.Story.Enums;
-using CryStar.Story.Execution;
 using CryStar.Story.Factory;
 
 namespace CryStar.Story.Attributes
