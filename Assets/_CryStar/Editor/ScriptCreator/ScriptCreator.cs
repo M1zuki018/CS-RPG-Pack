@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public static class ScriptCreator
 {
-    private static readonly string _templateFolderPath = "Assets/_iCON/Editor/ScriptTemplates"; // スクリプトテンプレートが置かれているフォルダ
+    private static readonly string _templateFolderPath = "Assets/_CryStar/Editor/ScriptTemplates"; // スクリプトテンプレートが置かれているフォルダ
     
     public static void CreateScript(string savePath, string scriptName, int templateIndex, string[] templates)
     {
@@ -47,6 +47,15 @@ public static class ScriptCreator
         // スクリプトファイルを作成
         File.WriteAllText(path, scriptContent);
         AssetDatabase.Refresh();
+        
+        // // 作成したスクリプトを選択してハイライト表示
+        // var scriptAsset = AssetDatabase.LoadAssetAtPath<MonoScript>(path);
+        // if (scriptAsset != null)
+        // {
+        //     Selection.activeObject = scriptAsset;
+        //     EditorGUIUtility.PingObject(scriptAsset);
+        // }
+        
         Debug.Log($"Script {scriptName} created at {path}");
     }
 }

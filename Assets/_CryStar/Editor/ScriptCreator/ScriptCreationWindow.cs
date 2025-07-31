@@ -14,7 +14,7 @@ public class ScriptCreationWindow : EditorWindow
     private int _templateIndex = 0; // テンプレートのインデックス
     private string[] _templates = new string[0]; // テンプレートの配列
     private string _enumPath = "Assets";
-    private readonly string _templateFolderPath = "Assets/_iCON/Editor/ScriptTemplates";
+    private readonly string _templateFolderPath = "Assets/_CryStar/Editor/ScriptTemplates";
     
     [MenuItem("Tools/Script Creation Window")]
     public static void ShowWindow()
