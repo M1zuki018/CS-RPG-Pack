@@ -2,6 +2,7 @@ using System;
 using CryStar.Story.Enums;
 using CryStar.Utility;
 using CryStar.Utility.Enum;
+using iCON.Utility;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

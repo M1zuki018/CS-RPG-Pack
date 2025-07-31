@@ -1,4 +1,5 @@
 using CryStar.Utility;
+using iCON.Utility;
 using UnityEngine;
 
 namespace CryStar.Story.Settings

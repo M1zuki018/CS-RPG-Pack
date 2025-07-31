@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CryStar.Story.Data;
 using CryStar.Utility;
 using CryStar.Utility.Enum;
+using iCON.Utility;
 
 namespace CryStar.Story.Player
 {

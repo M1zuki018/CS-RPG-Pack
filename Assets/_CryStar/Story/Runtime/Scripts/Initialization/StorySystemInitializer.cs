@@ -1,5 +1,6 @@
 using CryStar.Story.Factory;
 using CryStar.Utility;
+using iCON.Utility;
 using UnityEngine;
 
 namespace CryStar.Story.Initialization
