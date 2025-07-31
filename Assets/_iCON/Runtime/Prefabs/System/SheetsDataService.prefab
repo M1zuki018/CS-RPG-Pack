@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf38a76fbaa93242a63f69f92702877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _apiSettings: {fileID: 0}
+  _apiSettings: {fileID: 11400000, guid: 919ee7d9b8cc143469a133a690a47352, type: 2}
   _spreadsheetConfigs:
   - _name: TestStory
     _spreadsheetId: 1qsxU9Hq4Gn-M34rQDci4meN1TTwuuqCYVHDFCCFptgY

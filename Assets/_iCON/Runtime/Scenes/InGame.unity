@@ -850,6 +850,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5549733900600685336, guid: a0aafa5f270e5524faf8556c116d4a47, type: 3}
+      propertyPath: _apiSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 919ee7d9b8cc143469a133a690a47352, type: 2}
+    - target: {fileID: 5549733900600685336, guid: a0aafa5f270e5524faf8556c116d4a47, type: 3}
       propertyPath: _applicationName
       value: iCON-MasterDataLoader
       objectReference: {fileID: 0}
