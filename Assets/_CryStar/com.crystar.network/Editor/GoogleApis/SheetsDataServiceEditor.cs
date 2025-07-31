@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using CryStar.Network;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEditor;
 
@@ -159,7 +160,7 @@ namespace CryStar.Editor
             }
         }
 
-        private async void TestLoadData(bool forceRefresh = false)
+        private async UniTask TestLoadData(bool forceRefresh = false)
         {
             try
             {
