@@ -17,6 +17,15 @@
       "dependencies": {},
       "hash": "bda89cadd14403830939782ccde22c1f70941ce8"
     },
+    "com.crystar.network": {
+      "version": "https://github.com/M1zuki018/crystar-network.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.cysharp.unitask": "2.3.3"
+      },
+      "hash": "42a464d4dacf7b7a7b596661b09ba5e906c98c8a"
+    },
     "com.cysharp.unitask": {
       "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.3.3",
       "depth": 0,
