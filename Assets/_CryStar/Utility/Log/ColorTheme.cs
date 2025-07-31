@@ -6,9 +6,9 @@ namespace CryStar.Utility.Enum
     public enum ColorTheme
     {
         Default,
-        Dark,
         Light,
-        Colorful,
-        Minimal
+        Vivid,
+        Monochrome,
+        Custom,
     }   
 }

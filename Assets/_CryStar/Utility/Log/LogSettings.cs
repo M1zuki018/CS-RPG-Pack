@@ -23,9 +23,8 @@ namespace CryStar.Utility
                     if (_instance == null)
                     {
                         Debug.LogError("LogSettings asset not found in Resources folder. Please create one.");
-                        // Create a temporary instance to avoid null reference errors
                         _instance = CreateInstance<LogSettings>();
-                        _instance.ResetToDefaults(); // Use default values
+                        _instance.ResetToDefaults();
                     }
                 }
                 return _instance;
@@ -34,53 +33,70 @@ namespace CryStar.Utility
         #endregion
 
         [Header("🔧 Basic Settings")]
-        [Tooltip("出力する最小ログレベル。これより低いレベルのログは出力されない")]
         public LogLevel MinLogLevel = LogLevel.Debug;
-
-        [Tooltip("ログにタイムスタンプを付与するか")]
         public bool IsTimestampEnabled = true;
-
-        [Tooltip("Warning以上のログでコールスタックを表示するか")]
         public bool IsStackTraceEnabled = false;
 
         [Header("📂 Category Settings")]
         public List<CategorySetting> CategorySettings = new List<CategorySetting>();
 
         [Header("🎨 Color Settings")]
-        [Tooltip("カスタムカラー設定を使用するか")]
         public bool UseCustomColors = true;
         public List<LevelColorSetting> LevelColorSettings = new List<LevelColorSetting>();
         public List<CategoryColorSetting> CategoryColorSettings = new List<CategoryColorSetting>();
 
         [Header("💾 File Logging Settings")]
-        [Tooltip("ファイルへのログ出力を有効にするか")]
         public bool IsFileLoggingEnabled = false;
 
         [Header("⚡ Performance Settings")]
-        [Tooltip("パフォーマンス測定ログの出力を有効にするか")]
         public bool IsPerformanceLoggingEnabled = true;
+
+        /// <summary>
+        /// カラーテーマを適用
+        /// </summary>
+        public void ApplyColorTheme(ColorTheme theme)
+        {
+            switch (theme)
+            {
+                case ColorTheme.Default:
+                    ResetToDefaults(false);
+                    break;
+                case ColorTheme.Vivid:
+                    ApplyVividTheme();
+                    break;
+                case ColorTheme.Light:
+                    ApplyPastelTheme();
+                    break;
+                case ColorTheme.Monochrome:
+                    ApplyMonochromeTheme();
+                    break;
+            }
+            Debug.Log($"{theme} color theme applied.");
+        }
 
         /// <summary>
         /// 設定をデフォルト値にリセットする
         /// </summary>
         [ContextMenu("Reset to Defaults")]
-        public void ResetToDefaults()
+        public void ResetToDefaults(bool resetAll = true)
         {
-            MinLogLevel = LogLevel.Debug;
-            IsTimestampEnabled = true;
-            IsStackTraceEnabled = false;
-            IsFileLoggingEnabled = false;
-            UseCustomColors = true;
-            IsPerformanceLoggingEnabled = true;
-
-            // Categories
-            CategorySettings.Clear();
-            foreach (LogCategory category in System.Enum.GetValues(typeof(LogCategory)))
+            if (resetAll)
             {
-                CategorySettings.Add(new CategorySetting { Category = category, IsEnabled = true });
+                MinLogLevel = LogLevel.Debug;
+                IsTimestampEnabled = true;
+                IsStackTraceEnabled = false;
+                IsFileLoggingEnabled = false;
+                UseCustomColors = true;
+                IsPerformanceLoggingEnabled = true;
+
+                CategorySettings.Clear();
+                foreach (LogCategory category in System.Enum.GetValues(typeof(LogCategory)))
+                {
+                    CategorySettings.Add(new CategorySetting { Category = category, IsEnabled = true });
+                }
             }
 
-            // Level Colors
+            // Default Colors
             LevelColorSettings.Clear();
             LevelColorSettings.Add(new LevelColorSetting { Level = LogLevel.Fatal, Color = new Color(1f, 0.2f, 0.2f) });
             LevelColorSettings.Add(new LevelColorSetting { Level = LogLevel.Error, Color = Color.red });
@@ -89,7 +105,6 @@ namespace CryStar.Utility
             LevelColorSettings.Add(new LevelColorSetting { Level = LogLevel.Debug, Color = Color.white });
             LevelColorSettings.Add(new LevelColorSetting { Level = LogLevel.Verbose, Color = Color.gray });
 
-            // Category Colors
             CategoryColorSettings.Clear();
             CategoryColorSettings.Add(new CategoryColorSetting { Category = LogCategory.General, Color = Color.cyan });
             CategoryColorSettings.Add(new CategoryColorSetting { Category = LogCategory.System, Color = Color.green });
@@ -101,8 +116,46 @@ namespace CryStar.Utility
             CategoryColorSettings.Add(new CategoryColorSetting { Category = LogCategory.Test, Color = Color.cyan });
             CategoryColorSettings.Add(new CategoryColorSetting { Category = LogCategory.Debug, Color = Color.white });
             
-            Debug.Log("LogSettings have been reset to default values.");
+            if (resetAll) Debug.Log("LogSettings have been reset to default values.");
         }
+
+        #region Theme Implementations
+        private void ApplyVividTheme()
+        {
+            SetLevelColor(LogLevel.Fatal, new Color(1f, 0f, 0f));
+            SetLevelColor(LogLevel.Error, new Color(1f, 0.2f, 0f));
+            SetLevelColor(LogLevel.Warning, new Color(1f, 1f, 0f));
+            SetLevelColor(LogLevel.Info, new Color(0f, 1f, 1f));
+            SetLevelColor(LogLevel.Debug, new Color(1f, 1f, 1f));
+            SetLevelColor(LogLevel.Verbose, new Color(0.7f, 0.7f, 0.7f));
+        }
+
+        private void ApplyPastelTheme()
+        {
+            SetLevelColor(LogLevel.Fatal, new Color(1f, 0.2f, 0.6f, 1f)); 
+            SetLevelColor(LogLevel.Error, new Color(1f, 0.4f, 0.4f, 1f));
+            SetLevelColor(LogLevel.Warning, new Color(1f, 0.7f, 0.3f, 1f));
+            SetLevelColor(LogLevel.Info, new Color(0.5f, 0.8f, 1f, 1f));
+            SetLevelColor(LogLevel.Debug, new Color(0.5f, 1f, 0.5f, 1f));
+            SetLevelColor(LogLevel.Verbose, new Color(0.7f, 0.5f, 1f, 1f));
+        }
+
+        private void ApplyMonochromeTheme()
+        {
+            SetLevelColor(LogLevel.Fatal, new Color(1f, 1f, 1f));
+            SetLevelColor(LogLevel.Error, new Color(0.9f, 0.9f, 0.9f));
+            SetLevelColor(LogLevel.Warning, new Color(0.8f, 0.8f, 0.8f));
+            SetLevelColor(LogLevel.Info, new Color(0.7f, 0.7f, 0.7f));
+            SetLevelColor(LogLevel.Debug, new Color(0.6f, 0.6f, 0.6f));
+            SetLevelColor(LogLevel.Verbose, new Color(0.5f, 0.5f, 0.5f));
+        }
+
+        private void SetLevelColor(LogLevel level, Color color)
+        {
+            var setting = LevelColorSettings.Find(s => s.Level == level);
+            if (setting != null) setting.Color = color;
+        }
+        #endregion
 
         #region Helper Methods for Enum Lists
         private void EnsureAllEnumValuesExist<T, TEnum>(List<T> list, System.Func<T> creator) where T : IEnumHolder<TEnum> where TEnum : System.Enum
