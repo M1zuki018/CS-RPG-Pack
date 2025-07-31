@@ -7,7 +7,6 @@ using UnityEngine;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Services;
-using UnityEngine.Serialization;
 
 namespace CryStar.Network
 {
@@ -24,8 +23,8 @@ namespace CryStar.Network
         [Header("認証設定")] 
         [SerializeField] private GoogleApiSettingsSO _apiSettings;
 
-        [Header("スプレッドシート設定")] [SerializeField]
-        private List<SpreadsheetConfig> _spreadsheetConfigs;
+        [Header("スプレッドシート設定")] 
+        [SerializeField] private List<SpreadsheetConfig> _spreadsheetConfigs;
 
         // Service関連
         private SheetsService _sheetsService;
@@ -85,6 +84,9 @@ namespace CryStar.Network
         /// </summary>
         public bool IsInitialized => _isInitialized;
         
+        /// <summary>
+        /// スプレッドシート設定
+        /// </summary>
         public List<SpreadsheetConfig> SpreadsheetConfigs => _spreadsheetConfigs;
 
         /// <summary>
