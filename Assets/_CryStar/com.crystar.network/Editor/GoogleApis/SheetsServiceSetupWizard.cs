@@ -2,7 +2,6 @@
 using UnityEditor;
 using UnityEngine;
 using System.IO;
-using System.Linq;
 using CryStar.Network;
 
 namespace CryStar.Editor
@@ -39,6 +38,9 @@ namespace CryStar.Editor
         private GUIStyle _warningStyle;
         private GUIStyle _successStyle;
 
+        /// <summary>
+        /// ウィンドウを表示
+        /// </summary>
         [MenuItem("CryStar/Network/Setup Wizard", priority = 0)]
         public static void ShowWindow()
         {
@@ -53,44 +55,6 @@ namespace CryStar.Editor
             _apiSettings = GoogleApiSettingsSO.FindOrCreate();
             CheckServiceAccountKeyFile();
             FindServiceInstance();
-        }
-
-        private void InitializeStyles()
-        {
-            if (_headerStyle == null)
-            {
-                _headerStyle = new GUIStyle(EditorStyles.largeLabel)
-                {
-                    fontSize = 18,
-                    fontStyle = FontStyle.Bold,
-                    alignment = TextAnchor.MiddleCenter
-                };
-            }
-
-            if (_buttonStyle == null)
-            {
-                _buttonStyle = new GUIStyle(GUI.skin.button)
-                {
-                    fontSize = 12,
-                    fixedHeight = 30
-                };
-            }
-
-            if (_warningStyle == null)
-            {
-                _warningStyle = new GUIStyle(EditorStyles.helpBox)
-                {
-                    normal = { textColor = Color.yellow }
-                };
-            }
-
-            if (_successStyle == null)
-            {
-                _successStyle = new GUIStyle(EditorStyles.helpBox)
-                {
-                    normal = { textColor = Color.green }
-                };
-            }
         }
 
         private void OnGUI()
@@ -132,8 +96,56 @@ namespace CryStar.Editor
             EditorGUILayout.EndScrollView();
         }
 
-        #region Drawing Methods
+        #region 初期化
+        
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        private void InitializeStyles()
+        {
+            if (_headerStyle == null)
+            {
+                _headerStyle = new GUIStyle(EditorStyles.largeLabel)
+                {
+                    fontSize = 18,
+                    fontStyle = FontStyle.Bold,
+                    alignment = TextAnchor.MiddleCenter
+                };
+            }
 
+            if (_buttonStyle == null)
+            {
+                _buttonStyle = new GUIStyle(GUI.skin.button)
+                {
+                    fontSize = 12,
+                    fixedHeight = 30
+                };
+            }
+
+            if (_warningStyle == null)
+            {
+                _warningStyle = new GUIStyle(EditorStyles.helpBox)
+                {
+                    normal = { textColor = Color.yellow }
+                };
+            }
+
+            if (_successStyle == null)
+            {
+                _successStyle = new GUIStyle(EditorStyles.helpBox)
+                {
+                    normal = { textColor = Color.green }
+                };
+            }
+        }
+
+        #endregion
+
+        #region ヘッダー・進捗
+        
+        /// <summary>
+        /// ヘッダーの描画
+        /// </summary>
         private void DrawHeader()
         {
             EditorGUILayout.BeginVertical("box");
@@ -142,6 +154,9 @@ namespace CryStar.Editor
             EditorGUILayout.EndVertical();
         }
 
+        /// <summary>
+        /// 進捗表示
+        /// </summary>
         private void DrawProgressBar()
         {
             EditorGUILayout.BeginHorizontal();
@@ -167,7 +182,14 @@ namespace CryStar.Editor
             GUI.backgroundColor = Color.white;
             EditorGUILayout.EndHorizontal();
         }
+        
+        #endregion
+        
+        #region ステップごとの描画
 
+        /// <summary>
+        /// ホーム
+        /// </summary>
         private void DrawWelcomeStep()
         {
             EditorGUILayout.BeginVertical("box");
@@ -199,6 +221,7 @@ namespace CryStar.Editor
                 
                 if (GUILayout.Button("設定アセットを作成"))
                 {
+                    // アセット作成
                     _apiSettings = GoogleApiSettingsSO.CreateDefaultAsset();
                 }
             }
@@ -227,6 +250,9 @@ namespace CryStar.Editor
             EditorGUILayout.EndVertical();
         }
 
+        /// <summary>
+        /// API設定
+        /// </summary>
         private void DrawApiSetupStep()
         {
             EditorGUILayout.BeginVertical("box");
@@ -256,6 +282,9 @@ namespace CryStar.Editor
             EditorGUILayout.EndVertical();
         }
 
+        /// <summary>
+        /// サービスアカウントキーの設定
+        /// </summary>
         private void DrawServiceAccountKeyStep()
         {
             EditorGUILayout.BeginVertical("box");
@@ -333,6 +362,9 @@ namespace CryStar.Editor
             EditorGUILayout.EndVertical();
         }
 
+        /// <summary>
+        /// サービスインスタンスの設定
+        /// </summary>
         private void DrawServiceObjectSetupStep()
         {
             EditorGUILayout.BeginVertical("box");
@@ -397,13 +429,16 @@ namespace CryStar.Editor
                 GUI.enabled = true;
 
                 // 設定済みスプレッドシート数
-                var configCount = _apiSettings.SpreadsheetConfigs.Count;
+                var configCount = _serviceInstance != null ? _serviceInstance.SpreadsheetConfigs.Count : 0;
                 EditorGUILayout.LabelField($"登録済みスプレッドシート: {configCount} 件");
             }
 
             EditorGUILayout.EndVertical();
         }
 
+        /// <summary>
+        /// スプレッドシートの登録
+        /// </summary>
         private void DrawSpreadsheetConfigStep()
         {
             EditorGUILayout.BeginVertical("box");
@@ -432,7 +467,7 @@ namespace CryStar.Editor
             GUI.enabled = !string.IsNullOrEmpty(_newSpreadsheetName) && !string.IsNullOrEmpty(_newSpreadsheetId);
             if (GUILayout.Button("追加"))
             {
-                _apiSettings.AddSpreadsheetConfig(_newSpreadsheetName, _newSpreadsheetId, _newSpreadsheetDescription);
+                _serviceInstance.AddSpreadsheetConfig(_newSpreadsheetName, _newSpreadsheetId, _newSpreadsheetDescription);
                 _newSpreadsheetName = "";
                 _newSpreadsheetId = "";
                 _newSpreadsheetDescription = "";
@@ -459,7 +494,7 @@ namespace CryStar.Editor
             // 登録済みスプレッドシート一覧
             EditorGUILayout.LabelField("登録済みスプレッドシート:", EditorStyles.boldLabel);
             
-            var configs = _apiSettings.SpreadsheetConfigs;
+            var configs = _serviceInstance.SpreadsheetConfigs;
             if (configs.Count > 0)
             {
                 for (int i = 0; i < configs.Count; i++)
@@ -479,7 +514,7 @@ namespace CryStar.Editor
                     {
                         if (EditorUtility.DisplayDialog("確認", $"'{config.Name}' を削除しますか？", "はい", "いいえ"))
                         {
-                            _apiSettings.RemoveSpreadsheetConfig(config.Name);
+                            _serviceInstance.RemoveSpreadsheetConfig(config.Name);
                             
                             // サービスにも反映
                             if (_serviceInstance != null)
@@ -519,6 +554,9 @@ namespace CryStar.Editor
             EditorGUILayout.EndVertical();
         }
 
+        /// <summary>
+        /// コンプリート
+        /// </summary>
         private void DrawCompleteStep()
         {
             EditorGUILayout.BeginVertical("box");
@@ -602,7 +640,14 @@ namespace CryStar.Editor
             
             EditorGUILayout.EndVertical();
         }
+        
+        #endregion
 
+        #region パーツ
+        
+        /// <summary>
+        /// 説明用のフィールドを表示
+        /// </summary>
         private void DrawStepBox(string title, string description)
         {
             EditorGUILayout.BeginVertical("box");
@@ -612,6 +657,9 @@ namespace CryStar.Editor
             EditorGUILayout.Space();
         }
 
+        /// <summary>
+        /// 次へ/戻るのボタンを表示する
+        /// </summary>
         private void DrawNavigationButtons()
         {
             EditorGUILayout.BeginHorizontal();
@@ -636,7 +684,7 @@ namespace CryStar.Editor
             GUI.enabled = true;
             EditorGUILayout.EndHorizontal();
         }
-
+        
         #endregion
 
         #region Helper Methods
@@ -665,6 +713,9 @@ namespace CryStar.Editor
             }
         }
 
+        /// <summary>
+        /// サービスアカウントのキーファイルの存在を確認する
+        /// </summary>
         private void CheckServiceAccountKeyFile()
         {
             if (_apiSettings != null)
@@ -678,11 +729,17 @@ namespace CryStar.Editor
             }
         }
 
+        /// <summary>
+        /// サービスのインスタンスが存在しているか検索
+        /// </summary>
         private void FindServiceInstance()
         {
             _serviceInstance = FindObjectOfType<SheetsDataService>();
         }
 
+        /// <summary>
+        /// SheetsDataServiceオブジェクトを生成する
+        /// </summary>
         private void CreateServiceInstance()
         {
             GameObject go = new GameObject("SheetsDataService");
@@ -694,6 +751,9 @@ namespace CryStar.Editor
             Debug.Log("SheetsDataService オブジェクトを作成しました");
         }
 
+        /// <summary>
+        /// 設定をサービスに適用
+        /// </summary>
         private void ApplySettingsToService()
         {
             if (_serviceInstance == null || _apiSettings == null) return;
@@ -703,13 +763,21 @@ namespace CryStar.Editor
     
             // 既存の設定適用処理
             _apiSettings.ApplyToService(_serviceInstance);
+            
+            // GoogleApiSettingsSOの参照をSheetsDataServiceに設定
+            var apiSettingsField = typeof(SheetsDataService).GetField("_apiSettings", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            apiSettingsField?.SetValue(_serviceInstance, _apiSettings);
     
             // 設定をUnityエディタに反映
-            UnityEditor.EditorUtility.SetDirty(_serviceInstance);
+            EditorUtility.SetDirty(_serviceInstance);
     
             Debug.Log("設定をSheetsDataServiceに適用しました（ApiSettings含む）");
         }
 
+        /// <summary>
+        /// サービスのインスタンスをシーンに移動する
+        /// </summary>
         private void PlaceServiceInCurrentScene()
         {
             // 既存のDontDestroyOnLoadインスタンスがあるか確認

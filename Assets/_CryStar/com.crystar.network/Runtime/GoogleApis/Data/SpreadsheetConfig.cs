@@ -32,5 +32,15 @@ namespace CryStar.Network
         /// 説明
         /// </summary>
         public string Description => _description;
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public SpreadsheetConfig(string name, string spreadsheetId, string description)
+        {
+            _name = name;
+            _spreadsheetId = spreadsheetId;
+            _description = description;
+        }
     }
 }

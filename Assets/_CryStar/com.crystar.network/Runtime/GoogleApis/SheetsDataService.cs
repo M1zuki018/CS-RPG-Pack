@@ -25,7 +25,7 @@ namespace CryStar.Network
         [SerializeField] private GoogleApiSettingsSO _apiSettings;
 
         [Header("スプレッドシート設定")] [SerializeField]
-        private SpreadsheetConfig[] _spreadsheetConfigs;
+        private List<SpreadsheetConfig> _spreadsheetConfigs;
 
         // Service関連
         private SheetsService _sheetsService;
@@ -38,7 +38,7 @@ namespace CryStar.Network
         private bool _isInitialized = false; // 初期化済み
         private bool _isInitializing = false; // 初期化中
         private UniTaskCompletionSource _initializationTcs; // 初期化用のCompletionSource
-
+        
         /// <summary>
         /// SheetsDataServiceのインスタンス
         /// </summary>
@@ -84,6 +84,8 @@ namespace CryStar.Network
         /// 初期化が完了しているかどうか
         /// </summary>
         public bool IsInitialized => _isInitialized;
+        
+        public List<SpreadsheetConfig> SpreadsheetConfigs => _spreadsheetConfigs;
 
         /// <summary>
         /// 利用可能なスプレッドシート名一覧
@@ -119,7 +121,7 @@ namespace CryStar.Network
         }
 
         #endregion
-
+        
         /// <summary>
         /// 指定されたスプレッドシートIDを取得
         /// </summary>
@@ -211,12 +213,11 @@ namespace CryStar.Network
             _dataCache.Clear();
             Debug.Log($"全キャッシュクリア完了: {count} エントリ削除");
         }
-
-
+        
         /// <summary>
         /// スプレッドシート設定を動的に追加
         /// </summary>
-        public void AddSpreadsheetConfig(string name, string spreadsheetId)
+        public void AddSpreadsheetConfig(string name, string spreadsheetId, string description = "")
         {
             if (_spreadsheetIdMap.ContainsKey(name))
             {
@@ -225,6 +226,12 @@ namespace CryStar.Network
             }
 
             _spreadsheetIdMap[name] = spreadsheetId;
+            _spreadsheetConfigs.Add(new(name, spreadsheetId, description));
+        
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
+            
             Debug.Log($"スプレッドシート追加: {name}");
         }
 
@@ -236,6 +243,10 @@ namespace CryStar.Network
             if (_spreadsheetIdMap.Remove(name))
             {
                 ClearCache(name); // 関連キャッシュも削除
+                
+#if UNITY_EDITOR
+                UnityEditor.EditorUtility.SetDirty(this);
+#endif
                 Debug.Log($"スプレッドシート削除: {name}");
             }
             else
