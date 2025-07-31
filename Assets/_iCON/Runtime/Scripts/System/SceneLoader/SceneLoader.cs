@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using CryStar.Core;
 using CryStar.Utility;
+using CryStar.Utility.Enum;
 using Cysharp.Threading.Tasks;
 using iCON.Constants;
 using UnityEngine;

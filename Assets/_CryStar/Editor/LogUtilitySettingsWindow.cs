@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using CryStar.Utility;
+using CryStar.Utility.Enum;
 
 namespace iCON.Utility.Editor
 {

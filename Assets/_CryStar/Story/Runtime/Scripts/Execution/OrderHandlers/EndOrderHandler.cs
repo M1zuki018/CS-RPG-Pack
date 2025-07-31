@@ -4,6 +4,7 @@ using CryStar.Story.Data;
 using CryStar.Story.Enums;
 using CryStar.Story.UI;
 using CryStar.Utility;
+using CryStar.Utility.Enum;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.System;

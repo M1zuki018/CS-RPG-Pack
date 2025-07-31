@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CryStar.Attribute;
 using CryStar.Utility;
+using CryStar.Utility.Enum;
 using Cysharp.Threading.Tasks;
 using iCON.Utility;
 using UnityEngine;

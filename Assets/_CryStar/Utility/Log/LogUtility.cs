@@ -4,13 +4,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using CryStar.Utility.Enum;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace CryStar.Utility
 {
     /// <summary>
-    /// ログUtility テスト運用中
+    /// Log Utility
     /// </summary>
     public class LogUtility : MonoBehaviour
     {

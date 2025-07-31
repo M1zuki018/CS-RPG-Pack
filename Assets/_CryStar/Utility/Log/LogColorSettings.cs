@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CryStar.Utility.Enum;
 using UnityEngine;
 
 namespace CryStar.Utility
@@ -179,22 +180,10 @@ namespace CryStar.Utility
         private static void ApplyMinimalTheme()
         {
             Color baseColor = new Color(0.8f, 0.8f, 0.8f, 1f);
-            foreach (var level in Enum.GetValues(typeof(LogLevel)).Cast<LogLevel>())
+            foreach (var level in System.Enum.GetValues(typeof(LogLevel)).Cast<LogLevel>())
             {
                 LevelColors[level] = baseColor;
             }
         }
-    }
-
-    /// <summary>
-    /// カラーテーマ定義
-    /// </summary>
-    public enum ColorTheme
-    {
-        Default,
-        Dark,
-        Light,
-        Colorful,
-        Minimal
     }
 }

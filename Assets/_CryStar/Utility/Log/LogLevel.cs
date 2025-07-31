@@ -1,7 +1,7 @@
-namespace CryStar.Utility
+namespace CryStar.Utility.Enum
 {
     /// <summary>
-    /// ログレベル定義
+    /// ログレベルの列挙型
     /// </summary>
     public enum LogLevel
     {

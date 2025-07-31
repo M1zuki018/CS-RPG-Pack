@@ -2,6 +2,7 @@ using System;
 using CryStar.Story.Constants;
 using CryStar.UI;
 using CryStar.Utility;
+using CryStar.Utility.Enum;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Utility;
