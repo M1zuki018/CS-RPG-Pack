@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using CryStar.Utility.Enum;
 using UnityEngine;
 
-namespace iCON.Utility
+namespace CryStar.Utility
 {
     /// <summary>
     /// ログ色設定管理クラス
@@ -20,21 +19,6 @@ namespace iCON.Utility
             { LogLevel.Error, new Color(1f, 0f, 0f, 1f) }, // Red
             { LogLevel.Fatal, new Color(1f, 0f, 1f, 1f) } // Magenta
         };
-            
-        private static string GetLogLevelIcon(LogLevel level)
-        {
-            return level switch
-            {
-                LogLevel.Verbose => "💬",
-                LogLevel.Debug => "🐛",
-                LogLevel.Info => "ℹ️",
-                LogLevel.Warning => "⚠️",
-                LogLevel.Error => "❌",
-                LogLevel.Fatal => "💀",
-                _ => "📝"
-            };
-        }
-        public static string LogLevelIcon(LogLevel level) => GetLogLevelIcon(level);
 
         private static readonly Dictionary<LogCategory, Color> DefaultCategoryColors = new()
         {
@@ -73,22 +57,6 @@ namespace iCON.Utility
         }
 
         /// <summary>
-        /// ログレベルの色を設定
-        /// </summary>
-        public static void SetLevelColor(LogLevel level, Color color)
-        {
-            LevelColors[level] = color;
-        }
-
-        /// <summary>
-        /// ログカテゴリの色を設定
-        /// </summary>
-        public static void SetCategoryColor(LogCategory category, Color color)
-        {
-            CategoryColors[category] = color;
-        }
-
-        /// <summary>
         /// 色をHTML色文字列に変換
         /// </summary>
         public static string ColorToHtml(Color color)
@@ -111,90 +79,5 @@ namespace iCON.Utility
         {
             return ColorToHtml(CategoryColors.GetValueOrDefault(category, Color.white));
         }
-
-        /// <summary>
-        /// デフォルト色にリセット
-        /// </summary>
-        public static void ResetToDefaults()
-        {
-            _currentLevelColors = new Dictionary<LogLevel, Color>(DefaultLevelColors);
-            _currentCategoryColors = new Dictionary<LogCategory, Color>(DefaultCategoryColors);
-        }
-
-        /// <summary>
-        /// プリセットカラーテーマを適用
-        /// </summary>
-        public static void ApplyColorTheme(ColorTheme theme)
-        {
-            switch (theme)
-            {
-                case ColorTheme.Dark:
-                    ApplyDarkTheme();
-                    break;
-                case ColorTheme.Light:
-                    ApplyLightTheme();
-                    break;
-                case ColorTheme.Colorful:
-                    ApplyColorfulTheme();
-                    break;
-                case ColorTheme.Minimal:
-                    ApplyMinimalTheme();
-                    break;
-                default:
-                    ResetToDefaults();
-                    break;
-            }
-        }
-
-        private static void ApplyDarkTheme()
-        {
-            LevelColors[LogLevel.Verbose] = new Color(0.5f, 0.5f, 0.5f, 1f);
-            LevelColors[LogLevel.Debug] = new Color(0.8f, 0.8f, 0.8f, 1f);
-            LevelColors[LogLevel.Info] = new Color(0.4f, 0.8f, 1f, 1f);
-            LevelColors[LogLevel.Warning] = new Color(1f, 0.8f, 0.2f, 1f);
-            LevelColors[LogLevel.Error] = new Color(1f, 0.3f, 0.3f, 1f);
-            LevelColors[LogLevel.Fatal] = new Color(1f, 0.2f, 0.8f, 1f);
-        }
-
-        private static void ApplyLightTheme()
-        {
-            LevelColors[LogLevel.Verbose] = new Color(0.6f, 0.6f, 0.6f, 1f);
-            LevelColors[LogLevel.Debug] = new Color(0.2f, 0.2f, 0.2f, 1f);
-            LevelColors[LogLevel.Info] = new Color(0.2f, 0.4f, 0.8f, 1f);
-            LevelColors[LogLevel.Warning] = new Color(0.8f, 0.6f, 0f, 1f);
-            LevelColors[LogLevel.Error] = new Color(0.8f, 0.2f, 0.2f, 1f);
-            LevelColors[LogLevel.Fatal] = new Color(0.6f, 0f, 0.4f, 1f);
-        }
-
-        private static void ApplyColorfulTheme()
-        {
-            LevelColors[LogLevel.Verbose] = new Color(0.7f, 0.5f, 1f, 1f);      // Purple
-            LevelColors[LogLevel.Debug] = new Color(0.5f, 1f, 0.5f, 1f);        // Light Green
-            LevelColors[LogLevel.Info] = new Color(0.5f, 0.8f, 1f, 1f);         // Sky Blue
-            LevelColors[LogLevel.Warning] = new Color(1f, 0.7f, 0.3f, 1f);      // Orange
-            LevelColors[LogLevel.Error] = new Color(1f, 0.4f, 0.4f, 1f);        // Light Red
-            LevelColors[LogLevel.Fatal] = new Color(1f, 0.2f, 0.6f, 1f);        // Pink
-        }
-
-        private static void ApplyMinimalTheme()
-        {
-            Color baseColor = new Color(0.8f, 0.8f, 0.8f, 1f);
-            foreach (var level in Enum.GetValues(typeof(LogLevel)).Cast<LogLevel>())
-            {
-                LevelColors[level] = baseColor;
-            }
-        }
-    }
-
-    /// <summary>
-    /// カラーテーマ定義
-    /// </summary>
-    public enum ColorTheme
-    {
-        Default,
-        Dark,
-        Light,
-        Colorful,
-        Minimal
     }
 }

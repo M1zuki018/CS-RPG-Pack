@@ -4,13 +4,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using CryStar.Utility.Enum;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace iCON.Utility
+namespace CryStar.Utility
 {
     /// <summary>
-    /// ログUtility テスト運用中
+    /// Log Utility
     /// </summary>
     public class LogUtility : MonoBehaviour
     {
@@ -77,6 +78,44 @@ namespace iCON.Utility
         private const string COLOR_NETWORK = "orange";
         #endregion
 
+        /// <summary>
+        /// Unity起動時の自動設定
+        /// </summary>
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void Initialize()
+        {
+            // LogSettingsから設定を読み込み
+            LoadSettingsFromScriptableObject();
+    
+            Info("LogUtility initialized", LogCategory.System);
+        }
+        
+        /// <summary>
+        /// LogSettingsから設定を読み込む
+        /// </summary>
+        private static void LoadSettingsFromScriptableObject()
+        {
+            try
+            {
+                // LogSettings.Instanceを呼び出すことで自動的に設定が適用される
+                var settings = LogSettings.Instance;
+                MinLogLevel = settings.MinLogLevel;
+        
+                Info($"LogSettings loaded. MinLogLevel: {MinLogLevel}", LogCategory.System);
+            }
+            catch (Exception ex)
+            {
+                Error($"Failed to load LogSettings: {ex.Message}", LogCategory.System);
+        
+                // フォールバック設定
+#if UNITY_EDITOR
+                ConfigureForDevelopment();
+#else
+        ConfigureForRelease();
+#endif
+            }
+        }
+        
         #region Public API Methods
         
         /// <summary>
@@ -157,22 +196,21 @@ namespace iCON.Utility
             }
         }
 
-        // NOTE: 今回のプロジェクトでは使用しないかも
-        // /// <summary>
-        // /// ネットワーク関連ログ
-        // /// </summary>
-        // public static void LogNetwork(string operation, bool success, string details = "")
-        // {
-        //     string status = success ? "✅ SUCCESS" : "❌ FAILED";
-        //     string message = $"🌐 {operation}: {status}";
-        //     if (!string.IsNullOrEmpty(details))
-        //     {
-        //         message += $" - {details}";
-        //     }
-        //     
-        //     LogLevel level = success ? LogLevel.Info : LogLevel.Warning;
-        //     Log(level, LogCategory.Network, message);
-        // }
+        /// <summary>
+        /// ネットワーク関連ログ
+        /// </summary>
+        public static void LogNetwork(string operation, bool success, string details = "")
+        {
+            string status = success ? "✅ SUCCESS" : "❌ FAILED";
+            string message = $"🌐 {operation}: {status}";
+            if (!string.IsNullOrEmpty(details))
+            {
+                message += $" - {details}";
+            }
+            
+            LogLevel level = success ? LogLevel.Info : LogLevel.Warning;
+            Log(level, LogCategory.Network, message);
+        }
 
         /// <summary>
         /// ゲームプレイイベントログ
@@ -321,22 +359,6 @@ namespace iCON.Utility
         public static PerformanceScope MeasurePerformance(string operationName)
         {
             return new PerformanceScope(operationName);
-        }
-        #endregion
-
-        #region Unity Lifecycle Integration
-        /// <summary>
-        /// Unity起動時の自動設定
-        /// </summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void Initialize()
-        {
-#if UNITY_EDITOR
-            ConfigureForDevelopment();
-#else
-            ConfigureForRelease();
-#endif
-            Info("LogUtility initialized", LogCategory.System);
         }
         #endregion
         

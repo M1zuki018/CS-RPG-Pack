@@ -1,4 +1,6 @@
 using CryStar.UI;
+using CryStar.Utility;
+using CryStar.Utility.Enum;
 using DG.Tweening;
 using iCON.Utility;
 using UnityEngine;

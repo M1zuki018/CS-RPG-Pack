@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CryStar.Attribute;
+using CryStar.Utility;
+using CryStar.Utility.Enum;
 using Cysharp.Threading.Tasks;
 using iCON.Utility;
 using UnityEngine;
@@ -271,13 +273,13 @@ namespace CryStar.Core
         {
             try
             {
-                var instantiateMethod = typeof(GameObjectUtility)
-                    .GetMethod(nameof(GameObjectUtility.Instantiate))
+                var instantiateMethod = typeof(PrefabInstantiatorUtility)
+                    .GetMethod(nameof(PrefabInstantiatorUtility.Instantiate))
                     ?.MakeGenericMethod(targetType);
 
                 if (instantiateMethod == null)
                 {
-                    LogUtility.Error($"GameObjectUtility.Instantiate<{targetType.Name}>メソッドが見つかりません");
+                    LogUtility.Error($"PrefabInstantiatorUtility.Instantiate<{targetType.Name}>メソッドが見つかりません");
                     return null;
                 }
 

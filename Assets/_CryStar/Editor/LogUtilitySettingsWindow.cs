@@ -2,367 +2,249 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System;
-using System.Collections.Generic;
-using System.Reflection;
+using CryStar.Utility;
+using CryStar.Utility.Enum;
 
 namespace iCON.Utility.Editor
 {
-    /// <summary>
-    /// LogUtilityの設定を管理するエディター拡張ウィンドウ
-    /// </summary>
     public class LogUtilitySettingsWindow : EditorWindow
     {
         #region Private Fields
+        private SerializedObject _logSettingsObject;
+        private LogSettings _logSettings;
+
+        private SerializedProperty _minLogLevelProp;
+        private SerializedProperty _isTimestampEnabledProp;
+        private SerializedProperty _isStackTraceEnabledProp;
+        private SerializedProperty _isFileLoggingEnabledProp;
+        private SerializedProperty _isPerformanceLoggingEnabledProp;
+        private SerializedProperty _useCustomColorsProp;
+        private SerializedProperty _categorySettingsProp;
+        private SerializedProperty _levelColorSettingsProp;
+        private SerializedProperty _categoryColorSettingsProp;
+
         private Vector2 _scrollPosition;
-        private bool _showAdvancedSettings = false;
+        private bool _showBasicSettings = true;
         private bool _showCategorySettings = true;
+        private bool _showColorSettings = true;
         private bool _showFileSettings = false;
         private bool _showTestSection = false;
-        private bool _showColorSettings = false;
-        
-        // テスト用の一時的な値
+
+        private ColorTheme _selectedTheme = ColorTheme.Custom;
+
         private string _testMessage = "Test log message";
         private LogLevel _testLogLevel = LogLevel.Info;
         private LogCategory _testCategory = LogCategory.Debug;
-        
-        // カラー設定用
-        private ColorTheme _selectedTheme = ColorTheme.Default;
-        
-        // UI設定
+
         private const float LABEL_WIDTH = 180f;
         private const float BUTTON_HEIGHT = 25f;
         private const float SECTION_SPACING = 10f;
-        private const float COLOR_FIELD_WIDTH = 60f;
         #endregion
 
-        #region Unity Menu Integration
         [MenuItem("Tools/iCON/Log Utility Settings")]
         public static void ShowWindow()
         {
             var window = GetWindow<LogUtilitySettingsWindow>("Log Settings");
-            window.minSize = new Vector2(400f, 500f);
+            window.minSize = new Vector2(450f, 500f);
             window.Show();
         }
-        #endregion
 
-        #region Unity Lifecycle
         private void OnEnable()
         {
-            // ウィンドウが開かれた時の初期化
             titleContent = new GUIContent("Log Settings", EditorGUIUtility.IconContent("console.infoicon").image);
+            
+            _logSettings = LogSettings.Instance;
+            if (_logSettings != null)
+            {
+                _logSettingsObject = new SerializedObject(_logSettings);
+                FindSerializedProperties();
+            }
         }
 
         private void OnGUI()
         {
+            if (_logSettingsObject == null || _logSettings == null)
+            {
+                EditorGUILayout.HelpBox("LogSettings asset not found in a 'Resources' folder. Please create one via 'Create > CryStar > Log Settings'.", MessageType.Error);
+                if (GUILayout.Button("Try to Reload")) OnEnable();
+                return;
+            }
+
+            _logSettingsObject.Update();
+
             EditorGUILayout.Space(5f);
-            
-            // ヘッダー
             DrawHeader();
-            
-            // スクロール開始
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
-            
-            // 基本設定セクション
+
             DrawBasicSettings();
-            
-            // カテゴリ設定セクション
             DrawCategorySettings();
-            
-            // 色設定セクション
             DrawColorSettings();
-            
-            // ファイル設定セクション
             DrawFileSettings();
-            
-            // 高度な設定セクション
-            DrawAdvancedSettings();
-            
-            // テストセクション
             DrawTestSection();
-            
-            // プリセット設定セクション
             DrawPresetSettings();
-            
+
             EditorGUILayout.EndScrollView();
-            
-            // フッター
             DrawFooter();
+
+            if (_logSettingsObject.ApplyModifiedProperties())
+            {
+                EditorUtility.SetDirty(_logSettings);
+            }
         }
-        #endregion
+
+        private void FindSerializedProperties()
+        {
+            _minLogLevelProp = _logSettingsObject.FindProperty("MinLogLevel");
+            _isTimestampEnabledProp = _logSettingsObject.FindProperty("IsTimestampEnabled");
+            _isStackTraceEnabledProp = _logSettingsObject.FindProperty("IsStackTraceEnabled");
+            _isFileLoggingEnabledProp = _logSettingsObject.FindProperty("IsFileLoggingEnabled");
+            _isPerformanceLoggingEnabledProp = _logSettingsObject.FindProperty("IsPerformanceLoggingEnabled");
+            _useCustomColorsProp = _logSettingsObject.FindProperty("UseCustomColors");
+            _categorySettingsProp = _logSettingsObject.FindProperty("CategorySettings");
+            _levelColorSettingsProp = _logSettingsObject.FindProperty("LevelColorSettings");
+            _categoryColorSettingsProp = _logSettingsObject.FindProperty("CategoryColorSettings");
+        }
 
         #region UI Drawing Methods
         private void DrawHeader()
         {
             GUILayout.BeginVertical(EditorStyles.helpBox);
-            
-            // タイトル
-            GUIStyle titleStyle = new GUIStyle(EditorStyles.boldLabel)
-            {
-                fontSize = 16,
-                alignment = TextAnchor.MiddleCenter
-            };
+            GUIStyle titleStyle = new GUIStyle(EditorStyles.boldLabel) { fontSize = 16, alignment = TextAnchor.MiddleCenter };
             EditorGUILayout.LabelField("🛠️ LogUtility Settings", titleStyle);
-            
             EditorGUILayout.Space(3f);
-            
-            // 現在の状態表示
-            GUIStyle statusStyle = new GUIStyle(EditorStyles.miniLabel)
-            {
-                alignment = TextAnchor.MiddleCenter,
-                normal = { textColor = Application.isPlaying ? Color.green : Color.gray }
-            };
+            GUIStyle statusStyle = new GUIStyle(EditorStyles.miniLabel) { alignment = TextAnchor.MiddleCenter, normal = { textColor = Application.isPlaying ? Color.green : Color.gray } };
             string status = Application.isPlaying ? "● Runtime Active" : "○ Editor Only";
             EditorGUILayout.LabelField(status, statusStyle);
-            
             GUILayout.EndVertical();
             EditorGUILayout.Space(SECTION_SPACING);
         }
 
         private void DrawBasicSettings()
         {
-            DrawSectionHeader("🔧 Basic Settings", ref _showAdvancedSettings);
-            
-            if (_showAdvancedSettings)
+            DrawSectionHeader("🔧 Basic Settings", ref _showBasicSettings);
+            if (_showBasicSettings)
             {
                 GUILayout.BeginVertical(EditorStyles.helpBox);
-                
-                // 最小ログレベル
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Minimum Log Level", GUILayout.Width(LABEL_WIDTH));
-                LogUtility.MinLogLevel = (LogLevel)EditorGUILayout.EnumPopup(LogUtility.MinLogLevel);
-                EditorGUILayout.EndHorizontal();
-                
-                EditorGUILayout.Space(3f);
-                
-                // タイムスタンプ
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Enable Timestamp", GUILayout.Width(LABEL_WIDTH));
-                LogUtility.IsTimestampEnabled = EditorGUILayout.Toggle(LogUtility.IsTimestampEnabled);
-                EditorGUILayout.EndHorizontal();
-                
-                // スタックトレース
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Enable Stack Trace", GUILayout.Width(LABEL_WIDTH));
-                LogUtility.IsStackTraceEnabled = EditorGUILayout.Toggle(LogUtility.IsStackTraceEnabled);
-                EditorGUILayout.EndHorizontal();
-                
-                // パフォーマンスログ
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Performance Logging", GUILayout.Width(LABEL_WIDTH));
-                LogUtility.IsPerformanceLoggingEnabled = EditorGUILayout.Toggle(LogUtility.IsPerformanceLoggingEnabled);
-                EditorGUILayout.EndHorizontal();
-                
+                EditorGUILayout.PropertyField(_minLogLevelProp, new GUIContent("Minimum Log Level"));
+                EditorGUILayout.PropertyField(_isTimestampEnabledProp, new GUIContent("Enable Timestamp"));
+                EditorGUILayout.PropertyField(_isStackTraceEnabledProp, new GUIContent("Enable Stack Trace"));
+                EditorGUILayout.PropertyField(_isPerformanceLoggingEnabledProp, new GUIContent("Performance Logging"));
                 GUILayout.EndVertical();
             }
-            
             EditorGUILayout.Space(SECTION_SPACING);
         }
 
         private void DrawCategorySettings()
         {
             DrawSectionHeader("📂 Category Settings", ref _showCategorySettings);
-            
             if (_showCategorySettings)
             {
                 GUILayout.BeginVertical(EditorStyles.helpBox);
                 
-                // 全カテゴリ一括設定
                 EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("Enable All", GUILayout.Height(BUTTON_HEIGHT)))
-                {
-                    LogUtility.SetAllCategoriesEnabled(true);
-                }
-                if (GUILayout.Button("Disable All", GUILayout.Height(BUTTON_HEIGHT)))
-                {
-                    LogUtility.SetAllCategoriesEnabled(false);
-                }
+                if (GUILayout.Button("Enable All", GUILayout.Height(BUTTON_HEIGHT))) SetAllCategoriesEnabled(true);
+                if (GUILayout.Button("Disable All", GUILayout.Height(BUTTON_HEIGHT))) SetAllCategoriesEnabled(false);
                 EditorGUILayout.EndHorizontal();
                 
                 EditorGUILayout.Space(5f);
-                
-                // 各カテゴリの設定
-                var categories = Enum.GetValues(typeof(LogCategory));
-                foreach (LogCategory category in categories)
+
+                for (int i = 0; i < _categorySettingsProp.arraySize; i++)
                 {
+                    SerializedProperty categorySettingProp = _categorySettingsProp.GetArrayElementAtIndex(i);
+                    SerializedProperty categoryProp = categorySettingProp.FindPropertyRelative("Category");
+                    SerializedProperty isEnabledProp = categorySettingProp.FindPropertyRelative("IsEnabled");
+                    var category = (LogCategory)Enum.GetValues(typeof(LogCategory)).GetValue(categoryProp.enumValueIndex);
+                    
                     EditorGUILayout.BeginHorizontal();
-                    
-                    // カテゴリアイコン
-                    string icon = GetCategoryIcon(category);
-                    EditorGUILayout.LabelField($"{icon} {category}", GUILayout.Width(LABEL_WIDTH));
-                    
-                    // 現在の状態を取得（リフレクションを使用）
-                    bool currentState = GetCategoryEnabled(category);
-                    bool newState = EditorGUILayout.Toggle(currentState);
-                    
-                    if (newState != currentState)
-                    {
-                        LogUtility.SetCategoryEnabled(category, newState);
-                    }
-                    
+                    EditorGUILayout.LabelField($"{GetCategoryIcon(category)} {category}", GUILayout.Width(LABEL_WIDTH));
+                    EditorGUILayout.PropertyField(isEnabledProp, GUIContent.none);
                     EditorGUILayout.EndHorizontal();
                 }
                 
                 GUILayout.EndVertical();
             }
-            
             EditorGUILayout.Space(SECTION_SPACING);
         }
         
         private void DrawColorSettings()
         {
             DrawSectionHeader("🎨 Color Settings", ref _showColorSettings);
-            
             if (_showColorSettings)
             {
                 GUILayout.BeginVertical(EditorStyles.helpBox);
+                EditorGUILayout.PropertyField(_useCustomColorsProp, new GUIContent("Use Custom Colors"));
                 
-                // カラーテーマ選択
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Color Theme:", GUILayout.Width(LABEL_WIDTH));
-                ColorTheme newTheme = (ColorTheme)EditorGUILayout.EnumPopup(_selectedTheme);
-                if (newTheme != _selectedTheme)
+                if (_useCustomColorsProp.boolValue)
                 {
-                    _selectedTheme = newTheme;
-                    LogColorSettings.ApplyColorTheme(_selectedTheme);
-                    ShowNotification(new GUIContent($"Applied {_selectedTheme} theme!"));
-                }
-                EditorGUILayout.EndHorizontal();
-                
-                EditorGUILayout.Space(5f);
-                
-                // リセットボタン
-                EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("🔄 Reset to Defaults", GUILayout.Height(BUTTON_HEIGHT)))
-                {
-                    LogColorSettings.ResetToDefaults();
-                    _selectedTheme = ColorTheme.Default;
-                    ShowNotification(new GUIContent("Colors reset to defaults!"));
-                }
-                if (GUILayout.Button("🎨 Apply Custom Colors", GUILayout.Height(BUTTON_HEIGHT)))
-                {
-                    ShowNotification(new GUIContent("Custom colors applied!"));
-                }
-                EditorGUILayout.EndHorizontal();
-                
-                EditorGUILayout.Space(8f);
-                
-                // ログレベル色設定
-                EditorGUILayout.LabelField("📊 Log Level Colors:", EditorStyles.boldLabel);
-                
-                foreach (LogLevel level in Enum.GetValues(typeof(LogLevel)))
-                {
-                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.Space(5f);
                     
-                    // ログレベル名
-                    string levelIcon = LogColorSettings.LogLevelIcon(level);
-                    EditorGUILayout.LabelField($"{levelIcon} {level}", GUILayout.Width(LABEL_WIDTH));
-                    
-                    // 現在の色表示
-                    Color currentColor = LogColorSettings.LevelColors[level];
-                    Color newColor = EditorGUILayout.ColorField(GUIContent.none, currentColor, 
-                        false, false, false, GUILayout.Width(COLOR_FIELD_WIDTH));
-                    
-                    if (newColor != currentColor)
+                    EditorGUI.BeginChangeCheck();
+                    _selectedTheme = (ColorTheme)EditorGUILayout.EnumPopup("Color Theme", _selectedTheme);
+                    if (EditorGUI.EndChangeCheck() && _selectedTheme != ColorTheme.Custom)
                     {
-                        LogColorSettings.SetLevelColor(level, newColor);
+                        _logSettings.ApplyColorTheme(_selectedTheme);
+                        ShowNotification(new GUIContent($"Applied {_selectedTheme} theme!"));
                     }
+
+                    EditorGUILayout.Space(8f);
+                    EditorGUILayout.LabelField("📊 Log Level Colors:", EditorStyles.boldLabel);
+                    DrawColorList(_levelColorSettingsProp, true);
                     
-                    // プレビュー
-                    GUIStyle previewStyle = new GUIStyle(EditorStyles.label);
-                    previewStyle.normal.textColor = currentColor;
-                    previewStyle.fontStyle = FontStyle.Bold;
-                    EditorGUILayout.LabelField($"Sample {level} text", previewStyle, GUILayout.ExpandWidth(true));
-                    
-                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.Space(8f);
+                    EditorGUILayout.LabelField("📂 Log Category Colors:", EditorStyles.boldLabel);
+                    DrawColorList(_categoryColorSettingsProp, false);
                 }
-                
-                EditorGUILayout.Space(8f);
-                
-                // ログカテゴリ色設定
-                EditorGUILayout.LabelField("📂 Log Category Colors:", EditorStyles.boldLabel);
-                
-                foreach (LogCategory category in Enum.GetValues(typeof(LogCategory)))
-                {
-                    EditorGUILayout.BeginHorizontal();
-                    
-                    // カテゴリ名
-                    string categoryIcon = GetCategoryIcon(category);
-                    EditorGUILayout.LabelField($"{categoryIcon} {category}", GUILayout.Width(LABEL_WIDTH));
-                    
-                    // 現在の色表示
-                    Color currentColor = LogColorSettings.CategoryColors[category];
-                    Color newColor = EditorGUILayout.ColorField(GUIContent.none, currentColor, 
-                        false, false, false, GUILayout.Width(COLOR_FIELD_WIDTH));
-                    
-                    if (newColor != currentColor)
-                    {
-                        LogColorSettings.SetCategoryColor(category, newColor);
-                    }
-                    
-                    // プレビュー
-                    GUIStyle previewStyle = new GUIStyle(EditorStyles.label);
-                    previewStyle.normal.textColor = currentColor;
-                    previewStyle.fontStyle = FontStyle.Bold;
-                    EditorGUILayout.LabelField($"Sample {category} text", previewStyle, GUILayout.ExpandWidth(true));
-                    
-                    EditorGUILayout.EndHorizontal();
-                }
-                
-                EditorGUILayout.Space(5f);
-                
-                // カラープレビューセクション
-                EditorGUILayout.LabelField("🎭 Color Preview:", EditorStyles.boldLabel);
-                GUILayout.BeginVertical(EditorStyles.textArea);
-                
-                // 各レベルでのプレビュー表示
-                foreach (LogLevel level in Enum.GetValues(typeof(LogLevel)))
-                {
-                    GUIStyle previewStyle = new GUIStyle(EditorStyles.label);
-                    previewStyle.normal.textColor = LogColorSettings.LevelColors[level];
-                    previewStyle.fontStyle = FontStyle.Bold;
-                    
-                    string previewText = $"[{DateTime.Now:HH:mm:ss}] [{level.ToString().ToUpper()}][{_testCategory.ToString().ToUpper()}] Sample {level} log message";
-                    EditorGUILayout.LabelField(previewText, previewStyle);
-                }
-                
-                GUILayout.EndVertical();
-                
                 GUILayout.EndVertical();
             }
-            
             EditorGUILayout.Space(SECTION_SPACING);
         }
 
+        private void DrawColorList(SerializedProperty listProp, bool isLevel)
+        {
+            for (int i = 0; i < listProp.arraySize; i++)
+            {
+                SerializedProperty itemProp = listProp.GetArrayElementAtIndex(i);
+                SerializedProperty colorProp = itemProp.FindPropertyRelative("Color");
+                
+                string name, icon;
+                if (isLevel)
+                {
+                    var level = (LogLevel)Enum.GetValues(typeof(LogLevel)).GetValue(itemProp.FindPropertyRelative("Level").enumValueIndex);
+                    name = level.ToString();
+                    icon = GetLevelIcon(level);
+                }
+                else
+                {
+                    var category = (LogCategory)Enum.GetValues(typeof(LogCategory)).GetValue(itemProp.FindPropertyRelative("Category").enumValueIndex);
+                    name = category.ToString();
+                    icon = GetCategoryIcon(category);
+                }
+
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField($"{icon} {name}", GUILayout.Width(LABEL_WIDTH));
+                EditorGUI.BeginChangeCheck();
+                EditorGUILayout.PropertyField(colorProp, GUIContent.none);
+                if (EditorGUI.EndChangeCheck()) _selectedTheme = ColorTheme.Custom;
+                EditorGUILayout.EndHorizontal();
+            }
+        }
 
         private void DrawFileSettings()
         {
             DrawSectionHeader("💾 File Logging Settings", ref _showFileSettings);
-            
             if (_showFileSettings)
             {
                 GUILayout.BeginVertical(EditorStyles.helpBox);
-                
-                // ファイルログ有効/無効
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Enable File Logging", GUILayout.Width(LABEL_WIDTH));
-                LogUtility.IsFileLoggingEnabled = EditorGUILayout.Toggle(LogUtility.IsFileLoggingEnabled);
-                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.PropertyField(_isFileLoggingEnabledProp, new GUIContent("Enable File Logging"));
                 
                 EditorGUILayout.Space(5f);
-                
-                // ファイルパス表示
                 string logPath = Path.Combine(Application.persistentDataPath, "Logs");
                 EditorGUILayout.LabelField("Log Directory:", EditorStyles.boldLabel);
                 EditorGUILayout.SelectableLabel(logPath, EditorStyles.textField, GUILayout.Height(18f));
                 
                 EditorGUILayout.Space(3f);
-                
-                // ファイル操作ボタン
                 EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("Open Log Folder", GUILayout.Height(BUTTON_HEIGHT)))
-                {
-                    OpenLogFolder();
-                }
+                if (GUILayout.Button("Open Log Folder", GUILayout.Height(BUTTON_HEIGHT))) OpenLogFolder();
                 if (GUILayout.Button("Clear Log File", GUILayout.Height(BUTTON_HEIGHT)))
                 {
                     if (EditorUtility.DisplayDialog("Clear Log File", "Are you sure you want to clear the current log file?", "Clear", "Cancel"))
@@ -372,102 +254,43 @@ namespace iCON.Utility.Editor
                     }
                 }
                 EditorGUILayout.EndHorizontal();
-                
                 GUILayout.EndVertical();
             }
-            
             EditorGUILayout.Space(SECTION_SPACING);
-        }
-
-        private void DrawAdvancedSettings()
-        {
-            // 高度な設定は基本設定に統合済み
         }
 
         private void DrawTestSection()
         {
             DrawSectionHeader("🧪 Test Log Output", ref _showTestSection);
-            
             if (_showTestSection)
             {
                 GUILayout.BeginVertical(EditorStyles.helpBox);
-                
-                // テストメッセージ
-                EditorGUILayout.LabelField("Test Message:", EditorStyles.boldLabel);
-                _testMessage = EditorGUILayout.TextField(_testMessage);
-                
-                EditorGUILayout.Space(3f);
-                
-                // ログレベル選択
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Log Level:", GUILayout.Width(80f));
-                _testLogLevel = (LogLevel)EditorGUILayout.EnumPopup(_testLogLevel);
-                EditorGUILayout.EndHorizontal();
-                
-                // カテゴリ選択
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Category:", GUILayout.Width(80f));
-                _testCategory = (LogCategory)EditorGUILayout.EnumPopup(_testCategory);
-                EditorGUILayout.EndHorizontal();
+                _testMessage = EditorGUILayout.TextField("Test Message:", _testMessage);
+                _testLogLevel = (LogLevel)EditorGUILayout.EnumPopup("Log Level:", _testLogLevel);
+                _testCategory = (LogCategory)EditorGUILayout.EnumPopup("Category:", _testCategory);
                 
                 EditorGUILayout.Space(5f);
-                
-                // テスト実行ボタン
-                if (GUILayout.Button("🚀 Send Test Log", GUILayout.Height(BUTTON_HEIGHT * 1.2f)))
-                {
-                    SendTestLog();
-                }
-                
-                EditorGUILayout.Space(3f);
-                
-                // 各レベルのクイックテスト
-                EditorGUILayout.LabelField("Quick Tests:", EditorStyles.boldLabel);
-                EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("Verbose", GUILayout.Height(BUTTON_HEIGHT)))
-                    LogUtility.Verbose("Test verbose message", _testCategory);
-                if (GUILayout.Button("Debug", GUILayout.Height(BUTTON_HEIGHT)))
-                    LogUtility.Debug("Test debug message", _testCategory);
-                if (GUILayout.Button("Info", GUILayout.Height(BUTTON_HEIGHT)))
-                    LogUtility.Info("Test info message", _testCategory);
-                EditorGUILayout.EndHorizontal();
-                
-                EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("Warning", GUILayout.Height(BUTTON_HEIGHT)))
-                    LogUtility.Warning("Test warning message", _testCategory);
-                if (GUILayout.Button("Error", GUILayout.Height(BUTTON_HEIGHT)))
-                    LogUtility.Error("Test error message", _testCategory);
-                if (GUILayout.Button("Fatal", GUILayout.Height(BUTTON_HEIGHT)))
-                    LogUtility.Fatal("Test fatal message", _testCategory);
-                EditorGUILayout.EndHorizontal();
-                
+                if (GUILayout.Button("🚀 Send Test Log", GUILayout.Height(BUTTON_HEIGHT * 1.2f))) SendTestLog();
                 GUILayout.EndVertical();
             }
-            
             EditorGUILayout.Space(SECTION_SPACING);
         }
 
         private void DrawPresetSettings()
         {
             GUILayout.BeginVertical(EditorStyles.helpBox);
-            
             EditorGUILayout.LabelField("⚙️ Configuration Presets", EditorStyles.boldLabel);
             EditorGUILayout.Space(3f);
             
-            EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("🔧 Development Config", GUILayout.Height(BUTTON_HEIGHT)))
+            if (GUILayout.Button("🔄 Reset All Settings to Defaults", GUILayout.Height(BUTTON_HEIGHT)))
             {
-                ApplyDevelopmentConfig();
-                ShowNotification(new GUIContent("Development config applied!"));
-            }
-            if (GUILayout.Button("🚀 Release Config", GUILayout.Height(BUTTON_HEIGHT)))
-            {
-                if (EditorUtility.DisplayDialog("Apply Release Config", "This will disable debug logging. Continue?", "Apply", "Cancel"))
+                if (EditorUtility.DisplayDialog("Reset Settings", "Are you sure you want to reset all settings to their default values?", "Reset", "Cancel"))
                 {
-                    LogUtility.ConfigureForRelease();
-                    ShowNotification(new GUIContent("Release config applied!"));
+                    _logSettings.ResetToDefaults();
+                    _selectedTheme = ColorTheme.Default;
+                    ShowNotification(new GUIContent("Settings reset to defaults!"));
                 }
             }
-            EditorGUILayout.EndHorizontal();
             
             GUILayout.EndVertical();
         }
@@ -475,111 +298,62 @@ namespace iCON.Utility.Editor
         private void DrawFooter()
         {
             EditorGUILayout.Space(SECTION_SPACING);
-            
             GUILayout.BeginVertical(EditorStyles.helpBox);
-            
-            GUIStyle footerStyle = new GUIStyle(EditorStyles.miniLabel)
-            {
-                alignment = TextAnchor.MiddleCenter,
-                normal = { textColor = Color.gray }
-            };
-            
-            EditorGUILayout.LabelField("LogUtility Settings v1.0 | Settings are applied immediately", footerStyle);
-            
+            GUIStyle footerStyle = new GUIStyle(EditorStyles.miniLabel) { alignment = TextAnchor.MiddleCenter, normal = { textColor = Color.gray } };
+            EditorGUILayout.LabelField("LogUtility Settings v2.1 | Changes are saved to LogSettings.asset", footerStyle);
             GUILayout.EndVertical();
         }
 
         private void DrawSectionHeader(string title, ref bool isExpanded)
         {
-            GUIStyle headerStyle = new GUIStyle(EditorStyles.foldout)
-            {
-                fontSize = 12,
-                fontStyle = FontStyle.Bold
-            };
-            
+            GUIStyle headerStyle = new GUIStyle(EditorStyles.foldout) { fontSize = 12, fontStyle = FontStyle.Bold };
             isExpanded = EditorGUILayout.Foldout(isExpanded, title, headerStyle);
         }
         #endregion
 
         #region Helper Methods
-        private string GetCategoryIcon(LogCategory category)
+        private void SetAllCategoriesEnabled(bool enabled)
         {
-            return category switch
+            for (int i = 0; i < _categorySettingsProp.arraySize; i++)
             {
-                LogCategory.General => "📝",
-                LogCategory.System => "⚙️",
-                LogCategory.Gameplay => "🎮",
-                LogCategory.UI => "🖼️",
-                LogCategory.Audio => "🔊",
-                LogCategory.Network => "🌐",
-                LogCategory.Performance => "⚡",
-                LogCategory.Test => "🧪",
-                LogCategory.Debug => "🐛",
-                _ => "📄"
-            };
+                _categorySettingsProp.GetArrayElementAtIndex(i).FindPropertyRelative("IsEnabled").boolValue = enabled;
+            }
         }
 
-        private bool GetCategoryEnabled(LogCategory category)
+        private string GetCategoryIcon(LogCategory category) => category switch
         {
-            // リフレクションを使ってCategoryEnabledフィールドにアクセス
-            var field = typeof(LogUtility).GetField("CategoryEnabled", 
-                BindingFlags.NonPublic | BindingFlags.Static);
-            
-            if (field?.GetValue(null) is Dictionary<LogCategory, bool> dict)
-            {
-                return dict.GetValueOrDefault(category, true);
-            }
-            
-            return true; // デフォルト値
-        }
+            LogCategory.General => "📝", LogCategory.System => "⚙️", LogCategory.Gameplay => "🎮",
+            LogCategory.UI => "🖼️", LogCategory.Audio => "🔊", LogCategory.Network => "🌐",
+            LogCategory.Performance => "⚡", LogCategory.Test => "🧪", LogCategory.Debug => "🐛",
+            _ => "📄"
+        };
+        
+        private string GetLevelIcon(LogLevel level) => level switch
+        {
+            LogLevel.Fatal => "🔥", LogLevel.Error => "❌", LogLevel.Warning => "⚠️",
+            LogLevel.Info => "ℹ️", LogLevel.Debug => "🐞", LogLevel.Verbose => "💬",
+            _ => "📄"
+        };
 
         private void SendTestLog()
         {
             string message = $"{_testMessage} (Test from Editor)";
-            
             switch (_testLogLevel)
             {
-                case LogLevel.Verbose:
-                    LogUtility.Verbose(message, _testCategory);
-                    break;
-                case LogLevel.Debug:
-                    LogUtility.Debug(message, _testCategory);
-                    break;
-                case LogLevel.Info:
-                    LogUtility.Info(message, _testCategory);
-                    break;
-                case LogLevel.Warning:
-                    LogUtility.Warning(message, _testCategory);
-                    break;
-                case LogLevel.Error:
-                    LogUtility.Error(message, _testCategory);
-                    break;
-                case LogLevel.Fatal:
-                    LogUtility.Fatal(message, _testCategory);
-                    break;
+                case LogLevel.Verbose: LogUtility.Verbose(message, _testCategory); break;
+                case LogLevel.Debug: LogUtility.Debug(message, _testCategory); break;
+                case LogLevel.Info: LogUtility.Info(message, _testCategory); break;
+                case LogLevel.Warning: LogUtility.Warning(message, _testCategory); break;
+                case LogLevel.Error: LogUtility.Error(message, _testCategory); break;
+                case LogLevel.Fatal: LogUtility.Fatal(message, _testCategory); break;
             }
-            
             ShowNotification(new GUIContent($"Sent {_testLogLevel} log!"));
-        }
-
-        private void ApplyDevelopmentConfig()
-        {
-            LogUtility.MinLogLevel = LogLevel.Verbose;
-            LogUtility.IsFileLoggingEnabled = true;
-            LogUtility.IsStackTraceEnabled = true;
-            LogUtility.IsPerformanceLoggingEnabled = true;
-            LogUtility.SetAllCategoriesEnabled(true);
         }
 
         private void OpenLogFolder()
         {
             string logPath = Path.Combine(Application.persistentDataPath, "Logs");
-            
-            if (!Directory.Exists(logPath))
-            {
-                Directory.CreateDirectory(logPath);
-            }
-            
+            if (!Directory.Exists(logPath)) Directory.CreateDirectory(logPath);
             EditorUtility.RevealInFinder(logPath);
         }
         #endregion
