@@ -6,7 +6,7 @@ using UnityEditor;
 namespace CryStar.Editor
 {
     /// <summary>
-    /// SheetsDataService用のカスタムエディタ
+    /// SheetsDataServiceのInspector拡張
     /// </summary>
     [CustomEditor(typeof(SheetsDataService))]
     public class SheetsDataServiceEditor : UnityEditor.Editor
