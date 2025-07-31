@@ -1,3 +1,4 @@
+using CryStar.Core;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using iCON.Utility;
@@ -5,7 +6,7 @@ using iCON.Utility;
 /// <summary>
 /// 独自のライフサイクルを定義した基底クラス
 /// </summary>
-public abstract class ViewBase : MonoBehaviour
+public abstract class ViewBase : MonoBehaviour, ILifecycleTarget
 {
     /// <summary>
     /// 他クラスに干渉しない処理
@@ -15,7 +16,7 @@ public abstract class ViewBase : MonoBehaviour
         LogUtility.Verbose($"[ViewBase] {gameObject.name} の Awake 実行");
         return UniTask.CompletedTask;
     }
-
+    
     /// <summary>
     /// UI表示の初期化
     /// </summary>
