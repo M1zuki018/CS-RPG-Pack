@@ -1,12 +1,10 @@
 using CryStar.Attribute;
 using CryStar.Core;
-using CryStar.Enums;
-using CryStar.Story.Core;
+using CryStar.Core.Enums;
 using CryStar.Story.Orchestrators;
 using Cysharp.Threading.Tasks;
 using iCON.UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace iCON.System
 {
@@ -28,7 +26,7 @@ namespace iCON.System
         {
             await base.OnStart();
             
-            ServiceLocator.Resister(this, ServiceType.Local);
+            ServiceLocator.Register(this, ServiceType.Local);
             
             // ストーリー再生時以外はゲームオブジェクトを非アクティブにしておく
             _storyOrchestrator.gameObject.SetActive(false);

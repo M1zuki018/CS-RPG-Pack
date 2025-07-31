@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using CryStar.Core;
 using Cysharp.Threading.Tasks;
 using iCON.Constants;
 using iCON.Utility;
@@ -55,7 +56,7 @@ namespace iCON.System
         /// </summary>
         private void Awake()
         {
-            ServiceLocator.Resister(this);
+            ServiceLocator.Register(this);
             _currentScene = GetCurrentSceneType();
         }
 
