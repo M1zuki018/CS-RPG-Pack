@@ -4,13 +4,14 @@ using System.IO;
 using System.Linq;
 using CryStar.Attribute;
 using CryStar.Core;
+using CryStar.Utility;
+using CryStar.Utility.Enum;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Services;
 using iCON.Constants;
-using iCON.Utility;
 
 /// <summary>
 /// Googleスプレッドシートとの通信を行うクラス

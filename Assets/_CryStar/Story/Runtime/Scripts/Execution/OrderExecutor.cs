@@ -5,9 +5,10 @@ using CryStar.Story.Data;
 using CryStar.Story.Enums;
 using CryStar.Story.Factory;
 using CryStar.Story.UI;
+using CryStar.Utility;
+using CryStar.Utility.Enum;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using iCON.Utility;
 
 namespace CryStar.Story.Execution
 {

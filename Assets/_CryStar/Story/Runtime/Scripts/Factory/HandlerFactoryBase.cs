@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using iCON.Utility;
+using CryStar.Utility;
+using CryStar.Utility.Enum;
 
 namespace CryStar.Story.Factory
 {

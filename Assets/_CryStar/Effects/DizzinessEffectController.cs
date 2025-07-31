@@ -1,5 +1,6 @@
 using System;
 using CryStar.Attribute;
+using CryStar.Utility.Extensions;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
