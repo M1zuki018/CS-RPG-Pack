@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CryStar.Story.Data;
+using CryStar.Utility;
 using iCON.Utility;
 
 namespace CryStar.Story.Player

@@ -1,4 +1,4 @@
-namespace iCON.Utility
+namespace CryStar.Utility
 {
     /// <summary>
     /// ログレベル定義

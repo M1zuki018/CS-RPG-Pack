@@ -5,6 +5,7 @@ using CryStar.Story.Data;
 using CryStar.Story.Enums;
 using CryStar.Story.Execution;
 using CryStar.Story.UI;
+using CryStar.Utility;
 using Cysharp.Threading.Tasks;
 using iCON.Utility;
 using UnityEngine;

@@ -5,6 +5,7 @@ using CryStar.Story.Core;
 using CryStar.Story.Data;
 using CryStar.Story.Initialization;
 using CryStar.Story.Player;
+using CryStar.Utility;
 using Cysharp.Threading.Tasks;
 using iCON.Utility;
 using UnityEngine;

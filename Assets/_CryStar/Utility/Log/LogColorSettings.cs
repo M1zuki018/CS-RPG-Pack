@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace iCON.Utility
+namespace CryStar.Utility
 {
     /// <summary>
     /// ログ色設定管理クラス

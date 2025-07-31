@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace iCON.Utility
+namespace CryStar.Utility
 {
     /// <summary>
     /// ログUtility テスト運用中

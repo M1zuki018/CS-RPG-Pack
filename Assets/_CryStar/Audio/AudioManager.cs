@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CryStar.Attribute;
 using CryStar.Core;
 using CryStar.Story.Constants;
+using CryStar.Utility;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using iCON.Extensions;

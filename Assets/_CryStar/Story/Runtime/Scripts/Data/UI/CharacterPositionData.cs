@@ -1,5 +1,6 @@
 using System;
 using CryStar.Story.Enums;
+using CryStar.Utility;
 using iCON.Utility;
 using UnityEngine;
 using Object = UnityEngine.Object;

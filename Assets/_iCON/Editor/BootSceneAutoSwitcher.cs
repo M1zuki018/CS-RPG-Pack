@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using System.IO;
+using CryStar.Utility;
 using iCON.Constants;
 using iCON.Utility;
 using UnityEngine.SceneManagement;
