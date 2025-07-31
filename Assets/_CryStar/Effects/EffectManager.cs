@@ -1,10 +1,11 @@
+using CryStar.Core;
 using CryStar.Enums;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace CryStar.Effects
 {
-    public class EffectManager : ViewBase
+    public class EffectManager : CustomBehaviour
     {
         [SerializeField] private DizzinessEffectController _dizzinessEffectController;
 

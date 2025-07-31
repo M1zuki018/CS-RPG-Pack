@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CryStar.Attribute;
+using CryStar.Core;
 using UnityEngine;
 
 namespace CryStar.Effects
@@ -9,7 +10,7 @@ namespace CryStar.Effects
     /// タイトル画面でマウスの動きに合わせて傾いて見えるような演出
     /// 長押しでズーム効果も追加（Lerpによる実装）
     /// </summary>
-    public class ImageParallax : ViewBase
+    public class ImageParallax : CustomBehaviour
     {
         [Header("パララックス設定")] 
         [SerializeField] 

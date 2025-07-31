@@ -1,4 +1,5 @@
 using System;
+using CryStar.Core;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -8,9 +9,9 @@ using Object = UnityEngine.Object;
 public static class GameObjectUtility
 {
     /// <summary>
-    /// プレハブをインスタンス化し、ViewBase の派生クラスを返す
+    /// プレハブをインスタンス化し、CustomBehaviour の派生クラスを返す
     /// </summary>
-    public static T Instantiate<T>(GameObject prefab) where T : ViewBase
+    public static T Instantiate<T>(GameObject prefab) where T : CustomBehaviour
     {
         if (prefab == null)
         {

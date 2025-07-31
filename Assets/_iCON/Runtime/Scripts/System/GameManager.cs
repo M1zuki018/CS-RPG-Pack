@@ -1,3 +1,4 @@
+using CryStar.Core;
 using Cysharp.Threading.Tasks;
 using iCON.Enums;
 using R3;
@@ -5,7 +6,7 @@ using R3;
 /// <summary>
 /// ゲームマネージャー
 /// </summary>
-public class GameManager : ViewBase, IGameManager
+public class GameManager : CustomBehaviour, IGameManager
 {
     private bool _isFirstLoad = true; // 最初の読み込みかどうか
     private readonly ReactiveProperty<GameStateType> _currentGameState = new ReactiveProperty<GameStateType>();

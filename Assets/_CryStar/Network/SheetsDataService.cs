@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CryStar.Attribute;
+using CryStar.Core;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Google.Apis.Auth.OAuth2;
@@ -14,7 +15,7 @@ using iCON.Utility;
 /// <summary>
 /// Googleスプレッドシートとの通信を行うクラス
 /// </summary>
-public class SheetsDataService : ViewBase
+public class SheetsDataService : CustomBehaviour
 {
     private static SheetsDataService _instance;
     private static readonly object _lock = new object();

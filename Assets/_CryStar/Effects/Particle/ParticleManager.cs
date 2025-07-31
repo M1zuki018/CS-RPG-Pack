@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CryStar.Core;
 using CryStar.Enums;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace CryStar.Story.Execution
     /// <summary>
     /// ParticleSystemを管理するManager
     /// </summary>
-    public class ParticleManager : ViewBase
+    public class ParticleManager : CustomBehaviour
     {
         /// <summary>
         /// ParticleSystemのデータ配列
