@@ -1,5 +1,4 @@
 using System;
-using CryStar.Attribute;
 using UnityEngine;
 
 /// <summary>
@@ -8,13 +7,13 @@ using UnityEngine;
 [Serializable]
 public class SpreadsheetConfig
 {
-    [SerializeField, Comment("スプレッドシートの識別名（コード内で使用）")]
+    [SerializeField, Tooltip("スプレッドシートの識別名（コード内で使用）")]
     private string _name;
         
-    [SerializeField, Comment("スプレッドシートID")]
+    [SerializeField, Tooltip("スプレッドシートID")]
     private string _spreadsheetId;
         
-    [SerializeField, Comment("説明（任意）")]
+    [SerializeField, Tooltip("説明（任意）")]
     private string _description;
     
     /// <summary>
