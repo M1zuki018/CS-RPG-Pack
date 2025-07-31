@@ -1,4 +1,3 @@
-using CryStar.Core;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using iCON.Utility;
@@ -7,6 +6,15 @@ namespace CryStar.Core
 {
     /// <summary>
     /// 独自のライフサイクルを定義した基底クラス
+    ///
+    /// NOTE:
+    /// Unity標準のライフサイクル（Awake, Start等）の実行順序は保証されないため、
+    /// 確実な初期化順序が必要な場合にこのクラスを継承してください
+    /// 
+    /// 各メソッドをオーバーライドする際は、必ず base メソッドを呼び出してください
+    /// 重い処理を行う場合は適切に await を使用してください
+    ///
+    /// UnityのLifecycleのAwakeのタイミングで実行されます
     /// </summary>
     public abstract class CustomBehaviour : MonoBehaviour, ILifecycleTarget
     {

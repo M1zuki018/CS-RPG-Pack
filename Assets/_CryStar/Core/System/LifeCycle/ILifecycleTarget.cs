@@ -4,6 +4,8 @@ namespace CryStar.Core
 {
     /// <summary>
     /// ライフサイクル管理対象のインターフェース
+    /// メソッドを増やしたい場合、このインターフェース内でメソッドを増やしたあと
+    /// LifecycleController の ExecuteLifecycle() に実行処理を追加してください
     /// </summary>
     public interface ILifecycleTarget
     {
