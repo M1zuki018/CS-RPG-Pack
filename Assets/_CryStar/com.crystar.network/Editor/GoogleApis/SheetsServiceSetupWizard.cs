@@ -390,14 +390,20 @@ namespace CryStar.Editor
             // サービスインスタンスの確認
             FindServiceInstance();
 
+            EditorGUILayout.LabelField("サービスオブジェクト:", EditorStyles.boldLabel);
+            
             if (_serviceInstance == null)
             {
                 EditorGUILayout.HelpBox("SheetsDataServiceオブジェクトが見つかりません。", MessageType.Warning);
-
+        
+                EditorGUILayout.Space();
                 if (GUILayout.Button("SheetsDataServiceオブジェクトを作成", _buttonStyle))
                 {
                     CreateServiceInstance();
                 }
+        
+                // レイアウト統一のための空白領域
+                EditorGUILayout.Space(60);
             }
             else
             {
@@ -412,27 +418,38 @@ namespace CryStar.Editor
                 {
                     EditorGUILayout.HelpBox("✓ ApiSettingsも正しく設定されています！", MessageType.Info);
                 }
+                
+                EditorGUILayout.Space();
 
                 if (GUILayout.Button("設定を適用", _buttonStyle))
                 {
                     ApplySettingsToService();
                 }
-
-                EditorGUILayout.Space();
-
-                // 現在の設定表示
-                EditorGUILayout.LabelField("現在の設定:", EditorStyles.boldLabel);
-                GUI.enabled = false;
-                EditorGUILayout.ObjectField("Service Instance", _serviceInstance, typeof(SheetsDataService), true);
-                EditorGUILayout.ObjectField("Assigned ApiSettings", _serviceInstance.ApiSettings,
-                    typeof(GoogleApiSettingsSO), false);
-                GUI.enabled = true;
-
-                // 設定済みスプレッドシート数
-                var configCount = _serviceInstance != null ? _serviceInstance.SpreadsheetConfigs.Count : 0;
-                EditorGUILayout.LabelField($"登録済みスプレッドシート: {configCount} 件");
             }
 
+            EditorGUILayout.Space();
+
+            // 詳細情報セクション（サービスが存在する場合のみ表示、折りたたみ可能）
+            if (_serviceInstance != null)
+            {
+                if (EditorGUILayout.Foldout(true, "詳細情報", true))
+                {
+                    EditorGUI.indentLevel++;
+            
+                    // 現在の設定表示
+                    GUI.enabled = false;
+                    EditorGUILayout.ObjectField("Service Instance", _serviceInstance, typeof(SheetsDataService), true);
+                    EditorGUILayout.ObjectField("Assigned ApiSettings", _serviceInstance.ApiSettings, typeof(GoogleApiSettingsSO), false);
+                    GUI.enabled = true;
+
+                    // 設定済みスプレッドシート数
+                    var configCount = _serviceInstance.SpreadsheetConfigs?.Count ?? 0;
+                    EditorGUILayout.LabelField($"登録済みスプレッドシート: {configCount} 件");
+            
+                    EditorGUI.indentLevel--;
+                }
+            }
+            
             EditorGUILayout.EndVertical();
         }
 
@@ -760,9 +777,6 @@ namespace CryStar.Editor
     
             // SheetsDataServiceにApiSettingsを設定
             _serviceInstance.ApiSettings = _apiSettings;
-    
-            // 既存の設定適用処理
-            _apiSettings.ApplyToService(_serviceInstance);
             
             // GoogleApiSettingsSOの参照をSheetsDataServiceに設定
             var apiSettingsField = typeof(SheetsDataService).GetField("_apiSettings", 
@@ -830,9 +844,6 @@ namespace CryStar.Editor
     
             // ApiSettingsを設定
             instance.ApiSettings = _apiSettings;
-    
-            // 既存の設定適用
-            _apiSettings.ApplyToService(instance);
     
             // エディタに変更を通知
             EditorUtility.SetDirty(instance);
