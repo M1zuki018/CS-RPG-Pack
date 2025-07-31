@@ -7,6 +7,7 @@ using UnityEngine;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Services;
+using UnityEngine.Serialization;
 
 namespace CryStar.Network
 {
@@ -20,7 +21,8 @@ namespace CryStar.Network
         private static readonly object _lock = new object();
         private static bool _applicationIsQuitting = false;
 
-        [Header("認証設定")] [SerializeField] private GoogleApiSettingsSO _googleApiSettings;
+        [Header("認証設定")] 
+        [SerializeField] private GoogleApiSettingsSO _apiSettings;
 
         [Header("スプレッドシート設定")] [SerializeField]
         private SpreadsheetConfig[] _spreadsheetConfigs;
@@ -67,6 +69,15 @@ namespace CryStar.Network
                     return _instance;
                 }
             }
+        }
+        
+        /// <summary>
+        /// API設定アセット
+        /// </summary>
+        public GoogleApiSettingsSO ApiSettings 
+        { 
+            get => _apiSettings; 
+            set => _apiSettings = value; 
         }
 
         /// <summary>
@@ -508,7 +519,7 @@ namespace CryStar.Network
             // StreamingAssetsフォルダ内のサービスアカウントキーファイルのパスを構築
             // NOTE: サービスアカウントキーファイルは必ず「Assets/StreamingAssets」の下におく
             string keyFilePath = Path.Combine(Application.streamingAssetsPath,
-                _googleApiSettings.ServiceAccountKeyFileName);
+                _apiSettings.ServiceAccountKeyFileName);
 
             // サービスアカウントキーファイルの存在確認
             if (!File.Exists(keyFilePath))
@@ -530,7 +541,7 @@ namespace CryStar.Network
             {
                 // 認証情報を設定
                 HttpClientInitializer = credential,
-                ApplicationName = _googleApiSettings.ApplicationName
+                ApplicationName = _apiSettings.ApplicationName
             });
 
             // 初期化完了フラグを設定

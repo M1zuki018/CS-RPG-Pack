@@ -15,7 +15,8 @@ namespace CryStar.Network
         [SerializeField, Tooltip("スプレッドシートID")]
         private string _spreadsheetId;
 
-        [SerializeField, Tooltip("説明（任意）")] private string _description;
+        [SerializeField, Tooltip("説明（任意）")] 
+        private string _description;
 
         /// <summary>
         /// スプレッドシートの識別名

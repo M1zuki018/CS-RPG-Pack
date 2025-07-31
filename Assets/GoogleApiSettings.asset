@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: GoogleApiSettings
   m_EditorClassIdentifier: 
   _serviceAccountKeyFileName: service-account-key.json
-  _applicationName: iCON-MasterDataLoader
+  _applicationName: My Unity Game
+  _spreadsheetConfigs: []
