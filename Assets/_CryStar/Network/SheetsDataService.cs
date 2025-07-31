@@ -12,7 +12,6 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Services;
 using iCON.Constants;
-using iCON.Utility;
 
 /// <summary>
 /// Googleスプレッドシートとの通信を行うクラス

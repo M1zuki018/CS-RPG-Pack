@@ -4,7 +4,6 @@ using System.Threading;
 using CryStar.Utility;
 using CryStar.Utility.Enum;
 using Cysharp.Threading.Tasks;
-using iCON.Utility;
 using UnityEngine;
 
 namespace iCON.UI

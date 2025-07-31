@@ -5,7 +5,6 @@ using CryStar.Story.UI;
 using CryStar.Utility;
 using CryStar.Utility.Enum;
 using DG.Tweening;
-using iCON.Utility;
 
 namespace CryStar.Story.Execution
 {
