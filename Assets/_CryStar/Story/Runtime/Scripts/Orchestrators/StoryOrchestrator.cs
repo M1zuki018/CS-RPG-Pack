@@ -1,4 +1,5 @@
 using System;
+using CryStar.Core;
 using CryStar.Story.Constants;
 using CryStar.Story.Core;
 using CryStar.Story.Data;
@@ -13,7 +14,7 @@ namespace CryStar.Story.Orchestrators
     /// <summary>
     /// Story Orchestrator
     /// </summary>
-    public class StoryOrchestrator : ViewBase, IStoryOrchestrator
+    public class StoryOrchestrator : CustomBehaviour, IStoryOrchestrator
     {
         /// <summary>
         /// ストーリー再生用クラス

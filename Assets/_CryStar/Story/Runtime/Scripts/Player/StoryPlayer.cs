@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CryStar.Core;
 using CryStar.Story.Data;
 using CryStar.Story.Enums;
 using CryStar.Story.Execution;
@@ -13,7 +14,7 @@ namespace CryStar.Story.Player
     /// <summary>
     /// ストーリー全体の進行を管理するマネージャー
     /// </summary>
-    public class StoryPlayer : ViewBase
+    public class StoryPlayer : CustomBehaviour
     {
         /// <summary>
         /// View

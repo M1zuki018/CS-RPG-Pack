@@ -1,4 +1,5 @@
 using CryStar.Attribute;
+using CryStar.Core;
 using CryStar.Enums;
 using CryStar.Story.Core;
 using CryStar.Story.Orchestrators;
@@ -12,7 +13,7 @@ namespace iCON.System
     /// <summary>
     /// インゲームのGameManager
     /// </summary>
-    public class InGameManager : ViewBase
+    public class InGameManager : CustomBehaviour
     {
         /// <summary>
         /// ストーリーオーケストレーター

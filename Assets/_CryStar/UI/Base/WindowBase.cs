@@ -1,10 +1,11 @@
+using CryStar.Core;
 using UnityEngine;
 
 /// <summary>
 /// 開閉を行うCanvasにつけるクラスが継承すべきベースクラス
 /// </summary>
 [RequireComponent(typeof(CanvasGroup))]
-public class WindowBase : ViewBase
+public class WindowBase : CustomBehaviour
 {
     private CanvasGroup _canvasGroup;
     

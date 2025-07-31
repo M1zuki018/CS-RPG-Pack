@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using CryStar.Core;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
 /// UIマネージャーの基底クラス
 /// </summary>
-public abstract class SceneCanvasManagerBase : ViewBase
+public abstract class SceneCanvasManagerBase : CustomBehaviour
 {
     [SerializeField] protected List<WindowBase> _canvasObjects = new List<WindowBase>();
     [SerializeField] protected int _defaultCanvasIndex = 0;

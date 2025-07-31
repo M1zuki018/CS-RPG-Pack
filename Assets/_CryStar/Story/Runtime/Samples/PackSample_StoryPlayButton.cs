@@ -1,4 +1,5 @@
 using CryStar.Attribute;
+using CryStar.Core;
 using Cysharp.Threading.Tasks;
 using iCON.System;
 using iCON.Utility;
@@ -6,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class PackSample_StoryPlayButton : ViewBase
+public class PackSample_StoryPlayButton : CustomBehaviour
 {
     [Header("表示の設定")]
     [SerializeField, Comment("ボタンに表示するテキスト")] private string _displayText;
