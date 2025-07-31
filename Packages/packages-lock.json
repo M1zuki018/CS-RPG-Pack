@@ -1,5 +1,15 @@
 {
   "dependencies": {
+    "com.crystar.core": {
+      "version": "https://github.com/M1zuki018/crystar-core.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.cysharp.unitask": "2.3.3",
+        "com.crystar.custom-attributes": "https://github.com/M1zuki018/crystar-custom-attributes.git"
+      },
+      "hash": "dff41c8804846300286878db1300f972607af614"
+    },
     "com.crystar.custom-attributes": {
       "version": "https://github.com/M1zuki018/crystar-custom-attributes.git",
       "depth": 0,
