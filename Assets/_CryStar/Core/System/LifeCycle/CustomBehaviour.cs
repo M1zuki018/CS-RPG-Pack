@@ -6,14 +6,14 @@ using iCON.Utility;
 /// <summary>
 /// 独自のライフサイクルを定義した基底クラス
 /// </summary>
-public abstract class ViewBase : MonoBehaviour, ILifecycleTarget
+public abstract class ManagedBase : MonoBehaviour, ILifecycleTarget
 {
     /// <summary>
     /// 他クラスに干渉しない処理
     /// </summary>
     public virtual UniTask OnAwake()
     {
-        LogUtility.Verbose($"[ViewBase] {gameObject.name} の Awake 実行");
+        LogUtility.Verbose($"[ManagedBase] {gameObject.name} の Awake 実行");
         return UniTask.CompletedTask;
     }
     
@@ -22,7 +22,7 @@ public abstract class ViewBase : MonoBehaviour, ILifecycleTarget
     /// </summary>
     public virtual UniTask OnUIInitialize()
     {
-        LogUtility.Verbose($"[ViewBase] {gameObject.name} の UIInitialize 実行");
+        LogUtility.Verbose($"[ManagedBase] {gameObject.name} の UIInitialize 実行");
         return UniTask.CompletedTask;
     }
 
@@ -31,7 +31,7 @@ public abstract class ViewBase : MonoBehaviour, ILifecycleTarget
     /// </summary>
     public virtual UniTask OnBind()
     {
-        LogUtility.Verbose($"[ViewBase] {gameObject.name} の Bind 実行");
+        LogUtility.Verbose($"[ManagedBase] {gameObject.name} の Bind 実行");
         return UniTask.CompletedTask;
     }
 
@@ -40,7 +40,7 @@ public abstract class ViewBase : MonoBehaviour, ILifecycleTarget
     /// </summary>
     public virtual UniTask OnStart()
     {
-        LogUtility.Verbose($"[ViewBase] {gameObject.name} の Start 実行");
+        LogUtility.Verbose($"[ManagedBase] {gameObject.name} の Start 実行");
         return UniTask.CompletedTask;
     }
 }
