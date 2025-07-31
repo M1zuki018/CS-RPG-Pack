@@ -1,4 +1,4 @@
-namespace CryStar.Enums
+namespace CryStar.Core.Enums
 {
     /// <summary>
     /// サービスロケーター登録の種類の列挙型
