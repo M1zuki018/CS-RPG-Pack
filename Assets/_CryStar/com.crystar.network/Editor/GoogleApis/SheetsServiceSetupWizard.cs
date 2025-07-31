@@ -52,7 +52,7 @@ namespace CryStar.Editor
         private void OnEnable()
         {
             // GoogleApiSettingsを検索または作成
-            _apiSettings = GoogleApiSettingsSO.FindOrCreate();
+            _apiSettings = GoogleApiSettingsSOEditor.FindOrCreate();
             CheckServiceAccountKeyFile();
             FindServiceInstance();
         }
@@ -222,7 +222,7 @@ namespace CryStar.Editor
                 if (GUILayout.Button("設定アセットを作成"))
                 {
                     // アセット作成
-                    _apiSettings = GoogleApiSettingsSO.CreateDefaultAsset();
+                    _apiSettings = GoogleApiSettingsSOEditor.CreateAsset();
                 }
             }
             else
