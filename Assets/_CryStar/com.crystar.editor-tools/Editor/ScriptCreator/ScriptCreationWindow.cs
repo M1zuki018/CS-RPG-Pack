@@ -37,20 +37,22 @@ public class ScriptCreationWindow : EditorWindow
 
     private void OnGUI()
     {
-        // 設定セクション
-        ShowSettingsGUI();
+        // セレクションを切り替えるタブ
+        ShowSelectionTabGUI();
         
         EditorGUILayout.Space();
+        
+        GUILayout.Label("Creation Settings", EditorStyles.boldLabel);
         
         // スクリプト名を入力するフィールド
         _scriptName = EditorGUILayout.TextField("Script Name", _scriptName);
         
         // 保存フォルダ選択フィールド
-        GUILayout.Label("Select Save Folder", EditorStyles.boldLabel);
-        _savePath = EditorGUILayout.TextField("Folder Path", _savePath);
+        EditorGUILayout.BeginHorizontal();
+        _savePath = EditorGUILayout.TextField("Save Folder Path", _savePath);
         
         // パス選択ボタン
-        if (GUILayout.Button("Select Folder"))
+        if (GUILayout.Button("Select", GUILayout.Width(60)))
         {
             string folderPath = EditorUtility.OpenFolderPanel("Select Folder", Application.dataPath, "");
 
@@ -63,22 +65,6 @@ public class ScriptCreationWindow : EditorWindow
                 _savePath = folderPath;
             }
         }
-        
-        // タブのレイアウト
-        EditorGUILayout.BeginHorizontal();
-
-        // スクリプト生成タブ
-        if (GUILayout.Toggle(_selectedTab == 0, "Script Creation", "Button"))
-        {
-            _selectedTab = 0;
-        }
-
-        // Enum生成タブ
-        if (GUILayout.Toggle(_selectedTab == 1, "Enum Generation", "Button"))
-        {
-            _selectedTab = 1;
-        }
-
         EditorGUILayout.EndHorizontal();
 
         // タブに応じたGUIの表示
@@ -92,14 +78,12 @@ public class ScriptCreationWindow : EditorWindow
                 break;
         }
     }
-    
+
     /// <summary>
     /// 設定GUI
     /// </summary>
     private void ShowSettingsGUI()
     {
-        GUILayout.Label("Settings", EditorStyles.boldLabel);
-        
         // テンプレートフォルダパス設定
         EditorGUILayout.BeginHorizontal();
         _templateFolderPath = EditorGUILayout.TextField("Template Folder", _templateFolderPath);
@@ -124,6 +108,29 @@ public class ScriptCreationWindow : EditorWindow
             LoadTemplates();
         }
     }
+    
+    /// <summary>
+    /// ScriptCreationとEnumGenerationを切り替えるタブのGUI
+    /// </summary>
+    private void ShowSelectionTabGUI()
+    {
+        // タブのレイアウト
+        EditorGUILayout.BeginHorizontal();
+
+        // スクリプト生成タブ
+        if (GUILayout.Toggle(_selectedTab == 0, "Script Creation", "Button"))
+        {
+            _selectedTab = 0;
+        }
+
+        // Enum生成タブ
+        if (GUILayout.Toggle(_selectedTab == 1, "Enum Generation", "Button"))
+        {
+            _selectedTab = 1;
+        }
+
+        EditorGUILayout.EndHorizontal();
+    }
 
     /// <summary>
     /// スクリプトのテンプレートから新しいスクリプトを作成するGUI
@@ -131,7 +138,7 @@ public class ScriptCreationWindow : EditorWindow
     private void ShowScriptCreationGUI()
     {
         GUILayout.Label("Create a New Script", EditorStyles.boldLabel);
-
+        
         // テンプレートを選ぶドロップダウンメニュー
         if (_templates != null && _templates.Length > 0)
         {
@@ -144,8 +151,15 @@ public class ScriptCreationWindow : EditorWindow
             EditorGUILayout.HelpBox("'ScriptTemplates' フォルダーにテンプレートが見つかりません！", MessageType.Warning);
         }
         
+        // テンプレート設定セクション
+        ShowSettingsGUI();
+        
+        GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
+        buttonStyle.fontStyle = FontStyle.Bold;
+        buttonStyle.fixedHeight = 30f;
+        
         // スクリプト作成ボタン
-        if (GUILayout.Button("Create Script"))
+        if (GUILayout.Button("Create Script", buttonStyle))
         {
             ScriptCreator.CreateScript(_savePath, _scriptName, _templateIndex, _templates, _templateFolderPath);
         }
@@ -158,11 +172,12 @@ public class ScriptCreationWindow : EditorWindow
     {
         GUILayout.Label("Generate Enum from Folder", EditorStyles.boldLabel);
 
+        EditorGUILayout.BeginHorizontal();
         // Enumを生成したいフォルダを選択するフィールド
         _enumPath = EditorGUILayout.TextField("Folder Path", _enumPath);
         
         // Enumを生成したいフォルダーのパスを選択するボタン
-        if (GUILayout.Button("Select Create Enum Folder"))
+        if (GUILayout.Button("Select", GUILayout.Width(60)))
         {
             string dataPath = EditorUtility.OpenFolderPanel("Select Folder", Application.dataPath, "");
 
@@ -175,9 +190,14 @@ public class ScriptCreationWindow : EditorWindow
                 _enumPath = dataPath;
             }
         }
+        EditorGUILayout.EndHorizontal();
 
+        GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
+        buttonStyle.fontStyle = FontStyle.Bold;
+        buttonStyle.fixedHeight = 30f;
+        
         // Enum生成ボタン
-        if (GUILayout.Button("Generate Enum"))
+        if (GUILayout.Button("Generate Enum", buttonStyle))
         {
             EnumGenerator.GenerateEnum(_enumPath, _scriptName, _savePath);
         }
