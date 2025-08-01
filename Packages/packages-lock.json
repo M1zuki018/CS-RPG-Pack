@@ -17,6 +17,13 @@
       "dependencies": {},
       "hash": "bda89cadd14403830939782ccde22c1f70941ce8"
     },
+    "com.crystar.editor-tools": {
+      "version": "https://github.com/M1zuki018/crystar-editor-tools.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "1ad5682cbb63febe556c1d158f2b9f8bd944d404"
+    },
     "com.crystar.network": {
       "version": "https://github.com/M1zuki018/crystar-network.git",
       "depth": 0,
