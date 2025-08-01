@@ -2,22 +2,36 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// ボタンの子にあるTextオブジェクトの名前を自動リネームする拡張
+/// ボタンの子にあるTextオブジェクト（Text/TextMeshProUGUI）の名前を自動リネームするエディター拡張
 /// </summary>
 public class ButtonTextRenamer : EditorWindow
 {
     private bool _includeInactiveObjects = true;
     private bool _showDebugLog = true;
+    private bool _supportLegacyText = true;
+    private bool _supportTMPText = true;
+    private string _customSuffix = "_Text";
     
     [MenuItem("CryStar/Tools/Button Text Renamer")]
     public static void ShowWindow()
     {
         GetWindow<ButtonTextRenamer>("Button Text Renamer");
+    }
+    
+    private void OnEnable()
+    {
+        LoadPreferences();
+    }
+    
+    private void OnDisable()
+    {
+        SavePreferences();
     }
     
     private void OnGUI()
@@ -27,19 +41,34 @@ public class ButtonTextRenamer : EditorWindow
         
         EditorGUILayout.HelpBox(
             "このツールはシーン内のすべてのButtonコンポーネントを検索し、" +
-            "その子オブジェクトにあるTextコンポーネントの名前を親ボタンのGameObject名に合わせてリネームします。",
+            "その子オブジェクトにあるText/TextMeshProUGUIコンポーネントの名前を親ボタンのGameObject名に合わせてリネームします。",
             MessageType.Info
         );
         
         GUILayout.Space(10);
         
+        // 対応コンポーネント設定
+        EditorGUILayout.LabelField("対応コンポーネント", EditorStyles.boldLabel);
+        _supportLegacyText = EditorGUILayout.Toggle("Legacy Text (UI)", _supportLegacyText);
+        _supportTMPText = EditorGUILayout.Toggle("TextMeshPro UGUI", _supportTMPText);
+        
+        if (!_supportLegacyText && !_supportTMPText)
+        {
+            EditorGUILayout.HelpBox("少なくとも1つのテキストコンポーネントを選択してください。", MessageType.Warning);
+        }
+        
+        GUILayout.Space(10);
+        
         // オプション設定
+        EditorGUILayout.LabelField("オプション", EditorStyles.boldLabel);
         _includeInactiveObjects = EditorGUILayout.Toggle("非アクティブオブジェクトも含む", _includeInactiveObjects);
         _showDebugLog = EditorGUILayout.Toggle("ログを表示", _showDebugLog);
+        _customSuffix = EditorGUILayout.TextField("カスタムサフィックス", _customSuffix);
         
         GUILayout.Space(15);
         
         // 実行ボタン
+        EditorGUI.BeginDisabledGroup(!_supportLegacyText && !_supportTMPText);
         if (GUILayout.Button("シーン内の全ボタンテキストをリネーム", GUILayout.Height(30)))
         {
             RenameAllButtonTexts();
@@ -52,15 +81,54 @@ public class ButtonTextRenamer : EditorWindow
         {
             RenameSelectedButtonTexts();
         }
+        EditorGUI.EndDisabledGroup();
+        
+        GUILayout.Space(10);
+        
+        // 統計情報表示
+        ShowStatistics();
         
         GUILayout.Space(10);
         
         EditorGUILayout.HelpBox(
             "使用方法:\n" +
             "1. 'シーン内の全ボタンテキストをリネーム'でシーン内すべてのボタンを処理\n" +
-            "2. '選択されたボタンのテキストをリネーム'で選択したボタンのみを処理",
+            "2. '選択されたボタンのテキストをリネーム'で選択したボタンのみを処理\n" +
+            "3. 対応コンポーネントで処理対象を選択可能",
             MessageType.None
         );
+    }
+    
+    /// <summary>
+    /// 統計情報を表示
+    /// </summary>
+    private void ShowStatistics()
+    {
+        Button[] buttons = FindObjectsOfType<Button>(_includeInactiveObjects);
+        int textCount = 0;
+        int tmpCount = 0;
+        
+        foreach (Button button in buttons)
+        {
+            if (_supportLegacyText)
+            {
+                Text[] texts = button.GetComponentsInChildren<Text>(_includeInactiveObjects);
+                textCount += texts.Length;
+            }
+            
+            if (_supportTMPText)
+            {
+                TextMeshProUGUI[] tmpTexts = button.GetComponentsInChildren<TextMeshProUGUI>(_includeInactiveObjects);
+                tmpCount += tmpTexts.Length;
+            }
+        }
+        
+        EditorGUILayout.LabelField("統計情報", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField($"検出されたボタン: {buttons.Length}個");
+        if (_supportLegacyText)
+            EditorGUILayout.LabelField($"Legacy Textコンポーネント: {textCount}個");
+        if (_supportTMPText)
+            EditorGUILayout.LabelField($"TextMeshPro UGUIコンポーネント: {tmpCount}個");
     }
     
     /// <summary>
@@ -69,9 +137,19 @@ public class ButtonTextRenamer : EditorWindow
     private void RenameAllButtonTexts()
     {
         Button[] buttons = FindObjectsOfType<Button>(_includeInactiveObjects);
+        var renamedObjects = new List<GameObject>();
         int renamedCount = 0;
         
-        Undo.RecordObjects(GetAllTextComponents(buttons), "Rename Button Texts");
+        // Undoの準備
+        foreach (Button button in buttons)
+        {
+            renamedObjects.AddRange(GetAllTextGameObjects(button));
+        }
+        
+        if (renamedObjects.Count > 0)
+        {
+            Undo.RecordObjects(renamedObjects.ToArray(), "Rename Button Texts");
+        }
         
         foreach (Button button in buttons)
         {
@@ -114,7 +192,16 @@ public class ButtonTextRenamer : EditorWindow
             return;
         }
         
-        Undo.RecordObjects(GetAllTextComponents(selectedButtons), "Rename Selected Button Texts");
+        var renamedObjects = new List<GameObject>();
+        foreach (Button button in selectedButtons)
+        {
+            renamedObjects.AddRange(GetAllTextGameObjects(button));
+        }
+        
+        if (renamedObjects.Count > 0)
+        {
+            Undo.RecordObjects(renamedObjects.ToArray(), "Rename Selected Button Texts");
+        }
         
         foreach (Button button in selectedButtons)
         {
@@ -139,26 +226,35 @@ public class ButtonTextRenamer : EditorWindow
     {
         if (button == null) return false;
         
-        // ボタンの子オブジェクトからTextコンポーネントを検索
-        Text[] childTexts = button.GetComponentsInChildren<Text>(_includeInactiveObjects);
         bool renamed = false;
         
-        foreach (Text text in childTexts)
+        // Legacy Text処理
+        if (_supportLegacyText)
         {
-            // 直接の子オブジェクトまたは孫オブジェクト（1階層下まで）を対象
-            if (text.transform.parent == button.transform || 
-                text.transform.parent.parent == button.transform)
+            Text[] childTexts = button.GetComponentsInChildren<Text>(_includeInactiveObjects);
+            foreach (Text text in childTexts)
             {
-                string newName = $"{button.gameObject.name}_Text";
-                
-                if (text.gameObject.name != newName)
+                if (IsValidTextChild(text.transform, button.transform))
                 {
-                    text.gameObject.name = newName;
-                    renamed = true;
-                    
-                    if (_showDebugLog)
+                    if (RenameTextObject(text.gameObject, button.gameObject.name, "Text"))
                     {
-                        Debug.Log($"リネーム: {text.gameObject.name} → {newName}");
+                        renamed = true;
+                    }
+                }
+            }
+        }
+        
+        // TextMeshPro処理
+        if (_supportTMPText)
+        {
+            TextMeshProUGUI[] childTMPTexts = button.GetComponentsInChildren<TextMeshProUGUI>(_includeInactiveObjects);
+            foreach (TextMeshProUGUI tmpText in childTMPTexts)
+            {
+                if (IsValidTextChild(tmpText.transform, button.transform))
+                {
+                    if (RenameTextObject(tmpText.gameObject, button.gameObject.name, "TMP"))
+                    {
+                        renamed = true;
                     }
                 }
             }
@@ -168,22 +264,100 @@ public class ButtonTextRenamer : EditorWindow
     }
     
     /// <summary>
-    /// 指定されたボタン配列からすべてのTextコンポーネントのGameObjectを取得
+    /// テキストオブジェクトが有効な子オブジェクトかチェック
     /// </summary>
-    private GameObject[] GetAllTextComponents(Button[] buttons)
+    private bool IsValidTextChild(Transform textTransform, Transform buttonTransform)
+    {
+        // 直接の子オブジェクトまたは孫オブジェクト（1階層下まで）を対象
+        return textTransform.parent == buttonTransform || 
+               textTransform.parent.parent == buttonTransform;
+    }
+    
+    /// <summary>
+    /// テキストオブジェクトをリネーム
+    /// </summary>
+    private bool RenameTextObject(GameObject textObject, string buttonName, string componentType)
+    {
+        string newName = $"{buttonName}{_customSuffix}";
+        
+        // TMP の場合は区別のためサフィックスを変更（オプション）
+        if (componentType == "TMP" && _supportLegacyText && _supportTMPText)
+        {
+            newName = $"{buttonName}_TMP";
+        }
+        
+        if (textObject.name != newName)
+        {
+            string oldName = textObject.name;
+            textObject.name = newName;
+            
+            if (_showDebugLog)
+            {
+                Debug.Log($"リネーム ({componentType}): {oldName} → {newName}");
+            }
+            
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /// <summary>
+    /// 指定されたボタンからすべてのテキストGameObjectを取得
+    /// </summary>
+    private List<GameObject> GetAllTextGameObjects(Button button)
     {
         var textObjects = new List<GameObject>();
         
-        foreach (Button button in buttons)
+        if (_supportLegacyText)
         {
             Text[] texts = button.GetComponentsInChildren<Text>(_includeInactiveObjects);
             foreach (Text text in texts)
             {
-                textObjects.Add(text.gameObject);
+                if (IsValidTextChild(text.transform, button.transform))
+                {
+                    textObjects.Add(text.gameObject);
+                }
             }
         }
         
-        return textObjects.ToArray();
+        if (_supportTMPText)
+        {
+            TextMeshProUGUI[] tmpTexts = button.GetComponentsInChildren<TextMeshProUGUI>(_includeInactiveObjects);
+            foreach (TextMeshProUGUI tmpText in tmpTexts)
+            {
+                if (IsValidTextChild(tmpText.transform, button.transform))
+                {
+                    textObjects.Add(tmpText.gameObject);
+                }
+            }
+        }
+        
+        return textObjects;
+    }
+    
+    /// <summary>
+    /// 設定を保存
+    /// </summary>
+    private void SavePreferences()
+    {
+        EditorPrefs.SetBool("ButtonTextRenamer_IncludeInactive", _includeInactiveObjects);
+        EditorPrefs.SetBool("ButtonTextRenamer_ShowDebugLog", _showDebugLog);
+        EditorPrefs.SetBool("ButtonTextRenamer_SupportLegacyText", _supportLegacyText);
+        EditorPrefs.SetBool("ButtonTextRenamer_SupportTMPText", _supportTMPText);
+        EditorPrefs.SetString("ButtonTextRenamer_CustomSuffix", _customSuffix);
+    }
+    
+    /// <summary>
+    /// 設定を読み込み
+    /// </summary>
+    private void LoadPreferences()
+    {
+        _includeInactiveObjects = EditorPrefs.GetBool("ButtonTextRenamer_IncludeInactive", true);
+        _showDebugLog = EditorPrefs.GetBool("ButtonTextRenamer_ShowDebugLog", true);
+        _supportLegacyText = EditorPrefs.GetBool("ButtonTextRenamer_SupportLegacyText", true);
+        _supportTMPText = EditorPrefs.GetBool("ButtonTextRenamer_SupportTMPText", true);
+        _customSuffix = EditorPrefs.GetString("ButtonTextRenamer_CustomSuffix", "_Text");
     }
 }
 
