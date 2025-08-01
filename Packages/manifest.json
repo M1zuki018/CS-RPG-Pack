@@ -2,6 +2,7 @@
   "dependencies": {
     "com.crystar.core": "https://github.com/M1zuki018/crystar-core.git",
     "com.crystar.custom-attributes": "https://github.com/M1zuki018/crystar-custom-attributes.git",
+    "com.crystar.editor-tools": "https://github.com/M1zuki018/crystar-editor-tools.git",
     "com.crystar.network": "https://github.com/M1zuki018/crystar-network.git",
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.3.3",
     "com.unity.addressables": "2.2.2",
