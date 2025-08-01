@@ -14,23 +14,34 @@ public class ScriptCreationWindow : EditorWindow
     private int _templateIndex = 0; // テンプレートのインデックス
     private string[] _templates = new string[0]; // テンプレートの配列
     private string _enumPath = "Assets";
-    private readonly string _templateFolderPath = "Assets/_CryStar/Editor/ScriptTemplates";
+    private string _templateFolderPath = "Assets/Editor/ScriptTemplates"; // スクリプトテンプレートのパス
     
-    [MenuItem("Tools/Script Creation Window")]
+    [MenuItem("CryStar/Tools/Script Creation Window")]
     public static void ShowWindow()
     {
         // ウィンドウを表示
-        ScriptCreationWindow window = EditorWindow.GetWindow<ScriptCreationWindow>("Script Creation");
+        ScriptCreationWindow window = GetWindow<ScriptCreationWindow>("Script Creation");
         window.Show();
     }
 
     private void OnEnable()
     {
+        LoadSettings(); // 設定をロード
         LoadTemplates(); // スクリプトのテンプレートをロード
+    }
+    
+    private void OnDisable()
+    {
+        SaveSettings(); // 設定を保存
     }
 
     private void OnGUI()
     {
+        // 設定セクション
+        ShowSettingsGUI();
+        
+        EditorGUILayout.Space();
+        
         // スクリプト名を入力するフィールド
         _scriptName = EditorGUILayout.TextField("Script Name", _scriptName);
         
@@ -81,6 +92,38 @@ public class ScriptCreationWindow : EditorWindow
                 break;
         }
     }
+    
+    /// <summary>
+    /// 設定GUI
+    /// </summary>
+    private void ShowSettingsGUI()
+    {
+        GUILayout.Label("Settings", EditorStyles.boldLabel);
+        
+        // テンプレートフォルダパス設定
+        EditorGUILayout.BeginHorizontal();
+        _templateFolderPath = EditorGUILayout.TextField("Template Folder", _templateFolderPath);
+        if (GUILayout.Button("Select", GUILayout.Width(60)))
+        {
+            string folderPath = EditorUtility.OpenFolderPanel("Select Template Folder", Application.dataPath, "");
+            if (!string.IsNullOrEmpty(folderPath))
+            {
+                if (folderPath.StartsWith(Application.dataPath))
+                {
+                    folderPath = "Assets" + folderPath.Substring(Application.dataPath.Length);
+                }
+                _templateFolderPath = folderPath;
+                LoadTemplates(); // テンプレートを再読み込み
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+        
+        // テンプレート再読み込みボタン
+        if (GUILayout.Button("Reload Templates"))
+        {
+            LoadTemplates();
+        }
+    }
 
     /// <summary>
     /// スクリプトのテンプレートから新しいスクリプトを作成するGUI
@@ -104,11 +147,13 @@ public class ScriptCreationWindow : EditorWindow
         // スクリプト作成ボタン
         if (GUILayout.Button("Create Script"))
         {
-            ScriptCreator.CreateScript(_savePath, _scriptName, _templateIndex, _templates);
+            ScriptCreator.CreateScript(_savePath, _scriptName, _templateIndex, _templates, _templateFolderPath);
         }
     }
     
-    // Enumを生成するGUI
+    /// <summary>
+    /// Enum生成用のGUI
+    /// </summary>
     private void ShowEnumGenerationGUI()
     {
         GUILayout.Label("Generate Enum from Folder", EditorStyles.boldLabel);
@@ -157,5 +202,27 @@ public class ScriptCreationWindow : EditorWindow
         {
             _templates = new string[] { }; // フォルダがない場合は空のリスト
         }
+    }
+    
+    /// <summary>
+    /// 設定を保存
+    /// </summary>
+    private void SaveSettings()
+    {
+        EditorPrefs.SetString("ScriptCreationWindow_TemplateFolderPath", _templateFolderPath);
+        EditorPrefs.SetString("ScriptCreationWindow_SavePath", _savePath);
+        EditorPrefs.SetString("ScriptCreationWindow_EnumPath", _enumPath);
+        EditorPrefs.SetInt("ScriptCreationWindow_TemplateIndex", _templateIndex);
+    }
+
+    /// <summary>
+    /// 設定を読み込み
+    /// </summary>
+    private void LoadSettings()
+    {
+        _templateFolderPath = EditorPrefs.GetString("ScriptCreationWindow_TemplateFolderPath", "Assets/_CryStar/Editor/ScriptTemplates");
+        _savePath = EditorPrefs.GetString("ScriptCreationWindow_SavePath", "Assets");
+        _enumPath = EditorPrefs.GetString("ScriptCreationWindow_EnumPath", "Assets");
+        _templateIndex = EditorPrefs.GetInt("ScriptCreationWindow_TemplateIndex", 0);
     }
 }
