@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,12 @@ public class ButtonTextRenamer : EditorWindow
     private bool _includeInactiveObjects = true;
     private bool _showDebugLog = true;
     
-    [MenuItem("Tools/Button Text Renamer")]
+    [MenuItem("CryStar/Tools/Button Text Renamer")]
     public static void ShowWindow()
     {
         GetWindow<ButtonTextRenamer>("Button Text Renamer");
     }
+    
     private void OnGUI()
     {
         GUILayout.Label("Button Text Renamer", EditorStyles.boldLabel);
@@ -184,3 +186,5 @@ public class ButtonTextRenamer : EditorWindow
         return textObjects.ToArray();
     }
 }
+
+#endif
