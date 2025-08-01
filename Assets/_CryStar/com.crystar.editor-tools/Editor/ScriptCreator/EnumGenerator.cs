@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.IO;
 using System.Text;
 using UnityEditor;
@@ -22,7 +23,8 @@ public static class EnumGenerator
         
         // Enum名を構築
         StringBuilder enumNames = new StringBuilder();
-        enumNames.AppendLine($"public enum {scriptName} {{");
+        enumNames.AppendLine($"public enum {scriptName}");
+        enumNames.AppendLine("{");
 
         foreach (var file in files)
         {
@@ -42,9 +44,25 @@ public static class EnumGenerator
         
         // スクリプト名を確保
         string path = Path.Combine(savePath, $"{scriptName}.cs");
+        
+        // スクリプトが既に存在するか確認
+        if (File.Exists(path))
+        {
+            Debug.LogError($"Script {scriptName} は既に存在します！");
+            return;
+        }
 
         File.WriteAllText(path, enumNames.ToString());
         AssetDatabase.Refresh();
+        
+        // 作成したスクリプトを選択してハイライト表示
+        var scriptAsset = AssetDatabase.LoadAssetAtPath<MonoScript>(path);
+        if (scriptAsset != null)
+        {
+            Selection.activeObject = scriptAsset;
+            EditorGUIUtility.PingObject(scriptAsset);
+        }
+        
         Debug.Log($"Enum を生成しました！　: {path}");
     }
 
@@ -53,6 +71,12 @@ public static class EnumGenerator
     /// </summary>
     private static bool IsInvalidEnumName(string fileName)
     {
+        // 空の文字列やnullをチェック
+        if (string.IsNullOrEmpty(fileName))
+        {
+            return true;
+        }
+        
         // 不適切なファイル名（拡張子を含むもの）をスキップ
         string[] invalidExtensions = new string[] { ".mp3", ".png", ".jpg", ".gif", ".bmp", ".tiff" };  // 拡張子リスト
 
@@ -72,7 +96,14 @@ public static class EnumGenerator
     /// </summary>
     private static string ToEnumFormat(string fileName)
     {
-        var formattedName = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fileName.Replace("_", " ")).Replace(" ", string.Empty);
+        var formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fileName.Replace("_", " ")).Replace(" ", string.Empty);
+        
+        // 数字から始まる場合は先頭に_を付ける
+        if (char.IsDigit(formattedName[0]))
+        {
+            formattedName = "_" + formattedName;
+        }
+        
         return formattedName;
     }
 }
