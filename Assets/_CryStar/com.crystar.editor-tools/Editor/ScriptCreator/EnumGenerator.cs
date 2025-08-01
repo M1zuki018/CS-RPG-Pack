@@ -1,109 +1,115 @@
+#if UNITY_EDITOR
 using System.Globalization;
 using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-/// <summary>
-/// Enum生成用の静的補助クラス
-/// </summary>
-public static class EnumGenerator
+namespace CryStar.Editor
 {
-    // フォルダ内のファイル名からEnumを生成する
-    public static void GenerateEnum(string folderPath, string scriptName, string savePath)
-    {
-        if (string.IsNullOrEmpty(scriptName) || string.IsNullOrEmpty(folderPath))
-        {
-            Debug.LogError("スクリプトの名前かEnumを生成したいファイルの名前が空です");
-            return;
-        }
-
-        // フォルダ内の全てのファイルを取得
-        string[] files = Directory.GetFiles(folderPath, "*.*", SearchOption.TopDirectoryOnly);
-        
-        // Enum名を構築
-        StringBuilder enumNames = new StringBuilder();
-        enumNames.AppendLine($"public enum {scriptName}");
-        enumNames.AppendLine("{");
-
-        foreach (var file in files)
-        {
-            string fileName = Path.GetFileNameWithoutExtension(file); // 拡張子を除いたファイル名を取得
-            
-            // 拡張子を除去したファイル名から「Mp3」などの不適切な部分を除去
-            if (IsInvalidEnumName(fileName))
-            {
-                continue;
-            }
-            
-            string enumName = ToEnumFormat(fileName);
-            enumNames.AppendLine($"    {enumName},");
-        }
-
-        enumNames.AppendLine("}");
-        
-        // スクリプト名を確保
-        string path = Path.Combine(savePath, $"{scriptName}.cs");
-        
-        // スクリプトが既に存在するか確認
-        if (File.Exists(path))
-        {
-            Debug.LogError($"Script {scriptName} は既に存在します！");
-            return;
-        }
-
-        File.WriteAllText(path, enumNames.ToString());
-        AssetDatabase.Refresh();
-        
-        // 作成したスクリプトを選択してハイライト表示
-        var scriptAsset = AssetDatabase.LoadAssetAtPath<MonoScript>(path);
-        if (scriptAsset != null)
-        {
-            Selection.activeObject = scriptAsset;
-            EditorGUIUtility.PingObject(scriptAsset);
-        }
-        
-        Debug.Log($"Enum を生成しました！　: {path}");
-    }
-
     /// <summary>
-    /// 拡張子が不適切かどうかを判定
+    /// Enum生成用の静的補助クラス
     /// </summary>
-    private static bool IsInvalidEnumName(string fileName)
+    public static class EnumGenerator
     {
-        // 空の文字列やnullをチェック
-        if (string.IsNullOrEmpty(fileName))
+        // フォルダ内のファイル名からEnumを生成する
+        public static void GenerateEnum(string folderPath, string scriptName, string savePath)
         {
-            return true;
-        }
-        
-        // 不適切なファイル名（拡張子を含むもの）をスキップ
-        string[] invalidExtensions = new string[] { ".mp3", ".png", ".jpg", ".gif", ".bmp", ".tiff" };  // 拡張子リスト
-
-        foreach (var ext in invalidExtensions)
-        {
-            if (fileName.ToLower().EndsWith(ext))
+            if (string.IsNullOrEmpty(scriptName) || string.IsNullOrEmpty(folderPath))
             {
-                return true;  // 不適切な拡張子があればスキップ
+                Debug.LogError("スクリプトの名前かEnumを生成したいファイルの名前が空です");
+                return;
             }
+
+            // フォルダ内の全てのファイルを取得
+            string[] files = Directory.GetFiles(folderPath, "*.*", SearchOption.TopDirectoryOnly);
+
+            // Enum名を構築
+            StringBuilder enumNames = new StringBuilder();
+            enumNames.AppendLine($"public enum {scriptName}");
+            enumNames.AppendLine("{");
+
+            foreach (var file in files)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(file); // 拡張子を除いたファイル名を取得
+
+                // 拡張子を除去したファイル名から「Mp3」などの不適切な部分を除去
+                if (IsInvalidEnumName(fileName))
+                {
+                    continue;
+                }
+
+                string enumName = ToEnumFormat(fileName);
+                enumNames.AppendLine($"    {enumName},");
+            }
+
+            enumNames.AppendLine("}");
+
+            // スクリプト名を確保
+            string path = Path.Combine(savePath, $"{scriptName}.cs");
+
+            // スクリプトが既に存在するか確認
+            if (File.Exists(path))
+            {
+                Debug.LogError($"Script {scriptName} は既に存在します！");
+                return;
+            }
+
+            File.WriteAllText(path, enumNames.ToString());
+            AssetDatabase.Refresh();
+
+            // 作成したスクリプトを選択してハイライト表示
+            var scriptAsset = AssetDatabase.LoadAssetAtPath<MonoScript>(path);
+            if (scriptAsset != null)
+            {
+                Selection.activeObject = scriptAsset;
+                EditorGUIUtility.PingObject(scriptAsset);
+            }
+
+            Debug.Log($"Enum を生成しました！　: {path}");
         }
 
-        return false;
-    }
-    
-    /// <summary>
-    /// Enumの整形を行う
-    /// </summary>
-    private static string ToEnumFormat(string fileName)
-    {
-        var formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fileName.Replace("_", " ")).Replace(" ", string.Empty);
-        
-        // 数字から始まる場合は先頭に_を付ける
-        if (char.IsDigit(formattedName[0]))
+        /// <summary>
+        /// 拡張子が不適切かどうかを判定
+        /// </summary>
+        private static bool IsInvalidEnumName(string fileName)
         {
-            formattedName = "_" + formattedName;
+            // 空の文字列やnullをチェック
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return true;
+            }
+
+            // 不適切なファイル名（拡張子を含むもの）をスキップ
+            string[] invalidExtensions = new string[] { ".mp3", ".png", ".jpg", ".gif", ".bmp", ".tiff" }; // 拡張子リスト
+
+            foreach (var ext in invalidExtensions)
+            {
+                if (fileName.ToLower().EndsWith(ext))
+                {
+                    return true; // 不適切な拡張子があればスキップ
+                }
+            }
+
+            return false;
         }
-        
-        return formattedName;
+
+        /// <summary>
+        /// Enumの整形を行う
+        /// </summary>
+        private static string ToEnumFormat(string fileName)
+        {
+            var formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fileName.Replace("_", " "))
+                .Replace(" ", string.Empty);
+
+            // 数字から始まる場合は先頭に_を付ける
+            if (char.IsDigit(formattedName[0]))
+            {
+                formattedName = "_" + formattedName;
+            }
+
+            return formattedName;
+        }
     }
 }
+#endif
