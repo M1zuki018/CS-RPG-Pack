@@ -335,7 +335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -683,7 +683,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6a7aec5f551d0b141a1e7f0848266ee5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e94e998bc7082dc458a132db8d69bafd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1004,7 +1004,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4e81bf29586ad89489c48f3cc354522b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dd5bf9462a0facb4a81fbc0250b82779, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1611,9 +1611,9 @@ GameObject:
   - component: {fileID: 4297485547815760813}
   - component: {fileID: 9118346743274492970}
   - component: {fileID: 8529576289407957489}
-  - component: {fileID: 6708084340632892392}
   - component: {fileID: 2641913366541531687}
   - component: {fileID: 3286519540667947716}
+  - component: {fileID: 6669043982559312577}
   m_Layer: 5
   m_Name: StoryCanvas
   m_TagString: Untagged
@@ -1701,9 +1701,9 @@ MonoBehaviour:
   _dialog: {fileID: 5987859303044627970}
   _fadePanel: {fileID: 2662856324998147803}
   _choice: {fileID: 4091148566741168462}
+  _overlay: {fileID: 1286595276290285933}
   _canvasShaker: {fileID: 8177625389064018242}
   _volume: {fileID: 0}
-  IsStopRequested: 0
 --- !u!114 &8529576289407957489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1717,20 +1717,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _view: {fileID: 9118346743274492970}
-  _overlayController: {fileID: 6708084340632892392}
---- !u!114 &6708084340632892392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7241587270615209574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f773bd1b4bf8cdd4894497de67cd2f3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _overlayContents: {fileID: 1286595276290285933}
 --- !u!225 &2641913366541531687
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1767,7 +1753,24 @@ MonoBehaviour:
     Inverse: 0
     Objects:
     - {fileID: 51219869429388849}
-  _smoothTime: 5
+  _smoothTime: 3
+  _zoomScale: 1.01
+  _zoomDuration: 3
+  _longPressThreshold: 0.1
+  _zoomParallaxMultiplier: 2
+--- !u!114 &6669043982559312577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7241587270615209574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb09bede9f0b98948abab075b9ca24a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 8529576289407957489}
 --- !u!1 &7252807638717778896
 GameObject:
   m_ObjectHideFlags: 0
@@ -1821,10 +1824,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f11e3c95966134a95a797c329330cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _defaultColor: {r: 0.101960786, g: 0.101960786, b: 0.101960786, a: 1}
+  _activeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   _immersedButton: {fileID: 5605664830690512658}
   _autoPlayButton: {fileID: 6239651685267309691}
   _skipButton: {fileID: 2084845664887537867}
-  _defaultButtonColor: {r: 0.101960786, g: 0.101960786, b: 0.101960786, a: 1}
 --- !u!223 &7001036751142654354
 Canvas:
   m_ObjectHideFlags: 0
@@ -2170,7 +2174,7 @@ RectTransform:
   m_GameObject: {fileID: 8120256294978680778}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1.05}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4760735192829618254}
